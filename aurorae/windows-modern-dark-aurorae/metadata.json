@@ -10,7 +10,7 @@
     "Dependencies": [],
     "Description": "Windows Modern Dark flat window decoration for KDE Plasma 6",
     "EnabledByDefault": true,
-    "Id": "Windows Modern Dark Aurorae",
+    "Id": "windows-modern-dark-aurorae",
     "License": "GPL-2.0-or-later",
     "Name": "Windows Modern Dark Aurorae",
     "Version": "1.0"
