@@ -7,17 +7,17 @@ Animation=0
 Shadow=false
 
 [Layout]
-BorderTop=0
-BorderBottom=0
-BorderLeft=0
-BorderRight=0
+BorderTop=1
+BorderBottom=1
+BorderLeft=1
+BorderRight=1
 TitleEdgeTop=0
 TitleEdgeBottom=0
 TitleEdgeLeft=8
 TitleEdgeRight=0
 TitleBorderLeft=8
 TitleBorderRight=0
-TitleHeight=22
+TitleHeight=30
 
 ButtonWidth=46
 ButtonWidthMenu=18
@@ -29,11 +29,11 @@ ButtonSpacing=0
 ButtonMarginTop=0
 ExplicitButtonSpacer=10
 
-PaddingTop=1
-PaddingBottom=1
-PaddingRight=1
-PaddingLeft=1
-TitleHeightMaximized=22
+PaddingTop=0
+PaddingBottom=0
+PaddingRight=0
+PaddingLeft=0
+TitleHeightMaximized=30
 TitleEdgeTopMaximized=0
 TitleEdgeBottomMaximized=0
 TitleEdgeLeftMaximized=8

@@ -4,7 +4,7 @@
   <defs>
     <style type="text/css">
         .ColorScheme-Text { color:#ffffff; }
-        .ColorScheme-Background { color:#000000; stop-color:#000000; }
+        .ColorScheme-Background { color:#202020; stop-color:#202020; }
         .ColorScheme-NegativeText { color:#e81123; }
     </style>
   </defs>
