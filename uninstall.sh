@@ -45,4 +45,11 @@ echo "Uninstalling '${THEME_NAME} kde themes'..."
 uninstall "${name:-${THEME_NAME}-light}"
 uninstall "${name:-${THEME_NAME}-dark}"
 
+# Reset window decoration border size to default
+if command -v kwriteconfig6 &>/dev/null; then
+  kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSize" "Normal"
+  kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSizeAuto" "true"
+  dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null
+fi
+
 echo "Uninstall finished..."

@@ -46,4 +46,11 @@ echo "Installing '${THEME_NAME} kde themes'..."
 
 install "${name:-${THEME_NAME}}"
 
+# Set window decoration border size to Tiny (no extra padding around content)
+if command -v kwriteconfig6 &>/dev/null; then
+  kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSize" "Tiny"
+  kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSizeAuto" "false"
+  dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null
+fi
+
 echo "Install finished..."
