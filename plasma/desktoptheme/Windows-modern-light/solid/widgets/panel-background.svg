@@ -166,7 +166,7 @@
        xlink:href="#linearGradient4270" />
   </defs>
   <g
-     id="shadow-topleft"
+     id="shadow-topleft" style="opacity:0;fill:none;stroke:none"
      transform="matrix(1.1667 0 0 1.1667 64.667 -1086.8)"
      opacity=".5">
     <path
@@ -177,7 +177,7 @@
        id="path1705" />
   </g>
   <g
-     id="shadow-topright"
+     id="shadow-topright" style="opacity:0;fill:none;stroke:none"
      transform="matrix(-1.1667 0 0 1.1667 67.333 -1086.8)"
      opacity=".5">
     <path
@@ -188,7 +188,7 @@
        id="path1708" />
   </g>
   <g
-     id="shadow-bottomright"
+     id="shadow-bottomright" style="opacity:0;fill:none;stroke:none"
      transform="matrix(-1.1667 0 0 -1.1667 67.333 1142.8)"
      opacity=".5">
     <path
@@ -199,7 +199,7 @@
        id="path1711" />
   </g>
   <g
-     id="shadow-bottomleft"
+     id="shadow-bottomleft" style="opacity:0;fill:none;stroke:none"
      transform="matrix(1.1667 0 0 -1.1667 64.667 1142.8)"
      opacity=".5">
     <path
@@ -363,7 +363,7 @@
      fill="#ff00ff"
      stroke-width="1.4142" />
   <g
-     id="shadow-top"
+     id="shadow-top" style="opacity:0"
      transform="matrix(.375 0 0 1.5556 52.875 -1403.5)"
      opacity=".5">
     <rect
@@ -395,7 +395,7 @@
        id="rect1751" />
   </g>
   <g
-     id="shadow-bottom"
+     id="shadow-bottom" style="opacity:0"
      transform="matrix(.375 0 0 2.3333 52.875 -2178.8)"
      opacity=".5">
     <rect
@@ -427,7 +427,7 @@
        id="rect1758" />
   </g>
   <g
-     id="shadow-left"
+     id="shadow-left" style="opacity:0"
      transform="matrix(2.3333 0 0 .375 15.667 -321.64)"
      opacity=".5">
     <rect
@@ -459,7 +459,7 @@
        id="rect1765" />
   </g>
   <g
-     id="shadow-right"
+     id="shadow-right" style="opacity:0"
      transform="matrix(2.3333 0 0 .375 -47 -321.64)"
      opacity=".5">
     <rect
@@ -492,21 +492,21 @@
      x="64"
      y="-5.9999"
      width="4"
-     height="12"
+     height="0"
      fill="#ff6600" />
   <rect
      id="shadow-hint-bottom-margin"
      x="64"
      y="50"
      width="4"
-     height="12"
+     height="0"
      fill="#ff6600" />
   <rect
      id="shadow-hint-right-margin"
      transform="rotate(90)"
      x="26"
      y="-100"
-     width="4"
+     width="0"
      height="12"
      fill="#ff6600" />
   <rect
@@ -514,7 +514,7 @@
      transform="rotate(90)"
      x="26"
      y="-44"
-     width="4"
+     width="0"
      height="12"
      fill="#ff6600" />
   <g

@@ -202,72 +202,72 @@
     <style
        id="current-color-scheme"
        type="text/css">.ColorScheme-Text {
-        color:#31363b;
+        color:#1E1E1E;
       }
       .ColorScheme-Background {
-        color:#eff0f1;
+        color:#F9F9F9;
       }
       .ColorScheme-Highlight {
-        color:#3daee9;
+        color:#0078D4;
       }
       .ColorScheme-ViewText {
-        color:#31363b;
+        color:#1E1E1E;
       }
       .ColorScheme-ViewBackground {
-        color:#fcfcfc;
+        color:#FFFFFF;
       }
       .ColorScheme-ViewHover {
-        color:#93cee9;
+        color:#E9E9E9;
       }
       .ColorScheme-ViewFocus{
-        color:#3daee9;
+        color:#0078D4;
       }
       .ColorScheme-ButtonText {
-        color:#31363b;
+        color:#1E1E1E;
       }
       .ColorScheme-ButtonBackground {
-        color:#eff0f1;
+        color:#F3F3F3;
       }
       .ColorScheme-ButtonHover {
-        color:#93cee9;
+        color:#E9E9E9;
       }
       .ColorScheme-ButtonFocus{
-        color:#3daee9;
+        color:#0078D4;
       }</style>
     <style
        type="text/css"
        id="style28">.ColorScheme-Text {
-        color:#31363b;
+        color:#1E1E1E;
       }
       .ColorScheme-Background {
-        color:#eff0f1;
+        color:#F9F9F9;
       }
       .ColorScheme-Highlight {
-        color:#3daee9;
+        color:#0078D4;
       }
       .ColorScheme-ViewText {
-        color:#31363b;
+        color:#1E1E1E;
       }
       .ColorScheme-ViewBackground {
-        color:#fcfcfc;
+        color:#FFFFFF;
       }
       .ColorScheme-ViewHover {
-        color:#93cee9;
+        color:#E9E9E9;
       }
       .ColorScheme-ViewFocus{
-        color:#3daee9;
+        color:#0078D4;
       }
       .ColorScheme-ButtonText {
-        color:#31363b;
+        color:#1E1E1E;
       }
       .ColorScheme-ButtonBackground {
-        color:#eff0f1;
+        color:#F3F3F3;
       }
       .ColorScheme-ButtonHover {
-        color:#93cee9;
+        color:#E9E9E9;
       }
       .ColorScheme-ButtonFocus{
-        color:#3daee9;
+        color:#0078D4;
       }</style>
     <linearGradient
        inkscape:collect="always"
@@ -491,8 +491,7 @@
        width="6"
        y="-51"
        x="-916.35999"
-       transform="matrix(0,-1,-1,0,0,0)"
-       class="ColorScheme-Background" />
+       transform="matrix(0,-1,-1,0,0,0)" />
     <rect
        style="opacity:0;fill:url(#linearGradient1198)"
        id="rect44"
@@ -532,8 +531,7 @@
        width="6"
        y="-51"
        x="948.35999"
-       transform="rotate(90)"
-       class="ColorScheme-Background" />
+       transform="rotate(90)" />
     <rect
        style="opacity:0;fill:url(#linearGradient1202)"
        id="rect71"
@@ -553,8 +551,7 @@
        width="6"
        y="916.35999"
        x="-19"
-       transform="scale(-1,1)"
-       class="ColorScheme-Background" />
+       transform="scale(-1,1)" />
     <rect
        style="opacity:0;fill:url(#linearGradient1204)"
        id="rect98"
@@ -573,8 +570,7 @@
        height="32"
        width="6"
        y="916.35999"
-       x="51"
-       class="ColorScheme-Background" />
+       x="51" />
     <rect
        style="opacity:0;fill:url(#linearGradient1206)"
        id="rect103"
@@ -599,8 +595,7 @@
        height="32"
        width="32"
        y="916.35999"
-       x="19"
-       class="ColorScheme-Background" />
+       x="19" />
   </g>
   <rect
      style="fill:#ff00ff"

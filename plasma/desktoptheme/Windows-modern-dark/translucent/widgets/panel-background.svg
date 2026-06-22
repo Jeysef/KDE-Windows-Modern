@@ -94,47 +94,47 @@
     <style
        id="current-color-scheme"
        type="text/css">.ColorScheme-Text {
-        color:#31363b;
+        color:#FFFFFF;
         stop-color:#31363b;
       }
       .ColorScheme-Background {
-        color:#eff0f1;
-        stop-color:#eff0f1;
+        color:#2C2C2C;
+        stop-color:#2C2C2C;
       }
       .ColorScheme-Highlight {
-        color:#3daee9;
+        color:#60CDFF;
         stop-color:#3daee9;
       }
       .ColorScheme-ViewText {
-        color:#31363b;
+        color:#FFFFFF;
         stop-color:#31363b;
       }
       .ColorScheme-ViewBackground {
-        color:#fcfcfc;
-        stop-color:#fcfcfc;
+        color:#2C2C2C;
+        stop-color:#3D3D3D;
       }
       .ColorScheme-ViewHover {
-        color:#93cee9;
+        color:#4A4A4A;
         stop-color:#93cee9;
       }
       .ColorScheme-ViewFocus{
-        color:#3daee9;
+        color:#60CDFF;
         stop-color:#3daee9;
       }
       .ColorScheme-ButtonText {
-        color:#31363b;
+        color:#FFFFFF;
         stop-color:#31363b;
       }
       .ColorScheme-ButtonBackground {
-        color:#eff0f1;
-        stop-color:#eff0f1;
+        color:#3D3D3D;
+        stop-color:#2C2C2C;
       }
       .ColorScheme-ButtonHover {
-        color:#93cee9;
+        color:#4A4A4A;
         stop-color:#93cee9;
       }
       .ColorScheme-ButtonFocus{
-        color:#3daee9;
+        color:#60CDFF;
         stop-color:#3daee9;
       }</style>
     <linearGradient
@@ -211,7 +211,7 @@
      height="100%"
      width="100%"
      transform="rotate(90,65.99996,28.000016)"
-     id="shadow-right"
+     id="shadow-right" style="opacity:0"
      xlink:href="#shadow-top"
      y="0"
      x="0" />
@@ -227,7 +227,7 @@
      height="100%"
      width="100%"
      transform="rotate(-90,66.000007,27.999995)"
-     id="shadow-left"
+     id="shadow-left" style="opacity:0"
      xlink:href="#shadow-top"
      y="0"
      x="0" />
@@ -235,12 +235,12 @@
      height="100%"
      width="100%"
      transform="matrix(1,0,0,-1,5.6942917e-7,56.000033)"
-     id="shadow-bottom"
+     id="shadow-bottom" style="opacity:0"
      xlink:href="#shadow-top"
      y="0"
      x="0" />
   <g
-     id="shadow-topleft"
+     id="shadow-topleft" style="opacity:0;fill:none;stroke:none"
      transform="matrix(1.1666637,0,0,1.1666637,64.666611,-1086.7531)"
      style="opacity:1">
     <path
@@ -265,13 +265,11 @@
        height="32"
        width="8.0000181"
        id="rect4152"
-       style="color:#eff0f1;opacity:0.6;fill:#1e1e1e;fill-opacity:1;stroke:none;stroke-width:1.1547"
-       transform="matrix(0,-1,-1,0,0,0)"
-       class="ColorScheme-Background" />
+       style="color:#2C2C2C;opacity:0.6;fill:#1e1e1e;fill-opacity:1;stroke:none;stroke-width:1.1547"
+       transform="matrix(0,-1,-1,0,0,0)" />
     <rect
-       class="ColorScheme-Background"
        transform="matrix(0,-1,-1,0,0,0)"
-       style="color:#eff0f1;opacity:0.01;fill:url(#linearGradient925);fill-opacity:1;stroke:none;stroke-width:0.288684"
+       style="color:#2C2C2C;opacity:0.01;fill:url(#linearGradient925);fill-opacity:1;stroke:none;stroke-width:0.288684"
        id="rect76"
        width="0.50003201"
        height="32"
@@ -294,13 +292,12 @@
        id="path71" />
   </g>
   <rect
-     class="ColorScheme-Background"
      y="22"
      x="59.999954"
      height="12.000099"
      width="12.000099"
      id="center"
-     style="color:#eff0f1;opacity:0.6;fill:#1e1e1e;fill-opacity:1;stroke:none;stroke-width:0.3750031" />
+     style="color:#2C2C2C;opacity:0.6;fill:#1e1e1e;fill-opacity:1;stroke:none;stroke-width:0.3750031" />
   <rect
      style="fill:#ff00ff;fill-opacity:1;stroke:none;stroke-width:0.7070992"
      id="hint-top-margin"
@@ -332,7 +329,7 @@
      y="-47"
      transform="rotate(90)" />
   <g
-     id="shadow-top"
+     id="shadow-top" style="opacity:0"
      transform="matrix(0.37500332,0,0,1.3333409,52.874889,-1203.8232)"
      style="opacity:1">
     <rect
@@ -363,7 +360,7 @@
   <rect
      y="-5.999948"
      x="64"
-     height="12"
+     height="0"
      width="4"
      id="shadow-hint-top-margin"
      style="fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:1.41421628" />
@@ -371,14 +368,14 @@
      style="fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:1.41420949"
      id="shadow-hint-bottom-margin"
      width="4"
-     height="11.999977"
+     height="0"
      x="64"
      y="50.00005" />
   <rect
      transform="rotate(90)"
      style="fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:1.41421628"
      id="shadow-hint-right-margin"
-     width="3.9999769"
+     width="0"
      height="12"
      x="26.000051"
      y="-100" />
@@ -387,7 +384,7 @@
      y="-44"
      x="26.000051"
      height="12"
-     width="4.0000229"
+     width="0"
      id="shadow-hint-left-margin"
      style="fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:1.41421354" />
   <g
@@ -481,13 +478,12 @@
      x="135.99997"
      y="22" />
   <rect
-     style="color:#eff0f1;opacity:0;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.375003"
+     style="color:#2C2C2C;opacity:0;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.375003"
      id="shadow-center"
      width="12.000099"
      height="12.000099"
      x="59.999954"
      y="80"
-     class="ColorScheme-Background"
      inkscape:label="#shadow-center" />
   <use
      height="100%"
@@ -517,7 +513,7 @@
      height="100%"
      width="100%"
      transform="matrix(-1,0,0,1,132,0)"
-     id="shadow-topright"
+     id="shadow-topright" style="opacity:0;fill:none;stroke:none"
      xlink:href="#shadow-topleft"
      y="0"
      x="0" />
@@ -525,7 +521,7 @@
      height="100%"
      width="100%"
      transform="matrix(1,0,0,-1,-9.5996635e-7,55.999998)"
-     id="shadow-bottomleft"
+     id="shadow-bottomleft" style="opacity:0;fill:none;stroke:none"
      xlink:href="#shadow-topleft"
      y="0"
      x="0" />
@@ -533,7 +529,7 @@
      height="100%"
      width="100%"
      transform="rotate(180,65.999999,27.999999)"
-     id="shadow-bottomright"
+     id="shadow-bottomright" style="opacity:0;fill:none;stroke:none"
      xlink:href="#shadow-topleft"
      y="0"
      x="0" />

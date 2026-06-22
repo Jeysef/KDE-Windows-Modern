@@ -211,7 +211,7 @@
      height="100%"
      width="100%"
      transform="rotate(90,65.99996,28.000016)"
-     id="shadow-right"
+     id="shadow-right" style="opacity:0"
      xlink:href="#shadow-top"
      y="0"
      x="0" />
@@ -227,7 +227,7 @@
      height="100%"
      width="100%"
      transform="rotate(-90,66.000007,27.999995)"
-     id="shadow-left"
+     id="shadow-left" style="opacity:0"
      xlink:href="#shadow-top"
      y="0"
      x="0" />
@@ -235,12 +235,12 @@
      height="100%"
      width="100%"
      transform="matrix(1,0,0,-1,5.6942917e-7,56.000033)"
-     id="shadow-bottom"
+     id="shadow-bottom" style="opacity:0"
      xlink:href="#shadow-top"
      y="0"
      x="0" />
   <g
-     id="shadow-topleft"
+     id="shadow-topleft" style="opacity:0;fill:none;stroke:none"
      transform="matrix(1.1666637,0,0,1.1666637,64.666611,-1086.7531)"
      style="opacity:1">
     <path
@@ -332,7 +332,7 @@
      y="-47"
      transform="rotate(90)" />
   <g
-     id="shadow-top"
+     id="shadow-top" style="opacity:0"
      transform="matrix(0.37500332,0,0,1.3333409,52.874889,-1203.8232)"
      style="opacity:1">
     <rect
@@ -363,7 +363,7 @@
   <rect
      y="-5.999948"
      x="64"
-     height="12"
+     height="0"
      width="4"
      id="shadow-hint-top-margin"
      style="fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:1.41421628" />
@@ -371,14 +371,14 @@
      style="fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:1.41420949"
      id="shadow-hint-bottom-margin"
      width="4"
-     height="11.999977"
+     height="0"
      x="64"
      y="50.00005" />
   <rect
      transform="rotate(90)"
      style="fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:1.41421628"
      id="shadow-hint-right-margin"
-     width="3.9999769"
+     width="0"
      height="12"
      x="26.000051"
      y="-100" />
@@ -387,7 +387,7 @@
      y="-44"
      x="26.000051"
      height="12"
-     width="4.0000229"
+     width="0"
      id="shadow-hint-left-margin"
      style="fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:1.41421354" />
   <g
@@ -517,7 +517,7 @@
      height="100%"
      width="100%"
      transform="matrix(-1,0,0,1,132,0)"
-     id="shadow-topright"
+     id="shadow-topright" style="opacity:0;fill:none;stroke:none"
      xlink:href="#shadow-topleft"
      y="0"
      x="0" />
@@ -525,7 +525,7 @@
      height="100%"
      width="100%"
      transform="matrix(1,0,0,-1,-9.5996635e-7,55.999998)"
-     id="shadow-bottomleft"
+     id="shadow-bottomleft" style="opacity:0;fill:none;stroke:none"
      xlink:href="#shadow-topleft"
      y="0"
      x="0" />
@@ -533,7 +533,7 @@
      height="100%"
      width="100%"
      transform="rotate(180,65.999999,27.999999)"
-     id="shadow-bottomright"
+     id="shadow-bottomright" style="opacity:0;fill:none;stroke:none"
      xlink:href="#shadow-topleft"
      y="0"
      x="0" />

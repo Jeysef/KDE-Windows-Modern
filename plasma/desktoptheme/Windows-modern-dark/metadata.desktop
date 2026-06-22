@@ -1,12 +1,12 @@
 [Desktop Entry]
 Name=Windows-modern-dark
-Comment=Windows-modern-dark theme for plasma
+Comment=Windows-modern-dark desktop theme for KDE Plasma
 
 X-KDE-PluginInfo-Author=yeyushengfan258
 X-KDE-PluginInfo-Email=yeyushengfan258@outlook.com
 X-KDE-PluginInfo-Name=Windows-modern-dark
 X-KDE-PluginInfo-Version=0.1
-X-KDE-PluginInfo-Website=https://github.com/yeyushengfan258/Windows-modern-kde
+X-KDE-PluginInfo-Website=https://github.com/yeyushengfan258/Win11OS-kde
 X-KDE-PluginInfo-Category=
 X-KDE-PluginInfo-Depends=
 X-KDE-PluginInfo-License=GPL 3.0
@@ -17,12 +17,6 @@ enabled=false
 contrast=0.2
 intensity=0.4
 saturation=1.7
-
-[Wallpaper]
-defaultWallpaperTheme=Windows-modern-dark
-defaultFileSuffix=.png
-defaultWidth=1920
-defaultHeight=1080
 
 [AdaptiveTransparency]
 enabled=true

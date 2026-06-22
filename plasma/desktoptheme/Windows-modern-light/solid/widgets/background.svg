@@ -39,47 +39,47 @@
     <style
        id="current-color-scheme"
        type="text/css">.ColorScheme-Text {
-        color:#31363b;
+        color:#1E1E1E;
         stop-color:#31363b;
       }
       .ColorScheme-Background {
-        color:#eff0f1;
+        color:#F9F9F9;
         stop-color:#eff0f1;
       }
       .ColorScheme-Highlight {
-        color:#3281ea;
+        color:#0078D4;
         stop-color:#3281ea;
       }
       .ColorScheme-ViewText {
-        color:#31363b;
+        color:#1E1E1E;
         stop-color:#31363b;
       }
       .ColorScheme-ViewBackground {
-        color:#fcfcfc;
+        color:#FFFFFF;
         stop-color:#fcfcfc;
       }
       .ColorScheme-ViewHover {
-        color:#93cee9;
+        color:#E9E9E9;
         stop-color:#93cee9;
       }
       .ColorScheme-ViewFocus{
-        color:#3281ea;
+        color:#0078D4;
         stop-color:#3281ea;
       }
       .ColorScheme-ButtonText {
-        color:#31363b;
+        color:#1E1E1E;
         stop-color:#31363b;
       }
       .ColorScheme-ButtonBackground {
-        color:#eff0f1;
+        color:#F3F3F3;
         stop-color:#eff0f1;
       }
       .ColorScheme-ButtonHover {
-        color:#93cee9;
+        color:#E9E9E9;
         stop-color:#93cee9;
       }
       .ColorScheme-ButtonFocus{
-        color:#3281ea;
+        color:#0078D4;
         stop-color:#3281ea;
       }</style>
     <linearGradient
@@ -219,14 +219,13 @@
        id="rect1128"
        style="opacity:0.2;fill:url(#linearGradient1136)" />
     <rect
-       class="ColorScheme-Background"
        transform="matrix(0,-1,-1,0,0,0)"
        x="-916.35999"
        y="-51"
        width="10"
        height="32"
        id="rect1130"
-       fill="currentColor" />
+       fill="#F3F3F3" />
   </g>
   <g
      id="bottom"
@@ -240,14 +239,13 @@
        id="rect1138"
        style="opacity:0.2;fill:url(#linearGradient1146)" />
     <rect
-       class="ColorScheme-Background"
        transform="matrix(0,-1,-1,0,0,0)"
        x="-916.35999"
        y="-51"
        width="10"
        height="32"
        id="rect1140"
-       fill="currentColor" />
+       fill="#F3F3F3" />
   </g>
   <g
      id="right"
@@ -261,14 +259,13 @@
        id="rect1148"
        style="opacity:0.2;fill:url(#linearGradient1156)" />
     <rect
-       class="ColorScheme-Background"
        transform="matrix(0,-1,-1,0,0,0)"
        x="-916.35999"
        y="-51"
        width="10"
        height="32"
        id="rect1150"
-       fill="currentColor" />
+       fill="#F3F3F3" />
   </g>
   <g
      id="topleft"
@@ -285,8 +282,7 @@
     <path
        d="m 19,906.36 c -5.54,0 -10,4.46 -10,10 h 10 v -8.33333 z"
        id="path19"
-       class="ColorScheme-Background"
-       fill="currentColor" />
+       fill="#F3F3F3" />
     <path
        id="path932"
        style="opacity:0.1;fill:#ffffff"
@@ -312,14 +308,13 @@
        id="rect25"
        style="opacity:0.2;fill:url(#linearGradient931)" />
     <rect
-       class="ColorScheme-Background"
        transform="matrix(0,-1,-1,0,0,0)"
        x="-916.35999"
        y="-51"
        width="10"
        height="32"
        id="rect23"
-       fill="currentColor" />
+       fill="#F3F3F3" />
     <rect
        transform="matrix(0,-1,-1,0,0,0)"
        x="-907.35999"
@@ -340,13 +335,12 @@
        fill="none"
        id="rect43" />
     <rect
-       class="ColorScheme-Background"
        x="19"
        y="916.35999"
        width="32"
        height="32"
        id="rect45"
-       fill="currentColor" />
+       fill="#F3F3F3" />
   </g>
   <g
      fill="#ff00ff"
@@ -425,8 +419,7 @@
     <path
        d="m 19,906.36 c -5.54,0 -10,4.46 -10,10 h 10 v -8.33333 z"
        id="path1254"
-       class="ColorScheme-Background"
-       fill="currentColor" />
+       fill="#F3F3F3" />
   </g>
   <g
      id="bottomright"
@@ -443,14 +436,12 @@
     <path
        d="m 19,906.36 c -5.54,0 -10,4.46 -10,10 h 10 v -8.33333 z"
        id="path1242"
-       class="ColorScheme-Background"
-       fill="currentColor" />
+       fill="#F3F3F3" />
   </g>
   <g
      id="shadow-top"
      transform="translate(136,-882.36001)">
     <rect
-       class="ColorScheme-Background"
        transform="matrix(0,-1,-1,0,0,0)"
        x="-916.35999"
        y="-51"
@@ -613,14 +604,13 @@
        id="rect1804"
        style="opacity:0.2;fill:url(#linearGradient1810)" />
     <rect
-       class="ColorScheme-Background"
        transform="matrix(0,-1,-1,0,0,0)"
        x="-916.35999"
        y="-51"
        width="10"
        height="32"
        id="rect1806"
-       fill="currentColor" />
+       fill="#F3F3F3" />
   </g>
   <g
      id="blurred-bottom"
@@ -634,14 +624,13 @@
        id="rect1796"
        style="opacity:0.2;fill:url(#linearGradient1802)" />
     <rect
-       class="ColorScheme-Background"
        transform="matrix(0,-1,-1,0,0,0)"
        x="-916.35999"
        y="-51"
        width="10"
        height="32"
        id="rect1798"
-       fill="currentColor" />
+       fill="#F3F3F3" />
   </g>
   <g
      id="blurred-right"
@@ -655,14 +644,13 @@
        id="rect1788"
        style="opacity:0.2;fill:url(#linearGradient1794)" />
     <rect
-       class="ColorScheme-Background"
        transform="matrix(0,-1,-1,0,0,0)"
        x="-916.35999"
        y="-51"
        width="10"
        height="32"
        id="rect1790"
-       fill="currentColor" />
+       fill="#F3F3F3" />
   </g>
   <g
      id="blurred-topleft"
@@ -679,8 +667,7 @@
     <path
        d="m 19,906.36 c -5.54,0 -10,4.46 -10,10 h 10 v -8.33333 z"
        id="path19-6"
-       class="ColorScheme-Background"
-       fill="currentColor" />
+       fill="#F3F3F3" />
     <path
        id="path1832"
        d="M 32 131 C 26.46 131 22 135.46 22 141 L 22.048828 141 C 22.547522 135.93303 26.797624 132 32 132 L 32 131 z "
@@ -699,14 +686,13 @@
        id="rect25-9"
        style="opacity:0.2;fill:url(#linearGradient1956)" />
     <rect
-       class="ColorScheme-Background"
        transform="matrix(0,-1,-1,0,0,0)"
        x="-916.35999"
        y="-51"
        width="10"
        height="32"
        id="rect23-2"
-       fill="currentColor" />
+       fill="#F3F3F3" />
     <rect
        transform="matrix(0,-1,-1,0,0,0)"
        x="-907.35999"
@@ -727,13 +713,12 @@
        fill="none"
        id="rect43-2" />
     <rect
-       class="ColorScheme-Background"
        x="19"
        y="916.35999"
        width="32"
        height="32"
        id="rect45-7"
-       fill="currentColor" />
+       fill="#F3F3F3" />
   </g>
   <rect
      id="blurred-hint-top-margin"
@@ -788,8 +773,7 @@
     <path
        d="m 19,906.36 c -5.54,0 -10,4.46 -10,10 h 10 v -8.33333 z"
        id="path1816"
-       class="ColorScheme-Background"
-       fill="currentColor" />
+       fill="#F3F3F3" />
   </g>
   <g
      id="blurred-bottomright"
@@ -806,8 +790,7 @@
     <path
        d="m 19,906.36 c -5.54,0 -10,4.46 -10,10 h 10 v -8.33333 z"
        id="path1826"
-       class="ColorScheme-Background"
-       fill="currentColor" />
+       fill="#F3F3F3" />
   </g>
   <rect
      style="opacity:0.8;fill:#00ffff;fill-opacity:1;stroke:none;stroke-width:0.999997"

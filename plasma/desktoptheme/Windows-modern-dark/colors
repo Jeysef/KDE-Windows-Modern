@@ -76,7 +76,7 @@ ForegroundVisited=224,64,251
 
 [Colors:Selection]
 BackgroundAlternate=82,148,226
-BackgroundNormal=146,162,251
+BackgroundNormal=75,200,255
 DecorationFocus=0,110,255
 DecorationHover=0,110,255
 ForegroundActive=255,128,224
@@ -131,7 +131,7 @@ ForegroundPositive=0,110,40
 ForegroundVisited=224,64,251
 
 [General]
-ColorScheme=VimixDarkDoder
+ColorScheme=Win11Dark
 Name=Windows-modern-dark
 shadeSortColumn=true
 
