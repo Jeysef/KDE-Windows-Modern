@@ -90,58 +90,10 @@
         color:#27ae60;
       }</style>
   </defs>
-  <g
-     id="group-expander-bottom"
-     transform="translate(0,32)">
-    <path
-       d="m 26.52555,3.00756 a 5.4999,5.4999 0 0 0 -5.4999,5.4999 5.4999,5.4999 0 0 0 5.4999,5.4999 5.4999,5.4999 0 0 0 5.4999,-5.4999 5.4999,5.4999 0 0 0 -5.4999,-5.4999 z"
-       id="path1546"
-       style="fill:#ffffff;stroke-width:1.2222" />
-    <path
-       id="rect1576"
-       d="M 26.5,5 C 26.223,5 26,5.223 26,5.5 V 8 H 23.5 C 23.223,8 23,8.223 23,8.5 23,8.777 23.223,9 23.5,9 H 26 v 2.5 c 0,0.277 0.223,0.5 0.5,0.5 0.277,0 0.5,-0.223 0.5,-0.5 V 9 h 2.5 C 29.777,9 30,8.777 30,8.5 30,8.223 29.777,8 29.5,8 H 27 V 5.5 C 27,5.223 26.777,5 26.5,5 Z"
-       class="ColorScheme-Highlight"
-       fill="currentColor" />
-  </g>
-  <g
-     id="group-expander-left"
-     transform="translate(20,32)">
-    <path
-       d="m 26.52555,3.00756 a 5.4999,5.4999 0 0 0 -5.4999,5.4999 5.4999,5.4999 0 0 0 5.4999,5.4999 5.4999,5.4999 0 0 0 5.4999,-5.4999 5.4999,5.4999 0 0 0 -5.4999,-5.4999 z"
-       id="path1844"
-       style="fill:#ffffff;stroke-width:1.2222" />
-    <path
-       id="path1846"
-       d="M 26.5,5 C 26.223,5 26,5.223 26,5.5 V 8 H 23.5 C 23.223,8 23,8.223 23,8.5 23,8.777 23.223,9 23.5,9 H 26 v 2.5 c 0,0.277 0.223,0.5 0.5,0.5 0.277,0 0.5,-0.223 0.5,-0.5 V 9 h 2.5 C 29.777,9 30,8.777 30,8.5 30,8.223 29.777,8 29.5,8 H 27 V 5.5 C 27,5.223 26.777,5 26.5,5 Z"
-       class="ColorScheme-Highlight"
-       fill="currentColor" />
-  </g>
-  <g
-     id="group-expander-top"
-     transform="translate(39,32)">
-    <path
-       d="m 26.52555,3.00756 a 5.4999,5.4999 0 0 0 -5.4999,5.4999 5.4999,5.4999 0 0 0 5.4999,5.4999 5.4999,5.4999 0 0 0 5.4999,-5.4999 5.4999,5.4999 0 0 0 -5.4999,-5.4999 z"
-       id="path1850"
-       style="fill:#ffffff;stroke-width:1.2222" />
-    <path
-       id="path1852"
-       d="M 26.5,5 C 26.223,5 26,5.223 26,5.5 V 8 H 23.5 C 23.223,8 23,8.223 23,8.5 23,8.777 23.223,9 23.5,9 H 26 v 2.5 c 0,0.277 0.223,0.5 0.5,0.5 0.277,0 0.5,-0.223 0.5,-0.5 V 9 h 2.5 C 29.777,9 30,8.777 30,8.5 30,8.223 29.777,8 29.5,8 H 27 V 5.5 C 27,5.223 26.777,5 26.5,5 Z"
-       class="ColorScheme-Highlight"
-       fill="currentColor" />
-  </g>
-  <g
-     id="group-expander-right"
-     transform="translate(58,32)">
-    <path
-       d="m 26.52555,3.00756 a 5.4999,5.4999 0 0 0 -5.4999,5.4999 5.4999,5.4999 0 0 0 5.4999,5.4999 5.4999,5.4999 0 0 0 5.4999,-5.4999 5.4999,5.4999 0 0 0 -5.4999,-5.4999 z"
-       id="path1856"
-       style="fill:#ffffff;stroke-width:1.2222" />
-    <path
-       id="path1858"
-       d="M 26.5,5 C 26.223,5 26,5.223 26,5.5 V 8 H 23.5 C 23.223,8 23,8.223 23,8.5 23,8.777 23.223,9 23.5,9 H 26 v 2.5 c 0,0.277 0.223,0.5 0.5,0.5 0.277,0 0.5,-0.223 0.5,-0.5 V 9 h 2.5 C 29.777,9 30,8.777 30,8.5 30,8.223 29.777,8 29.5,8 H 27 V 5.5 C 27,5.223 26.777,5 26.5,5 Z"
-       class="ColorScheme-Highlight"
-       fill="currentColor" />
-  </g>
+  <g id="group-expander-bottom" transform="translate(0,32)" />
+  <g id="group-expander-left" transform="translate(20,32)" />
+  <g id="group-expander-top" transform="translate(39,32)" />
+  <g id="group-expander-right" transform="translate(58,32)" />
   <rect
      id="focus-topleft"
      width="2"
