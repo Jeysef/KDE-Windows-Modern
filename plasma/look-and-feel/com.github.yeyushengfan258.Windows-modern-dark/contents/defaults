@@ -20,7 +20,7 @@ LayoutName=org.kde.breeze.desktop
 ButtonsOnLeft=XAI
 ButtonsOnRight=
 library=org.kde.kwin.aurorae
-theme=__aurorae__svg__windows-modern-aurorae
+theme=__aurorae__svg__Windows Modern Dark Aurorae
 
 [plasmarc][Theme]
 name=Windows-modern-dark
