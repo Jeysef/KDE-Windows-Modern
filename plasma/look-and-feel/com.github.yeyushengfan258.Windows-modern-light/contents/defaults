@@ -14,7 +14,7 @@ name=Windows-modern-light
 ButtonsOnLeft=XAI
 ButtonsOnRight=
 library=org.kde.kwin.aurorae
-theme=__aurorae__svg__Windows-modern-light
+theme=__aurorae__svg__windows-modern-light-aurorae
 
 [kcminputrc][Mouse]
 cursorTheme=breeze_cursors

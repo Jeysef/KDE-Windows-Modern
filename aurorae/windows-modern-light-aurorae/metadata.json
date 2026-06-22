@@ -1,0 +1,18 @@
+{
+  "KPlugin": {
+    "Authors": [
+      {
+        "Email": "",
+        "Name": "Jeysef"
+      }
+    ],
+    "Category": "",
+    "Dependencies": [],
+    "Description": "Windows Modern Light flat window decoration for KDE Plasma 6",
+    "EnabledByDefault": true,
+    "Id": "windows-modern-light-aurorae",
+    "License": "GPL-2.0-or-later",
+    "Name": "Windows Modern Light Aurorae",
+    "Version": "1.0"
+  }
+}

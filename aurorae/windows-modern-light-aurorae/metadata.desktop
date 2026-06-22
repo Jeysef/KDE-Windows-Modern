@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Windows Modern Light Aurorae
+Comment=Windows Modern Light flat window decoration for KDE Plasma 6.
+
+X-KDE-PluginInfo-Author=Jeysef
+X-KDE-PluginInfo-Email=
+X-KDE-PluginInfo-Name=windows-modern-light-aurorae
+X-KDE-PluginInfo-Version=1.0
+X-KDE-PluginInfo-Category=
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-License=GPL-2.0-or-later
+X-KDE-PluginInfo-EnabledByDefault=true
