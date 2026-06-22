@@ -1,0 +1,2 @@
+Better battery widget [Plasma 6]
+https://github.com/itsKhangQBit/BetterBatteryWidget/

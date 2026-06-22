@@ -23,7 +23,7 @@ fi
 
 SRC_DIR=$(cd $(dirname $0) && pwd)
 
-THEME_NAME=WinSur
+THEME_NAME=Windows-modern
 
 uninstall() {
   local name=${1}

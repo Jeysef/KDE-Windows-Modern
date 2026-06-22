@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cp -ur WinSur-dark /usr/share/sddm/themes
+cp -ur Windows-modern-dark /usr/share/sddm/themes
 
 echo "Install finished..."

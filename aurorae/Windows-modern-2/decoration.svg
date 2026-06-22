@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="171" height="185" viewBox="0 0 171 185">
+  <style id="current-color-scheme">
+    .ColorScheme-Background { color: #000000; }
+  </style>
+
+  <g id="layer1" transform="translate(207,-316.36218)">
+
+    <!-- Active Window Mirrors -->
+    <use id="decoration-topright" xlink:href="#decoration-topleft" transform="matrix(-1,0,0,1,-243,0)" width="744" height="1052"/>
+    <use id="decoration-bottomright" xlink:href="#decoration-bottomleft" transform="matrix(-1,0,0,1,-243,0)" width="744" height="1052"/>
+    <use id="decoration-right" xlink:href="#decoration-left" transform="matrix(-1,0,0,1,-243,0)" width="744" height="1052"/>
+
+    <!-- ACTIVE BOTTOM LEFT -->
+    <g id="decoration-bottomleft" transform="translate(-315,-195)">
+      <rect class="ColorScheme-Background" fill="currentColor" x="155" y="595.36218" width="25" height="25"/>
+      <!-- Bottom border line -->
+      <rect fill="#333333" opacity="1" x="154" y="620.36218" width="26" height="1"/>
+      <!-- Left border line -->
+      <rect fill="#333333" opacity="1" x="154" y="595.36218" width="1" height="25"/>
+    </g>
+
+    <!-- ACTIVE BOTTOM -->
+    <g id="decoration-bottom" transform="translate(-329,-195)">
+      <rect class="ColorScheme-Background" fill="currentColor" x="195" y="595.36218" width="25" height="25"/>
+      <rect fill="#333333" opacity="1" x="195" y="620.36218" width="25" height="1"/> <!-- GREY BORDER -->
+    </g>
+
+    <!-- ACTIVE LEFT -->
+    <g id="decoration-left" transform="translate(-325,-316)">
+      <rect class="ColorScheme-Background" fill="currentColor" x="165" y="690.36218" width="25" height="25"/>
+      <rect fill="#333333" opacity="1" x="164" y="690.36218" width="1" height="25"/> <!-- GREY BORDER -->
+    </g>
+
+    <!-- ACTIVE TOP LEFT -->
+    <g id="decoration-topleft" transform="translate(-325,-302)">
+      <rect class="ColorScheme-Background" fill="currentColor" x="165" y="650.36218" width="25" height="25"/>
+      <!-- Top border line -->
+      <rect fill="#333333" opacity="1" x="164" y="649.36218" width="26" height="1"/>
+      <!-- Left border line -->
+      <rect fill="#333333" opacity="1" x="164" y="650.36218" width="1" height="25"/>
+    </g>
+
+    <!-- ACTIVE TOP -->
+    <g id="decoration-top" transform="translate(-339,-302)">
+      <rect class="ColorScheme-Background" fill="currentColor" x="205" y="650.36218" width="25" height="25"/>
+      <rect fill="#333333" opacity="1" x="205" y="-650.36218" width="25" height="1" transform="scale(1,-1)"/> <!-- GREY BORDER -->
+    </g>
+
+    <!-- ============================================== -->
+    <!-- INACTIVE WINDOW STATES                         -->
+    <!-- ============================================== -->
+
+    <use id="decoration-inactive-topright" xlink:href="#decoration-inactive-topleft" transform="matrix(-1,0,0,1,-243,0)"/>
+    <use id="decoration-inactive-bottomright" xlink:href="#decoration-inactive-bottomleft" transform="matrix(-1,0,0,1,-243,0)"/>
+    <use id="decoration-inactive-right" xlink:href="#decoration-inactive-left" transform="matrix(-1,0,0,1,-243,0)"/>
+
+    <!-- INACTIVE BOTTOM LEFT -->
+    <g id="decoration-inactive-bottomleft" transform="translate(-128,-195)">
+      <rect class="ColorScheme-Background" fill="currentColor" x="155" y="595.36218" width="25" height="25"/>
+      <!-- Bottom border line -->
+      <rect fill="#333333" opacity="1" x="154" y="620.36218" width="26" height="1"/>
+      <!-- Left border line -->
+      <rect fill="#333333" opacity="1" x="154" y="595.36218" width="1" height="25"/>
+    </g>
+
+    <!-- INACTIVE BOTTOM -->
+    <g id="decoration-inactive-bottom" transform="translate(-142,-195)">
+      <rect class="ColorScheme-Background" fill="currentColor" x="195" y="595.36218" width="25" height="25"/>
+      <!-- Bottom border line -->
+      <rect fill="#333333" opacity="1" x="195" y="620.36218" width="25" height="1"/>
+    </g>
+
+    <!-- INACTIVE LEFT -->
+    <g id="decoration-inactive-left" transform="translate(-138,-316)">
+      <rect class="ColorScheme-Background" fill="currentColor" x="165" y="690.36218" width="25" height="25"/>
+      <rect fill="#333333" opacity="1" x="164" y="690.36218" width="1" height="25"/>
+    </g>
+
+    <!-- INACTIVE TOP LEFT -->
+    <g id="decoration-inactive-topleft" transform="translate(-138,-302)">
+      <rect class="ColorScheme-Background" fill="currentColor" x="165" y="650.36218" width="25" height="25"/>
+      <!-- Top border line -->
+      <rect fill="#333333" opacity="1" x="164" y="649.36218" width="26" height="1"/>
+      <!-- Left border line -->
+      <rect fill="#333333" opacity="1" x="164" y="650.36218" width="1" height="25"/>
+
+    </g>
+
+    <!-- INACTIVE TOP -->
+    <g id="decoration-inactive-top" transform="translate(-152,-302)">
+      <rect class="ColorScheme-Background" fill="currentColor" x="205" y="650.36218" width="25" height="25"/>
+      <!-- GREY BORDER -->
+      <rect fill="#333333" opacity="1" x="205" y="-650.36218" width="25" height="1" transform="scale(1,-1)"/>
+    </g>
+
+    <!-- Center Bases -->
+    <rect id="decoration-center" class="ColorScheme-Background" fill="currentColor" x="-134" y="374.36218" width="25" height="25"/>
+    <rect id="decoration-inactive-center" class="ColorScheme-Background" fill="currentColor" x="53" y="374.36218" width="25" height="25"/>
+
+    <!-- Layout / Stretch Guides (Aurorae Engine) -->
+    <rect fill="#ff00ff" opacity="0.5" x="-124" y="316.36218" width="2" height="32"/>
+    <rect fill="#ff00ff" opacity="0.5" x="-389.36218" y="-207" width="2" height="47" transform="rotate(-90)"/>
+    <rect fill="#ff00ff" opacity="0.5" x="122" y="-501.36218" width="2" height="76" transform="scale(-1)"/>
+    <rect id="hint-stretch-borders" fill="#ff00ff" opacity="0.5" x="208" y="-315.36218" width="10" height="10" transform="scale(-1)"/>
+  </g>
+</svg>

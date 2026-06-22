@@ -39,8 +39,8 @@ prompt () {
 
 # Checking for root access and proceed if it is present
 if [ "$UID" -eq "$ROOT_UID" ]; then
-  prompt -i "\n * Install WinSur-light in ${THEME_DIR}... "
-  cp -r "${REO_DIR}/WinSur-light" "${THEME_DIR}"
+  prompt -i "\n * Install Windows-modern-light in ${THEME_DIR}... "
+  cp -r "${REO_DIR}/Windows-modern-light" "${THEME_DIR}"
   # Success message
   prompt -s "\n * All done!"
 else

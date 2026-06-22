@@ -1,5 +1,5 @@
 
-WinSur-dark sddm theme for KDE Plasma desktop.
+Windows-modern-dark sddm theme for KDE Plasma desktop.
 
 ## Installation
 

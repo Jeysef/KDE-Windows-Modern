@@ -1,6 +1,6 @@
-## WinSur KDE Theme
+## Windows-modern KDE Theme
 
-WinSur kde is a light clean theme for KDE Plasma desktop.
+Windows-modern kde is a light clean theme for KDE Plasma desktop.
 
 In this repository you'll find:
 
