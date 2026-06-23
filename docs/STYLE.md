@@ -32,9 +32,9 @@ look-and-feel package.
 | Surface border (inactive) | `#2A2A2A` | Inactive window borders |
 | Text (primary) | `#FFFFFF` | Title bar text, popup text, icons |
 | Text (inactive) | `30,30,30 @ 50%` | Inactive title bar text |
-| Highlight/accent | `#60CDFF` | Focus indicators, links |
-| Button hover bg | `#4A4A4A` | Hover states |
-| Button bg | `#3D3D3D` | Button backgrounds |
+| Highlight/accent | `#0078D4` | Focus indicators, links (Win11 system accent) |
+| Button hover bg | `#3F3F3F` | Hover states |
+| Button bg | `#2C2C2C` | Button backgrounds |
 | Close hover | `#C42B1C` | Close button hover (Win11 red) |
 
 ### Light variant
@@ -213,83 +213,93 @@ Rewritten with minimal 1px border elements:
 
 Location: `Kvantum/Windows-modern-{dark,light}/`
 
-SVG-based Qt widget theme. Both variants are **fully opaque** —
-`composite=false`, `translucent_windows=false`, `blurring=false`,
-`popup_blurring=false`. No Kvantum-added menu/tooltip shadows
-(`menu_shadow_depth=0`, `tooltip_shadow_depth=0`,
-`shadowless_popup=true`); rely on the WM/DE for popup shadows
-instead. The SVG `menu-shadow-*` and `tooltip-shadow-*` element
-trees were emptied (replaced with zero-size placeholders) so no
-translucent halo renders around popups.
+SVG-based Qt widget theme. Based on the **Fluent** Kvantum theme by
+Vince Liuice (itself derived from KvAdapta by Tsu Jan), with colors
+remapped to authentic Win11 values. The Fluent base was chosen over
+the previous KvAdapta/Materia base because it already ships Win11
+proportions (`check_size=20`, `progressbar_thickness=10`,
+`spread_menuitems=true`, `attach_active_tab=true`,
+`toolbutton_style=0`, `merge_menubar_with_toolbar=false`) and a
+cleaner SVG element set (`flatbutton`, `tbutton`, proper inactive
+text colors, fuller frame definitions).
 
-##### Tradeoffs of the opaque model
+#### Compositing model
 
-Turning off compositing removed several Matura/KvAdapta effects:
-
-- **Popup acrylic blur** — menus/tooltips are now flat solid
-  `#2C2C2C` instead of blurred-acrylic. Win11 flyouts use acrylic;
-  this is the main fidelity loss. Could be restored selectively via
-  `composite=true` + `popup_blurring=true` while keeping
-  `translucent_windows=false`.
-- **App-window translucency** — windows are fully opaque (no mica).
-  `reduce_window_opacity` negative-value inactive dimming is inert.
-- **Curated soft drop shadows** on popups replaced by KWin's default
-  popup shadow (tuned down via `shadowless_popup=true`).
-
-What was **not** lost: the alt-tab / tabbox blur (KWin Blur effect
-on the switcher QML, independent of Kvantum), aurorae decoration
-(always opaque), and plasma panel/popup SVGs (already solid).
+Both variants use the **translucent model** — `composite=true`,
+`translucent_windows=true`, `blurring=true`, `popup_blurring=true`.
+Kvantum handles popup shadows (`menu_shadow_depth=5`,
+`tooltip_shadow_depth=2`, `shadowless_popup=false`) and acrylic-style
+blur behind menus/tooltips. The SVG `menu-shadow-*` and
+`tooltip-shadow-*` element trees are intact and render as soft drop
+shadows via compositing.
 
 #### `[GeneralColors]` palette
 
-The Materia-derived blue-grey palette was replaced with authentic
-Win11 neutrals sourced from WinUI 3:
+The Fluent neutrals were replaced with authentic Win11 values sourced
+from WinUI 3. The accent is `#0078D4` (Win11 system accent) in **both**
+variants — this is the color used system-wide by real Windows 11
+regardless of light/dark mode, and it is baked into the SVG indicator
+elements (checkbox marks, radio dots, progressbar fill, focus rings).
 
 | Token | Dark | Light |
 |---|---|---|
 | `window` | `#202020` | `#F9F9F9` |
-| `base` / `alt.base` | `#2C2C2C` | `#FFFFFF` |
+| `base` / `alt.base` | `#2C2C2C` | `#FFFFFF` / `#F8F8F8` |
 | `button` | `#2C2C2C` | `#F3F3F3` |
 | `light` (hover) | `#3F3F3F` | `#E9E9E9` |
 | `mid.light` | `#3F3F3F` | `#E9E9E9` |
 | `dark` | `#1F1F1F` | `#E5E5E5` |
-| `highlight` | `#60CDFF` | `#0078D4` |
+| `highlight` / `link` | `#0078D4` | `#0078D4` |
+| `inactive.highlight` | `#0078D474` | `#0078D474` |
 | `text` | `#FFFFFF` | `#1E1E1E` |
 | `disabled.text` | `#5A5A5A` | `#A0A0A0` |
-| `link` | `#60CDFF` | `#0078D4` |
+
+Per-section `text.*.color` values throughout the config follow the
+same mapping (dark = `#FFFFFF`, light = `#1E1E1E`), with `#ffffff`
+preserved for pressed/toggled states (white-on-accent) and `#0078D4`
+for GroupBox focus labels.
 
 #### Key `[%General]` behavior
 
+Inherited from Fluent (already Win11-correct):
 - `spread_menuitems=true` — menu items span full menu width (Win11).
 - `attach_active_tab=true` — active tab attaches to content below.
 - `merge_menubar_with_toolbar=false`, `toolbutton_style=0`.
 - `progressbar_thickness=10`, `check_size=20` (Win11 proportions).
-- `transient_scrollbar=true` in both variants (auto-hide scrollbars).
-- `animate_states=true` for smooth hover fades.
+- `transient_scrollbar=true` (auto-hide scrollbars).
+- `animate_states=false` (Fluent disables state animations).
+- `left_tabs=true`, `combo_as_lineedit=true`, `combo_menu=true`.
+- `x11drag=menubar_and_primary_toolbar`.
 
 #### `[Hacks]`
 
-All `transparent_*` keys set to `false` (solid Dolphin/PCManFM views,
-menutitles, arrow buttons) to match the opaque window model.
-`respect_darkness=true` (dark only). `force_size_grip=false`.
+Inherited from Fluent: `transparent_ktitle_label=true`,
+`transparent_dolphin_view=true`, `transparent_pcmanfm_sidepane=true`,
+`transparent_pcmanfm_view=true`, `transparent_menutitle=true`,
+`transparent_arrow_button=true`, `respect_darkness=true` (dark only),
+`force_size_grip=true`, `iconless_pushbutton=false` (dark) / `true`
+(light), `single_top_toolbar=true`, `kcapacitybar_as_progressbar=true`.
 
 #### SVG element fills
 
-Core elements rewritten to solid Win11 values (previously translucent
-black/grey that resolved to wrong colors once `composite=false`):
+The Fluent SVG fills were remapped to Win11 neutrals. The accent
+`#0078D4` was left intact (it is correct for Win11). Key mappings:
 
-| Element | Dark | Light |
+| Fluent color | Win11 target | Role |
 |---|---|---|
-| `window-normal` | `#202020` | `#F9F9F9` |
-| `window-normal-inactive` | `#2C2C2C` | `#ECECEC` |
-| `button-normal` | `#2C2C2C` | `#F3F3F3` |
-| `button-focused` (hover) | `#3F3F3F` | `#E9E9E9` |
-| `menu-normal` | `#2C2C2C` | `#F9F9F9` |
-| `tooltip-normal` | `#2C2C2C` | `#F9F9F9` |
-| `menubar-normal` | `#202020` | `#F9F9F9` |
-| `header-normal` | `#2C2C2C` | `#F3F3F3` |
-| `lineedit-normal` / `combo-normal` | `#2C2C2C` | `#FFFFFF` |
-| `titlebar-normal` (MDI) | `#202020` | `#F9F9F9` |
+| `#2B2B2B` | `#2C2C2C` | base/button/control backgrounds |
+| `#333333` | `#2C2C2C` (dark) / `#F9F9F9` (light) | menu body, dock, header |
+| `#3C3C3C` | `#3F3F3F` | header/dock borders |
+| `#dedede` | `#FFFFFF` (dark text/icons) | secondary text, unchecked marks |
+| `#000000` | unchanged | bevel/shadow overlays (translucent) |
+| `#0078D4` | unchanged | accent (checkbox/radio marks, progress, focus) |
+| `#202020` | unchanged | window/menubar/titlebar bg (dark) |
+| `#f04a50` | unchanged | mdi window-control hover glyphs |
+| `#b74aff` | unchanged | shadow hint markers (arbitrary) |
+
+Shadow elements (`menu-shadow-*`, `tooltip-shadow-*`) use gradient
+fills and `#343031`/`#26272a` shells — left intact as they render
+correctly under compositing.
 
 ### Color Schemes
 
