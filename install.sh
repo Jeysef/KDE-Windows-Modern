@@ -13,6 +13,7 @@ if [ "$UID" -eq "$ROOT_UID" ]; then
   KVANTUM_DIR="/usr/share/Kvantum"
   WALLPAPER_DIR="/usr/share/wallpapers"
   ICONS_DIR="/usr/share/icons"
+  APPLETS_DIR="/usr/share/plasma/plasmoids"
 else
   AURORAE_DIR="$HOME/.local/share/aurorae/themes"
   SCHEMES_DIR="$HOME/.local/share/color-schemes"
@@ -22,6 +23,7 @@ else
   KVANTUM_DIR="$HOME/.config/Kvantum"
   WALLPAPER_DIR="$HOME/.local/share/wallpapers"
   ICONS_DIR="$HOME/.local/share/icons"
+  APPLETS_DIR="$HOME/.local/share/plasma/plasmoids"
 fi
 
 THEME_NAME=Windows-modern
@@ -34,6 +36,7 @@ THEME_NAME=Windows-modern
 [[ ! -d ${WALLPAPER_DIR} ]] && mkdir -p ${WALLPAPER_DIR}
 [[ ! -d ${ICONS_DIR} ]] && mkdir -p ${ICONS_DIR}
 [[ ! -d ${LAYOUT_DIR} ]] && mkdir -p ${LAYOUT_DIR}
+[[ ! -d ${APPLETS_DIR} ]] && mkdir -p ${APPLETS_DIR}
 
 install() {
   local name=${1}
@@ -59,6 +62,12 @@ install() {
   if [ -d "${SRC_DIR}/plasma/layout-templates/org.kde.windowsmodern.panel" ]; then
     rm -rf ${LAYOUT_DIR}/org.kde.windowsmodern.panel
     cp -r ${SRC_DIR}/plasma/layout-templates/org.kde.windowsmodern.panel             ${LAYOUT_DIR}
+  fi
+
+  # Custom show-desktop applet (Win11 thin sliver, minimize-all)
+  if [ -d "${SRC_DIR}/plasma/applets/org.kde.windowsmodern.showdesktop" ]; then
+    rm -rf ${APPLETS_DIR}/org.kde.windowsmodern.showdesktop
+    cp -r ${SRC_DIR}/plasma/applets/org.kde.windowsmodern.showdesktop                 ${APPLETS_DIR}
   fi
 }
 

@@ -14,6 +14,18 @@ panel.alignment = "center";
 panel.hiding = "none";
 panel.lengthMode = "fill";
 
+// Floating widgets: applets get inset margins so they appear to float
+// above the panel background with visible gaps around each widget. The
+// panel itself stays docked to the screen edge — only the applets float.
+// Matches Win11's taskbar where buttons have air around them.
+panel.floating = true;
+
+// Opaque panel background: Plasma's default "adaptive" opacity toggles
+// translucency when windows touch the panel, which looks inconsistent.
+// Win11 keeps a stable background, so force opaque (our theme is fully
+// opaque anyway). Use "translucent" instead if blur is desired later.
+panel.opacity = "opaque";
+
 // --- Widgets -------------------------------------------------------------
 // Order of addWidget calls determines left-to-right order in the panel.
 
@@ -55,8 +67,12 @@ clock.writeConfig("showDate", "false");
 clock.writeConfig("showSeconds", "0");
 clock.writeConfig("use24hFormat", "0");
 
-// 5. Show Desktop button (Win11's far-right sliver that peeks at the desktop).
-var peek = panel.addWidget("org.kde.plasma.showdesktop");
+// 5. Show Desktop — custom Win11-style thin sliver (minimize-all on click).
+//    Uses our forked applet (org.kde.windowsmodern.showdesktop) which renders
+//    as an 8px-wide bare sliver with a 1px separator line, no icon.
+var peek = panel.addWidget("org.kde.windowsmodern.showdesktop");
+peek.currentConfigGroup = new Array("General");
+peek.writeConfig("size", "8");
 
 // Ensure correct ordering by index.
 start.index = 0;

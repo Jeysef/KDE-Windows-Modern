@@ -12,6 +12,8 @@ if [ "$UID" -eq "$ROOT_UID" ]; then
   KVANTUM_DIR="/usr/share/Kvantum"
   WALLPAPER_DIR="/usr/share/wallpapers"
   ICONS_DIR="/usr/share/icons"
+  LAYOUT_DIR="/usr/share/plasma/layout-templates"
+  APPLETS_DIR="/usr/share/plasma/plasmoids"
 else
   AURORAE_DIR="$HOME/.local/share/aurorae/themes"
   SCHEMES_DIR="$HOME/.local/share/color-schemes"
@@ -21,6 +23,7 @@ else
   KVANTUM_DIR="$HOME/.config/Kvantum"
   WALLPAPER_DIR="$HOME/.local/share/wallpapers"
   ICONS_DIR="$HOME/.local/share/icons"
+  APPLETS_DIR="$HOME/.local/share/plasma/plasmoids"
 fi
 
 SRC_DIR=$(cd $(dirname $0) && pwd)
@@ -42,6 +45,7 @@ uninstall() {
   [[ -d ${WALLPAPER_DIR}/Layan ]] && rm -rfv ${WALLPAPER_DIR}/${name}
   [[ -d ${ICONS_DIR}/windows-modern ]] && rm -rfv ${ICONS_DIR}/windows-modern
   [[ -d ${LAYOUT_DIR}/org.kde.windowsmodern.panel ]] && rm -rfv ${LAYOUT_DIR}/org.kde.windowsmodern.panel
+  [[ -d ${APPLETS_DIR}/org.kde.windowsmodern.showdesktop ]] && rm -rfv ${APPLETS_DIR}/org.kde.windowsmodern.showdesktop
 }
 
 echo "Uninstalling '${THEME_NAME} kde themes'..."

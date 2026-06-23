@@ -103,11 +103,37 @@ The `contents/layout.js` creates:
   4. **Digital clock** — `org.kde.plasma.digitalclock` pinned to
      Segoe UI Regular 10pt, no date, no seconds, 12h format. The fixed
      font size keeps the clock readable without dominating tall panels.
-  5. **Show Desktop** — `org.kde.plasma.showdesktop` (Win11's far-right
-     desktop-peek sliver).
+  5. **Show Desktop** — `org.kde.windowsmodern.showdesktop`, a custom
+     forked applet (see below). Renders as an 8px-wide bare sliver with
+     a 1px separator line on its left edge, no icon. Click minimizes all
+     windows; click again restores.
 
 This does not replace an existing panel automatically; users add it
 via right-click desktop → Add Panels → "Windows Modern Panel".
+
+#### Show Desktop applet (`plasma/applets/org.kde.windowsmodern.showdesktop/`)
+
+A simplified fork of [Zren's plasma-applet-win7showdesktop](https://github.com/Zren/plasma-applet-win7showdesktop)
+(which itself forks KDE's `org.kde.plasma.showdesktop`). Stripped to
+the essentials for the Win11 look:
+
+- **Thin sliver** — `Layout.maximumWidth` is driven by the `size`
+  config key (default 8px), overriding the upstream 22px floor.
+- **No icon** — the `Kirigami.Icon` is only visible in edit mode.
+- **Minimize-all** — uses `MinimizeAllController` (toggle minimize on
+  all windows) rather than peek.
+- **Separator line** — a 1px rectangle on the left edge colored from
+  the theme text color at 40% alpha (or the `edgeColor` config key).
+- **Hover/press surfaces** — translucent rectangles using
+  `Kirigami.Theme.backgroundColor` / `hoverColor`.
+
+Removed from the upstream fork: command controller, mousewheel volume,
+peek-on-hover, openSUSE qdbus detection, `Plasma5Support.DataSource`.
+
+Config keys (`contents/config/main.xml`): `size` (int, default 8),
+`edgeColor`, `hoveredColor`, `pressedColor` (strings, empty = theme
+defaults). Installed to `~/.local/share/plasma/plasmoids/` (or
+`/usr/share/plasma/plasmoids/` as root) by `install.sh`.
 
 #### Popups / tooltips
 
@@ -347,6 +373,8 @@ windows_modern2/
 ├── icons/
 │   └── windows-modern/                   # Win11 icon theme (gitignored)
 ├── plasma/
+│   ├── applets/
+│   │   └── org.kde.windowsmodern.showdesktop/  # Forked show-desktop sliver
 │   ├── desktoptheme/
 │   │   ├── Windows-modern-dark/         # Dark plasma theme (165 SVGs)
 │   │   └── Windows-modern-light/        # Light plasma theme (165 SVGs)
