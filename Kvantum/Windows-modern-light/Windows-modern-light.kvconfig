@@ -70,10 +70,10 @@ contrast=1.00
 dialog_button_layout=0
 intensity=1.00
 saturation=1.00
-shadowless_popup=false
+shadowless_popup=true
 drag_from_buttons=false
-menu_blur_radius=6
-tooltip_blur_radius=6
+menu_blur_radius=0
+tooltip_blur_radius=0
 
 [GeneralColors]
 window.color=#f9f9f9
@@ -426,10 +426,10 @@ frame=false
 
 [Menu]
 inherits=PanelButtonCommand
-frame.top=10
-frame.bottom=10
-frame.left=10
-frame.right=10
+frame.top=8
+frame.bottom=8
+frame.left=8
+frame.right=8
 frame.element=menu
 interior.element=menu
 text.normal.color=#1e1e1e
@@ -553,7 +553,7 @@ text.shadow=0
 text.margin=6
 interior.element=tooltip
 frame.element=tooltip
-frame.expansion=6
+frame.expansion=0
 
 [StatusBar]
 inherits=GenericFrame
