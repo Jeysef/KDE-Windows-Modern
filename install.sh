@@ -12,6 +12,7 @@ if [ "$UID" -eq "$ROOT_UID" ]; then
   LOOKFEEL_DIR="/usr/share/plasma/look-and-feel"
   KVANTUM_DIR="/usr/share/Kvantum"
   WALLPAPER_DIR="/usr/share/wallpapers"
+  ICONS_DIR="/usr/share/icons"
 else
   AURORAE_DIR="$HOME/.local/share/aurorae/themes"
   SCHEMES_DIR="$HOME/.local/share/color-schemes"
@@ -20,6 +21,7 @@ else
   LOOKFEEL_DIR="$HOME/.local/share/plasma/look-and-feel"
   KVANTUM_DIR="$HOME/.config/Kvantum"
   WALLPAPER_DIR="$HOME/.local/share/wallpapers"
+  ICONS_DIR="$HOME/.local/share/icons"
 fi
 
 THEME_NAME=Windows-modern
@@ -30,6 +32,7 @@ THEME_NAME=Windows-modern
 [[ ! -d ${LOOKFEEL_DIR} ]] && mkdir -p ${LOOKFEEL_DIR}
 [[ ! -d ${KVANTUM_DIR} ]] && mkdir -p ${KVANTUM_DIR}
 [[ ! -d ${WALLPAPER_DIR} ]] && mkdir -p ${WALLPAPER_DIR}
+[[ ! -d ${ICONS_DIR} ]] && mkdir -p ${ICONS_DIR}
 
 install() {
   local name=${1}
@@ -40,6 +43,13 @@ install() {
   cp -r ${SRC_DIR}/plasma/desktoptheme/*                                             ${PLASMA_DIR}
   cp -r ${SRC_DIR}/plasma/look-and-feel/*                                            ${LOOKFEEL_DIR}
   cp -r ${SRC_DIR}/wallpaper/*                                                       ${WALLPAPER_DIR}
+
+  # Icons (optional, may be absent if excluded from the repo)
+  if [ -d "${SRC_DIR}/icons/WindowsModern" ]; then
+    rm -rf ${ICONS_DIR}/WindowsModern
+    cp -r ${SRC_DIR}/icons/WindowsModern                                             ${ICONS_DIR}
+    rm -f ${ICONS_DIR}/WindowsModern/icon-theme.cache
+  fi
 }
 
 echo "Installing '${THEME_NAME} kde themes'..."

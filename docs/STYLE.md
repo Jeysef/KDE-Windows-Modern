@@ -144,14 +144,78 @@ Rewritten with minimal 1px border elements:
 - Icons: `#FFFFFF` (dark theme) / `#1E1E1E` (light theme).
 - Deactivated: icon at 0.1 opacity.
 
+### Kvantum Qt Style
+
+Location: `Kvantum/Windows-modern-{dark,light}/`
+
+SVG-based Qt widget theme. Both variants are **fully opaque** —
+`composite=false`, `translucent_windows=false`, `blurring=false`,
+`popup_blurring=false`. No Kvantum-added menu/tooltip shadows
+(`menu_shadow_depth=0`, `tooltip_shadow_depth=0`); rely on the WM/DE
+for popup shadows instead.
+
+#### `[GeneralColors]` palette
+
+The Materia-derived blue-grey palette was replaced with authentic
+Win11 neutrals sourced from WinUI 3:
+
+| Token | Dark | Light |
+|---|---|---|
+| `window` | `#202020` | `#F9F9F9` |
+| `base` / `alt.base` | `#2C2C2C` | `#FFFFFF` |
+| `button` | `#2C2C2C` | `#F3F3F3` |
+| `light` (hover) | `#3F3F3F` | `#E9E9E9` |
+| `mid.light` | `#3F3F3F` | `#E9E9E9` |
+| `dark` | `#1F1F1F` | `#E5E5E5` |
+| `highlight` | `#60CDFF` | `#0078D4` |
+| `text` | `#FFFFFF` | `#1E1E1E` |
+| `disabled.text` | `#5A5A5A` | `#A0A0A0` |
+| `link` | `#60CDFF` | `#0078D4` |
+
+#### Key `[%General]` behavior
+
+- `spread_menuitems=true` — menu items span full menu width (Win11).
+- `attach_active_tab=true` — active tab attaches to content below.
+- `merge_menubar_with_toolbar=false`, `toolbutton_style=0`.
+- `progressbar_thickness=10`, `check_size=20` (Win11 proportions).
+- `transient_scrollbar=true` in both variants (auto-hide scrollbars).
+- `animate_states=true` for smooth hover fades.
+
+#### `[Hacks]`
+
+All `transparent_*` keys set to `false` (solid Dolphin/PCManFM views,
+menutitles, arrow buttons) to match the opaque window model.
+`respect_darkness=true` (dark only). `force_size_grip=false`.
+
+#### SVG element fills
+
+Core elements rewritten to solid Win11 values (previously translucent
+black/grey that resolved to wrong colors once `composite=false`):
+
+| Element | Dark | Light |
+|---|---|---|
+| `window-normal` | `#202020` | `#F9F9F9` |
+| `window-normal-inactive` | `#2C2C2C` | `#ECECEC` |
+| `button-normal` | `#2C2C2C` | `#F3F3F3` |
+| `button-focused` (hover) | `#3F3F3F` | `#E9E9E9` |
+| `menu-normal` | `#2C2C2C` | `#F9F9F9` |
+| `tooltip-normal` | `#2C2C2C` | `#F9F9F9` |
+| `menubar-normal` | `#202020` | `#F9F9F9` |
+| `header-normal` | `#2C2C2C` | `#F3F3F3` |
+| `lineedit-normal` / `combo-normal` | `#2C2C2C` | `#FFFFFF` |
+| `titlebar-normal` (MDI) | `#202020` | `#F9F9F9` |
+
 ### Color Schemes
 
 Location: `color-schemes/Windows-modern{Dark,Light}.colors`
 
 KDE color scheme files defining system-wide colors for widgets,
-selections, tooltips, etc. The dark variant uses `BackgroundNormal=40,40,40`
-for windows and `30,30,30` for most other surfaces. The light variant
-uses `243,243,243` / `255,255,255`.
+selections, tooltips, etc. Rewritten with Win11 values:
+`ColorScheme=WindowsModernDark` / `WindowsModernLight` (the previous
+`McMojave` / `McMojaveLight` leftovers were removed). Dark uses
+`BackgroundNormal=32,32,32` for windows and `44,44,44` for buttons;
+light uses `249,249,249` / `243,243,243`. Selection accent is
+`0,120,212` in both.
 
 ### Look-and-Feel
 
@@ -166,7 +230,24 @@ theme=__aurorae__svg__windows-modern-{dark,light}-aurorae
 
 [plasmarc][Theme]
 name=Windows-modern-{dark,light}
+
+[kdeglobals][Icons]
+Theme=WindowsModern
+
+[kdeglobals][General]
+ColorScheme=WindowsModern{Dark,Light}
 ```
+
+### Icons
+
+Location: `icons/WindowsModern/` (gitignored — ~580MB)
+
+Win11 icon theme by yeyushengfan258 (based on Yaru), shipping
+16/22/24/32/48/64/scalable/symbolic sizes with Win11-style folder
+colors and app icons. Inherits `breeze-dark,hicolor`. Installed to
+`~/.local/share/icons/WindowsModern` (or `/usr/share/icons/` as root)
+and wired as the default icon theme in both look-and-feel `defaults`
+files. The `icon-theme.cache` is stripped at install time.
 
 ---
 
@@ -205,6 +286,8 @@ windows_modern2/
 ├── Kvantum/
 │   ├── Windows-modern-dark/
 │   └── Windows-modern-light/
+├── icons/
+│   └── WindowsModern/                    # Win11 icon theme (gitignored)
 ├── plasma/
 │   ├── desktoptheme/
 │   │   ├── Windows-modern-dark/         # Dark plasma theme (165 SVGs)

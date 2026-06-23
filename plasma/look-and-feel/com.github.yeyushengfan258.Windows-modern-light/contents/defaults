@@ -2,10 +2,10 @@
 widgetStyle=kvantum
 
 [kdeglobals][General]
-ColorScheme=Windows-modernLight
+ColorScheme=WindowsModernLight
 
 [kdeglobals][Icons]
-Theme=Win10Sur
+Theme=WindowsModern
 
 [plasmarc][Theme]
 name=Windows-modern-light

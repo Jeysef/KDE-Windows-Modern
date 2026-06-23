@@ -2,10 +2,10 @@
 cursorTheme=Windows-modern-dark-cursors
 
 [kdeglobals][General]
-ColorScheme=Windows-modernDark
+ColorScheme=WindowsModernDark
 
 [kdeglobals][Icons]
-Theme=Win11
+Theme=WindowsModern
 
 [kdeglobals][KDE]
 widgetStyle=kvantum
