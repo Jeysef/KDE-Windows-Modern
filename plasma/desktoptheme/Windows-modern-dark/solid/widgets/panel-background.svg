@@ -44,8 +44,8 @@
         stop-color:#31363b;
       }
       .ColorScheme-Background {
-        color:#2C2C2C;
-        stop-color:#2C2C2C;
+        color:#1C1C1C;
+        stop-color:#1C1C1C;
       }
       .ColorScheme-Highlight {
         color:#60CDFF;
@@ -56,7 +56,7 @@
         stop-color:#31363b;
       }
       .ColorScheme-ViewBackground {
-        color:#2C2C2C;
+        color:#1C1C1C;
         stop-color:#3D3D3D;
       }
       .ColorScheme-ViewHover {
@@ -73,7 +73,7 @@
       }
       .ColorScheme-ButtonBackground {
         color:#3D3D3D;
-        stop-color:#2C2C2C;
+        stop-color:#1C1C1C;
       }
       .ColorScheme-ButtonHover {
         color:#4A4A4A;
@@ -224,7 +224,7 @@
        y="-51"
        width="6"
        height="32"
-       fill="#2C2C2C"
+       fill="#1C1C1C"
        opacity="0.6"
        id="rect1718"
        style="opacity:1" />
@@ -234,7 +234,7 @@
      transform="matrix(1.3333,0,0,1.3333,26.6675,-1207.7826)">
     <path
        d="m 25,910.36 c -6.648,0 -12,5.352 -12,12 h 12 v -10 z"
-       fill="#2C2C2C"
+       fill="#1C1C1C"
        opacity="0.6"
        id="path1721"
        style="opacity:1" />
@@ -244,7 +244,7 @@
      transform="matrix(1.3333,0,0,1.3333,12.0015,-1207.7826)">
     <path
        d="m 45,910.36 v 12 h 12 c 0,-6.648 -5.352,-12 -12,-12 z"
-       fill="#2C2C2C"
+       fill="#1C1C1C"
        opacity="0.6"
        id="path1724"
        style="opacity:1" />
@@ -258,7 +258,7 @@
        y="-51"
        width="6"
        height="32"
-       fill="#2C2C2C"
+       fill="#1C1C1C"
        opacity="0.6"
        id="rect1727"
        style="opacity:1" />
@@ -268,7 +268,7 @@
      transform="matrix(1.3333,0,0,1.3333,26.6675,-1222.4486)">
     <path
        d="m 13,942.36 c 0,6.648 5.352,12 12,12 v -12 H 15 Z"
-       fill="#2C2C2C"
+       fill="#1C1C1C"
        opacity="0.6"
        id="path1730"
        style="opacity:1" />
@@ -278,7 +278,7 @@
      transform="matrix(1.3333,0,0,1.3333,12.0015,-1222.4486)">
     <path
        d="m 45,942.36 v 12 c 6.648,0 12,-5.352 12,-12 H 47 Z"
-       fill="#2C2C2C"
+       fill="#1C1C1C"
        opacity="0.6"
        id="path1733"
        style="opacity:1" />
@@ -292,7 +292,7 @@
        y="916.35999"
        width="6"
        height="32"
-       fill="#2C2C2C"
+       fill="#1C1C1C"
        opacity="0.6"
        id="rect1736"
        style="opacity:1" />
@@ -305,7 +305,7 @@
        y="916.35999"
        width="6"
        height="32"
-       fill="#2C2C2C"
+       fill="#1C1C1C"
        opacity="0.6"
        id="rect1739"
        style="opacity:1" />
@@ -316,7 +316,7 @@
      y="22"
      width="12"
      height="12"
-     fill="#2C2C2C"
+     fill="#1C1C1C"
      opacity=".6"
      style="opacity:1" />
   <rect
@@ -674,7 +674,7 @@
      x="85"
      y="31" />
   <rect
-     style="color:#2C2C2C;fill:#2C2C2C;fill-opacity:1;stroke:none;stop-color:#2C2C2C"
+     style="color:#1C1C1C;fill:#1C1C1C;fill-opacity:1;stroke:none;stop-color:#1C1C1C"
      id="thick-center"
      width="32"
      height="32"

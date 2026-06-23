@@ -98,8 +98,8 @@
         stop-color:#31363b;
       }
       .ColorScheme-Background {
-        color:#2C2C2C;
-        stop-color:#2C2C2C;
+        color:#1C1C1C;
+        stop-color:#1C1C1C;
       }
       .ColorScheme-Highlight {
         color:#60CDFF;
@@ -110,7 +110,7 @@
         stop-color:#31363b;
       }
       .ColorScheme-ViewBackground {
-        color:#2C2C2C;
+        color:#1C1C1C;
         stop-color:#3D3D3D;
       }
       .ColorScheme-ViewHover {
@@ -127,7 +127,7 @@
       }
       .ColorScheme-ButtonBackground {
         color:#3D3D3D;
-        stop-color:#2C2C2C;
+        stop-color:#1C1C1C;
       }
       .ColorScheme-ButtonHover {
         color:#4A4A4A;
@@ -265,11 +265,11 @@
        height="32"
        width="8.0000181"
        id="rect4152"
-       style="color:#2C2C2C;opacity:0.6;fill:#1e1e1e;fill-opacity:1;stroke:none;stroke-width:1.1547"
+       style="color:#1C1C1C;opacity:0.6;fill:#1C1C1C;fill-opacity:1;stroke:none;stroke-width:1.1547"
        transform="matrix(0,-1,-1,0,0,0)" />
     <rect
        transform="matrix(0,-1,-1,0,0,0)"
-       style="color:#2C2C2C;opacity:0.01;fill:url(#linearGradient925);fill-opacity:1;stroke:none;stroke-width:0.288684"
+       style="color:#1C1C1C;opacity:0.01;fill:url(#linearGradient925);fill-opacity:1;stroke:none;stroke-width:0.288684"
        id="rect76"
        width="0.50003201"
        height="32"
@@ -281,7 +281,7 @@
      transform="translate(31,-904.36218)">
     <path
        sodipodi:nodetypes="cccc"
-       style="opacity:0.6;fill:#1e1e1e;fill-opacity:1;stroke:none;stroke-width:2.66667"
+       style="opacity:0.6;fill:#1C1C1C;fill-opacity:1;stroke:none;stroke-width:2.66667"
        d="m 29,910.36218 c -8.863965,0 -16,7.13604 -16,16 h 16 z"
        id="rect4159"
        inkscape:connector-curvature="0" />
@@ -297,7 +297,7 @@
      height="12.000099"
      width="12.000099"
      id="center"
-     style="color:#2C2C2C;opacity:0.6;fill:#1e1e1e;fill-opacity:1;stroke:none;stroke-width:0.3750031" />
+     style="color:#1C1C1C;opacity:0.6;fill:#1C1C1C;fill-opacity:1;stroke:none;stroke-width:0.3750031" />
   <rect
      style="fill:#ff00ff;fill-opacity:1;stroke:none;stroke-width:0.7070992"
      id="hint-top-margin"
@@ -478,7 +478,7 @@
      x="135.99997"
      y="22" />
   <rect
-     style="color:#2C2C2C;opacity:0;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.375003"
+     style="color:#1C1C1C;opacity:0;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.375003"
      id="shadow-center"
      width="12.000099"
      height="12.000099"

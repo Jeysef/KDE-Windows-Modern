@@ -68,8 +68,8 @@
         stop-color:#31363b;
       }
       .ColorScheme-Background {
-        color:#2C2C2C;
-        stop-color:#2C2C2C;
+        color:#1C1C1C;
+        stop-color:#1C1C1C;
       }
       .ColorScheme-Highlight {
         color:#60CDFF;
@@ -80,7 +80,7 @@
         stop-color:#31363b;
       }
       .ColorScheme-ViewBackground {
-        color:#2C2C2C;
+        color:#1C1C1C;
         stop-color:#3D3D3D;
       }
       .ColorScheme-ViewHover {
@@ -97,7 +97,7 @@
       }
       .ColorScheme-ButtonBackground {
         color:#3D3D3D;
-        stop-color:#2C2C2C;
+        stop-color:#1C1C1C;
       }
       .ColorScheme-ButtonHover {
         color:#4A4A4A;
@@ -684,7 +684,7 @@
        height="12.000031"
        width="15.999976"
        id="2"
-       style="color:#2C2C2C;opacity:0.3;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
+       style="color:#1C1C1C;opacity:0.3;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
        transform="matrix(0,-1,-1,0,0,0)" />
     <rect
        y="-72"
@@ -692,14 +692,14 @@
        height="12.000031"
        width="15.999976"
        id="rect1295"
-       style="color:#2C2C2C;opacity:0.2;fill:#646464;fill-opacity:1;stroke:none;stroke-width:1"
+       style="color:#1C1C1C;opacity:0.2;fill:#646464;fill-opacity:1;stroke:none;stroke-width:1"
        transform="matrix(0,-1,-1,0,0,0)" />
   </g>
   <g
      id="bottom">
     <rect
        transform="rotate(90)"
-       style="color:#2C2C2C;opacity:0.3;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
+       style="color:#1C1C1C;opacity:0.3;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
        id="8"
        width="15.999974"
        height="12.000031"
@@ -707,7 +707,7 @@
        y="-72" />
     <rect
        transform="rotate(90)"
-       style="color:#2C2C2C;opacity:0.2;fill:#646464;fill-opacity:1;stroke:none;stroke-width:1"
+       style="color:#1C1C1C;opacity:0.2;fill:#646464;fill-opacity:1;stroke:none;stroke-width:1"
        id="rect1297"
        width="15.999974"
        height="12.000031"
@@ -718,7 +718,7 @@
      id="left">
     <rect
        transform="scale(-1,1)"
-       style="color:#2C2C2C;opacity:0.3;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
+       style="color:#1C1C1C;opacity:0.3;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1"
        id="4"
        width="15.999996"
        height="12.000088"
@@ -726,7 +726,7 @@
        y="21.999979" />
     <rect
        transform="scale(-1,1)"
-       style="color:#2C2C2C;opacity:0.2;fill:#646464;fill-opacity:1;stroke:none;stroke-width:1"
+       style="color:#1C1C1C;opacity:0.2;fill:#646464;fill-opacity:1;stroke:none;stroke-width:1"
        id="rect1299"
        width="15.999996"
        height="12.000088"
@@ -741,14 +741,14 @@
        height="12.000088"
        width="15.999982"
        id="6"
-       style="color:#2C2C2C;opacity:0.3;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1" />
+       style="color:#1C1C1C;opacity:0.3;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1" />
     <rect
        y="21.999979"
        x="72"
        height="12.000088"
        width="15.999982"
        id="rect1301"
-       style="color:#2C2C2C;opacity:0.2;fill:#646464;fill-opacity:1;stroke:none;stroke-width:1" />
+       style="color:#1C1C1C;opacity:0.2;fill:#646464;fill-opacity:1;stroke:none;stroke-width:1" />
   </g>
   <g
      id="center">
@@ -758,14 +758,14 @@
        height="12.000085"
        width="12.000099"
        id="5"
-       style="color:#2C2C2C;opacity:0.3;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.375003" />
+       style="color:#1C1C1C;opacity:0.3;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.375003" />
     <rect
        y="21.999985"
        x="59.999954"
        height="12.000085"
        width="12.000099"
        id="rect1303"
-       style="color:#2C2C2C;opacity:0.2;fill:#646464;fill-opacity:1;stroke:none;stroke-width:0.375003" />
+       style="color:#1C1C1C;opacity:0.2;fill:#646464;fill-opacity:1;stroke:none;stroke-width:0.375003" />
   </g>
   <g
      id="topleft">
