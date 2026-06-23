@@ -279,9 +279,9 @@ Inherited from Fluent (already Win11-correct):
 Inherited from Fluent: `transparent_ktitle_label=true`,
 `transparent_dolphin_view=true`, `transparent_pcmanfm_sidepane=true`,
 `transparent_pcmanfm_view=true`, `transparent_menutitle=true`,
-`transparent_arrow_button=true`, `respect_darkness=true` (dark only),
-`force_size_grip=true`, `iconless_pushbutton=false` (dark) / `true`
-(light), `single_top_toolbar=true`, `kcapacitybar_as_progressbar=true`.
+`transparent_arrow_button=true`, `respect_darkness=true` (both
+variants), `force_size_grip=true`, `iconless_pushbutton=false` (both
+variants), `single_top_toolbar=true`, `kcapacitybar_as_progressbar=true`.
 
 #### SVG element fills
 
@@ -297,7 +297,8 @@ The Fluent SVG fills were remapped to Win11 neutrals. The accent
 | `#000000` | unchanged | bevel/shadow overlays (translucent) |
 | `#0078D4` | unchanged | accent (checkbox/radio marks, progress, focus) |
 | `#202020` | unchanged | window/menubar/titlebar bg (dark) |
-| `#f04a50` | unchanged | mdi window-control hover glyphs |
+| `#f04a50` | `#C42B1C` (close) / text color (others) | mdi caption-button hover glyphs |
+| `#0078D4` (pressed) | text color | mdi caption-button pressed glyphs |
 | `#b74aff` | unchanged | shadow hint markers (arbitrary) |
 
 Shadow elements (`menu-shadow-*`, `tooltip-shadow-*`) use gradient
