@@ -92,6 +92,14 @@ The `contents/layout.js` creates:
 
 - Bottom panel, 48px tall (resizable after adding; 30-32px also works
   well), `alignment=center`, `lengthMode=fill`, no auto-hide.
+- **Applets-floating-only**: the panel strip is docked to the screen
+  edge (`floating=false`), but applets float with inset margins via
+  `floatingApplets=1` written to `plasmashellrc` `[PlasmaViews][Panel <id>]`.
+  This is Win11's behavior — taskbar buttons have air around them while
+  the bar itself hugs the edge. The scripting API has no direct setter
+  for `floatingApplets`, so it is written via the `ConfigFile` object.
+- Opaque background (`panel.opacity="opaque"`) — no adaptive
+  translucency toggling when windows touch the panel.
 - Widgets left→right:
   1. **Start** — `org.kde.plasma.kickoff` (icon `start-here`). The
      launcher glyph scales with panel height; at 48px it fills most of

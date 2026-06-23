@@ -14,11 +14,17 @@ panel.alignment = "center";
 panel.hiding = "none";
 panel.lengthMode = "fill";
 
-// Floating widgets: applets get inset margins so they appear to float
-// above the panel background with visible gaps around each widget. The
-// panel itself stays docked to the screen edge — only the applets float.
-// Matches Win11's taskbar where buttons have air around them.
-panel.floating = true;
+// Win11 taskbar style: the panel strip is docked to the screen edge
+// (NOT floating), but the applets inside float with inset margins.
+// The scripting API only exposes `panel.floating` (which floats the
+// whole panel strip). The "applets only" mode is a separate PanelView
+// property called `floatingApplets`, stored in plasmashellrc under
+// [PlasmaViews][Panel <id>]. We set it directly via ConfigFile because
+// there is no scripting setter for floatingApplets.
+panel.floating = false;
+var panelCfg = new ConfigFile("plasmashellrc", "PlasmaViews");
+var panelGroup = new ConfigFile(panelCfg, "Panel " + panel.id);
+panelGroup.writeEntry("floatingApplets", 1);
 
 // Opaque panel background: Plasma's default "adaptive" opacity toggles
 // translucency when windows touch the panel, which looks inconsistent.
