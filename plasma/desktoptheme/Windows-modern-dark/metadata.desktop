@@ -1,11 +1,11 @@
 [Desktop Entry]
 Name=Windows-modern-dark
-Comment=Windows-modern-dark desktop theme for KDE Plasma
+Comment=Windows Modern Dark desktop theme for KDE Plasma 6. Based on Win11OS-kde by yeyushengfan258.
 
-X-KDE-PluginInfo-Author=yeyushengfan258
-X-KDE-PluginInfo-Email=yeyushengfan258@outlook.com
+X-KDE-PluginInfo-Author=Jeysef
+X-KDE-PluginInfo-Email=
 X-KDE-PluginInfo-Name=Windows-modern-dark
-X-KDE-PluginInfo-Version=0.1
+X-KDE-PluginInfo-Version=1.0
 X-KDE-PluginInfo-Website=https://github.com/yeyushengfan258/Win11OS-kde
 X-KDE-PluginInfo-Category=
 X-KDE-PluginInfo-Depends=
