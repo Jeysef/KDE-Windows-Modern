@@ -27,7 +27,8 @@ look-and-feel package.
 | Token | Hex | Usage |
 |---|---|---|
 | Window/panel background | `#202020` | Aurorae window decoration bg |
-| Acrylic/popup background | `#2C2C2C` | Tooltips, flyouts, applet popups, panel |
+| Panel background (opaque) | `#1C1C1C` | Taskbar / panel fill when solid |
+| Acrylic/popup background | `#2C2C2C` | Tooltips, flyouts, applet popups |
 | Surface border (active) | `#3F3F3F` | Window borders, popup borders |
 | Surface border (inactive) | `#2A2A2A` | Inactive window borders |
 | Text (primary) | `#FFFFFF` | Title bar text, popup text, icons |
@@ -70,6 +71,8 @@ Based on the Win11OS-dark plasma theme by yeyushengfan258, with all
 
 #### Panel background (`widgets/panel-background.svg`)
 
+- **Dark fill `#1C1C1C`** when opaque (Win11 taskbar color); dialog
+  and popup backgrounds (`background.svg`) remain `#2C2C2C`.
 - **No shadow** — all `shadow-*` elements set to `opacity:0`,
   `shadow-hint-*-margin` rects zeroed (width/height = 0).
 - **48px panel height** supported (Win11 taskbar height) — the SVG
