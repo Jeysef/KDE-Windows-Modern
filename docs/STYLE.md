@@ -103,8 +103,10 @@ The `contents/layout.js` creates:
   4. **Digital clock** — `org.kde.plasma.digitalclock` pinned to
      Segoe UI Regular 10pt, no date, no seconds, 12h format. The fixed
      font size keeps the clock readable without dominating tall panels.
-  5. **Show Desktop** — `org.kde.plasma.showdesktop` (Win11's far-right
-     desktop-peek sliver).
+  5. **Show Desktop** — `org.kde.plasma.minimizeall` (toggles minimize-all
+     windows, not peek). Icon is blanked so it renders as a bare clickable
+     sliver at the far right, matching Win11's desktop-peek button. The
+     widget enforces a ~22px minimum width that can't be reduced further.
 
 This does not replace an existing panel automatically; users add it
 via right-click desktop → Add Panels → "Windows Modern Panel".
