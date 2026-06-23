@@ -16,7 +16,6 @@ import QtQuick.Layouts 1.3
 
 import org.kde.plasma.core as PlasmaCore
 import org.kde.kirigami as Kirigami
-import org.kde.ksvg as KSvg
 
 import org.kde.plasma.plasmoid
 
@@ -205,58 +204,6 @@ PlasmoidItem {
                     }
                 }
             ]
-        }
-
-        KSvg.FrameSvgItem {
-            property var containerMargins: {
-                let item = this;
-                while (item.parent) {
-                    item = item.parent;
-                    if (item.isAppletContainer) {
-                        return item.getMargins;
-                    }
-                }
-                return undefined;
-            }
-
-            anchors {
-                fill: parent
-                property bool returnAllMargins: true
-                topMargin: !vertical && containerMargins ? -containerMargins('top', returnAllMargins) : 0
-                leftMargin: vertical && containerMargins ? -containerMargins('left', returnAllMargins) : 0
-                rightMargin: vertical && containerMargins ? -containerMargins('right', returnAllMargins) : 0
-                bottomMargin: !vertical && containerMargins ? -containerMargins('bottom', returnAllMargins) : 0
-            }
-            imagePath: "widgets/tabbar"
-            visible: opacity > 0
-            prefix: {
-                let prefix;
-                switch (Plasmoid.location) {
-                case PlasmaCore.Types.LeftEdge:
-                    prefix = "west-active-tab";
-                    break;
-                case PlasmaCore.Types.TopEdge:
-                    prefix = "north-active-tab";
-                    break;
-                case PlasmaCore.Types.RightEdge:
-                    prefix = "east-active-tab";
-                    break;
-                default:
-                    prefix = "south-active-tab";
-                }
-                if (!hasElementPrefix(prefix)) {
-                    prefix = "active-tab";
-                }
-                return prefix;
-            }
-            opacity: activeController.active ? 1 : 0
-
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: Kirigami.Units.shortDuration
-                    easing.type: Easing.InOutQuad
-                }
-            }
         }
 
         PlasmaCore.ToolTipArea {

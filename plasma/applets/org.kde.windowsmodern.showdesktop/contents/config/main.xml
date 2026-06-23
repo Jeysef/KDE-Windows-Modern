@@ -8,7 +8,7 @@
   <group name="General">
     <entry name="size" type="int">
       <label>Width of the sliver in pixels.</label>
-      <default>8</default>
+      <default>6</default>
     </entry>
     <entry name="edgeColor" type="string">
       <label>Color of the separator line. Empty = theme text color at 40% alpha.</label>

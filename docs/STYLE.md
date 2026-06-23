@@ -92,12 +92,12 @@ The `contents/layout.js` creates:
 
 - Bottom panel, 48px tall (resizable after adding; 30-32px also works
   well), `alignment=center`, `lengthMode=fill`, no auto-hide.
-- **Applets-floating-only**: the panel strip is docked to the screen
-  edge (`floating=false`), but applets float with inset margins via
-  `floatingApplets=1` written to `plasmashellrc` `[PlasmaViews][Panel <id>]`.
-  This is Win11's behavior — taskbar buttons have air around them while
-  the bar itself hugs the edge. The scripting API has no direct setter
-  for `floatingApplets`, so it is written via the `ConfigFile` object.
+- Panel docked to screen edge (`floating=false`). "Applets Only"
+  floating (applets inset, panel docked) cannot be set from a layout
+  script — the `floatingApplets` PanelView property is not exposed in
+  the Plasma scripting API, and writing it via `ConfigFile` doesn't
+  work because plasmashell holds config in memory. Users must toggle
+  "Floating → Applets Only" manually in Panel Settings after adding.
 - Opaque background (`panel.opacity="opaque"`) — no adaptive
   translucency toggling when windows touch the panel.
 - Widgets left→right:
@@ -112,7 +112,7 @@ The `contents/layout.js` creates:
      Segoe UI Regular 10pt, no date, no seconds, 12h format. The fixed
      font size keeps the clock readable without dominating tall panels.
   5. **Show Desktop** — `org.kde.windowsmodern.showdesktop`, a custom
-     forked applet (see below). Renders as an 8px-wide bare sliver with
+     forked applet (see below). Renders as an 6px-wide bare sliver with
      a 1px separator line on its left edge, no icon. Click minimizes all
      windows; click again restores.
 
@@ -126,7 +126,7 @@ A simplified fork of [Zren's plasma-applet-win7showdesktop](https://github.com/Z
 the essentials for the Win11 look:
 
 - **Thin sliver** — `Layout.maximumWidth` is driven by the `size`
-  config key (default 8px), overriding the upstream 22px floor.
+  config key (default 6px), overriding the upstream 22px floor.
 - **No icon** — the `Kirigami.Icon` is only visible in edit mode.
 - **Minimize-all** — uses `MinimizeAllController` (toggle minimize on
   all windows) rather than peek.
@@ -134,11 +134,14 @@ the essentials for the Win11 look:
   the theme text color at 40% alpha (or the `edgeColor` config key).
 - **Hover/press surfaces** — translucent rectangles using
   `Kirigami.Theme.backgroundColor` / `hoverColor`.
+- **No active indicator** — the upstream `widgets/tabbar` FrameSvg
+  overlay (blue line on top when active) is removed; Win11's sliver
+  has no such indicator.
 
 Removed from the upstream fork: command controller, mousewheel volume,
 peek-on-hover, openSUSE qdbus detection, `Plasma5Support.DataSource`.
 
-Config keys (`contents/config/main.xml`): `size` (int, default 8),
+Config keys (`contents/config/main.xml`): `size` (int, default 6),
 `edgeColor`, `hoveredColor`, `pressedColor` (strings, empty = theme
 defaults). Installed to `~/.local/share/plasma/plasmoids/` (or
 `/usr/share/plasma/plasmoids/` as root) by `install.sh`.

@@ -14,17 +14,16 @@ panel.alignment = "center";
 panel.hiding = "none";
 panel.lengthMode = "fill";
 
-// Win11 taskbar style: the panel strip is docked to the screen edge
-// (NOT floating), but the applets inside float with inset margins.
-// The scripting API only exposes `panel.floating` (which floats the
-// whole panel strip). The "applets only" mode is a separate PanelView
-// property called `floatingApplets`, stored in plasmashellrc under
-// [PlasmaViews][Panel <id>]. We set it directly via ConfigFile because
-// there is no scripting setter for floatingApplets.
+// Panel is docked to the screen edge (NOT floating).
+// NOTE: "Applets Only" floating (panel docked + applets inset) cannot be
+// set from a layout script. It requires the PanelView property
+// `floatingApplets`, which is not exposed in the Plasma scripting API.
+// Writing it via ConfigFile("plasmashellrc") does NOT work because
+// plasmashell holds its config in memory (KSharedConfig) and won't see
+// an external write — PanelView reads floatingApplets from its in-memory
+// cache and gets the default (false). Users must toggle "Floating →
+// Applets Only" manually in Panel Settings after adding this panel.
 panel.floating = false;
-var panelCfg = new ConfigFile("plasmashellrc", "PlasmaViews");
-var panelGroup = new ConfigFile(panelCfg, "Panel " + panel.id);
-panelGroup.writeEntry("floatingApplets", 1);
 
 // Opaque panel background: Plasma's default "adaptive" opacity toggles
 // translucency when windows touch the panel, which looks inconsistent.
@@ -78,7 +77,7 @@ clock.writeConfig("use24hFormat", "0");
 //    as an 8px-wide bare sliver with a 1px separator line, no icon.
 var peek = panel.addWidget("org.kde.windowsmodern.showdesktop");
 peek.currentConfigGroup = new Array("General");
-peek.writeConfig("size", "8");
+peek.writeConfig("size", "6");
 
 // Ensure correct ordering by index.
 start.index = 0;
