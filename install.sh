@@ -48,7 +48,10 @@ install() {
   if [ -d "${SRC_DIR}/icons/WindowsModern" ]; then
     rm -rf ${ICONS_DIR}/WindowsModern
     cp -r ${SRC_DIR}/icons/WindowsModern                                             ${ICONS_DIR}
-    rm -f ${ICONS_DIR}/WindowsModern/icon-theme.cache
+    # Refresh the icon cache at the destination so it matches the install path
+    if command -v gtk-update-icon-cache &>/dev/null; then
+      gtk-update-icon-cache -f ${ICONS_DIR}/WindowsModern &>/dev/null || true
+    fi
   fi
 }
 

@@ -240,14 +240,21 @@ ColorScheme=WindowsModern{Dark,Light}
 
 ### Icons
 
-Location: `icons/WindowsModern/` (gitignored — ~580MB)
+Location: `icons/WindowsModern/` (gitignored — ~145MB)
 
-Win11 icon theme by yeyushengfan258 (based on Yaru), shipping
-16/22/24/32/48/64/scalable/symbolic sizes with Win11-style folder
-colors and app icons. Inherits `breeze-dark,hicolor`. Installed to
-`~/.local/share/icons/WindowsModern` (or `/usr/share/icons/` as root)
-and wired as the default icon theme in both look-and-feel `defaults`
-files. The `icon-theme.cache` is stripped at install time.
+Win11 icon theme by yeyushengfan258 (based on Yaru), restructured
+to a clean freedesktop layout: `<size>/<context>/` fixed tiers
+(8, 16, 22, 24, 32, 48, 64 + @2x where genuine HiDPI art exists),
+`scalable/<context>/` (16-256px), and `symbolic/<context>/`
+(8-512px monochrome). The original dual-layout duplication
+(parallel `<context>/<size>/` trees with conflicting artwork) was
+removed along with 23,340 byte-identical @2x copies, cutting the
+theme from 583MB / 98k SVGs to 145MB / 25k SVGs (7,313 unique
+names). Orphaned `status/weatheralt/` weather icons were migrated
+to `scalable/status/`. `index.theme` rewritten with 88 directory
+entries and correct `Context=Categories` (was `Applications`)
+labeling. Inherits `breeze-dark,hicolor`. The `icon-theme.cache`
+is rebuilt at install time via `gtk-update-icon-cache`.
 
 ---
 
