@@ -43,14 +43,17 @@ var tray = panel.addWidget("org.kde.plasma.systemtray");
 // 4. Digital clock — Win11 puts the clock at the far right, in a small
 //    Segoe UI Regular weight. Pin the font to 10pt so it stays readable
 //    but does not dominate the panel at 48px.
+//    IMPORTANT: autoFontAndSize must be set to false; otherwise Plasma
+//    ignores fontFamily/fontSize and auto-sizes the text to the panel.
 var clock = panel.addWidget("org.kde.plasma.digitalclock");
 clock.currentConfigGroup = new Array("Appearance");
-clock.writeConfig("showDate", "false");
-clock.writeConfig("showSeconds", "false");
-clock.writeConfig("use24hFormat", "0");
+clock.writeConfig("autoFontAndSize", "false");
 clock.writeConfig("fontFamily", "Segoe UI");
 clock.writeConfig("fontStyleName", "Regular");
 clock.writeConfig("fontSize", "10");
+clock.writeConfig("showDate", "false");
+clock.writeConfig("showSeconds", "0");
+clock.writeConfig("use24hFormat", "0");
 
 // 5. Show Desktop button (Win11's far-right sliver that peeks at the desktop).
 var peek = panel.addWidget("org.kde.plasma.showdesktop");
