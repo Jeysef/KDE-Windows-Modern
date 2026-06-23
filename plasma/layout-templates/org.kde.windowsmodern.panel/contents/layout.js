@@ -55,15 +55,8 @@ clock.writeConfig("showDate", "false");
 clock.writeConfig("showSeconds", "0");
 clock.writeConfig("use24hFormat", "0");
 
-// 5. Show Desktop — uses the minimizeall variant (toggles minimize-all
-//    windows rather than peek). Icon is blanked so it renders as a bare
-//    clickable sliver at the far right, matching Win11's desktop-peek
-//    button. The widget enforces a ~22px minimum width (iconSizes.medium)
-//    which can't be reduced further via config; that gives a thin but
-//    usable click target.
-var peek = panel.addWidget("org.kde.plasma.minimizeall");
-peek.currentConfigGroup = new Array("General");
-peek.writeConfig("icon", "");
+// 5. Show Desktop button (Win11's far-right sliver that peeks at the desktop).
+var peek = panel.addWidget("org.kde.plasma.showdesktop");
 
 // Ensure correct ordering by index.
 start.index = 0;
