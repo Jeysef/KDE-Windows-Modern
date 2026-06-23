@@ -41,6 +41,7 @@ uninstall() {
   [[ -d ${SCHEMES_DIR}/${name}.colors ]] && rm -rfv ${SCHEMES_DIR}/${name}.colors
   [[ -d ${WALLPAPER_DIR}/Layan ]] && rm -rfv ${WALLPAPER_DIR}/${name}
   [[ -d ${ICONS_DIR}/windows-modern ]] && rm -rfv ${ICONS_DIR}/windows-modern
+  [[ -d ${LAYOUT_DIR}/org.kde.windowsmodern.panel ]] && rm -rfv ${LAYOUT_DIR}/org.kde.windowsmodern.panel
 }
 
 echo "Uninstalling '${THEME_NAME} kde themes'..."

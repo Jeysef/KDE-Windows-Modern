@@ -33,6 +33,7 @@ THEME_NAME=Windows-modern
 [[ ! -d ${KVANTUM_DIR} ]] && mkdir -p ${KVANTUM_DIR}
 [[ ! -d ${WALLPAPER_DIR} ]] && mkdir -p ${WALLPAPER_DIR}
 [[ ! -d ${ICONS_DIR} ]] && mkdir -p ${ICONS_DIR}
+[[ ! -d ${LAYOUT_DIR} ]] && mkdir -p ${LAYOUT_DIR}
 
 install() {
   local name=${1}
@@ -52,6 +53,12 @@ install() {
     if command -v gtk-update-icon-cache &>/dev/null; then
       gtk-update-icon-cache -f ${ICONS_DIR}/windows-modern &>/dev/null || true
     fi
+  fi
+
+  # Panel layout template (Win11-style centered taskbar)
+  if [ -d "${SRC_DIR}/plasma/layout-templates/org.kde.windowsmodern.panel" ]; then
+    rm -rf ${LAYOUT_DIR}/org.kde.windowsmodern.panel
+    cp -r ${SRC_DIR}/plasma/layout-templates/org.kde.windowsmodern.panel             ${LAYOUT_DIR}
   fi
 }
 

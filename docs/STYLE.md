@@ -72,12 +72,36 @@ Based on the Win11OS-dark plasma theme by yeyushengfan258, with all
 
 - **No shadow** — all `shadow-*` elements set to `opacity:0`,
   `shadow-hint-*-margin` rects zeroed (width/height = 0).
-- **30px panel height** supported — hint margins are 4px top/bottom,
-  corner elements ~11px, leaving adequate center space.
+- **48px panel height** supported (Win11 taskbar height) — the SVG
+  hint margins scale cleanly to the taller panel; the original
+  30px is also still usable.
 - Three variants maintained: `widgets/`, `solid/widgets/`,
   `translucent/widgets/`.
 - Light variant uses reduced border opacity (0.08 vs 0.3) for
   visibility on light backgrounds.
+
+#### Panel layout template (`plasma/layout-templates/org.kde.windowsmodern.panel/`)
+
+A Plasma 6 layout-template package that builds a Win11-style taskbar
+when selected from **Add Panels** in the desktop context menu, or
+applied via `kpackagetool6`. Installed to
+`~/.local/share/plasma/layout-templates/` (or `/usr/share/` as root)
+by `install.sh`.
+
+The `contents/layout.js` creates:
+
+- Bottom panel, 48px tall, `alignment=center`, `lengthMode=fill`,
+  no auto-hide.
+- Widgets left→right:
+  1. **Start** — `org.kde.plasma.kickoff` (icon `start-here`)
+  2. **Icon-only task manager** — `org.kde.plasma.icontasks` (fills
+     the center, grouped by app)
+  3. **System tray** — `org.kde.plasma.systemtray`
+  4. **Digital clock** — `org.kde.plasma.digitalclock` (no date,
+     no seconds, 12h format)
+
+This does not replace an existing panel automatically; users add it
+via right-click desktop → Add Panels → "Windows Modern Panel".
 
 #### Popups / tooltips
 
@@ -299,6 +323,8 @@ windows_modern2/
 │   ├── desktoptheme/
 │   │   ├── Windows-modern-dark/         # Dark plasma theme (165 SVGs)
 │   │   └── Windows-modern-light/        # Light plasma theme (165 SVGs)
+│   ├── layout-templates/
+│   │   └── org.kde.windowsmodern.panel/ # Win11 centered taskbar layout
 │   └── look-and-feel/
 │       ├── com.github.yeyushengfan258.Windows-modern-dark/
 │       └── com.github.yeyushengfan258.Windows-modern-light/

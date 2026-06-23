@@ -1,0 +1,23 @@
+{
+    "KPackageStructure": "Plasma/LayoutTemplate",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "",
+                "Name": "Jeysef"
+            }
+        ],
+        "Category": "Panels",
+        "EnabledByDefault": true,
+        "Description": "Windows 11 style centered taskbar panel for Plasma 6.",
+        "Id": "org.kde.windowsmodern.panel",
+        "License": "GPL-3.0-or-later",
+        "Name": "Windows Modern Panel",
+        "Version": "1.0",
+        "Website": "https://github.com/yeyushengfan258/Win11OS-kde"
+    },
+    "X-Plasma-ContainmentCategories": [
+        "panel"
+    ],
+    "X-Plasma-Shell": "plasma-desktop"
+}
