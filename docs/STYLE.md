@@ -183,8 +183,29 @@ Location: `Kvantum/Windows-modern-{dark,light}/`
 SVG-based Qt widget theme. Both variants are **fully opaque** —
 `composite=false`, `translucent_windows=false`, `blurring=false`,
 `popup_blurring=false`. No Kvantum-added menu/tooltip shadows
-(`menu_shadow_depth=0`, `tooltip_shadow_depth=0`); rely on the WM/DE
-for popup shadows instead.
+(`menu_shadow_depth=0`, `tooltip_shadow_depth=0`,
+`shadowless_popup=true`); rely on the WM/DE for popup shadows
+instead. The SVG `menu-shadow-*` and `tooltip-shadow-*` element
+trees were emptied (replaced with zero-size placeholders) so no
+translucent halo renders around popups.
+
+##### Tradeoffs of the opaque model
+
+Turning off compositing removed several Matura/KvAdapta effects:
+
+- **Popup acrylic blur** — menus/tooltips are now flat solid
+  `#2C2C2C` instead of blurred-acrylic. Win11 flyouts use acrylic;
+  this is the main fidelity loss. Could be restored selectively via
+  `composite=true` + `popup_blurring=true` while keeping
+  `translucent_windows=false`.
+- **App-window translucency** — windows are fully opaque (no mica).
+  `reduce_window_opacity` negative-value inactive dimming is inert.
+- **Curated soft drop shadows** on popups replaced by KWin's default
+  popup shadow (tuned down via `shadowless_popup=true`).
+
+What was **not** lost: the alt-tab / tabbox blur (KWin Blur effect
+on the switcher QML, independent of Kvantum), aurorae decoration
+(always opaque), and plasma panel/popup SVGs (already solid).
 
 #### `[GeneralColors]` palette
 
