@@ -90,15 +90,21 @@ by `install.sh`.
 
 The `contents/layout.js` creates:
 
-- Bottom panel, 48px tall, `alignment=center`, `lengthMode=fill`,
-  no auto-hide.
+- Bottom panel, 48px tall (resizable after adding; 30-32px also works
+  well), `alignment=center`, `lengthMode=fill`, no auto-hide.
 - Widgets left→right:
-  1. **Start** — `org.kde.plasma.kickoff` (icon `start-here`)
+  1. **Start** — `org.kde.plasma.kickoff` (icon `start-here`). The
+     launcher glyph scales with panel height; at 48px it fills most of
+     the panel. For a proportionally smaller logo use ~32px or adjust
+     Kickoff's "Icon size" setting after adding the panel.
   2. **Icon-only task manager** — `org.kde.plasma.icontasks` (fills
      the center, grouped by app)
   3. **System tray** — `org.kde.plasma.systemtray`
-  4. **Digital clock** — `org.kde.plasma.digitalclock` (no date,
-     no seconds, 12h format)
+  4. **Digital clock** — `org.kde.plasma.digitalclock` pinned to
+     Segoe UI Regular 10pt, no date, no seconds, 12h format. The fixed
+     font size keeps the clock readable without dominating tall panels.
+  5. **Show Desktop** — `org.kde.plasma.showdesktop` (Win11's far-right
+     desktop-peek sliver).
 
 This does not replace an existing panel automatically; users add it
 via right-click desktop → Add Panels → "Windows Modern Panel".
