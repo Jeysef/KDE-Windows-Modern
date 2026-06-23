@@ -11,15 +11,7 @@
       <default>6</default>
     </entry>
     <entry name="edgeColor" type="string">
-      <label>Color of the separator line. Empty = theme text color at 40% alpha.</label>
-      <default></default>
-    </entry>
-    <entry name="hoveredColor" type="string">
-      <label>Background color on hover. Empty = theme background color.</label>
-      <default></default>
-    </entry>
-    <entry name="pressedColor" type="string">
-      <label>Background color when pressed. Empty = theme hover color.</label>
+      <label>Color of the hover line. Empty = theme text color at 50% alpha.</label>
       <default></default>
     </entry>
   </group>

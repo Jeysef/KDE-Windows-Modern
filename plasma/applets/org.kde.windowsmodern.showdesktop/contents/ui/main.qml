@@ -112,98 +112,20 @@ PlasmoidItem {
             }
         }
 
-        component ButtonSurface : Rectangle {
-            property var containerMargins: {
-                let item = this;
-                while (item.parent) {
-                    item = item.parent;
-                    if (item.isAppletContainer) {
-                        return item.getMargins;
-                    }
-                }
-                return undefined;
-            }
-
-            anchors {
-                fill: parent
-                property bool returnAllMargins: true
-                topMargin: !vertical && containerMargins ? -containerMargins('top', returnAllMargins) : 0
-                leftMargin: vertical && containerMargins ? -containerMargins('left', returnAllMargins) : 0
-                rightMargin: vertical && containerMargins ? -containerMargins('right', returnAllMargins) : 0
-                bottomMargin: !vertical && containerMargins ? -containerMargins('bottom', returnAllMargins) : 0
-            }
-            Behavior on opacity { OpacityAnimator { duration: Kirigami.Units.longDuration; easing.type: Easing.OutCubic } }
-        }
-
-        ButtonSurface {
-            id: hoverSurface
-            color: Plasmoid.configuration.hoveredColor || Kirigami.Theme.backgroundColor
-            opacity: mouseArea.state === "hover" ? 1 : 0
-        }
-
-        ButtonSurface {
-            id: pressedSurface
-            color: Plasmoid.configuration.pressedColor || Kirigami.Theme.hoverColor
-            opacity: mouseArea.state === "pressed" ? 1 : 0
-        }
-
+        // Win11 show-desktop: invisible by default. On hover, a short
+        // vertical line (50% of panel height, centered) fades in. No
+        // background fill, no separator line.
         Rectangle {
-            id: edgeLine
-            states: [
-                State {
-                    name: "desktopWidget"
-                    when: !root.inPanel
-                    AnchorChanges {
-                        target: edgeLine
-                        anchors.left: edgeLine.parent.left
-                        anchors.right: edgeLine.parent.right
-                        anchors.top: edgeLine.parent.top
-                        anchors.bottom: edgeLine.parent.bottom
-                    }
-                    PropertyChanges {
-                        target: edgeLine
-                        color: "transparent"
-                        border.color: Plasmoid.configuration.edgeColor || Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.4)
-                        border.width: 1
-                    }
-                },
-                State {
-                    name: "horizontalPanel"
-                    when: root.horizontal
-                    AnchorChanges {
-                        target: edgeLine
-                        anchors.left: edgeLine.parent.left
-                        anchors.right: undefined
-                        anchors.top: edgeLine.parent.top
-                        anchors.bottom: edgeLine.parent.bottom
-                    }
-                    PropertyChanges {
-                        target: edgeLine
-                        color: Plasmoid.configuration.edgeColor || Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.4)
-                        width: 1
-                        border.color: "transparent"
-                        border.width: 0
-                    }
-                },
-                State {
-                    name: "verticalPanel"
-                    when: root.vertical
-                    AnchorChanges {
-                        target: edgeLine
-                        anchors.left: edgeLine.parent.left
-                        anchors.right: edgeLine.parent.right
-                        anchors.top: edgeLine.parent.top
-                        anchors.bottom: undefined
-                    }
-                    PropertyChanges {
-                        target: edgeLine
-                        color: Plasmoid.configuration.edgeColor || Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.4)
-                        height: 1
-                        border.color: "transparent"
-                        border.width: 0
-                    }
-                }
-            ]
+            id: hoverLine
+            color: Plasmoid.configuration.edgeColor
+                  || Qt.rgba(Kirigami.Theme.textColor.r,
+                             Kirigami.Theme.textColor.g,
+                             Kirigami.Theme.textColor.b, 0.5)
+            width: 1
+            height: root.vertical ? parent.height * 0.5 : parent.height * 0.5
+            anchors.centerIn: parent
+            opacity: mouseArea.state === "hover" || mouseArea.state === "pressed" ? 1 : 0
+            Behavior on opacity { OpacityAnimator { duration: Kirigami.Units.shortDuration; easing.type: Easing.InOutQuad } }
         }
 
         PlasmaCore.ToolTipArea {

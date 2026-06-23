@@ -130,20 +130,18 @@ the essentials for the Win11 look:
 - **No icon** — the `Kirigami.Icon` is only visible in edit mode.
 - **Minimize-all** — uses `MinimizeAllController` (toggle minimize on
   all windows) rather than peek.
-- **Separator line** — a 1px rectangle on the left edge colored from
-  the theme text color at 40% alpha (or the `edgeColor` config key).
-- **Hover/press surfaces** — translucent rectangles using
-  `Kirigami.Theme.backgroundColor` / `hoverColor`.
-- **No active indicator** — the upstream `widgets/tabbar` FrameSvg
-  overlay (blue line on top when active) is removed; Win11's sliver
-  has no such indicator.
+- **Win11 hover indicator** — invisible by default. On hover, a 1px
+  vertical line (50% of panel height, centered) fades in at 50% text
+  color alpha. No background fill, no separator line — matches Win11
+  exactly.
+- **No active indicator** — no overlay when windows are minimized.
 
 Removed from the upstream fork: command controller, mousewheel volume,
 peek-on-hover, openSUSE qdbus detection, `Plasma5Support.DataSource`.
 
 Config keys (`contents/config/main.xml`): `size` (int, default 6),
-`edgeColor`, `hoveredColor`, `pressedColor` (strings, empty = theme
-defaults). Installed to `~/.local/share/plasma/plasmoids/` (or
+`edgeColor` (string, empty = theme text color @ 50% alpha for the hover
+line). Installed to `~/.local/share/plasma/plasmoids/` (or
 `/usr/share/plasma/plasmoids/` as root) by `install.sh`.
 
 #### Popups / tooltips
