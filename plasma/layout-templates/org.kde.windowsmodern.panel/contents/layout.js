@@ -13,12 +13,6 @@ panel.height = 48;
 panel.alignment = "center";
 panel.hiding = "none";
 panel.lengthMode = "fill";
-// Floating widgets: applets get inset margins so they appear to float
-// above the panel background with visible gaps around each widget.
-// This does NOT make the panel itself float — the panel stays anchored
-// to the screen edge. Matches Win11's taskbar where buttons have air
-// around them rather than sitting flush.
-panel.floating = true;
 
 // --- Widgets -------------------------------------------------------------
 // Order of addWidget calls determines left-to-right order in the panel.
