@@ -14,11 +14,11 @@ import org.kde.taskmanager 0.1 as TaskManager
 Controller {
     id: controller
 
-    titleActive: i18ndc("plasma_applet_org.kde.plasma.showdesktop", "@action:button", "Restore All Minimized Windows")
-    titleInactive: i18ndc("plasma_applet_org.kde.plasma.showdesktop", "@action:button", "Minimize All Windows")
+    titleActive: i18ndc("plasma_applet_org.kde.plasma.showdesktop", "@action:button", "Show desktop")
+    titleInactive: i18ndc("plasma_applet_org.kde.plasma.showdesktop", "@action:button", "Show desktop")
 
-    descriptionActive: i18ndc("plasma_applet_org.kde.plasma.showdesktop", "@info:tooltip", "Restores the previously minimized windows")
-    descriptionInactive: i18ndc("plasma_applet_org.kde.plasma.showdesktop", "@info:tooltip", "Shows the Desktop by minimizing all windows")
+    descriptionActive: ""
+    descriptionInactive: ""
 
     readonly property QtObject tasksModel: TaskManager.TasksModel {
         id: tasksModel
