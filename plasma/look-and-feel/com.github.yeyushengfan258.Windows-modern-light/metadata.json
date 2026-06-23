@@ -12,10 +12,10 @@
             "Plasma/LookAndFeel"
         ],
         "EnabledByDefault": true,
-        "Description": "Windows Modern Dark theme for KDE Plasma 6. Based on Win11OS-kde by yeyushengfan258.",
-        "Id": "com.github.yeyushengfan258.Windows-modern-dark",
+        "Description": "Windows Modern Light theme for KDE Plasma 6. Based on Win11OS-kde by yeyushengfan258.",
+        "Id": "com.github.yeyushengfan258.Windows-modern-light",
         "License": "GPLv3",
-        "Name": "Windows Modern Dark",
+        "Name": "Windows Modern Light",
         "Website": "https://github.com/yeyushengfan258/Win11OS-kde"
     },
     "Keywords": "Desktop;Workspace;Appearance;Look and Feel;Logout;Lock;Suspend;Shutdown;Hibernate;",
@@ -23,12 +23,12 @@
     "X-Plasma-MainScript": "defaults",
     "X-Plasma-APIVersion": "2",
     "X-KPackage-Dependencies": [
-        "kns://colorschemes.knsrc/api.kde-look.org/1373641",
-        "kns://plasma-themes.knsrc/api.kde-look.org/1373645",
-        "kns://aurorae.knsrc/api.kde-look.org/1373642",
-        "kns://wallpaper.knsrc/api.kde-look.org/1400964",
-        "kns://sddmtheme.knsrc/api.kde-look.org/1373643",
-        "kns://icons.knsrc/api.kde-look.org/1546069",
-        "kns://xcursor.knsrc/api.kde-look.org/1423341"
+        "kns://colorschemes.knsrc/api.kde-look.org/1373213",
+        "kns://plasma-themes.knsrc/api.kde-look.org/1373219",
+        "kns://aurorae.knsrc/api.kde-look.org/1373215",
+        "kns://wallpaper.knsrc/api.kde-look.org/1373212",
+        "kns://sddmtheme.knsrc/api.kde-look.org/1373216",
+        "kns://icons.knsrc/api.kde-look.org/1440037",
+        "kns://xcursor.knsrc/api.kde-look.org/1381566"
     ]
 }
