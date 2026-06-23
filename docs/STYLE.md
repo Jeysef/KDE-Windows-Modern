@@ -232,7 +232,7 @@ theme=__aurorae__svg__windows-modern-{dark,light}-aurorae
 name=Windows-modern-{dark,light}
 
 [kdeglobals][Icons]
-Theme=WindowsModern
+Theme=windows-modern
 
 [kdeglobals][General]
 ColorScheme=WindowsModern{Dark,Light}
@@ -240,7 +240,7 @@ ColorScheme=WindowsModern{Dark,Light}
 
 ### Icons
 
-Location: `icons/WindowsModern/` (gitignored — ~145MB)
+Location: `icons/windows-modern/` (gitignored — ~145MB)
 
 Win11 icon theme by yeyushengfan258 (based on Yaru), restructured
 to a clean freedesktop layout: `<size>/<context>/` fixed tiers
@@ -294,7 +294,7 @@ windows_modern2/
 │   ├── Windows-modern-dark/
 │   └── Windows-modern-light/
 ├── icons/
-│   └── WindowsModern/                    # Win11 icon theme (gitignored)
+│   └── windows-modern/                   # Win11 icon theme (gitignored)
 ├── plasma/
 │   ├── desktoptheme/
 │   │   ├── Windows-modern-dark/         # Dark plasma theme (165 SVGs)

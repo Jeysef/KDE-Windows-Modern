@@ -5,7 +5,7 @@ cursorTheme=Windows-modern-dark-cursors
 ColorScheme=WindowsModernDark
 
 [kdeglobals][Icons]
-Theme=WindowsModern
+Theme=windows-modern
 
 [kdeglobals][KDE]
 widgetStyle=kvantum

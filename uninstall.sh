@@ -40,7 +40,7 @@ uninstall() {
   [[ -d ${KVANTUM_THEME}/${name} ]] && rm -rfv ${KVANTUM_THEME}/${name}
   [[ -d ${SCHEMES_DIR}/${name}.colors ]] && rm -rfv ${SCHEMES_DIR}/${name}.colors
   [[ -d ${WALLPAPER_DIR}/Layan ]] && rm -rfv ${WALLPAPER_DIR}/${name}
-  [[ -d ${ICONS_DIR}/WindowsModern ]] && rm -rfv ${ICONS_DIR}/WindowsModern
+  [[ -d ${ICONS_DIR}/windows-modern ]] && rm -rfv ${ICONS_DIR}/windows-modern
 }
 
 echo "Uninstalling '${THEME_NAME} kde themes'..."
