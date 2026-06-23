@@ -3929,31 +3929,31 @@
        fill="#dfdfdf"
        opacity=".3" />
   </g>
-  <path
-     id="titlebar-normal"
-     d="m395.84 407.05v32h32v-32z"
-     fill="#31313a" />
+   <path
+      id="titlebar-normal"
+      d="m395.84 407.05v32h32v-32z"
+      fill="#202020" />
   <use
      id="titlebar-focused"
      transform="translate(4.3816e-8 -45)"
      width="100%"
      height="100%"
      xlink:href="#titlebar-normal" />
-  <rect
-     id="lineedit-normal"
-     x="323.2"
-     y="109.94"
-     width="10"
-     height="10"
-     fill="#31313a"
-     style="opacity:0.15" />
-  <rect
-     id="combo-normal"
-     x="417.2"
-     y="96.443"
-     width="10"
-     height="10"
-     fill="#31313a" />
+   <rect
+      id="lineedit-normal"
+      x="323.2"
+      y="109.94"
+      width="10"
+      height="10"
+      fill="#2c2c2c"
+      style="opacity:1" />
+   <rect
+      id="combo-normal"
+      x="417.2"
+      y="96.443"
+      width="10"
+      height="10"
+      fill="#2c2c2c" />
   <g
      id="g1018"
      fill="#25252d">
@@ -3988,10 +3988,10 @@
        id="header-normal-topleft"
        d="m90 110.88h-6v6h6z" />
   </g>
-  <path
-     id="header-normal"
-     d="m78 110.88v-6h-6v6z"
-     fill="#44454b" />
+   <path
+      id="header-normal"
+      d="m78 110.88v-6h-6v6z"
+      fill="#2c2c2c" />
   <path
      id="header-pressed"
      d="m146 104.88h-6v6h6z"
@@ -4068,14 +4068,14 @@
      style="opacity:0.18999999;fill:#ffffff" />
   <path
      inkscape:connector-curvature="0"
-     style="opacity:0.5;fill:#000000;fill-rule:evenodd;paint-order:normal;fill-opacity:1"
-     d="m 370.79,887.72 h 30 v 30 h -30 z"
-     id="window-normal" />
+      style="opacity:1;fill:#202020;fill-rule:evenodd;paint-order:normal;fill-opacity:1"
+      d="m 370.79,887.72 h 30 v 30 h -30 z"
+      id="window-normal" />
   <path
      inkscape:connector-curvature="0"
-     style="opacity:0.3;fill:#000000;fill-rule:evenodd;paint-order:normal;fill-opacity:1"
-     d="m 402.79,887.72 h 30 v 30 h -30 z"
-     id="window-normal-inactive" />
+      style="opacity:1;fill:#2c2c2c;fill-rule:evenodd;paint-order:normal;fill-opacity:1"
+      d="m 402.79,887.72 h 30 v 30 h -30 z"
+      id="window-normal-inactive" />
   <g
      id="flatbutton-normal-topleft"
      transform="matrix(0.9447,0,0,0.94482,-9.996,-54)"
@@ -4905,12 +4905,12 @@
        style="opacity:0;fill:url(#linearGradient2101)" />
   </g>
   <rect
-     style="fill:#1f2022;fill-opacity:1;opacity:0.001"
-     y="860"
-     x="376"
-     height="20"
-     width="20"
-     id="menubar-normal" />
+      style="fill:#202020;fill-opacity:1;opacity:1"
+      y="860"
+      x="376"
+      height="20"
+      width="20"
+      id="menubar-normal" />
   <rect
      style="fill:#1f2022;fill-opacity:1;opacity:0.001"
      transform="rotate(90)"
@@ -5347,10 +5347,10 @@
        style="opacity:0.5;fill:#000000;fill-opacity:1;stroke-width:0.447214"
        d="m 39,42 v 26 h 1 V 42 Z" />
   </g>
-  <path
-     id="button-normal"
-     style="opacity:0.3;fill:#323232;fill-opacity:1"
-     d="M 9,41 V 67 H 35 V 41 Z" />
+   <path
+      id="button-normal"
+      style="opacity:1;fill:#2c2c2c;fill-opacity:1"
+      d="M 9,41 V 67 H 35 V 41 Z" />
   <g
      id="button-focused-bottom"
      transform="translate(0,-1)">
@@ -5402,10 +5402,10 @@
        style="fill:#969696;fill-opacity:1;opacity:0.5"
        d="m 83,42 v 26 h 5 V 42 Z" />
   </g>
-  <path
-     id="button-focused"
-     style="fill:#969696;fill-opacity:1;opacity:0.5"
-     d="M 57,41 V 67 H 83 V 41 Z" />
+   <path
+      id="button-focused"
+      style="fill:#3f3f3f;fill-opacity:1;opacity:1"
+      d="M 57,41 V 67 H 83 V 41 Z" />
   <g
      id="button-normal-topleft"
      transform="translate(0,-1)">
@@ -5707,10 +5707,10 @@
      xlink:href="#button-toggled-topleft"
      x="0"
      y="0" />
-  <path
-     id="menu-normal"
-     style="opacity:0.3;fill:#000000;fill-opacity:1"
-     d="m 114.997,581 v 48 h 48 v -48 z" />
+   <path
+      id="menu-normal"
+      style="opacity:1;fill:#2c2c2c;fill-opacity:1"
+      d="m 114.997,581 v 48 h 48 v -48 z" />
   <g
      id="menu-normal-left"
      transform="translate(-7.26,-122.75)">
@@ -5991,10 +5991,10 @@
      x="0"
      y="0" />
   <path
-     style="opacity:1;fill:#323232;fill-opacity:1;fill-rule:evenodd"
-     inkscape:connector-curvature="0"
-     d="m 466.98001,648.13 h 48 v 48 h -48 z"
-     id="tooltip-normal" />
+      style="opacity:1;fill:#2c2c2c;fill-opacity:1;fill-rule:evenodd"
+      inkscape:connector-curvature="0"
+      d="m 466.98001,648.13 h 48 v 48 h -48 z"
+      id="tooltip-normal" />
   <g
      id="g1051"
      transform="translate(-3.2099915,3.630005)">
