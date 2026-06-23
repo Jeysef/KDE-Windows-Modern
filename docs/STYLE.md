@@ -168,6 +168,10 @@ All four exist in both `widgets/`, `solid/widgets/`, and
 - **Group expander removed** — the `group-expander-*` groups (white
   circle with `+` icon) are emptied. Windows 11 does not show a plus
   indicator on grouped taskbar buttons.
+- **Inactive app indicator `#858585`** — the running-indicator strip
+  under normal/minimized task buttons uses solid `#858585` at full
+  opacity in both dark and light variants. Active/hover indicators
+  remain blue (`#4bc8ff`).
 
 #### Icons
 

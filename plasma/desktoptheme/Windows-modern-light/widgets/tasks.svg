@@ -289,8 +289,8 @@
        rx="1"
        ry="1"
        class="ColorScheme-Text"
-       fill="currentColor"
-       style="opacity:0.5" />
+       fill="#858585"
+       style="opacity:1" />
   </g>
   <rect
      id="hover-topleft"
@@ -482,8 +482,8 @@
        rx="1"
        ry="1"
        class="ColorScheme-Text"
-       fill="currentColor"
-       style="opacity:0.5" />
+       fill="#858585"
+       style="opacity:1" />
   </g>
   <rect
      id="progress-topleft"
@@ -817,8 +817,8 @@
        rx="1"
        ry="1"
        class="ColorScheme-Text"
-       fill="currentColor"
-       style="opacity:0.5" />
+       fill="#858585"
+       style="opacity:1" />
   </g>
   <rect
      id="north-hover-topleft"
@@ -985,8 +985,8 @@
        rx="1"
        ry="1"
        class="ColorScheme-Text"
-       fill="currentColor"
-       style="opacity:0.5" />
+       fill="#858585"
+       style="opacity:1" />
   </g>
   <rect
      id="north-progress-topleft"
@@ -1297,8 +1297,8 @@
        rx="1"
        ry="1"
        class="ColorScheme-Text"
-       fill="currentColor"
-       style="opacity:0.5"
+       fill="#858585"
+       style="opacity:1"
        transform="rotate(90)" />
   </g>
   <rect
@@ -1466,8 +1466,8 @@
        rx="1"
        ry="1"
        class="ColorScheme-Text"
-       fill="currentColor"
-       style="opacity:0.5"
+       fill="#858585"
+       style="opacity:1"
        transform="rotate(90)" />
   </g>
   <rect
@@ -1779,8 +1779,8 @@
        rx="1"
        ry="1"
        class="ColorScheme-Text"
-       fill="currentColor"
-       style="opacity:0.5" />
+       fill="#858585"
+       style="opacity:1" />
   </g>
   <rect
      id="east-hover-topleft"
@@ -1947,8 +1947,8 @@
        rx="1"
        ry="1"
        class="ColorScheme-Text"
-       fill="currentColor"
-       style="opacity:0.5" />
+       fill="#858585"
+       style="opacity:1" />
   </g>
   <rect
      id="east-progress-topleft"
