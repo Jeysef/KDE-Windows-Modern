@@ -17,9 +17,6 @@
         <entry name="showBrightness" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="showMediaPlayer" type="Bool">
-            <default>true</default>
-        </entry>
         <entry name="showBattery" type="Bool">
             <default>true</default>
         </entry>
@@ -27,12 +24,6 @@
             <default>true</default>
         </entry>
         <entry name="showBatterySaver" type="Bool">
-            <default>true</default>
-        </entry>
-        <entry name="showDnd" type="Bool">
-            <default>true</default>
-        </entry>
-        <entry name="showColorSwitcher" type="Bool">
             <default>true</default>
         </entry>
         <entry name="showAirplane" type="Bool">

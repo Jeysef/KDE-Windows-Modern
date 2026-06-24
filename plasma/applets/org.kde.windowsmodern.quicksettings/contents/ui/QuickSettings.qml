@@ -11,6 +11,7 @@ Item {
     id: flyout
 
     readonly property real scale: Plasmoid.configuration.scale / 100
+    readonly property int footerHeight: 36 * scale
 
     Layout.preferredWidth: 360 * scale
     Layout.minimumWidth: Layout.preferredWidth
@@ -21,9 +22,61 @@ Item {
 
     StackView {
         id: pageStack
-        anchors.fill: parent
-        initialItem: mainPage
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: footer.top
+        anchors.bottomMargin: 14 * flyout.scale
+        anchors.topMargin: 14 * flyout.scale
+        anchors.leftMargin: 14 * flyout.scale
+        anchors.rightMargin: 14 * flyout.scale
         clip: true
+        initialItem: mainPage
+    }
+
+    Rectangle {
+        id: footer
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: -8
+        anchors.rightMargin: -8
+        anchors.bottomMargin: -8
+        height: flyout.footerHeight + 8
+        color: Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.03)
+
+        Item {
+            anchors.fill: parent
+            anchors.topMargin: 8
+            anchors.leftMargin: 22
+            anchors.rightMargin: 22
+
+            Components.Battery {
+                id: battery
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                height: 16
+                visible: Plasmoid.configuration.showBattery && battery.hasBattery
+            }
+
+            Kirigami.Icon {
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                width: 16
+                height: 16
+                source: "configure"
+                color: Kirigami.Theme.textColor
+                isMask: true
+                opacity: 0.7
+
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+                    onClicked: KCMLauncher.openSystemSettings("")
+                }
+            }
+        }
     }
 
     Component {
@@ -32,100 +85,54 @@ Item {
         ColumnLayout {
             id: content
             anchors.fill: parent
-            spacing: 0
+            spacing: 16 * flyout.scale
 
-            ColumnLayout {
-                id: mainContent
+            GridLayout {
+                id: toggleGrid
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.margins: 14 * flyout.scale
-                spacing: 16 * flyout.scale
+                columns: 3
+                rowSpacing: 12 * flyout.scale
+                columnSpacing: 6 * flyout.scale
 
-                GridLayout {
-                    id: toggleGrid
+                Components.NetworkToggle {
                     Layout.fillWidth: true
-                    columns: 3
-                    rowSpacing: 12 * flyout.scale
-                    columnSpacing: 6 * flyout.scale
-
-                    Components.NetworkToggle {
-                        Layout.fillWidth: true
-                        onArrowClicked: pageStack.push(networkPage)
-                    }
-
-                    Components.BluetoothToggle {
-                        Layout.fillWidth: true
-                        onArrowClicked: pageStack.push(bluetoothPage)
-                    }
-
-                    Components.AirplaneToggle {
-                        Layout.fillWidth: true
-                        visible: Plasmoid.configuration.showAirplane
-                    }
-
-                    Components.BatterySaverToggle {
-                        Layout.fillWidth: true
-                        visible: Plasmoid.configuration.showBatterySaver
-                    }
-
-                    Components.NightLightToggle {
-                        Layout.fillWidth: true
-                        visible: Plasmoid.configuration.showNightLight
-                    }
+                    onArrowClicked: pageStack.push(networkPage)
                 }
 
-                Components.BrightnessSlider {
+                Components.BluetoothToggle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 36
-                    visible: Plasmoid.configuration.showBrightness
+                    onArrowClicked: pageStack.push(bluetoothPage)
                 }
 
-                Components.VolumeSlider {
+                Components.AirplaneToggle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 36
-                    visible: Plasmoid.configuration.showVolume
+                    visible: Plasmoid.configuration.showAirplane
                 }
 
-                Item { Layout.fillHeight: true }
+                Components.BatterySaverToggle {
+                    Layout.fillWidth: true
+                    visible: Plasmoid.configuration.showBatterySaver
+                }
+
+                Components.NightLightToggle {
+                    Layout.fillWidth: true
+                    visible: Plasmoid.configuration.showNightLight
+                }
             }
 
-            Rectangle {
+            Components.BrightnessSlider {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 36 * flyout.scale
-                color: Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.03)
-
-                Item {
-                    anchors.fill: parent
-                    anchors.leftMargin: 14 * flyout.scale
-                    anchors.rightMargin: 14 * flyout.scale
-
-                    Components.Battery {
-                        id: battery
-                        anchors.left: parent.left
-                        anchors.verticalCenter: parent.verticalCenter
-                        height: 16
-                        visible: Plasmoid.configuration.showBattery && battery.hasBattery
-                    }
-
-                    Kirigami.Icon {
-                        anchors.right: parent.right
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: 16
-                        height: 16
-                        source: "configure"
-                        color: Kirigami.Theme.textColor
-                        isMask: true
-                        opacity: 0.7
-
-                        MouseArea {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            hoverEnabled: true
-                            onClicked: KCMLauncher.openSystemSettings("")
-                        }
-                    }
-                }
+                Layout.preferredHeight: 36
+                visible: Plasmoid.configuration.showBrightness
             }
+
+            Components.VolumeSlider {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 36
+                visible: Plasmoid.configuration.showVolume
+            }
+
+            Item { Layout.fillHeight: true }
         }
     }
 
