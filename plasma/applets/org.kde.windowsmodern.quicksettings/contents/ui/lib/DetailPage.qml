@@ -3,7 +3,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.components as PlasmaComponents3
-import "../lib" as Lib
 
 ColumnLayout {
     id: page
@@ -55,9 +54,10 @@ ColumnLayout {
             Layout.fillWidth: true
         }
 
-        Lib.Switch {
+        PlasmaComponents3.Switch {
             checked: page.switchChecked
             onToggled: page.switchToggled()
+            Layout.alignment: Qt.AlignVCenter
         }
     }
 
