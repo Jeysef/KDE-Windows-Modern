@@ -620,7 +620,7 @@
        id="use1364-3"
        class="ColorScheme-ButtonFocus"
        d="M 24.341667,25.135417 H 19.049999 V 24.60625 h 5.291668 z"
-       style="fill:#4bc8ff;fill-opacity:1" />
+       style="fill:#4CC2FF;fill-opacity:1" />
   </g>
   <g
      id="focus-bottomright"
@@ -644,7 +644,7 @@
        class="ColorScheme-ButtonFocus"
        d="M 46 56 L 46 58 C 47.784021 58 49.379397 57.228144 50.476562 56 L 46 56 z "
        transform="matrix(0.26458333,0,0,0.26458333,12.435417,9.7895832)"
-       style="fill:#4bc8ff;fill-opacity:1" />
+       style="fill:#4CC2FF;fill-opacity:1" />
   </g>
   <g
      id="focus-topright"
@@ -756,6 +756,6 @@
        class="ColorScheme-ButtonFocus"
        d="m 46,56 v 2 c 1.784021,0 3.379397,-0.771856 4.476562,-2 z"
        transform="matrix(0.26458333,0,0,0.26458333,12.435417,9.7895832)"
-       style="fill:#4bc8ff;fill-opacity:1" />
+       style="fill:#4CC2FF;fill-opacity:1" />
   </g>
 </svg>

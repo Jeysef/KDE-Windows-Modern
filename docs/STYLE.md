@@ -33,7 +33,7 @@ look-and-feel package.
 | Surface border (inactive) | `#2A2A2A` | Inactive window borders |
 | Text (primary) | `#FFFFFF` | Title bar text, popup text, icons |
 | Text (inactive) | `30,30,30 @ 50%` | Inactive title bar text |
-| Highlight/accent | `#0078D4` | Focus indicators, links (Win11 system accent) |
+| Highlight/accent | `#4CC2FF` | Focus indicators, links (Win11 SystemAccentColorLight2 — lighter shade for dark mode) |
 | Button hover bg | `#3F3F3F` | Hover states |
 | Button bg | `#2C2C2C` | Button backgrounds |
 | Close hover | `#C42B1C` | Close button hover (Win11 red) |
@@ -49,7 +49,7 @@ look-and-feel package.
 | Surface border (inactive) | `#D5D5D5` | Inactive window borders |
 | Text (primary) | `#1E1E1E` | Title bar text, popup text, icons |
 | Text (inactive) | `153,153,153` | Inactive title bar text |
-| Highlight/accent | `#0078D4` | Focus indicators, links |
+| Highlight/accent | `#0067C0` | Focus indicators, links (Win11 SystemAccentColorDark1 — darker shade for light mode) |
 | Button hover bg | `#E9E9E9` | Hover states |
 | Button bg | `#F3F3F3` | Button backgrounds |
 | Close hover | `#C42B1C` | Close button hover (Win11 red) |
@@ -117,18 +117,18 @@ The `contents/layout.js` creates:
   4. **Right expanding spacer** — `org.kde.plasma.panelspacer`. Separates
      the centered Start + tasks group from the system tray on the far
      right.
-   5. **System tray** — `org.kde.plasma.systemtray`
-   6. **Quick Settings** — `org.kde.windowsmodern.quicksettings`, the
-      custom Win11-style flyout (see below). Renders as a compact
-      network/volume/battery cluster in the panel; click opens the
-      Quick Settings flyout with toggle tiles, sliders, media and power.
-   7. **Digital clock** — `org.kde.plasma.digitalclock` pinned to
-      Segoe UI Regular 10pt, no date, no seconds, 12h format. The fixed
-      font size keeps the clock readable without dominating tall panels.
-   8. **Show Desktop** — `org.kde.windowsmodern.showdesktop`, a custom
-      forked applet (see below). Renders as an 6px-wide bare sliver with
-      a 1px separator line on its left edge, no icon. Click minimizes all
-      windows; click again restores.
+  5. **System tray** — `org.kde.plasma.systemtray`
+  6. **Quick Settings** — `org.kde.windowsmodern.quicksettings`, the
+     custom Win11-style flyout (see below). Renders as a compact
+     network/volume/battery cluster in the panel; click opens the
+     Quick Settings flyout with toggle tiles and sliders.
+  7. **Digital clock** — `org.kde.plasma.digitalclock` pinned to
+     Segoe UI Regular 10pt, no date, no seconds, 12h format. The fixed
+     font size keeps the clock readable without dominating tall panels.
+  8. **Show Desktop** — `org.kde.windowsmodern.showdesktop`, a custom
+     forked applet (see below). Renders as an 6px-wide bare sliver with
+     a 1px separator line on its left edge, no icon. Click minimizes all
+     windows; click again restores.
 
 The template does not replace an existing panel automatically; users add it
 via right-click desktop → Add Panels → "Windows Modern Panel".
@@ -154,7 +154,8 @@ and were used as API reference only; the code is original.
   - A 3-column grid of toggle tiles with 2:1 aspect ratio and a single
     text label below each button. Tiles: Wi-Fi, Bluetooth (split tiles
     with a chevron arrow opening a detail page), Airplane, Battery Saver,
-    Night Light. Active tiles use the system accent fill (`#0078D4`)
+    Night Light. Active tiles use the per-variant accent fill
+    (`Kirigami.Theme.highlightColor` = `#4CC2FF` dark / `#0067C0` light)
     with white icons; inactive tiles use a subtle 4% text-color
     background. 4px corner radius, matching Win11.
   - Brightness and volume sliders using the system-default
@@ -166,16 +167,20 @@ and were used as API reference only; the code is original.
     from the content by a subtle background tint rather than a hard line.
 - **Page navigation** — a `StackView` pushes Network and Bluetooth
   detail pages (Wi-Fi network list, paired device list) when the
-  split-tile chevrons are clicked.
+  split-tile chevrons are clicked. Detail pages use a shared
+  `lib/DetailPage.qml` template with a back arrow, title, toggle switch
+  (`lib/Switch.qml`), and a scrollable list view.
+- **Library components** — `lib/Tile.qml` (plain toggle), `lib/SplitTile.qml`
+  (toggle + chevron), `lib/Slider.qml` (icon + `PlasmaComponents3.Slider`
+  + optional chevron), `lib/DetailPage.qml` (page template), `lib/Switch.qml`
+  (toggle switch).
 - **APIs used** — `org.kde.plasma.networkmanagement` (Wi-Fi/airplane),
   `org.kde.bluezqt` (Bluetooth), `org.kde.plasma.private.volume`
   (volume), `org.kde.plasma.private.brightnesscontrolplugin`
-  (brightness + `NightLightInhibitor`), `org.kde.notificationmanager`
-  (DND, unused in current layout), `org.kde.plasma.private.battery`
-  (battery), `org.kde.plasma.private.sessions` (power, unused in
-  current layout), `org.kde.plasma.workspace.dbus` (Night Light DBus
-  state), `org.kde.plasma.private.batterymonitor`
-  (`PowerProfilesControl` for battery saver).
+  (brightness + `NightLightInhibitor`), `org.kde.plasma.private.battery`
+  (battery), `org.kde.plasma.workspace.dbus` (Night Light DBus state),
+  `org.kde.plasma.private.batterymonitor` (`PowerProfilesControl` for
+  battery saver).
 
 Config keys (`contents/config/main.xml`): `scale` (80-150%), `showVolume`,
 `showBrightness`, `showBattery`, `showNightLight`, `showBatterySaver`,
@@ -242,20 +247,23 @@ and the Quick Settings flyout. The plasmoid uses the default
 
 | Element | Dark | Light |
 |---|---|---|
-| Filled track | `#4CC2FF` (luminous cyan) | `#0078D4` (royal blue) |
-| Unfilled track | `#6E6E6E` (medium grey) | `#8B8B8B` (medium-dark grey) |
-| Knob outer ring | `#2C2C2C` (dark grey) | `#FFFFFF` with `#D5D5D5` border |
-| Knob inner circle | `#4CC2FF` (cyan) | `#0078D4` (royal blue) |
-| Hover/focus glow | `#4CC2FF` @ 20-30% opacity | `#0078D4` @ 20-30% opacity |
+| Filled track | `ColorScheme-Highlight` = `#4CC2FF` (luminous cyan) | `ColorScheme-Highlight` = `#0067C0` (royal blue) |
+| Unfilled track | `ColorScheme-Text` @ 25% opacity (medium grey) | `ColorScheme-Text` @ 25% opacity (medium-dark grey) |
+| Knob outer ring | `ColorScheme-Background` (dark grey) | `ColorScheme-Background` (white) with `#D5D5D5` border |
+| Knob inner circle | `ColorScheme-Highlight` (cyan) | `ColorScheme-Highlight` (royal blue) |
+| Hover/focus glow | `ColorScheme-Highlight` @ 20-30% opacity | `ColorScheme-Highlight` @ 20-30% opacity |
 
 - **Kvantum** — `slider_width=4`, `slider_handle_width=16`. The
   `slidercursor-*` SVG elements render the two-circle knob (outer ring
   + inner accent). Groove elements use solid fills (`slider-normal-*`
   for unfilled, `slider-toggled-*` for filled).
 - **Plasma theme** — `widgets/slider.svg` uses the same two-circle
-  knob design. Groove uses hardcoded fills (not `ColorScheme-*`
-  classes) because Plasma's slider groove rendering does not reliably
-  honor theme classes for the unfilled portion.
+  knob design. Both groove and knob use `ColorScheme-*` CSS classes
+  with `fill="currentColor"` — the filled track and knob inner circle
+  use `ColorScheme-Highlight`, the unfilled track uses `ColorScheme-Text`
+  at 25% opacity, and the knob outer ring uses `ColorScheme-Background`.
+  This makes the slider automatically follow the per-variant accent
+  without hardcoded hex values.
 
 #### Switch / toggle (`widgets/switch.svg`)
 
@@ -266,23 +274,24 @@ background, so the switch was invisible against popups.
 
 | Element | Class | Notes |
 |---|---|---|
-| Off track fill | `ColorScheme-ButtonText` @ 20% dark / 12% light opacity | Derived neutral gray that contrasts with the popup |
-| On track fill | `ColorScheme-Highlight` | Uses the user's accent color from the Plasma color scheme |
-| Thumb fill | `#FFFFFF` | Win11 thumb is always white/light |
-| Thumb border | none | Flat, borderless design |
-| Focus/hover ring | `ColorScheme-Highlight` | Uses the same accent as the on track |
+| Off track fill | none (transparent) | Pill outline only |
+| Off track border | `ColorScheme-Text` | 1 px stroked outline, `stroke-linecap=round` for seamless joints |
+| On track fill | `ColorScheme-Highlight` | Solid accent from the color scheme |
+| On track border | none | Filled pill, no visible stroke |
+| Knob (both states) | `ColorScheme-Text` | Same color as text — visible on both transparent off-track and accent on-track |
+| Knob border | none | Flat, borderless |
+| Focus/hover ring | `ColorScheme-Highlight` | 12 px accent ring around the 10 px knob |
 
-- The track is a filled rounded pill in both states, matching the
-  Windows 11 toggle switch shape.
-- The on track uses `ColorScheme-Highlight` so it follows the user's
-  chosen accent color instead of a hardcoded blue.
-- The off track uses `ColorScheme-ButtonText` at reduced opacity to
-  derive a visible neutral gray from the color scheme.
-- The thumb is a 12 px white circle on a 16 px high track, leaving a
-  uniform 2 px margin so it sits inside the pill instead of extending
-  over the track edges.
-- Hover and pressed handle states reuse the white thumb with an
-  accent focus ring.
+- Both states share the same outer track size (38 × 16 px hint) and knob.
+- The off track is a **transparent pill outline** stroked in
+  `ColorScheme-Text` — no fill, so the popup background shows through.
+  `stroke-linecap=round` ensures the 9-patch arc/line joints are seamless.
+- The on track is a **solid accent pill** with no border.
+- The knob uses `ColorScheme-Text` so it is always visible: white in
+  dark mode (on blue track) and dark in light mode (hole effect on
+  blue track).
+- The knob is 10 px inside a 16 px handle bounding box, giving 3 px
+  transparent padding on all sides so it never touches the track edge.
 
 #### Taskbar (`widgets/tasks.svg`)
 
@@ -304,7 +313,7 @@ layout template uses it). The SVG supplies the hover/focus background
 - **Inactive app indicator `#858585`** — the running-indicator strip
   under normal/minimized task buttons uses solid `#858585` at full
   opacity in both dark and light variants. Active/hover indicators
-  remain blue (`#4bc8ff`).
+  use the per-variant accent (`#4CC2FF` dark / `#0067C0` light).
 
 > Note: upstream `icontasks` is now a compiled C++ plugin, so exact
 > 40×40 px hover-box sizing and a separate mouse-down pressed state can
@@ -381,10 +390,12 @@ shadows via compositing.
 #### `[GeneralColors]` palette
 
 The Fluent neutrals were replaced with authentic Win11 values sourced
-from WinUI 3. The accent is `#0078D4` (Win11 system accent) in **both**
-variants — this is the color used system-wide by real Windows 11
-regardless of light/dark mode, and it is baked into the SVG indicator
-elements (checkbox marks, radio dots, progressbar fill, focus rings).
+from WinUI 3. Win11 uses different accent shades per mode:
+`SystemAccentColorLight2` (`#4CC2FF`) in dark mode and
+`SystemAccentColorDark1` (`#0067C0`) in light mode — both derived from
+the base `SystemAccentColor` (`#0078D4`). The accent is baked into the
+SVG indicator elements (checkbox marks, radio dots, progressbar fill,
+focus rings).
 
 | Token | Dark | Light |
 |---|---|---|
@@ -394,15 +405,16 @@ elements (checkbox marks, radio dots, progressbar fill, focus rings).
 | `light` (hover) | `#3F3F3F` | `#E9E9E9` |
 | `mid.light` | `#3F3F3F` | `#E9E9E9` |
 | `dark` | `#1F1F1F` | `#E5E5E5` |
-| `highlight` / `link` | `#0078D4` | `#0078D4` |
-| `inactive.highlight` | `#0078D474` | `#0078D474` |
+| `highlight` / `link` | `#4CC2FF` | `#0067C0` |
+| `inactive.highlight` | `#4CC2FF74` | `#0067C074` |
 | `text` | `#FFFFFF` | `#1E1E1E` |
 | `disabled.text` | `#5A5A5A` | `#A0A0A0` |
 
 Per-section `text.*.color` values throughout the config follow the
 same mapping (dark = `#FFFFFF`, light = `#1E1E1E`), with `#ffffff`
-preserved for pressed/toggled states (white-on-accent) and `#0078D4`
-for GroupBox focus labels.
+preserved for pressed/toggled states (white-on-accent) and the
+per-variant accent (`#4CC2FF` dark / `#0067C0` light) for GroupBox
+focus labels.
 
 #### Key `[%General]` behavior
 
@@ -427,8 +439,9 @@ variants), `single_top_toolbar=true`, `kcapacitybar_as_progressbar=true`.
 
 #### SVG element fills
 
-The Fluent SVG fills were remapped to Win11 neutrals. The accent
-`#0078D4` was left intact (it is correct for Win11). Key mappings:
+The Fluent SVG fills were remapped to Win11 neutrals. The accent was
+updated to per-variant shades (`#4CC2FF` dark / `#0067C0` light). Key
+mappings:
 
 | Fluent color | Win11 target | Role |
 |---|---|---|
@@ -437,7 +450,7 @@ The Fluent SVG fills were remapped to Win11 neutrals. The accent
 | `#3C3C3C` | `#3F3F3F` | header/dock borders |
 | `#dedede` | `#FFFFFF` (dark text/icons) | secondary text, unchecked marks |
 | `#000000` | unchanged | bevel/shadow overlays (translucent) |
-| `#0078D4` | unchanged | accent (checkbox/radio marks, progress, focus) |
+| `#0078D4` | `#4CC2FF` (dark) / `#0067C0` (light) | accent (checkbox/radio marks, progress, focus) |
 | `#202020` | unchanged | window/menubar/titlebar bg (dark) |
 | `#f04a50` | `#C42B1C` (close) / text color (others) | mdi caption-button hover glyphs |
 | `#0078D4` (pressed) | text color | mdi caption-button pressed glyphs |
@@ -457,7 +470,9 @@ selections, tooltips, etc. Rewritten with Win11 values:
 `McMojave` / `McMojaveLight` leftovers were removed). Dark uses
 `BackgroundNormal=32,32,32` for windows and `44,44,44` for buttons;
 light uses `249,249,249` / `243,243,243`. Selection accent is
-`0,120,212` in both.
+`76,194,255` (`#4CC2FF`) in dark and `0,103,192` (`#0067C0`) in light —
+matching Win11's `SystemAccentColorLight2` and `SystemAccentColorDark1`
+respectively.
 
 ### Look-and-Feel
 
@@ -487,7 +502,7 @@ When the global theme is applied and the user opts in to the theme's
 desktop layout, this script first removes any existing panels and then
 creates the Windows Modern Panel (see the Panel layout template section
 above) with the Win11-style centered taskbar, start menu, system tray,
-clock, and show-desktop sliver.
+quick settings, clock, and show-desktop sliver.
 
 ### Icons
 

@@ -12,7 +12,7 @@ MouseArea {
 
     property bool wasExpanded
 
-    Layout.minimumWidth: row.implicitWidth + Kirigami.Units.smallSpacing * 2
+    Layout.minimumWidth: row.implicitWidth + 4
     Layout.maximumWidth: Layout.minimumWidth
     Layout.preferredWidth: Layout.minimumWidth
     Layout.minimumHeight: Kirigami.Units.iconSizes.smallMedium
@@ -35,19 +35,19 @@ MouseArea {
     RowLayout {
         id: row
         anchors.centerIn: parent
-        spacing: Kirigami.Units.smallSpacing
+        spacing: 2
 
         Kirigami.Icon {
-            width: 14
-            height: 14
+            Layout.preferredWidth: 18
+            Layout.preferredHeight: 18
             source: connectionIcon.connectionIcon
             color: Kirigami.Theme.textColor
             isMask: true
         }
 
         Kirigami.Icon {
-            width: 14
-            height: 14
+            Layout.preferredWidth: 18
+            Layout.preferredHeight: 18
             source: Funcs.volIconName(compact.sinkAvailable ? compact.sink.volume : 0, compact.sinkAvailable ? compact.sink.muted : true)
             color: Kirigami.Theme.textColor
             isMask: true
@@ -55,8 +55,8 @@ MouseArea {
 
         Kirigami.Icon {
             visible: batteryControl.hasBatteries
-            width: 11
-            height: 11
+            Layout.preferredWidth: 18
+            Layout.preferredHeight: 18
             source: Funcs.batteryIconName(batteryControl.percent, batteryControl.state === BatteryControlModel.Charging)
             color: Kirigami.Theme.textColor
             isMask: true

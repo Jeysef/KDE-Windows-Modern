@@ -101,7 +101,7 @@
        transform="translate(236,71.637817)">
       <path
          id="rect3003"
-         style="fill:#4bc8ff;fill-opacity:1;stroke:none"
+         style="fill:#4CC2FF;fill-opacity:1;stroke:none"
          class="ColorScheme-ButtonFocus"
          d="M 40 359.36218 L 40 362.36218 L 120 362.36218 L 120 359.36218 L 40 359.36218 z " />
     </g>
@@ -117,12 +117,12 @@
          y="359.36218" />
       <path
          id="rect3542"
-         style="fill:#4bc8ff;fill-opacity:1;stroke:none"
+         style="fill:#4CC2FF;fill-opacity:1;stroke:none"
          class="ColorScheme-ButtonFocus"
          d="M 35 359.36218 L 35 362.36218 L 40 362.36218 L 40 359.36218 L 35 359.36218 z " />
       <path
          id="rect1162"
-         style="fill:#4bc8ff;fill-opacity:1;stroke:none"
+         style="fill:#4CC2FF;fill-opacity:1;stroke:none"
          class="ColorScheme-ButtonFocus"
          d="M 34.5 359.36218 C 33.669008 359.36218 33 360.03119 33 360.86218 C 33 361.69318 33.669008 362.36218 34.5 362.36218 L 38.5 362.36218 C 39.330992 362.36218 40 361.69318 40 360.86218 C 40 360.03119 39.330992 359.36218 38.5 359.36218 L 34.5 359.36218 z " />
     </g>
@@ -138,12 +138,12 @@
          y="359.36218" />
       <path
          id="rect3542-9"
-         style="fill:#4bc8ff;fill-opacity:1;stroke:none"
+         style="fill:#4CC2FF;fill-opacity:1;stroke:none"
          class="ColorScheme-ButtonFocus"
          d="M 120 359.36218 L 120 362.36218 L 125 362.36218 L 125 359.36218 L 120 359.36218 z " />
       <path
          id="rect1164"
-         style="fill:#4bc8ff;fill-opacity:1;stroke:none"
+         style="fill:#4CC2FF;fill-opacity:1;stroke:none"
          class="ColorScheme-ButtonFocus"
          d="M 121.5 359.36218 C 120.66901 359.36218 120 360.03119 120 360.86218 C 120 361.69318 120.66901 362.36218 121.5 362.36218 L 125.5 362.36218 C 126.33099 362.36218 127 361.69318 127 360.86218 C 127 360.03119 126.33099 359.36218 125.5 359.36218 L 121.5 359.36218 z " />
     </g>
@@ -508,7 +508,7 @@
        transform="translate(243.00001,-132.36221)">
       <path
          id="rect3003-6"
-         style="fill:#4bc8ff;fill-opacity:1;stroke:none"
+         style="fill:#4CC2FF;fill-opacity:1;stroke:none"
          class="ColorScheme-ButtonFocus"
          d="M 39.99999 359.36221 L 39.99999 362.36221 L 119.99999 362.36221 L 119.99999 359.36221 L 39.99999 359.36221 z " />
     </g>
@@ -540,12 +540,12 @@
          y="359.36218" />
       <path
          id="rect3542-3"
-         style="fill:#4bc8ff;fill-opacity:1;stroke:none"
+         style="fill:#4CC2FF;fill-opacity:1;stroke:none"
          class="ColorScheme-ButtonFocus"
          d="M 34.49999 359.36221 C 33.668998 359.36221 32.99999 360.03122 32.99999 360.86221 C 32.99999 361.6932 33.668998 362.36221 34.49999 362.36221 L 38.49999 362.36221 C 39.330982 362.36221 39.99999 361.6932 39.99999 360.86221 C 39.99999 360.03122 39.330982 359.36221 38.49999 359.36221 L 34.49999 359.36221 z " />
       <path
          id="rect1158"
-         style="fill:#4bc8ff;fill-opacity:1;stroke:none"
+         style="fill:#4CC2FF;fill-opacity:1;stroke:none"
          class="ColorScheme-ButtonFocus"
          d="M 34.99999 359.36221 L 34.99999 362.36221 L 39.99999 362.36221 L 39.99999 359.36221 L 34.99999 359.36221 z " />
     </g>
@@ -568,14 +568,14 @@
          style="opacity:0;fill:#e4e6e8;fill-opacity:1;stroke:none" />
       <path
          id="rect3542-9-8"
-         style="fill:#4bc8ff;fill-opacity:1;stroke:none"
+         style="fill:#4CC2FF;fill-opacity:1;stroke:none"
          class="ColorScheme-ButtonFocus"
          d="M 363.00001 227.3622 L 363.00001 230.3622 L 367.00001 230.3622 L 367.00001 227.3622 L 363.00001 227.3622 z " />
       <path
          id="rect1160"
          class="ColorScheme-ButtonFocus"
          d="M 364.50001 227.3622 C 363.66902 227.3622 363.00001 228.03121 363.00001 228.8622 C 363.00001 229.69319 363.66902 230.3622 364.50001 230.3622 L 368.50001 230.3622 C 369.331 230.3622 370.00001 229.69319 370.00001 228.8622 C 370.00001 228.03121 369.331 227.3622 368.50001 227.3622 L 364.50001 227.3622 z "
-         style="fill:#4bc8ff;fill-opacity:1" />
+         style="fill:#4CC2FF;fill-opacity:1" />
     </g>
     <g
        id="east-active-tab-topleft"

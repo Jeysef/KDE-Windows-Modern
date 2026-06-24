@@ -90,23 +90,23 @@
     <path
        id="path927-5-3"
        d="m 26,24 a 8,8 0 0 1 -8,8 8,8 0 0 1 -8,-8 8,8 0 0 1 8,-8 8,8 0 0 1 8,8 z"
-       style="fill:#4bc8ff;fill-rule:evenodd;fill-opacity:1"
+       style="fill:#0067C0;fill-rule:evenodd;fill-opacity:1"
        class="ColorScheme-Highlight" />
   </g>
   <g
      id="focus"
-     style="fill:#4bc8ff;fill-opacity:1"
+     style="fill:#0067C0;fill-opacity:1"
      class="ColorScheme-Highlight"
      transform="translate(42,6)">
     <path
        id="path927"
        d="M -12,14 A 10,10 0 0 0 -22,24 10,10 0 0 0 -12,34 10,10 0 0 0 -2,24 10,10 0 0 0 -12,14 Z m 0,3 a 7,7 0 0 1 7,7 7,7 0 0 1 -7,7 7,7 0 0 1 -7,-7 7,7 0 0 1 7,-7 z"
-       style="opacity:0.33;fill-rule:evenodd;fill:#4bc8ff;fill-opacity:1"
+       style="opacity:0.33;fill-rule:evenodd;fill:#0067C0;fill-opacity:1"
        transform="translate(20)" />
     <path
        id="path929"
        d="m 8,16 c -4.41235126727,0 -8,3.5876487327 -8,8 0,4.4123512673 3.58764873273,8 8,8 4.4123512673,0 8,-3.5876487327 8,-8 0,-4.4123512673 -3.5876487327,-8 -8,-8 z m 0,1 c 3.8719116927,0 7,3.1280883073 7,7 0,3.8719116927 -3.1280883073,7 -7,7 -3.87191169273,0 -7,-3.1280883073 -7,-7 0,-3.8719116927 3.12808830727,-7 7,-7 z"
-       style="opacity:1;fill-rule:evenodd;fill:#4bc8ff;fill-opacity:1" />
+       style="opacity:1;fill-rule:evenodd;fill:#0067C0;fill-opacity:1" />
   </g>
   <g
      id="hover"

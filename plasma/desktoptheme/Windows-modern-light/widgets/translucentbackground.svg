@@ -3,15 +3,15 @@
     <style id="current-color-scheme" type="text/css">
       .ColorScheme-Text { color:#1E1E1E; stop-color:#1E1E1E; }
       .ColorScheme-Background { color:#F9F9F9; stop-color:#F9F9F9; }
-      .ColorScheme-Highlight { color:#0078D4; stop-color:#0078D4; }
+      .ColorScheme-Highlight { color:#0067C0; stop-color:#0067C0; }
       .ColorScheme-ViewText { color:#1E1E1E; stop-color:#1E1E1E; }
       .ColorScheme-ViewBackground { color:#FFFFFF; stop-color:#FFFFFF; }
       .ColorScheme-ViewHover { color:#E9E9E9; stop-color:#E9E9E9; }
-      .ColorScheme-ViewFocus { color:#0078D4; stop-color:#0078D4; }
+      .ColorScheme-ViewFocus { color:#0067C0; stop-color:#0067C0; }
       .ColorScheme-ButtonText { color:#1E1E1E; stop-color:#1E1E1E; }
       .ColorScheme-ButtonBackground { color:#F3F3F3; stop-color:#F3F3F3; }
       .ColorScheme-ButtonHover { color:#E9E9E9; stop-color:#E9E9E9; }
-      .ColorScheme-ButtonFocus { color:#0078D4; stop-color:#0078D4; }
+      .ColorScheme-ButtonFocus { color:#0067C0; stop-color:#0067C0; }
     </style>
   </defs>
 

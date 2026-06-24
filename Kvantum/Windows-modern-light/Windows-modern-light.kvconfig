@@ -82,15 +82,15 @@ light.color=#E9E9E9
 mid.light.color=#E9E9E9
 dark.color=#E5E5E5
 mid.color=#E5E5E5
-highlight.color=#0078D4
-inactive.highlight.color=#0078D474
+highlight.color=#0067C0
+inactive.highlight.color=#0067C074
 text.color=#1E1E1E
 window.text.color=#1E1E1E
 button.text.color=#1E1E1E
 disabled.text.color=#A0A0A0
 tooltip.text.color=#1E1E1E
 highlight.text.color=#ffffff
-link.color=#0078D4
+link.color=#0067C0
 link.visited.color=#E040FB
 progress.indicator.text.color=#1E1E1E
 
@@ -554,7 +554,7 @@ frame=false
 text.shadow=0
 text.margin=0
 text.normal.color=#1E1E1E
-text.focus.color=#0078D4
+text.focus.color=#0067C0
 text.bold=false
 frame.expansion=0
 
