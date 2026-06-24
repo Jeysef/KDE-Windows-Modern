@@ -170,7 +170,7 @@ color schemes that caused unreadable white popups on dark theme):
 
 | File | Purpose | Corners | Margin hints |
 |---|---|---|---|
-| `widgets/tooltip.svg` | Hover tooltips | 4px radius, borderless | 8px |
+| `widgets/tooltip.svg` | Hover tooltips | 4px radius, 1px Fluent stroke | 8px |
 | `dialogs/background.svg` | Dialog/popup backgrounds | 7px | 8px |
 | `widgets/background.svg` | Applet/widget backgrounds | 7px | 8px |
 | `widgets/translucentbackground.svg` | Translucent applet popups | 7px | 8px |
@@ -178,11 +178,14 @@ color schemes that caused unreadable white popups on dark theme):
 All four exist in both `widgets/`, `solid/widgets/`, and
 `translucent/widgets/` as needed, with consistent colors.
 
-Tooltips are intentionally **borderless**: Windows 11 hover tooltips
-use a single rounded background with a soft drop shadow for
-separation, not a visible stroke. A 1 px SVG stroke against the
-tooltip window edge produced a double-border artifact, so the
-stroke was removed.
+Tooltips use a **subtle 1 px Fluent stroke** baked into the 9-patch
+edge/corner tiles (dark: white `#14FFFFFF`, light: black `#14000000`)
+to avoid the double-border artifact caused by an SVG `stroke`
+against the tooltip window edge. The fill matches the acrylic/popup
+spec for the default and translucent variants (`#2C2C2C` dark,
+`#F9F9F9` light) while solid fallbacks keep `#323130` dark and use
+`#F0F0F0` light. The soft outer drop shadow is reduced to 0.12 dark /
+0.10 light opacity for a diffuse Win11 elevation penumbra.
 
 #### Taskbar (`widgets/tasks.svg`)
 
