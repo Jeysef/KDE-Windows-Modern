@@ -129,11 +129,12 @@ The `contents/layout.js` creates:
 The template does not replace an existing panel automatically; users add it
 via right-click desktop → Add Panels → "Windows Modern Panel".
 
-In addition, each look-and-feel package ships the same layout in its
-`contents/layout.js`. When a user applies the global theme in System
-Settings → Appearance → Global Theme and chooses to use the desktop
-layout from the theme, Plasma removes any existing panels and creates
-the Windows Modern Panel automatically.
+In addition, each look-and-feel package ships the same layout as
+`contents/layouts/plasma-desktop-layout.js` (the file name Plasma 6
+expects for the `plasma-desktop` shell). When a user applies the global
+theme in System Settings → Appearance → Global Theme and chooses to use
+the desktop layout from the theme, Plasma removes any existing panels
+and creates the Windows Modern Panel automatically.
 
 #### Show Desktop applet (`plasma/applets/org.kde.windowsmodern.showdesktop/`)
 
@@ -378,12 +379,13 @@ Theme=windows-modern
 ColorScheme=WindowsModern{Dark,Light}
 ```
 
-Each package also contains `contents/layout.js`, the Plasma 6 desktop
-layout script. When the global theme is applied and the user opts in to
-the theme's desktop layout, this script first removes any existing
-panels and then creates the Windows Modern Panel (see the Panel layout
-template section above) with the Win11-style centered taskbar, start
-menu, system tray, clock, and show-desktop sliver.
+Each package also contains `contents/layouts/plasma-desktop-layout.js`,
+the Plasma 6 desktop layout script for the `plasma-desktop` shell. When
+the global theme is applied and the user opts in to the theme's desktop
+layout, this script first removes any existing panels and then creates
+the Windows Modern Panel (see the Panel layout template section above)
+with the Win11-style centered taskbar, start menu, system tray, clock,
+and show-desktop sliver.
 
 ### Icons
 
