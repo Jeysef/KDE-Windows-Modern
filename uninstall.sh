@@ -46,6 +46,7 @@ uninstall() {
   [[ -d ${ICONS_DIR}/windows-modern ]] && rm -rfv ${ICONS_DIR}/windows-modern
   [[ -d ${LAYOUT_DIR}/org.kde.windowsmodern.panel ]] && rm -rfv ${LAYOUT_DIR}/org.kde.windowsmodern.panel
   [[ -d ${APPLETS_DIR}/org.kde.windowsmodern.showdesktop ]] && rm -rfv ${APPLETS_DIR}/org.kde.windowsmodern.showdesktop
+  [[ -d ${APPLETS_DIR}/org.kde.windowsmodern.quicksettings ]] && rm -rfv ${APPLETS_DIR}/org.kde.windowsmodern.quicksettings
 }
 
 echo "Uninstalling '${THEME_NAME} kde themes'..."

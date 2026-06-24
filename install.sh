@@ -69,6 +69,12 @@ install() {
     rm -rf ${APPLETS_DIR}/org.kde.windowsmodern.showdesktop
     cp -r ${SRC_DIR}/plasma/applets/org.kde.windowsmodern.showdesktop                 ${APPLETS_DIR}
   fi
+
+  # Custom Quick Settings applet (Win11 flyout: toggles, sliders, media, power)
+  if [ -d "${SRC_DIR}/plasma/applets/org.kde.windowsmodern.quicksettings" ]; then
+    rm -rf ${APPLETS_DIR}/org.kde.windowsmodern.quicksettings
+    cp -r ${SRC_DIR}/plasma/applets/org.kde.windowsmodern.quicksettings                ${APPLETS_DIR}
+  fi
 }
 
 echo "Installing '${THEME_NAME} kde themes'..."

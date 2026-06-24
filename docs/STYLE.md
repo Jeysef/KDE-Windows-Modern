@@ -117,14 +117,18 @@ The `contents/layout.js` creates:
   4. **Right expanding spacer** — `org.kde.plasma.panelspacer`. Separates
      the centered Start + tasks group from the system tray on the far
      right.
-  5. **System tray** — `org.kde.plasma.systemtray`
-  6. **Digital clock** — `org.kde.plasma.digitalclock` pinned to
-     Segoe UI Regular 10pt, no date, no seconds, 12h format. The fixed
-     font size keeps the clock readable without dominating tall panels.
-  7. **Show Desktop** — `org.kde.windowsmodern.showdesktop`, a custom
-     forked applet (see below). Renders as an 6px-wide bare sliver with
-     a 1px separator line on its left edge, no icon. Click minimizes all
-     windows; click again restores.
+   5. **System tray** — `org.kde.plasma.systemtray`
+   6. **Quick Settings** — `org.kde.windowsmodern.quicksettings`, the
+      custom Win11-style flyout (see below). Renders as a compact
+      network/volume/battery cluster in the panel; click opens the
+      Quick Settings flyout with toggle tiles, sliders, media and power.
+   7. **Digital clock** — `org.kde.plasma.digitalclock` pinned to
+      Segoe UI Regular 10pt, no date, no seconds, 12h format. The fixed
+      font size keeps the clock readable without dominating tall panels.
+   8. **Show Desktop** — `org.kde.windowsmodern.showdesktop`, a custom
+      forked applet (see below). Renders as an 6px-wide bare sliver with
+      a 1px separator line on its left edge, no icon. Click minimizes all
+      windows; click again restores.
 
 The template does not replace an existing panel automatically; users add it
 via right-click desktop → Add Panels → "Windows Modern Panel".
@@ -136,6 +140,49 @@ user applies the global theme in System Settings → Appearance → Global
 Theme and chooses to use the desktop layout from the theme, Plasma
 removes any existing panels and creates the Windows Modern Panel
 automatically.
+
+#### Quick Settings applet (`plasma/applets/org.kde.windowsmodern.quicksettings/`)
+
+A custom Win11 Quick Settings flyout, built from scratch by combining
+the best patterns from the installed **Plasma Control Hub** (zayronxio)
+and **KDE Control Station** (Eliver Lara) plasmoids. Both are GPL-3.0+
+and were used as API reference only; the code is original.
+
+- **Compact representation** — a Win11-style system tray cluster showing
+  network, volume and battery icons in a row. Click opens the flyout.
+- **Full representation** — a 360px-wide flyout with:
+  - A 3-column grid of toggle tiles with 2:1 aspect ratio and a single
+    text label below each button. Tiles: Wi-Fi, Bluetooth (split tiles
+    with a chevron arrow opening a detail page), Airplane, Battery Saver,
+    Night Light. Active tiles use the system accent fill (`#0078D4`)
+    with white icons; inactive tiles use a subtle 4% text-color
+    background. 4px corner radius, matching Win11.
+  - Brightness and volume sliders using the system-default
+    `PlasmaComponents3.Slider` (themed via `widgets/slider.svg` and
+    Kvantum — see below). Volume slider has a right-facing chevron that
+    opens the audio KCM.
+  - Footer with battery percentage/icon, an edit pencil (opens search
+    settings) and a settings gear (opens System Settings), separated
+    from the content by a subtle background tint rather than a hard line.
+- **Page navigation** — a `StackView` pushes Network and Bluetooth
+  detail pages (Wi-Fi network list, paired device list) when the
+  split-tile chevrons are clicked.
+- **APIs used** — `org.kde.plasma.networkmanagement` (Wi-Fi/airplane),
+  `org.kde.bluezqt` (Bluetooth), `org.kde.plasma.private.volume`
+  (volume), `org.kde.plasma.private.brightnesscontrolplugin`
+  (brightness + `NightLightInhibitor`), `org.kde.notificationmanager`
+  (DND, unused in current layout), `org.kde.plasma.private.battery`
+  (battery), `org.kde.plasma.private.sessions` (power, unused in
+  current layout), `org.kde.plasma.workspace.dbus` (Night Light DBus
+  state), `org.kde.plasma.private.batterymonitor`
+  (`PowerProfilesControl` for battery saver).
+
+Config keys (`contents/config/main.xml`): `scale` (80-150%), `showVolume`,
+`showBrightness`, `showBattery`, `showNightLight`, `showBatterySaver`,
+`showAirplane`, `darkTheme` (default `WindowsModernDark`), `lightTheme`
+(default `WindowsModernLight`). Installed to
+`~/.local/share/plasma/plasmoids/` (or `/usr/share/plasma/plasmoids/` as
+root) by `install.sh`.
 
 #### Show Desktop applet (`plasma/applets/org.kde.windowsmodern.showdesktop/`)
 
@@ -186,6 +233,56 @@ spec for the default and translucent variants (`#2C2C2C` dark,
 `#F9F9F9` light) while solid fallbacks keep `#323130` dark and use
 `#F0F0F0` light. The soft outer drop shadow is reduced to 0.12 dark /
 0.10 light opacity for a diffuse Win11 elevation penumbra.
+
+#### Slider (`widgets/slider.svg` + Kvantum)
+
+System-wide slider styling across Plasma applets, Kvantum (Qt apps),
+and the Quick Settings flyout. The plasmoid uses the default
+`PlasmaComponents3.Slider`, which inherits the themed look.
+
+| Element | Dark | Light |
+|---|---|---|
+| Filled track | `#4CC2FF` (luminous cyan) | `#0078D4` (royal blue) |
+| Unfilled track | `#6E6E6E` (medium grey) | `#8B8B8B` (medium-dark grey) |
+| Knob outer ring | `#2C2C2C` (dark grey) | `#FFFFFF` with `#D5D5D5` border |
+| Knob inner circle | `#4CC2FF` (cyan) | `#0078D4` (royal blue) |
+| Hover/focus glow | `#4CC2FF` @ 20-30% opacity | `#0078D4` @ 20-30% opacity |
+
+- **Kvantum** — `slider_width=4`, `slider_handle_width=16`. The
+  `slidercursor-*` SVG elements render the two-circle knob (outer ring
+  + inner accent). Groove elements use solid fills (`slider-normal-*`
+  for unfilled, `slider-toggled-*` for filled).
+- **Plasma theme** — `widgets/slider.svg` uses the same two-circle
+  knob design. Groove uses hardcoded fills (not `ColorScheme-*`
+  classes) because Plasma's slider groove rendering does not reliably
+  honor theme classes for the unfilled portion.
+
+#### Switch / toggle (`widgets/switch.svg`)
+
+Renders the on/off toggle switches used in Plasma applet popups
+(e.g. network, Bluetooth, do-not-disturb). The original asset made
+the off-state track and thumb the same color as the popup
+background, so the switch was invisible against popups.
+
+| Element | Class | Notes |
+|---|---|---|
+| Off track fill | `ColorScheme-ButtonText` @ 20% dark / 12% light opacity | Derived neutral gray that contrasts with the popup |
+| On track fill | `ColorScheme-Highlight` | Uses the user's accent color from the Plasma color scheme |
+| Thumb fill | `#FFFFFF` | Win11 thumb is always white/light |
+| Thumb border | none | Flat, borderless design |
+| Focus/hover ring | `ColorScheme-Highlight` | Uses the same accent as the on track |
+
+- The track is a filled rounded pill in both states, matching the
+  Windows 11 toggle switch shape.
+- The on track uses `ColorScheme-Highlight` so it follows the user's
+  chosen accent color instead of a hardcoded blue.
+- The off track uses `ColorScheme-ButtonText` at reduced opacity to
+  derive a visible neutral gray from the color scheme.
+- The thumb is a 12 px white circle on a 16 px high track, leaving a
+  uniform 2 px margin so it sits inside the pill instead of extending
+  over the track edges.
+- Hover and pressed handle states reuse the white thumb with an
+  accent focus ring.
 
 #### Taskbar (`widgets/tasks.svg`)
 
@@ -464,7 +561,8 @@ windows_modern2/
 │   └── windows-modern/                   # Win11 icon theme (gitignored)
 ├── plasma/
 │   ├── applets/
-│   │   └── org.kde.windowsmodern.showdesktop/  # Forked show-desktop sliver
+│   │   ├── org.kde.windowsmodern.quicksettings/  # Win11 Quick Settings flyout
+│   │   └── org.kde.windowsmodern.showdesktop/    # Forked show-desktop sliver
 │   ├── desktoptheme/
 │   │   ├── Windows-modern-dark/         # Dark plasma theme (165 SVGs)
 │   │   └── Windows-modern-light/        # Light plasma theme (165 SVGs)

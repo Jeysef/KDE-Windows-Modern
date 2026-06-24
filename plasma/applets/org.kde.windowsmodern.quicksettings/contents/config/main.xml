@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+    <kcfgfile name=""/>
+
+    <group name="General">
+        <entry name="scale" type="Int">
+            <default>100</default>
+            <min>80</min>
+            <max>150</max>
+        </entry>
+        <entry name="showVolume" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showBrightness" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showMediaPlayer" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showBattery" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showNightLight" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showBatterySaver" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showDnd" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showColorSwitcher" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showAirplane" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="darkTheme" type="String">
+            <default>WindowsModernDark</default>
+        </entry>
+        <entry name="lightTheme" type="String">
+            <default>WindowsModernLight</default>
+        </entry>
+    </group>
+</kcfg>

@@ -195,24 +195,24 @@
  <path id="titlebar-normal" d="m223.93 399.69v32h32v-32z" fill="#2c2c2c"/>
  <path id="titlebar-focused" d="m223.93 354.69v32h32v-32z" fill="#202020"/>
  <g id="slider-normal-right" transform="translate(295.49 133.02)">
-  <rect x="34" y="162" width="8" height="8" fill="#ffffff" opacity=".25"/>
+  <rect x="34" y="162" width="8" height="8" fill="#6E6E6E"/>
  </g>
- <rect id="slider-toggled-topright" x="309.49" y="287.02" width="8" height="8" fill="#0078D4"/>
- <rect id="slider-toggled-bottomright" x="309.49" y="303.02" width="8" height="8" fill="#0078D4"/>
- <rect id="slider-toggled-topleft" x="301.49" y="287.02" width="8" height="8" fill="#0078D4"/>
- <rect id="slider-toggled-bottomleft" x="301.49" y="303.02" width="8" height="8" fill="#0078D4"/>
- <rect id="slider-normal-topright" x="329.49" y="287.02" width="8" height="8" fill="#ffffff" opacity=".25"/>
- <rect id="slider-normal-bottomright" x="329.49" y="303.02" width="8" height="8" fill="#ffffff" opacity=".25"/>
- <rect id="slider-normal-topleft" x="321.49" y="287.02" width="8" height="8" fill="#ffffff" opacity=".25"/>
- <rect id="slider-normal-bottomleft" x="321.49" y="303.02" width="8" height="8" fill="#ffffff" opacity=".25"/>
+ <rect id="slider-toggled-topright" x="309.49" y="287.02" width="8" height="8" fill="#4CC2FF"/>
+ <rect id="slider-toggled-bottomright" x="309.49" y="303.02" width="8" height="8" fill="#4CC2FF"/>
+ <rect id="slider-toggled-topleft" x="301.49" y="287.02" width="8" height="8" fill="#4CC2FF"/>
+ <rect id="slider-toggled-bottomleft" x="301.49" y="303.02" width="8" height="8" fill="#4CC2FF"/>
+ <rect id="slider-normal-topright" x="329.49" y="287.02" width="8" height="8" fill="#6E6E6E"/>
+ <rect id="slider-normal-bottomright" x="329.49" y="303.02" width="8" height="8" fill="#6E6E6E"/>
+ <rect id="slider-normal-topleft" x="321.49" y="287.02" width="8" height="8" fill="#6E6E6E"/>
+ <rect id="slider-normal-bottomleft" x="321.49" y="303.02" width="8" height="8" fill="#6E6E6E"/>
  <g id="slider-toggled-right" transform="translate(275.49 133.02)">
-  <rect x="34" y="162" width="8" height="8" fill="#0078D4"/>
+  <rect x="34" y="162" width="8" height="8" fill="#4CC2FF"/>
  </g>
  <g id="slider-toggled-left" transform="translate(267.49 133.02)">
-  <rect x="34" y="162" width="8" height="8" fill="#0078D4"/>
+  <rect x="34" y="162" width="8" height="8" fill="#4CC2FF"/>
  </g>
  <g id="slider-normal-left" transform="translate(287.49 133.02)">
-  <rect x="34" y="162" width="8" height="8" fill="#ffffff" opacity=".25"/>
+  <rect x="34" y="162" width="8" height="8" fill="#6E6E6E"/>
  </g>
  <rect id="tab-tear" x="95" y="615" width="15" height="15" fill="#0078D4"/>
  <g id="menuitem-tearoff-focused" transform="translate(83.742 -272.34)">
@@ -1174,44 +1174,50 @@
   <rect x="25" y="317" width="8" height="8" opacity=".001"/>
   <rect transform="rotate(90)" x="320" y="-33" width="2" height="8" fill="#fff" opacity=".3"/>
  </g>
- <g id="slidercursor-tickless-normal" transform="translate(57.063 -130.71)">
-  <rect x="317" y="405" width="22" height="22" opacity=".001"/>
-  <circle cx="328" cy="416" r="5" fill="#0078D4"/>
- </g>
- <g id="slidercursor-tickless-pressed" transform="translate(57.063 -130.71)">
-  <rect x="361" y="405" width="22" height="22" opacity=".001"/>
-  <circle cx="372" cy="416" r="11" fill="#0078D4" opacity=".3"/>
-  <circle cx="372" cy="416" r="5" fill="#0078D4"/>
- </g>
- <g id="slidercursor-tickless-focused" transform="translate(57.063 -130.71)">
-  <rect x="339" y="405" width="22" height="22" opacity=".001"/>
-  <circle cx="350" cy="416" r="11" fill="#0078D4" opacity=".2"/>
-  <circle cx="350" cy="416" r="5" fill="#0078D4"/>
- </g>
- <g id="slidercursor-tickless-disabled" transform="translate(57.063 -130.71)">
-  <rect x="295" y="405" width="22" height="22" opacity=".001"/>
-  <circle cx="306" cy="416" r="5" fill="#5A5A5A"/>
-  <circle cx="306" cy="416" r="3" fill="#3F3F3F"/>
- </g>
- <g id="slidercursor-normal" transform="translate(57.063 -130.71)">
-  <rect x="317" y="427" width="22" height="22" opacity=".001"/>
-  <path d="m335 438-3.3999-3.4717c-2e-3 -2e-3 -6e-3 -2e-3 -8e-3 -5e-3 -0.94165-0.97333-2.2378-1.5231-3.5921-1.5234-2.7614 0-5 2.2386-5 5s2.2386 5 5 5c1.3405-2e-3 2.6242-0.54194 3.5628-1.499 4e-3 -2e-3 9e-3 -4e-3 0.013-7e-3z" fill="#0078D4"/>
- </g>
- <g id="slidercursor-focused" transform="translate(57.063 -130.71)">
-  <rect x="339" y="427" width="22" height="22" opacity=".001"/>
-  <circle cx="350" cy="438" r="11" fill="#0078D4" opacity=".2"/>
-  <path d="m357 438-3.3999-3.4717c-2e-3 -2e-3 -6e-3 -2e-3 -8e-3 -5e-3 -0.94165-0.97333-2.2378-1.5231-3.5921-1.5234-2.7614 0-5 2.2386-5 5s2.2386 5 5 5c1.3405-2e-3 2.6242-0.54194 3.5628-1.499 4e-3 -2e-3 9e-3 -4e-3 0.013-7e-3z" fill="#0078D4"/>
- </g>
- <g id="slidercursor-pressed" transform="translate(57.063 -130.71)">
-  <rect x="361" y="427" width="22" height="22" opacity=".001"/>
-  <circle cx="372" cy="438" r="11" fill="#0078D4" opacity=".3"/>
-  <path d="m379 438-3.3999-3.4717c-2e-3 -2e-3 -6e-3 -2e-3 -8e-3 -5e-3 -0.94165-0.97333-2.2378-1.5231-3.5921-1.5234-2.7614 0-5 2.2386-5 5s2.2386 5 5 5c1.3405-2e-3 2.6242-0.54194 3.5628-1.499 4e-3 -2e-3 9e-3 -4e-3 0.013-7e-3z" fill="#0078D4"/>
- </g>
- <g id="slidercursor-disabled" transform="translate(57.063 -130.71)">
-  <rect x="295" y="427" width="23" height="22" opacity=".001"/>
-  <path d="m306 433c-2.7614 0-5 2.2386-5 5s2.2386 5 5 5c1.3405-2e-3 2.6239-0.54097 3.5625-1.498 4e-3 -2e-3 0.01-5e-3 0.0137-8e-3l3.4238-3.494-3.4004-3.4707c-2e-3 -2e-3 -6e-3 -3e-3 -8e-3 -6e-3 -0.94146-0.97319-2.2373-1.5229-3.5916-1.5233z" fill="#5A5A5A"/>
-  <path d="m306 435c-1.6796 1e-3 -2.998 1.3201-2.998 3s1.3184 2.999 2.998 3c0.80472-2e-3 1.5735-0.32413 2.1367-0.89844a2.0002 2.0002 0 0 1 0.0664-0.0645l1.998-2.0371-1.998-2.0371a2.0002 2.0002 0 0 1-0.0664-0.0645c-0.56325-0.57431-1.332-0.89644-2.1367-0.89844z" fill="#3F3F3F"/>
- </g>
+  <g id="slidercursor-tickless-normal" transform="translate(57.063 -130.71)">
+   <rect x="317" y="405" width="16" height="16" opacity=".001"/>
+   <circle cx="325" cy="413" r="7" fill="#2C2C2C"/>
+   <circle cx="325" cy="413" r="4" fill="#4CC2FF"/>
+  </g>
+  <g id="slidercursor-tickless-pressed" transform="translate(57.063 -130.71)">
+   <rect x="361" y="405" width="16" height="16" opacity=".001"/>
+   <circle cx="369" cy="413" r="9" fill="#4CC2FF" opacity=".3"/>
+   <circle cx="369" cy="413" r="7" fill="#2C2C2C"/>
+   <circle cx="369" cy="413" r="4" fill="#4CC2FF"/>
+  </g>
+  <g id="slidercursor-tickless-focused" transform="translate(57.063 -130.71)">
+   <rect x="339" y="405" width="16" height="16" opacity=".001"/>
+   <circle cx="347" cy="413" r="9" fill="#4CC2FF" opacity=".2"/>
+   <circle cx="347" cy="413" r="7" fill="#2C2C2C"/>
+   <circle cx="347" cy="413" r="4" fill="#4CC2FF"/>
+  </g>
+  <g id="slidercursor-tickless-disabled" transform="translate(57.063 -130.71)">
+   <rect x="295" y="405" width="16" height="16" opacity=".001"/>
+   <circle cx="303" cy="413" r="7" fill="#3F3F3F"/>
+   <circle cx="303" cy="413" r="4" fill="#5A5A5A"/>
+  </g>
+  <g id="slidercursor-normal" transform="translate(57.063 -130.71)">
+   <rect x="317" y="427" width="16" height="16" opacity=".001"/>
+   <circle cx="325" cy="435" r="7" fill="#2C2C2C"/>
+   <circle cx="325" cy="435" r="4" fill="#4CC2FF"/>
+  </g>
+  <g id="slidercursor-focused" transform="translate(57.063 -130.71)">
+   <rect x="339" y="427" width="16" height="16" opacity=".001"/>
+   <circle cx="347" cy="435" r="9" fill="#4CC2FF" opacity=".2"/>
+   <circle cx="347" cy="435" r="7" fill="#2C2C2C"/>
+   <circle cx="347" cy="435" r="4" fill="#4CC2FF"/>
+  </g>
+  <g id="slidercursor-pressed" transform="translate(57.063 -130.71)">
+   <rect x="361" y="427" width="16" height="16" opacity=".001"/>
+   <circle cx="369" cy="435" r="9" fill="#4CC2FF" opacity=".3"/>
+   <circle cx="369" cy="435" r="7" fill="#2C2C2C"/>
+   <circle cx="369" cy="435" r="4" fill="#4CC2FF"/>
+  </g>
+  <g id="slidercursor-disabled" transform="translate(57.063 -130.71)">
+   <rect x="295" y="427" width="16" height="16" opacity=".001"/>
+   <circle cx="303" cy="435" r="7" fill="#3F3F3F"/>
+   <circle cx="303" cy="435" r="4" fill="#5A5A5A"/>
+  </g>
  <rect id="dock-normal" x="355.99" y="946.25" width="30" height="30" fill="#2C2C2C"/>
  <g transform="translate(.99479 -223.75)" fill="#ffffff" opacity=".15">
   <rect id="dock-focused-left" x="399.5" y="1170" width="5" height="30"/>

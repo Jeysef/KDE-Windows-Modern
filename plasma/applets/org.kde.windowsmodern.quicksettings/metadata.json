@@ -1,0 +1,29 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "",
+                "Name": "Jeysef"
+            }
+        ],
+        "BugReportUrl": "https://github.com/yeyushengfan258/Win11OS-kde",
+        "Category": "Utilities",
+        "Description": "Windows 11 style Quick Settings flyout with toggle tiles, brightness and volume sliders, media controls and power actions.",
+        "EnabledByDefault": true,
+        "FormFactors": [
+            "desktop"
+        ],
+        "Icon": "preferences-system-windows",
+        "Id": "org.kde.windowsmodern.quicksettings",
+        "License": "GPL-3.0-or-later",
+        "Name": "Quick Settings (Windows Modern)",
+        "Version": "1.0",
+        "Website": "https://github.com/yeyushengfan258/Win11OS-kde"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-Provides": [
+        "org.kde.plasma.multimediacontrols",
+        "org.kde.plasma.powermanagement"
+    ]
+}
