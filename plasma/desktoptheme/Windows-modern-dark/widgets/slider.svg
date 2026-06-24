@@ -12,6 +12,7 @@
   </defs>
   <g id="horizontal-slider-handle">
     <rect x="0" y="9" width="24" height="24" opacity="0" />
+    <circle cx="12" cy="21" r="8" class="ColorScheme-Text" fill="currentColor" opacity=".2" />
     <circle cx="12" cy="21" r="7" class="ColorScheme-ButtonBackground" fill="currentColor" />
     <circle cx="12" cy="21" r="4" class="ColorScheme-Highlight" fill="currentColor" />
   </g>
@@ -29,6 +30,7 @@
   </g>
   <g id="vertical-slider-handle">
     <rect x="0" y="37" width="24" height="24" opacity="0" />
+    <circle cx="12" cy="49" r="8" class="ColorScheme-Text" fill="currentColor" opacity=".2" />
     <circle cx="12" cy="49" r="7" class="ColorScheme-ButtonBackground" fill="currentColor" />
     <circle cx="12" cy="49" r="4" class="ColorScheme-Highlight" fill="currentColor" />
   </g>
