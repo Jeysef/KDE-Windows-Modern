@@ -119,8 +119,14 @@ The `contents/layout.js` creates:
      a 1px separator line on its left edge, no icon. Click minimizes all
      windows; click again restores.
 
-This does not replace an existing panel automatically; users add it
+The template does not replace an existing panel automatically; users add it
 via right-click desktop → Add Panels → "Windows Modern Panel".
+
+In addition, each look-and-feel package ships the same layout in its
+`contents/layout.js`. When a user applies the global theme in System
+Settings → Appearance → Global Theme and chooses to use the desktop
+layout from the theme, Plasma removes any existing panels and creates
+the Windows Modern Panel automatically.
 
 #### Show Desktop applet (`plasma/applets/org.kde.windowsmodern.showdesktop/`)
 
@@ -155,13 +161,19 @@ color schemes that caused unreadable white popups on dark theme):
 
 | File | Purpose | Corners | Margin hints |
 |---|---|---|---|
-| `widgets/tooltip.svg` | Hover tooltips | 4px | 8px |
+| `widgets/tooltip.svg` | Hover tooltips | 4px radius, borderless | 8px |
 | `dialogs/background.svg` | Dialog/popup backgrounds | 7px | 8px |
 | `widgets/background.svg` | Applet/widget backgrounds | 7px | 8px |
 | `widgets/translucentbackground.svg` | Translucent applet popups | 7px | 8px |
 
 All four exist in both `widgets/`, `solid/widgets/`, and
 `translucent/widgets/` as needed, with consistent colors.
+
+Tooltips are intentionally **borderless**: Windows 11 hover tooltips
+use a single rounded background with a soft drop shadow for
+separation, not a visible stroke. A 1 px SVG stroke against the
+tooltip window edge produced a double-border artifact, so the
+stroke was removed.
 
 #### Taskbar (`widgets/tasks.svg`)
 
@@ -358,6 +370,13 @@ Theme=windows-modern
 [kdeglobals][General]
 ColorScheme=WindowsModern{Dark,Light}
 ```
+
+Each package also contains `contents/layout.js`, the Plasma 6 desktop
+layout script. When the global theme is applied and the user opts in to
+the theme's desktop layout, this script first removes any existing
+panels and then creates the Windows Modern Panel (see the Panel layout
+template section above) with the Win11-style centered taskbar, start
+menu, system tray, clock, and show-desktop sliver.
 
 ### Icons
 
