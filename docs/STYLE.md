@@ -104,10 +104,10 @@ The `contents/layout.js` creates:
 - Opaque background (`panel.opacity="opaque"`) — no adaptive
   translucency toggling when windows touch the panel.
 - Widgets left→right:
-  1. **Start** — `org.kde.plasma.kickoff` (icon `start-here`). The
-     launcher glyph scales with panel height; at 48px it fills most of
-     the panel. For a proportionally smaller logo use ~32px or adjust
-     Kickoff's "Icon size" setting after adding the panel.
+  1. **Start** — `org.kde.plasma.kickoff` (icon `start-here`). A custom
+     Windows-logo icon is provided, with both a scalable version and a
+     fixed `48/apps/start-here.svg` that draws the logo at 30px so it
+     matches the app-icon size on a 48px panel.
   2. **Icon-only task manager** — `org.kde.plasma.icontasks` (fills
      the center, grouped by app)
   3. **System tray** — `org.kde.plasma.systemtray`
@@ -165,6 +165,18 @@ All four exist in both `widgets/`, `solid/widgets/`, and
 
 #### Taskbar (`widgets/tasks.svg`)
 
+Rendered by the upstream `org.kde.plasma.icontasks` applet (the panel
+layout template uses it). The SVG supplies the hover/focus background
+ visuals:
+
+| State | Dark | Light |
+|---|---|---|
+| Hover fill | `#0FFFFFFF` (~6% white) | `#09000000` (~3.5% black) |
+| Hover border | `#08FFFFFF` (~3% white) | `#08000000` (~3% black) |
+| Focus/pressed fill | `#17FFFFFF` (9% white) | `#17000000` (9% black) |
+| Corner radius | 4 px | 4 px |
+| Border thickness | 1 px | 1 px |
+
 - **Group expander removed** — the `group-expander-*` groups (white
   circle with `+` icon) are emptied. Windows 11 does not show a plus
   indicator on grouped taskbar buttons.
@@ -172,6 +184,11 @@ All four exist in both `widgets/`, `solid/widgets/`, and
   under normal/minimized task buttons uses solid `#858585` at full
   opacity in both dark and light variants. Active/hover indicators
   remain blue (`#4bc8ff`).
+
+> Note: upstream `icontasks` is now a compiled C++ plugin, so exact
+> 40×40 px hover-box sizing and a separate mouse-down pressed state can
+> only be controlled from the SVG/theme level. The values above are the
+> closest match using the Plasma desktop theme.
 
 #### Icons
 
@@ -359,6 +376,19 @@ to `scalable/status/`. `index.theme` rewritten with 88 directory
 entries and correct `Context=Categories` (was `Applications`)
 labeling. Inherits `breeze-dark,hicolor`. The `icon-theme.cache`
 is rebuilt at install time via `gtk-update-icon-cache`.
+
+#### Start-here icon
+
+A custom Windows-logo start menu icon is shipped as
+`scalable/apps/start-here.svg` and `48/apps/start-here.svg`:
+
+- The **scalable** version is used at most panel heights.
+- The **48px fixed** version draws the logo at exactly 30px (matching
+  `icontasks` app icons on a 48px panel) instead of scaling the
+  full-canvas logo up to the panel height.
+- `start-here-kde.svg` and `start-here-kde-plasma.svg` are symlinks to
+  `start-here.svg` in both `scalable/apps/` and `48/apps/` so any
+  Plasma fallback icon name uses the same glyph.
 
 ---
 
