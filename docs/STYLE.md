@@ -104,17 +104,24 @@ The `contents/layout.js` creates:
 - Opaque background (`panel.opacity="opaque"`) — no adaptive
   translucency toggling when windows touch the panel.
 - Widgets left→right:
-  1. **Start** — `org.kde.plasma.kickoff` (icon `start-here`). A custom
+  1. **Left expanding spacer** — `org.kde.plasma.panelspacer`. Pushes
+     the Start + tasks group to the horizontal center of the panel,
+     matching Win11's centered taskbar.
+  2. **Start** — `org.kde.plasma.kickoff` (icon `start-here`). A custom
      Windows-logo icon is provided, with both a scalable version and a
      fixed `48/apps/start-here.svg` that draws the logo at 30px so it
      matches the app-icon size on a 48px panel.
-  2. **Icon-only task manager** — `org.kde.plasma.icontasks` (fills
-     the center, grouped by app)
-  3. **System tray** — `org.kde.plasma.systemtray`
-  4. **Digital clock** — `org.kde.plasma.digitalclock` pinned to
+  3. **Icon-only task manager** — `org.kde.plasma.icontasks` (grouped
+     by app, sits immediately to the right of Start in the centered
+     group)
+  4. **Right expanding spacer** — `org.kde.plasma.panelspacer`. Separates
+     the centered Start + tasks group from the system tray on the far
+     right.
+  5. **System tray** — `org.kde.plasma.systemtray`
+  6. **Digital clock** — `org.kde.plasma.digitalclock` pinned to
      Segoe UI Regular 10pt, no date, no seconds, 12h format. The fixed
      font size keeps the clock readable without dominating tall panels.
-  5. **Show Desktop** — `org.kde.windowsmodern.showdesktop`, a custom
+  7. **Show Desktop** — `org.kde.windowsmodern.showdesktop`, a custom
      forked applet (see below). Renders as an 6px-wide bare sliver with
      a 1px separator line on its left edge, no icon. Click minimizes all
      windows; click again restores.
