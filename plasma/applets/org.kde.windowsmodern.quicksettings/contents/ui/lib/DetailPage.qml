@@ -23,14 +23,22 @@ ColumnLayout {
         Layout.preferredHeight: 32
         Layout.leftMargin: 10
         Layout.rightMargin: 10
+        Layout.bottomMargin: 8
         spacing: 6
 
-        Kirigami.Icon {
-            width: 14
-            height: 14
-            source: "go-previous"
-            color: Kirigami.Theme.textColor
-            isMask: true
+        Item {
+            width: 18
+            height: 18
+            Layout.alignment: Qt.AlignVCenter
+
+            Kirigami.Icon {
+                anchors.centerIn: parent
+                width: 16
+                height: 16
+                source: "go-previous"
+                color: Kirigami.Theme.textColor
+                isMask: true
+            }
 
             MouseArea {
                 anchors.fill: parent
