@@ -364,8 +364,8 @@
     <path
        id="rect835-3-6"
        d="M 68,16 H 88 V 36 H 68 Z"
-       fill="none"
-       opacity="0.02" />
+       fill="#000000"
+       opacity="0.00392157" />
     <rect
        id="rect841-6-6-5-3-3"
        class="ColorScheme-Background"
@@ -379,10 +379,10 @@
     <path
        id="rect841-6"
        d="m 78,19 c -3.866,0 -7,3.134 -7,7 0,3.866 3.134,7 7,7 3.866,0 7,-3.134 7,-7 0,-3.866 -3.134,-7 -7,-7 z m 0,1 c 3.313,0 6,2.687 6,6 0,3.313 -2.687,6 -6,6 -3.313,0 -6,-2.687 -6,-6 0,-3.313 2.687,-6 6,-6 z"
-       class="ColorScheme-Text"
+       class="ColorScheme-Highlight"
        fill="currentColor"
        fill-rule="evenodd"
-       opacity="0.4" />
+       opacity="1" />
   </g>
   <g
      transform="translate(-30,-11)"
@@ -417,8 +417,8 @@
     <path
        id="path4176"
        d="M 68,16 H 88 V 36 H 68 Z"
-       fill="none"
-       opacity="0.02" />
+       fill="#000000"
+       opacity="0.00392157" />
     <rect
        id="rect4178"
        class="ColorScheme-Highlight"
