@@ -379,10 +379,10 @@
     <path
        id="rect841-6"
        d="m 78,19 c -3.866,0 -7,3.134 -7,7 0,3.866 3.134,7 7,7 3.866,0 7,-3.134 7,-7 0,-3.866 -3.134,-7 -7,-7 z m 0,1 c 3.313,0 6,2.687 6,6 0,3.313 -2.687,6 -6,6 -3.313,0 -6,-2.687 -6,-6 0,-3.313 2.687,-6 6,-6 z"
-       class="ColorScheme-Highlight"
+       class="ColorScheme-Text"
        fill="currentColor"
        fill-rule="evenodd"
-       opacity="1" />
+       opacity="0.35" />
   </g>
   <g
      transform="translate(-30,-11)"
