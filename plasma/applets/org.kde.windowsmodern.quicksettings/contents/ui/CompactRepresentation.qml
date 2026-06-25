@@ -32,6 +32,13 @@ MouseArea {
 
     BatteryControlModel { id: batteryControl }
 
+    PlasmaCore.ToolTipArea {
+        anchors.fill: parent
+        mainText: i18n("Quick Settings")
+        subText: ""
+        textFormat: Text.PlainText
+    }
+
     RowLayout {
         id: row
         anchors.centerIn: parent

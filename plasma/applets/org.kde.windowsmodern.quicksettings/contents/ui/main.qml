@@ -10,6 +10,9 @@ PlasmoidItem {
     Plasmoid.title: i18n("Quick Settings")
     Plasmoid.backgroundHints: PlasmaCore.Types.StandardBackground
 
+    toolTipMainText: Plasmoid.title
+    toolTipSubText: ""
+
     compactRepresentation: CompactRepresentation {}
     fullRepresentation: QuickSettings {}
 }
