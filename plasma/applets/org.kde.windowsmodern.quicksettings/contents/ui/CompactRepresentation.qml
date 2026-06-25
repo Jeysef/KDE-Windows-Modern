@@ -37,32 +37,39 @@ MouseArea {
         anchors.centerIn: parent
         spacing: 2
 
-        Kirigami.Icon {
-            Layout.preferredWidth: 20
-            Layout.preferredHeight: 20
-            source: connectionIcon.connectionIcon
-            color: Kirigami.Theme.textColor
-            isMask: true
-            roundToIconSize: false
+        Item {
+            Layout.preferredWidth: 26
+            Layout.preferredHeight: 26
+
+            Kirigami.Icon {
+                anchors.fill: parent
+                source: connectionIcon.connectionIcon
+            }
         }
 
-        Kirigami.Icon {
-            Layout.preferredWidth: 20
-            Layout.preferredHeight: 20
-            source: Funcs.volIconName(compact.sinkAvailable ? compact.sink.volume : 0, compact.sinkAvailable ? compact.sink.muted : true)
-            color: Kirigami.Theme.textColor
-            isMask: true
-            roundToIconSize: false
+        Item {
+            Layout.preferredWidth: 26
+            Layout.preferredHeight: 26
+
+            Kirigami.Icon {
+                anchors.fill: parent
+                source: Funcs.volIconName(compact.sinkAvailable ? compact.sink.volume : 0, compact.sinkAvailable ? compact.sink.muted : true)
+                color: Kirigami.Theme.textColor
+                isMask: true
+            }
         }
 
-        Kirigami.Icon {
+        Item {
             visible: batteryControl.hasBatteries
-            Layout.preferredWidth: 20
-            Layout.preferredHeight: 20
-            source: Funcs.batteryIconName(batteryControl.percent, batteryControl.state === BatteryControlModel.Charging)
-            color: Kirigami.Theme.textColor
-            isMask: true
-            roundToIconSize: false
+            Layout.preferredWidth: 22
+            Layout.preferredHeight: 22
+
+            Kirigami.Icon {
+                anchors.fill: parent
+                source: Funcs.batteryIconName(batteryControl.percent, batteryControl.state === BatteryControlModel.Charging)
+                color: Kirigami.Theme.textColor
+                isMask: true
+            }
         }
     }
 }

@@ -64,9 +64,11 @@ ColumnLayout {
     ScrollView {
         Layout.fillWidth: true
         Layout.fillHeight: true
-        Layout.leftMargin: 6
-        Layout.rightMargin: 6
         clip: true
+        leftPadding: 0
+        rightPadding: 0
+        topPadding: 0
+        bottomPadding: 0
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
         ListView {
