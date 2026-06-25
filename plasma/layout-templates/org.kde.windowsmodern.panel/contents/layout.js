@@ -75,6 +75,8 @@ var quick = panel.addWidget("org.kde.windowsmodern.quicksettings");
 //    but does not dominate the panel at 48px.
 //    IMPORTANT: autoFontAndSize must be set to false; otherwise Plasma
 //    ignores fontFamily/fontSize and auto-sizes the text to the panel.
+//    use24hFormat = 1 lets the clock follow the user's locale/region
+//    defaults instead of forcing 12- or 24-hour time.
 var clock = panel.addWidget("org.kde.plasma.digitalclock");
 clock.currentConfigGroup = new Array("Appearance");
 clock.writeConfig("autoFontAndSize", "false");
@@ -83,7 +85,7 @@ clock.writeConfig("fontStyleName", "Regular");
 clock.writeConfig("fontSize", "10");
 clock.writeConfig("showDate", "false");
 clock.writeConfig("showSeconds", "0");
-clock.writeConfig("use24hFormat", "0");
+clock.writeConfig("use24hFormat", "1");
 
 // 7. Show Desktop — custom Win11-style thin sliver (minimize-all on click).
 //    Uses our forked applet (org.kde.windowsmodern.showdesktop) which renders
