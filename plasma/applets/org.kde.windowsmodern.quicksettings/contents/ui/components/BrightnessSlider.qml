@@ -8,7 +8,7 @@ Lib.Slider {
 
     property var mainScreen: null
 
-    iconSource: "brightness-high"
+    iconSource: "display-brightness-symbolic"
 
     ScreenBrightnessControl {
         id: sbControl

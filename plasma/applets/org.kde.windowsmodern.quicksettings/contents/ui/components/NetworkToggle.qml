@@ -13,8 +13,10 @@ Lib.SplitTile {
 
     readonly property bool wifiAvailable: availableDevices.wirelessDeviceAvailable
     readonly property bool wifiOn: wifiAvailable && enabledConnections.wirelessEnabled
+
     label: qsTr("Wi-Fi")
     iconSource: activeConnectionIcon.connectionIcon
+    active: wifiOn
 
     onClicked: {
         if (wifiAvailable) {
