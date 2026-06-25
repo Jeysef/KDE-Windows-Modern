@@ -142,7 +142,7 @@
          id="path3239"
          fill="currentColor"
          class="ColorScheme-Highlight"
-         d="M 30,45 C 30,36.628883 36.606391,30 45,30 V 45" />
+         d="M 28,45 C 28,35.6109 35.6109,28 45,28 V 45" />
       <path
          id="path2278"
          fill="currentColor"
@@ -154,7 +154,7 @@
          id="path2040"
          fill="currentColor"
          class="ColorScheme-Highlight"
-         d="m 30,45 c 0,-8.371117 6.606391,-15 15,-15 v 1 c -7.750845,0 -14,6.202439 -14,14"
+         d="m 28,45 c 0,-8.929191 7.046817,-16 16,-16 v 1 c -8.267568,0 -14.933333,6.615935 -14.933333,14.933333"
          style="fill:currentColor;fill-opacity:1" />
     </g>
     <g
@@ -164,7 +164,7 @@
          id="path3154"
          fill="currentColor"
          class="ColorScheme-Highlight"
-         d="M 30,45 C 30,36.628883 36.606391,30 45,30 V 45" />
+         d="M 28,45 C 28,35.6109 35.6109,28 45,28 V 45" />
       <path
          id="path2289"
          fill="currentColor"
@@ -176,7 +176,7 @@
          id="path2291"
          fill="currentColor"
          class="ColorScheme-Highlight"
-         d="m 30,45 c 0,-8.371117 6.606391,-15 15,-15 v 1 c -7.750845,0 -14,6.202439 -14,14"
+         d="m 28,45 c 0,-8.929191 7.046817,-16 16,-16 v 1 c -8.267568,0 -14.933333,6.615935 -14.933333,14.933333"
          style="fill:currentColor;fill-opacity:1" />
     </g>
   </g>
@@ -189,7 +189,7 @@
          id="path2987"
          fill="currentColor"
          class="ColorScheme-Highlight"
-         d="M 30,45 C 30,36.628883 36.606391,30 45,30 V 45" />
+         d="M 28,45 C 28,35.6109 35.6109,28 45,28 V 45" />
       <path
          id="path2283"
          fill="currentColor"
@@ -201,7 +201,7 @@
          id="path2285"
          fill="currentColor"
          class="ColorScheme-Highlight"
-         d="m 30,45 c 0,-8.371117 6.606391,-15 15,-15 v 1 c -7.750845,0 -14,6.202439 -14,14"
+         d="m 28,45 c 0,-8.929191 7.046817,-16 16,-16 v 1 c -8.267568,0 -14.933333,6.615935 -14.933333,14.933333"
          style="fill:currentColor;fill-opacity:1" />
     </g>
     <g
@@ -211,7 +211,7 @@
          id="path3070"
          fill="currentColor"
          class="ColorScheme-Highlight"
-         d="M 30,45 C 30,36.628883 36.606391,30 45,30 V 45" />
+         d="M 28,45 C 28,35.6109 35.6109,28 45,28 V 45" />
       <path
          id="path2295"
          fill="currentColor"
@@ -223,7 +223,7 @@
          id="path2297"
          fill="currentColor"
          class="ColorScheme-Highlight"
-         d="m 30,45 c 0,-8.371117 6.606391,-15 15,-15 v 1 c -7.750845,0 -14,6.202439 -14,14"
+         d="m 28,45 c 0,-8.929191 7.046817,-16 16,-16 v 1 c -8.267568,0 -14.933333,6.615935 -14.933333,14.933333"
          style="fill:currentColor;fill-opacity:1" />
     </g>
   </g>
@@ -235,12 +235,12 @@
       <path
          id="path2824"
          class="ColorScheme-Highlight"
-         d="m 53,30 h 5 v 15 h -5 z"
+         d="m 53,28 h 5 v 17 h -5 z"
          style="fill:currentColor" />
       <path
          id="path2453"
          class="ColorScheme-Highlight"
-         d="m 53,30 h 5 v 15 h -5 z"
+         d="m 53,28 h 5 v 17 h -5 z"
          style="opacity:1;fill:currentColor;fill-rule:evenodd;fill-opacity:1" />
       <path
          fill="currentColor"
@@ -255,12 +255,12 @@
       <path
          id="path2905"
          class="ColorScheme-Highlight"
-         d="m 53,30 h 5 v 15 h -5 z"
+         d="m 53,28 h 5 v 17 h -5 z"
          style="fill:currentColor;fill-rule:evenodd" />
       <path
          id="path2644"
          class="ColorScheme-Highlight"
-         d="m 53,30 h 5 v 15 h -5 z"
+         d="m 53,28 h 5 v 17 h -5 z"
          style="opacity:1;fill:currentColor;fill-rule:evenodd;fill-opacity:1" />
       <path
          fill="currentColor"
