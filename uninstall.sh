@@ -40,9 +40,8 @@ uninstall() {
   [[ -d ${AURORAE_THEME} ]] && rm -rfv ${AURORAE_THEME}
   [[ -d ${PLASMA_THEME} ]] && rm -rfv ${PLASMA_THEME}
   [[ -d ${LOOKFEEL_THEME} ]] && rm -rfv ${LOOKFEEL_THEME}
-  [[ -d ${KVANTUM_THEME}/${name} ]] && rm -rfv ${KVANTUM_THEME}/${name}
-  [[ -d ${SCHEMES_DIR}/${name}.colors ]] && rm -rfv ${SCHEMES_DIR}/${name}.colors
-  [[ -d ${WALLPAPER_DIR}/Layan ]] && rm -rfv ${WALLPAPER_DIR}/${name}
+  [[ -d ${KVANTUM_DIR}/${name} ]] && rm -rfv ${KVANTUM_DIR}/${name}
+  [[ -d ${WALLPAPER_DIR}/${name} ]] && rm -rfv ${WALLPAPER_DIR}/${name}
   [[ -d ${ICONS_DIR}/windows-modern ]] && rm -rfv ${ICONS_DIR}/windows-modern
   [[ -d ${LAYOUT_DIR}/org.kde.windowsmodern.panel ]] && rm -rfv ${LAYOUT_DIR}/org.kde.windowsmodern.panel
   [[ -d ${APPLETS_DIR}/org.kde.windowsmodern.showdesktop ]] && rm -rfv ${APPLETS_DIR}/org.kde.windowsmodern.showdesktop
@@ -53,6 +52,13 @@ echo "Uninstalling '${THEME_NAME} kde themes'..."
 
 uninstall "${name:-${THEME_NAME}-light}"
 uninstall "${name:-${THEME_NAME}-dark}"
+uninstall "${THEME_NAME}-lightDark"
+
+# Remove color schemes (current and legacy hyphenated names)
+rm -f ${SCHEMES_DIR}/WindowsModernLight.colors
+rm -f ${SCHEMES_DIR}/WindowsModernDark.colors
+rm -f ${SCHEMES_DIR}/Windows-modernLight.colors
+rm -f ${SCHEMES_DIR}/Windows-modernDark.colors
 
 # Reset window decoration border size to default
 if command -v kwriteconfig6 &>/dev/null; then

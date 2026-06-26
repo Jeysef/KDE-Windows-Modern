@@ -462,7 +462,7 @@ correctly under compositing.
 
 ### Color Schemes
 
-Location: `color-schemes/Windows-modern{Dark,Light}.colors`
+Location: `color-schemes/WindowsModern{Dark,Light}.colors`
 
 KDE color scheme files defining system-wide colors for widgets,
 selections, tooltips, etc. Rewritten with Win11 values:
@@ -567,8 +567,8 @@ windows_modern2/
 │   ├── windows-modern-dark-aurorae/     # Dark window decoration
 │   └── windows-modern-light-aurorae/    # Light window decoration
 ├── color-schemes/
-│   ├── Windows-modernDark.colors
-│   └── Windows-modernLight.colors
+│   ├── WindowsModernDark.colors
+│   └── WindowsModernLight.colors
 ├── Kvantum/
 │   ├── Windows-modern-dark/
 │   └── Windows-modern-light/

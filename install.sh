@@ -44,6 +44,18 @@ install() {
   cp -r ${SRC_DIR}/aurorae/*                                                         ${AURORAE_DIR}
   cp -r ${SRC_DIR}/color-schemes/*.colors                                            ${SCHEMES_DIR}
   cp -r ${SRC_DIR}/Kvantum/*                                                         ${KVANTUM_DIR}
+
+  # Set the active Kvantum base theme to the light variant. When the dark
+  # global theme is applied, widgetStyle=kvantum-dark makes Kvantum auto-load
+  # the dark variant named Windows-modern-lightDark.
+  if command -v kwriteconfig6 &>/dev/null; then
+    if [ "$UID" -eq "$ROOT_UID" ] && [ -n "$SUDO_USER" ]; then
+      sudo -u "$SUDO_USER" kwriteconfig6 --file Kvantum/kvantum.kvconfig --group General --key theme Windows-modern-light
+    else
+      kwriteconfig6 --file Kvantum/kvantum.kvconfig --group General --key theme Windows-modern-light
+    fi
+  fi
+
   cp -r ${SRC_DIR}/plasma/desktoptheme/*                                             ${PLASMA_DIR}
   cp -r ${SRC_DIR}/plasma/look-and-feel/*                                            ${LOOKFEEL_DIR}
   cp -r ${SRC_DIR}/wallpaper/*                                                       ${WALLPAPER_DIR}
