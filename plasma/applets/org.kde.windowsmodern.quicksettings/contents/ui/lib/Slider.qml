@@ -20,9 +20,10 @@ Item {
 
     implicitHeight: 36
 
-    RowLayout {
+    GridLayout {
         anchors.fill: parent
-        spacing: 12
+        columns: 3
+        columnSpacing: 12
 
         Kirigami.Icon {
             Layout.preferredWidth: 20
@@ -45,19 +46,25 @@ Item {
             Binding { root.pressed: slider.pressed }
         }
 
-        Kirigami.Icon {
-            visible: root.showArrow
+        Item {
             Layout.preferredWidth: 14
             Layout.preferredHeight: 14
             Layout.alignment: Qt.AlignVCenter
-            source: "go-next"
-            isMask: true
-            color: Kirigami.Theme.textColor
+            enabled: false
 
-            MouseArea {
+            Kirigami.Icon {
                 anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
-                onClicked: root.arrowClicked()
+                visible: root.showArrow
+                source: "go-next"
+                isMask: true
+                color: Kirigami.Theme.textColor
+
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    enabled: root.showArrow
+                    onClicked: root.arrowClicked()
+                }
             }
         }
     }

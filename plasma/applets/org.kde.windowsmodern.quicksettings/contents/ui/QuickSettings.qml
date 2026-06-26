@@ -120,16 +120,26 @@ Item {
                 }
             }
 
-            Components.BrightnessSlider {
+            GridLayout {
+                id: sliderGrid
                 Layout.fillWidth: true
-                Layout.preferredHeight: 36
-                visible: Plasmoid.configuration.showBrightness
-            }
+                columns: 3
+                rowSpacing: 12 * flyout.scale
+                columnSpacing: 0
 
-            Components.VolumeSlider {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 36
-                visible: Plasmoid.configuration.showVolume
+                Components.BrightnessSlider {
+                    Layout.fillWidth: true
+                    Layout.columnSpan: 3
+                    Layout.preferredHeight: 36
+                    visible: Plasmoid.configuration.showBrightness
+                }
+
+                Components.VolumeSlider {
+                    Layout.fillWidth: true
+                    Layout.columnSpan: 3
+                    Layout.preferredHeight: 36
+                    visible: Plasmoid.configuration.showVolume
+                }
             }
 
             Item { Layout.fillHeight: true }
