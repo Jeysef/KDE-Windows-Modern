@@ -46,7 +46,7 @@
     <circle cx="62" cy="49" r="7" class="ColorScheme-ButtonBackground" fill="currentColor" />
     <circle cx="62" cy="49" r="4" class="ColorScheme-Highlight" fill="currentColor" />
   </g>
-  <rect id="hint-handle-size" width="22" height="22" x="0" y="0" fill="#ff2a2a" opacity="0" />
+  <rect id="hint-handle-size" width="14" height="14" x="0" y="0" fill="#ff2a2a" opacity="0" />
   <rect id="hint-tile-center" width="2" height="2" x="-1" y="-24" fill="#4e9a06" opacity="0" />
   <path id="groove-top" class="ColorScheme-Text" d="m 7,-20 v 1 h 1 v -1 z" fill="currentColor" opacity=".3" />
   <path id="groove-topleft" class="ColorScheme-Text" d="m 6,-20 c -0.56,0 -1,0.45 -1,1 h 1 z" fill="currentColor" opacity=".3" />
