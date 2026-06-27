@@ -1,6 +1,5 @@
 import QtQuick
 import org.kde.plasma.private.volume as Vol
-import org.kde.kcmutils
 import "../lib" as Lib
 import "../js/funcs.js" as Funcs
 
@@ -23,6 +22,4 @@ Lib.Slider {
         sink.volume = v;
         sink.muted = v === 0;
     }
-
-    onArrowClicked: KCMLauncher.openSystemSettings("kcm_pulseaudio")
 }

@@ -50,7 +50,6 @@ Item {
             Layout.preferredWidth: 14
             Layout.preferredHeight: 14
             Layout.alignment: Qt.AlignVCenter
-            enabled: false
 
             Kirigami.Icon {
                 anchors.fill: parent
@@ -58,13 +57,13 @@ Item {
                 source: "go-next"
                 isMask: true
                 color: Kirigami.Theme.textColor
+            }
 
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    enabled: root.showArrow
-                    onClicked: root.arrowClicked()
-                }
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                enabled: root.showArrow
+                onClicked: root.arrowClicked()
             }
         }
     }
