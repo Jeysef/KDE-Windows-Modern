@@ -54,8 +54,8 @@ Item {
             }
 
             Loader {
-                Layout.preferredWidth: item ? item.implicitWidth : 0
-                Layout.preferredHeight: item ? item.implicitHeight : 0
+                Layout.preferredWidth: item ? item.width : 0
+                Layout.preferredHeight: item ? item.height : 0
                 visible: row.trailing !== null
                 sourceComponent: row.trailing
             }

@@ -27,8 +27,8 @@ ColumnLayout {
         text: models.sinkAvailable ? models.sink.description : qsTr("No output device")
         trailing: Component {
             Kirigami.Icon {
-                width: 14
-                height: 14
+                width: 10
+                height: 10
                 source: "arrow-down"
                 color: Kirigami.Theme.textColor
                 isMask: true
