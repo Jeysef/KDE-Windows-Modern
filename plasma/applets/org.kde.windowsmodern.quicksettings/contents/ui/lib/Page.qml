@@ -38,6 +38,7 @@ ColumnLayout {
         ColumnLayout {
             id: contentLayout
             width: scrollView.availableWidth
+            height: Math.max(implicitHeight, scrollView.availableHeight)
             spacing: 0
         }
     }

@@ -45,6 +45,8 @@ Lib.Page {
         horizontalAlignment: Text.AlignHCenter
     }
 
+    Item { Layout.fillHeight: true }
+
     Item {
         Layout.fillWidth: true
         Layout.preferredHeight: 34
