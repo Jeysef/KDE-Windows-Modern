@@ -64,7 +64,7 @@ User clicks icon
   → PlasmoidPopupsContainer shows applet.fullRepresentationItem
 ```
 
-The `rootConnections` block in SystemTrayState.qml prevents the framework from independently expanding the containment (the "double popup" problem):
+The `rootConnections` block in SystemTrayState.qml (matching upstream exactly) keeps the containment's `expanded` property in sync with `systemTrayState.expanded`. This is part of the correct Plasma containment contract — it doesn't fix the dark rectangle (see below for the actual fix).
 
 ```qml
 readonly property Connections rootConnections: Connections {
@@ -119,11 +119,15 @@ The stock `org.kde.plasma.systemtray` is installed ONLY as a `.so` (no KPackage)
 
 ### Fix
 
-1. **Removed `install(DIRECTORY ...)` from `CMakeLists.txt`** — eliminated KPackage installation at build time
-2. **Modified `dev.sh`** to only install the `.so` and `rm -rf` any existing KPackage directory
-3. **Maintained `.so`-only deployment** matching the stock system tray pattern exactly
+1. **Removed `install(DIRECTORY ...)` from `CMakeLists.txt`** — eliminated KPackage QML installation at build time
+2. **Modified `dev.sh`** to install only the `.so` (with embedded QML) and keep a minimal metadata-only KPackage for scripting API discovery (`addWidget()`)
+3. **`.so`-only deployment** matching the stock system tray pattern exactly — QML embedded in `.so`, no duplicate applet registration
 
 After this fix, the system tray behaves identically to the stock `org.kde.plasma.systemtray` — one popup for expander, one popup for icons, no dark rectangles.
+
+### Note: Theme Layout Compatibility
+
+The Plasma scripting API's `addWidget()` requires the plugin to be discoverable via KPackage. A minimal KPackage (metadata.json only, no QML) is installed at `/usr/share/plasma/plasmoids/` for this purpose. The QML remains embedded in the `.so`. Theme layout scripts fall back to the stock system tray if our fork isn't found.
 
 ---
 
