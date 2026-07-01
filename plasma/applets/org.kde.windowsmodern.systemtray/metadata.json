@@ -1,0 +1,26 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "",
+                "Name": "Jeysef"
+            }
+        ],
+        "BugReportUrl": "https://github.com/yeyushengfan258/Win11OS-kde",
+        "Category": "Windows and Tasks",
+        "Description": "Quickly access system features and application status icons",
+        "EnabledByDefault": true,
+        "FormFactors": [
+            "desktop"
+        ],
+        "Icon": "preferences-system-windows",
+        "Id": "org.kde.windowsmodern.systemtray",
+        "License": "GPL-2.0+",
+        "Name": "System Tray (Windows Modern)",
+        "Version": "1.0",
+        "Website": "https://github.com/yeyushengfan258/Win11OS-kde"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-ContainmentType": "CustomEmbedded"
+}
