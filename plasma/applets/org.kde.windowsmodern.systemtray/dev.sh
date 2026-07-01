@@ -30,7 +30,7 @@ if grep -q "plugin=metadata" "$LAYOUT_FILE" 2>/dev/null; then
     sed -i "/\[Containments\]\[.*\]\[Applets\]/,/\[/{s/^plugin=metadata$/plugin=${APP_ID}/}" "$LAYOUT_FILE"
 fi
 
-# ── Step 3: Install .so only (no KPackage — prevents duplicate applet) ──
+# ── Step 3: Install .so + minimal KPackage (metadata-only for scripting API discovery) ──
 info "Installing..."
 PLUGIN_SRC="$BUILD_DIR/lib/plasma/applets/${APP_ID}.so"
 PLUGIN_DST="/usr/lib64/qt6/plugins/plasma/applets"
@@ -38,10 +38,13 @@ KPACKAGE_DIR="/usr/share/plasma/plasmoids/${APP_ID}"
 
 pkexec bash -s <<INSTALLEOF
 set -e
-mkdir -p "$PLUGIN_DST"
+mkdir -p "$PLUGIN_DST" "$KPACKAGE_DIR"
 cp "$PLUGIN_SRC" "$PLUGIN_DST/"
-# REMOVE the KPackage if it exists — duplicate registration causes dark rectangle
-rm -rf "$KPACKAGE_DIR"
+# Remove QML contents to prevent duplicate applet registration (dark rectangle bug)
+# Keep ONLY metadata.json so kpackagetool6/addWidget() can discover the plugin
+rm -rf "$KPACKAGE_DIR/contents"
+rm -f "$KPACKAGE_DIR/metadata.desktop"
+cp "${SRC_DIR}/metadata.json" "$KPACKAGE_DIR/"
 echo "Installed."
 INSTALLEOF
 

@@ -70,8 +70,9 @@ tasks.writeConfig("groupingStrategy", "1");
 //    from the system tray / clock on the far right.
 var spacerRight = panel.addWidget("org.kde.plasma.panelspacer");
 
-// 5. System tray (groups status icons, audio, network, etc.)
-var tray = panel.addWidget("org.kde.plasma.systemtray");
+// 5. System tray — uses our fork if available, falls back to stock
+var tray = panel.addWidget("org.kde.windowsmodern.systemtray");
+if (!tray) { tray = panel.addWidget("org.kde.plasma.systemtray"); }
 
 // 6. Digital clock — Win11 puts the clock at the far right, in a small
 //    Segoe UI Regular weight. Pin the font to 10pt so it stays readable
