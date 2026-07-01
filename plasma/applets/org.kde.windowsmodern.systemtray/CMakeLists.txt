@@ -9,6 +9,7 @@ set(CMAKE_AUTORCC ON)
 
 find_package(ECM REQUIRED 5.240.0)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+include(ECMQtDeclareLoggingCategory)
 
 find_package(Qt6 REQUIRED COMPONENTS DBus Gui Quick Qml QuickControls2)
 find_package(KF6 REQUIRED COMPONENTS
@@ -53,7 +54,13 @@ set_source_files_properties(${SNI_XML} PROPERTIES
 )
 qt_add_dbus_interface(DBUS_SRCS ${SNI_XML} statusnotifieritem_interface)
 
-# Logging category - define manually
+# Logging category
+ecm_qt_declare_logging_category(SRCS HEADER debug.h
+    IDENTIFIER SYSTEM_TRAY
+    CATEGORY_NAME kde.systemtray
+    DEFAULT_SEVERITY Info
+    DESCRIPTION "plasma applet systemtray"
+)
 set(SRCS
     ${DBUS_SRCS}
     systemtray.cpp systemtray.h
@@ -96,7 +103,6 @@ target_link_libraries(systemtray_static
 plasma_add_applet(org.kde.windowsmodern.systemtray
     CPP_SOURCES
         systemtray.cpp
-        debug.cpp
     QML_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/main.qml
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/AbstractItem.qml
