@@ -29,11 +29,35 @@
         <entry name="showAirplane" type="Bool">
             <default>true</default>
         </entry>
+        <entry name="showColorScheme" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showDnd" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showInhibitSleep" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showMicMute" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showCastInvert" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showHotspot" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showTouchpad" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="showKeyboardBrightness" type="Bool">
+            <default>true</default>
+        </entry>
         <entry name="darkTheme" type="String">
-            <default>WindowsModernDark</default>
+            <default>org.kde.windowsmodern.dark</default>
         </entry>
         <entry name="lightTheme" type="String">
-            <default>WindowsModernLight</default>
+            <default>org.kde.windowsmodern.light</default>
         </entry>
     </group>
 </kcfg>

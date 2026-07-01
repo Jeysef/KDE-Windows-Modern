@@ -1,8 +1,10 @@
 import QtQuick
 import QtQuick.Layouts
+import org.kde.plasma.plasma5support as Plasma5Support
 import org.kde.bluezqt as BluezQt
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.components as PlasmaComponents3
+import org.kde.kcmutils
 import "../lib" as Lib
 
 Lib.DetailPage {
@@ -11,6 +13,11 @@ Lib.DetailPage {
     title: qsTr("Bluetooth")
     switchChecked: page.btOn
     emptyText: page.btOn ? qsTr("No devices paired") : qsTr("Bluetooth is off")
+
+    footer: Lib.MoreSettingsLink {
+        text: qsTr("More Bluetooth settings")
+        onClicked: KCMLauncher.openSystemSettings("kcm_bluetooth")
+    }
 
     readonly property QtObject btManager: BluezQt.Manager
     readonly property bool btOn: btManager.bluetoothOperational
@@ -24,6 +31,29 @@ Lib.DetailPage {
     }
 
     onSwitchToggled: page.toggleBluetooth()
+
+    listView.header: PlasmaComponents3.Button {
+        width: listView.width
+        height: 32
+        text: qsTr("Add new device")
+        icon.name: "list-add"
+        flat: true
+        visible: page.btOn
+
+        onClicked: bluetoothExec.exec("bluedevil-wizard")
+    }
+
+    Plasma5Support.DataSource {
+        id: bluetoothExec
+        engine: "executable"
+        connectedSources: []
+        onNewData: function (sourceName, data) {
+            disconnectSource(sourceName);
+        }
+        function exec(cmd) {
+            connectSource(cmd);
+        }
+    }
 
     listView.model: btManager.devices
     listView.delegate: Item {
@@ -57,8 +87,8 @@ Lib.DetailPage {
                 spacing: 8
 
                 Kirigami.Icon {
-                    width: 16
-                    height: 16
+                    width: 20
+                    height: 20
                     source: modelData.icon || "bluetooth"
                     color: Kirigami.Theme.textColor
                 }

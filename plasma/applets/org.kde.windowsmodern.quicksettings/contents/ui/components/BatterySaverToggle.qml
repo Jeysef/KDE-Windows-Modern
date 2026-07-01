@@ -2,7 +2,7 @@ import QtQuick
 import org.kde.plasma.private.batterymonitor
 import "../lib" as Lib
 
-Lib.Tile {
+Lib.SplitTile {
     id: tile
 
     PowerProfilesControl {
@@ -10,12 +10,11 @@ Lib.Tile {
     }
 
     readonly property bool saverOn: powerProfiles.activeProfile === "power-saver"
-    readonly property bool available: powerProfiles.isPowerProfileDaemonInstalled
-                           && powerProfiles.profiles.indexOf("power-saver") >= 0
+    readonly property bool available: powerProfiles.isPowerProfileDaemonInstalled && powerProfiles.profiles.indexOf("power-saver") >= 0
 
     visible: available
     label: qsTr("Battery Saver")
-    iconSource: Qt.resolvedUrl("../icons/battery-saver-symbolic.svg")
+    iconSource: "battery-low-symbolic"
     active: saverOn
 
     onClicked: {
@@ -23,6 +22,17 @@ Lib.Tile {
             powerProfiles.setProfile(powerProfiles.configuredProfile || "balanced");
         } else {
             powerProfiles.setProfile("power-saver");
+        }
+    }
+
+    tooltipText: {
+        switch (powerProfiles.activeProfile) {
+        case "performance":
+            return qsTr("Power Mode — Performance");
+        case "power-saver":
+            return qsTr("Power Mode — Power Saver");
+        default:
+            return qsTr("Power Mode — Balanced");
         }
     }
 }

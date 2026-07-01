@@ -8,13 +8,23 @@ Lib.Tile {
 
     label: qsTr("Night Light")
     iconSource: {
-        if (!nightLight.available) return "redshift-status-off-symbolic";
-        if (!nightLight.running || nightLight.inhibited) return "redshift-status-off-symbolic";
+        if (!nightLight.available)
+            return "redshift-status-off-symbolic";
+        if (!nightLight.running || nightLight.inhibited)
+            return "redshift-status-off-symbolic";
         return "redshift-status-on-symbolic";
     }
     active: nightLight.running && !nightLight.inhibited
 
     onClicked: NightLightInhibitor.toggleInhibition()
+
+    tooltipText: {
+        if (!nightLight.available)
+            return qsTr("Night Light — Unavailable");
+        if (active)
+            return qsTr("Night Light — On");
+        return qsTr("Night Light — Off");
+    }
 
     DBus.Properties {
         id: nightLight

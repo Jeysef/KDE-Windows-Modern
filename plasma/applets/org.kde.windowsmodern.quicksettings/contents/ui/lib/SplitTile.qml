@@ -1,20 +1,31 @@
 import QtQuick
 import QtQuick.Layouts
+import org.kde.plasma.core as PlasmaCore
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.components as PlasmaComponents3
+import "../js/colorType.js" as ColorType
 
 ColumnLayout {
     id: tile
 
     property string iconSource
     property string label
+    property string tooltipText: ""
     property bool active: false
 
     signal clicked
     signal arrowClicked
+    signal rightClicked
+    signal middleClicked
+
+    activeFocusOnTab: true
+    focus: true
+
+    Keys.onReturnPressed: tile.clicked()
+    Keys.onSpacePressed: tile.clicked()
 
     readonly property color accent: Kirigami.Theme.highlightColor
-    readonly property color fg: active ? "#FFFFFF" : Kirigami.Theme.textColor
+    readonly property color fg: active ? (ColorType.isDark(Kirigami.Theme.backgroundColor) ? "#1E1E1E" : "#FFFFFF") : Kirigami.Theme.textColor
 
     spacing: 4
     Layout.fillWidth: true
@@ -28,13 +39,27 @@ ColumnLayout {
         border.width: 1
         border.color: active ? "transparent" : Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.08)
         color: {
-            if (active) return accent;
-            if (toggleMA.containsPress) return Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.10);
-            if (toggleMA.containsMouse || arrowMA.containsMouse) return Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.06);
+            if (active)
+                return accent;
+            if (toggleMA.containsPress)
+                return Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.10);
+            if (toggleMA.containsMouse || arrowMA.containsMouse)
+                return Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.06);
             return Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.04);
         }
 
-        Behavior on color { ColorAnimation { duration: Kirigami.Units.shortDuration } }
+        Behavior on color {
+            ColorAnimation {
+                duration: Kirigami.Units.shortDuration
+            }
+        }
+
+        PlasmaCore.ToolTipArea {
+            anchors.fill: parent
+            mainText: tile.tooltipText
+            subText: ""
+            textFormat: Text.PlainText
+        }
 
         MouseArea {
             id: toggleMA
@@ -42,9 +67,18 @@ ColumnLayout {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             width: parent.width * 0.70
+            acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onClicked: tile.clicked()
+            onClicked: function (mouse) {
+                if (mouse.button === Qt.RightButton) {
+                    tile.rightClicked();
+                } else if (mouse.button === Qt.MiddleButton) {
+                    tile.middleClicked();
+                } else {
+                    tile.clicked();
+                }
+            }
         }
 
         MouseArea {
@@ -80,8 +114,8 @@ ColumnLayout {
             anchors.right: parent.right
             anchors.rightMargin: 8
             anchors.verticalCenter: parent.verticalCenter
-            width: 14
-            height: 14
+            width: 16
+            height: 16
             source: "go-next"
             color: tile.fg
             isMask: true

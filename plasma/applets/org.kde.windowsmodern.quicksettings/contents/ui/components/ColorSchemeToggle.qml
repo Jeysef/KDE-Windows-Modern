@@ -8,22 +8,35 @@ import "../js/colorType.js" as ColorType
 Lib.Tile {
     id: tile
 
-    label: ColorType.isDark(Kirigami.Theme.backgroundColor) ? qsTr("Light Mode") : qsTr("Dark Mode")
-    subLabel: ""
-    iconSource: "color-mode"
-    active: ColorType.isDark(Kirigami.Theme.backgroundColor)
+    property bool darkMode: ColorType.isDark(Kirigami.Theme.backgroundColor)
+
+    label: darkMode ? qsTr("Dark Mode") : qsTr("Light Mode")
+    iconSource: darkMode ? "weather-clear-night-symbolic" : "weather-clear-symbolic"
+    active: false
 
     onClicked: {
-        var dark = ColorType.isDark(Kirigami.Theme.backgroundColor);
-        var target = dark ? Plasmoid.configuration.lightTheme : Plasmoid.configuration.darkTheme;
-        executable.exec("plasma-apply-colorscheme \"" + target + "\"");
+        var target = darkMode ? Plasmoid.configuration.lightTheme : Plasmoid.configuration.darkTheme;
+        darkMode = !darkMode;
+        colorschemeExec.exec("plasma-apply-lookandfeel --apply " + target);
     }
 
+    onMiddleClicked: {
+        darkMode = !darkMode;
+        var target = darkMode ? Plasmoid.configuration.darkTheme : Plasmoid.configuration.lightTheme;
+        colorschemeExec.exec("plasma-apply-lookandfeel --apply " + target);
+    }
+
+    tooltipText: darkMode ? qsTr("Switch to light mode") : qsTr("Switch to dark mode")
+
     Plasma5Support.DataSource {
-        id: executable
+        id: colorschemeExec
         engine: "executable"
         connectedSources: []
-        onNewData: disconnectSource(sourceName)
-        function exec(cmd) { connectSource(cmd) }
+        onNewData: function (sourceName, data) {
+            disconnectSource(sourceName);
+        }
+        function exec(cmd) {
+            connectSource(cmd);
+        }
     }
 }

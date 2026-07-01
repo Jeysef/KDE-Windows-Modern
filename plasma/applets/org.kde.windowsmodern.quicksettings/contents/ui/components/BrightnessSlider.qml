@@ -8,7 +8,9 @@ Lib.Slider {
 
     property var mainScreen: null
 
-    iconSource: "display-brightness-symbolic"
+    iconSource: "brightness-high-symbolic"
+    iconSize: 22
+    showArrow: true
 
     ScreenBrightnessControl {
         id: sbControl
@@ -36,10 +38,18 @@ Lib.Slider {
 
     Connections {
         target: sbControl.displays
-        function onDataChanged() { root.refreshDisplays(); }
-        function onModelReset() { root.refreshDisplays(); }
-        function onRowsInserted() { root.refreshDisplays(); }
-        function onRowsRemoved() { root.refreshDisplays(); }
+        function onDataChanged() {
+            root.refreshDisplays();
+        }
+        function onModelReset() {
+            root.refreshDisplays();
+        }
+        function onRowsInserted() {
+            root.refreshDisplays();
+        }
+        function onRowsRemoved() {
+            root.refreshDisplays();
+        }
     }
 
     Component.onCompleted: root.refreshDisplays()
@@ -55,4 +65,6 @@ Lib.Slider {
             sbControl.setBrightness(mainScreen.displayName, v);
         }
     }
+
+    onIconClicked: NightLightInhibitor.toggleInhibition()
 }

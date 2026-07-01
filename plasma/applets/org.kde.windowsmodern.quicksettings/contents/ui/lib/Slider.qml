@@ -12,13 +12,30 @@ Item {
     property int to: 100
     property int value: 0
     property int stepSize: 1
+    property int iconSize: 20
     property bool pressed: false
     property bool showArrow: false
 
     signal moved(int value)
+    signal released
     signal arrowClicked
+    signal iconClicked
+    signal rightClicked
+    signal middleClicked
 
     implicitHeight: 36
+
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.RightButton | Qt.MiddleButton
+        cursorShape: Qt.ArrowCursor
+        onClicked: function (mouse) {
+            if (mouse.button === Qt.RightButton)
+                root.rightClicked();
+            else if (mouse.button === Qt.MiddleButton)
+                root.middleClicked();
+        }
+    }
 
     GridLayout {
         anchors.fill: parent
@@ -26,12 +43,18 @@ Item {
         columnSpacing: 12
 
         Kirigami.Icon {
-            Layout.preferredWidth: 20
-            Layout.preferredHeight: 20
+            Layout.preferredWidth: root.iconSize
+            Layout.preferredHeight: root.iconSize
             Layout.alignment: Qt.AlignVCenter
             source: root.iconSource
             isMask: true
             color: Kirigami.Theme.textColor
+
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                onClicked: root.iconClicked()
+            }
         }
 
         PlasmaComponents3.Slider {
@@ -42,17 +65,24 @@ Item {
             value: root.value
             stepSize: root.stepSize
             onMoved: root.moved(value)
+            onPressedChanged: {
+                if (!slider.pressed)
+                    root.released();
+            }
 
-            Binding { root.pressed: slider.pressed }
+            Binding {
+                root.pressed: slider.pressed
+            }
         }
 
         Item {
-            Layout.preferredWidth: 14
-            Layout.preferredHeight: 14
+            Layout.preferredWidth: 16
+            Layout.preferredHeight: 16
             Layout.alignment: Qt.AlignVCenter
 
             Kirigami.Icon {
-                anchors.fill: parent
+                width: 16; height: 16
+                anchors.centerIn: parent
                 visible: root.showArrow
                 source: "go-next"
                 isMask: true
@@ -75,8 +105,10 @@ Item {
         acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
         onWheel: function (wheel) {
             const delta = wheel.angleDelta.y;
-            if (delta > 0) slider.increase();
-            else if (delta < 0) slider.decrease();
+            if (delta > 0)
+                slider.increase();
+            else if (delta < 0)
+                slider.decrease();
             slider.moved();
         }
     }

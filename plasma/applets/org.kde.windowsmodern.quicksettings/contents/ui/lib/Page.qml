@@ -8,6 +8,8 @@ ColumnLayout {
     property string title
     property bool showSwitch: false
     property bool switchChecked: false
+    property bool contentFillsHeight: true
+    property Component footer: null
 
     signal back
     signal switchToggled
@@ -38,7 +40,7 @@ ColumnLayout {
         ColumnLayout {
             id: contentLayout
             width: scrollView.availableWidth
-            height: Math.max(implicitHeight, scrollView.availableHeight)
+            height: page.contentFillsHeight ? Math.max(implicitHeight, scrollView.availableHeight) : implicitHeight
             spacing: 0
         }
     }

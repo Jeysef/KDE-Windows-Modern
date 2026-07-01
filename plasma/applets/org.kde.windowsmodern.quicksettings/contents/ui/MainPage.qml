@@ -37,11 +37,32 @@ ColumnLayout {
         Components.BatterySaverToggle {
             Layout.fillWidth: true
             visible: Plasmoid.configuration.showBatterySaver
+            onArrowClicked: content.pushPage("powerprofile")
         }
 
         Components.NightLightToggle {
             Layout.fillWidth: true
             visible: Plasmoid.configuration.showNightLight
+        }
+
+        Components.ColorSchemeToggle {
+            Layout.fillWidth: true
+            visible: Plasmoid.configuration.showColorScheme
+        }
+
+        Components.DndToggle {
+            Layout.fillWidth: true
+            visible: Plasmoid.configuration.showDnd
+        }
+
+        Components.MicMuteToggle {
+            Layout.fillWidth: true
+            visible: Plasmoid.configuration.showMicMute
+        }
+
+        Components.HotspotToggle {
+            Layout.fillWidth: true
+            visible: Plasmoid.configuration.showHotspot
         }
     }
 
@@ -54,8 +75,8 @@ ColumnLayout {
         Components.BrightnessSlider {
             Layout.fillWidth: true
             Layout.columnSpan: 3
-            Layout.preferredHeight: 36
             visible: Plasmoid.configuration.showBrightness
+            onArrowClicked: content.pushPage("brightness")
         }
 
         Components.VolumeSlider {
@@ -67,5 +88,7 @@ ColumnLayout {
         }
     }
 
-    Item { Layout.fillHeight: true }
+    Item {
+        Layout.fillHeight: true
+    }
 }

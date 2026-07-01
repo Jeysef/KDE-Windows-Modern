@@ -11,7 +11,8 @@ Item {
     }
 
     Kirigami.Icon {
-        anchors.fill: parent
+        width: 20; height: 20
+        anchors.centerIn: parent
         source: "system-shutdown"
         color: Kirigami.Theme.textColor
         isMask: true

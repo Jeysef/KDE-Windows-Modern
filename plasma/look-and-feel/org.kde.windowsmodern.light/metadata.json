@@ -13,7 +13,7 @@
         ],
         "EnabledByDefault": true,
         "Description": "Windows Modern Light theme for KDE Plasma 6. Based on Win11OS-kde by yeyushengfan258.",
-        "Id": "com.github.yeyushengfan258.Windows-modern-light",
+        "Id": "org.kde.windowsmodern.light",
         "License": "GPLv3",
         "Name": "Windows Modern Light",
         "Website": "https://github.com/yeyushengfan258/Win11OS-kde"

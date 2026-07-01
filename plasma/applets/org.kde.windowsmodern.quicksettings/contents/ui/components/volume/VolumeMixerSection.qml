@@ -40,8 +40,8 @@ ColumnLayout {
                     spacing: 8
 
                     Kirigami.Icon {
-                        Layout.preferredWidth: 16
-                        Layout.preferredHeight: 16
+                        Layout.preferredWidth: 20
+                        Layout.preferredHeight: 20
                         source: model.IconName || "audio-volume-high"
                         color: Kirigami.Theme.textColor
                         isMask: true
@@ -77,6 +77,7 @@ ColumnLayout {
                     id: rowMouse
                     anchors.fill: parent
                     hoverEnabled: true
+                    acceptedButtons: Qt.NoButton
                 }
             }
         }

@@ -214,6 +214,33 @@ Config keys (`contents/config/main.xml`): `size` (int, default 6),
 line). Installed to `~/.local/share/plasma/plasmoids/` (or
 `/usr/share/plasma/plasmoids/` as root) by `install.sh`.
 
+#### Start Menu applet (`plasma/applets/org.kde.windowsmodern.startmenu/`)
+
+A Win11-style start menu ported from the reference plasmoid
+`com.jeysef.windowsmodernstartmenu`. The monolithic 3307-line
+`MenuRepresentation.qml` is split into a clean shell (`MenuRepresentation.qml`)
+plus independent pages (`PinnedPage.qml`, `AllAppsPage.qml`, `SearchPage.qml`)
+and shared grid components (see file tree below).
+
+**Phase 1 (current):**
+- `PlasmaCore.Dialog` with `Floating` location, positioned relative to the
+  panel button via `parent.mapToGlobal`.
+- Search field with rounded corners (`radius: smallSpacing*3`) and subtle
+  border (12% text color alpha), Segoe UI font.
+- `SwipeView` with 3 pages: Pinned (favorites grid + recent strip),
+  All Apps (alphabetical grid), Search (filter pills + runner results).
+- Footer with user tile + `PlasmaComponents3.ToolButton` action buttons
+  (Home, Settings, Lock, Sleep, Restart, Shutdown).
+- `AToolButton` with rounded corners (`radius: smallSpacing`), gray border,
+  subtle hover (rgba 0.3).
+- Config UI: icon picker, icon sizes, grid dimensions, display position,
+  recent toggles, all-apps view/sort mode.
+
+**Imports:** Modern Qt6 style (no version numbers except
+`org.kde.plasma.private.kicker 0.1` and `org.kde.kitemmodels 1.0`).
+`KPlugin.Id`: `org.kde.windowsmodern.startmenu`, License `GPL-3.0-or-later`,
+Author `Jeysef`.
+
 #### Popups / tooltips
 
 The following files were rewritten as clean 9-patch SVGs with
@@ -577,6 +604,9 @@ windows_modern2/
 ├── plasma/
 │   ├── applets/
 │   │   ├── org.kde.windowsmodern.quicksettings/  # Win11 Quick Settings flyout
+│   │   ├── org.kde.windowsmodern.showdesktop/     # Win11 thin-show-desktop sliver
+│   │   ├── org.kde.windowsmodern.startmenu/       # Win11 Start Menu
+│   │   └── org.kde.windowsmodern.systemtray/      # Win11 system tray
 │   │   └── org.kde.windowsmodern.showdesktop/    # Forked show-desktop sliver
 │   ├── desktoptheme/
 │   │   ├── Windows-modern-dark/         # Dark plasma theme (165 SVGs)

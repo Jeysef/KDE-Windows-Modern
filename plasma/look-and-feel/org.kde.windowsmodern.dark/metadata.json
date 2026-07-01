@@ -13,7 +13,7 @@
         ],
         "EnabledByDefault": true,
         "Description": "Windows Modern Dark theme for KDE Plasma 6. Based on Win11OS-kde by yeyushengfan258.",
-        "Id": "com.github.yeyushengfan258.Windows-modern-dark",
+        "Id": "org.kde.windowsmodern.dark",
         "License": "GPLv3",
         "Name": "Windows Modern Dark",
         "Website": "https://github.com/yeyushengfan258/Win11OS-kde"

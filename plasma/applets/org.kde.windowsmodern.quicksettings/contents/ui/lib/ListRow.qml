@@ -36,8 +36,8 @@ Item {
             spacing: 8
 
             Kirigami.Icon {
-                Layout.preferredWidth: 16
-                Layout.preferredHeight: 16
+                Layout.preferredWidth: 20
+                Layout.preferredHeight: 20
                 source: row.iconSource
                 color: row.selected ? Kirigami.Theme.highlightColor : Kirigami.Theme.textColor
                 isMask: true

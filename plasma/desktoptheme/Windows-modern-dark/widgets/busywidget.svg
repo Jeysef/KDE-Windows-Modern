@@ -96,6 +96,7 @@
   </defs>
   <g
      id="stopped"
+     style="display:none"
      transform="translate(0.52917,-249.37)">
     <rect
        style="fill:none"
@@ -131,7 +132,7 @@
     </g>
   </g>
   <rect
-     style="fill:#0000ff"
+     style="fill:none"
      height="3.7042"
      width="3.7042"
      y="35.989986"
@@ -139,7 +140,8 @@
      id="hint-rotation-angle" />
   <g
      transform="translate(-36.24783,-249.37)"
-     id="busywidget">
+     id="busywidget"
+     style="display:none">
     <rect
        style="fill:none"
        id="rect17"
@@ -157,6 +159,7 @@
   </g>
   <g
      id="22-22-busywidget"
+     style="display:none"
      transform="translate(0.52917,-249.37)">
     <rect
        style="fill:none"
@@ -175,6 +178,7 @@
   </g>
   <g
      id="16-16-busywidget"
+     style="display:none"
      transform="translate(0.52917,-249.37)">
     <rect
        style="fill:none"

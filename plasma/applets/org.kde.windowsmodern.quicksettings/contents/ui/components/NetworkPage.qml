@@ -14,6 +14,11 @@ Lib.DetailPage {
     switchChecked: page.wifiOn
     emptyText: page.wifiOn ? qsTr("No available networks") : qsTr("Wi-Fi is off")
 
+    footer: Lib.MoreSettingsLink {
+        text: qsTr("More Wi-Fi settings")
+        onClicked: KCMLauncher.openSystemSettings("kcm_networkmanagement")
+    }
+
     PlasmaNM.Handler { id: handler }
     PlasmaNM.NetworkStatus { id: netStatus }
     PlasmaNM.AvailableDevices { id: availableDevices }
@@ -155,8 +160,8 @@ Lib.DetailPage {
                         spacing: 8
 
                         Kirigami.Icon {
-                            width: 16
-                            height: 16
+                            width: 20
+                            height: 20
                             source: model.ConnectionIcon
                             color: Kirigami.Theme.textColor
                         }
@@ -185,8 +190,8 @@ Lib.DetailPage {
 
                         Kirigami.Icon {
                             visible: connectionState === PlasmaNM.Enums.Activated
-                            Layout.preferredWidth: 14
-                            Layout.preferredHeight: 14
+                            Layout.preferredWidth: 20
+                            Layout.preferredHeight: 20
                             source: "help-about"
                             color: Kirigami.Theme.textColor
                             opacity: infoMA.containsMouse ? 1 : 0.6
@@ -296,8 +301,8 @@ Lib.DetailPage {
 
                                     Kirigami.Icon {
                                         anchors.centerIn: parent
-                                        width: 14
-                                        height: 14
+                                        width: 20
+                                        height: 20
                                         source: delegate.showPassword ? "view-visible" : "view-hidden"
                                         color: Kirigami.Theme.textColor
                                         isMask: true

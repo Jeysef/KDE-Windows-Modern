@@ -44,10 +44,9 @@ var spacerLeft = panel.addWidget("org.kde.plasma.panelspacer");
 //    logo fills most of the panel; at 30-32px it looks proportionally
 //    correct. To get a smaller logo on tall panels, either keep the panel
 //    at ~32px or open Kickoff settings → "Icon size" after adding it.
-var start = panel.addWidget("org.kde.plasma.kickoff");
+var start = panel.addWidget("org.kde.windowsmodern.startmenu");
 start.currentConfigGroup = new Array("General");
 start.writeConfig("icon", "start-here");
-start.writeConfig("favoritesSystemResources", "true");
 
 // 3. Icon-only task manager (the centered "taskbar").
 var tasks = panel.addWidget("org.kde.plasma.icontasks");
@@ -62,8 +61,8 @@ tasks.writeConfig("groupingStrategy", "1");
 //    from the system tray / clock on the far right.
 var spacerRight = panel.addWidget("org.kde.plasma.panelspacer");
 
-// 5. System tray (groups status icons, audio, network, etc.)
-var tray = panel.addWidget("org.kde.plasma.systemtray");
+// 5. System tray — custom Win11-style tray (icons in panel, hidden behind arrow)
+var tray = panel.addWidget("org.kde.windowsmodern.systemtray");
 
 // 6. Quick Settings — custom Win11-style flyout (Wi-Fi, volume, battery,
 //    toggles, sliders, media, power). Sits between the system tray and

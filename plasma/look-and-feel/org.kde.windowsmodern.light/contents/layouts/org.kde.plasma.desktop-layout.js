@@ -53,10 +53,9 @@ var spacerLeft = panel.addWidget("org.kde.plasma.panelspacer");
 //    logo fills most of the panel; at 30-32px it looks proportionally
 //    correct. To get a smaller logo on tall panels, either keep the panel
 //    at ~32px or open Kickoff settings → "Icon size" after applying.
-var start = panel.addWidget("org.kde.plasma.kickoff");
+var start = panel.addWidget("org.kde.windowsmodern.startmenu");
 start.currentConfigGroup = new Array("General");
 start.writeConfig("icon", "start-here");
-start.writeConfig("favoritesSystemResources", "true");
 
 // 3. Icon-only task manager (the centered "taskbar").
 var tasks = panel.addWidget("org.kde.plasma.icontasks");

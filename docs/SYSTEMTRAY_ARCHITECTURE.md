@@ -129,7 +129,7 @@ After this fix, the system tray behaves identically to the stock `org.kde.plasma
 
 ## History: Original Windows 11-Style Custom Tray (v0)
 
-Before the C++ containment fork, the system tray was a pure-QML plasmoid with a custom Windows 11-style design. The code is preserved in `contents/ui-old-windowsmodern/` and in git history (commits `5d3f6eb` through `ec3cc01`).
+Before the C++ containment fork, the system tray was a pure-QML plasmoid with a custom Windows 11-style design. The code is documented below for historical reference.
 
 ### Visual Design
 
@@ -195,4 +195,4 @@ The pure-QML custom tray had limitations:
 - **Limited SNI support**: Basic SNI activation only; no per-item visibility config, no keyboard shortcuts, limited context menu integration
 - **UI inconsistency**: Custom pages didn't match Plasma's standard popup behavior (pin, floating, border removal)
 
-The C++ fork (`Phase 1` commit `ec3cc01`) replaced this with a full `Plasma::Containment` based on the upstream plasma-workspace system tray, providing proper applet containment, event-driven SNI, and full Plasma integration while keeping the old custom pages in `ui-old-windowsmodern/` for future reference.
+The C++ fork replaced this with a full `Plasma::Containment` based on the upstream plasma-workspace system tray, providing proper applet containment, event-driven SNI, and full Plasma integration. The old custom QML was removed for cleanliness — visual documentation is preserved above.

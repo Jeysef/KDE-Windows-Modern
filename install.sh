@@ -85,7 +85,19 @@ install() {
   # Custom Quick Settings applet (Win11 flyout: toggles, sliders, media, power)
   if [ -d "${SRC_DIR}/plasma/applets/org.kde.windowsmodern.quicksettings" ]; then
     rm -rf ${APPLETS_DIR}/org.kde.windowsmodern.quicksettings
-    cp -r ${SRC_DIR}/plasma/applets/org.kde.windowsmodern.quicksettings                ${APPLETS_DIR}
+    cp -r ${SRC_DIR}/plasma/applets/org.kde.windowsmodern.quicksettings          ${APPLETS_DIR}
+  fi
+
+  # Custom System Tray applet (Win11 style: icons in panel, hidden behind arrow)
+  if [ -d "${SRC_DIR}/plasma/applets/org.kde.windowsmodern.systemtray" ]; then
+    rm -rf ${APPLETS_DIR}/org.kde.windowsmodern.systemtray
+    cp -r ${SRC_DIR}/plasma/applets/org.kde.windowsmodern.systemtray             ${APPLETS_DIR}
+  fi
+
+  # Custom Start Menu applet (Win11 style: search, pinned, all-apps pages)
+  if [ -d "${SRC_DIR}/plasma/applets/org.kde.windowsmodern.startmenu" ]; then
+    rm -rf ${APPLETS_DIR}/org.kde.windowsmodern.startmenu
+    cp -r ${SRC_DIR}/plasma/applets/org.kde.windowsmodern.startmenu              ${APPLETS_DIR}
   fi
 }
 

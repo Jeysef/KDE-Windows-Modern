@@ -24,8 +24,8 @@ Item {
         spacing: 3
 
         Kirigami.Icon {
-            width: 16
-            height: 16
+            width: 20
+            height: 20
             anchors.verticalCenter: parent.verticalCenter
             source: Funcs.batteryIconName(batteryControl.percent, batteryControl.state === BatteryControlModel.Charging)
             color: Kirigami.Theme.textColor

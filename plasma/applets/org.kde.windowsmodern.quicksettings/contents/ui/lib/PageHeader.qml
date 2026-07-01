@@ -21,14 +21,14 @@ RowLayout {
     spacing: 6
 
     Item {
-        width: 18
-        height: 18
+        width: 20
+        height: 20
         Layout.alignment: Qt.AlignVCenter
 
         Kirigami.Icon {
             anchors.centerIn: parent
-            width: 16
-            height: 16
+            width: 20
+            height: 20
             source: "go-previous"
             color: Kirigami.Theme.textColor
             isMask: true

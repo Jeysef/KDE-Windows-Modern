@@ -9,6 +9,7 @@ In this repository you'll find:
 - Plasma Color Schemes
 - Plasma Desktop Themes
 - Plasma Look-and-Feel Settings
+- Custom Plasma applets (Start Menu, Quick Settings, Show Desktop, System Tray)
 
 ## Installation
 

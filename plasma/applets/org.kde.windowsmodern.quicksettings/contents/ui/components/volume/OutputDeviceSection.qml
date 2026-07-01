@@ -10,6 +10,7 @@ ColumnLayout {
 
     property var models
     property bool expanded: false
+    readonly property bool hasMultiple: models.sinkFilterModel.count > 1
 
     spacing: 0
 
@@ -25,18 +26,21 @@ ColumnLayout {
             models.sinkAvailable ? models.sink.muted : true
         )
         text: models.sinkAvailable ? models.sink.description : qsTr("No output device")
-        trailing: Component {
-            Kirigami.Icon {
-                width: 10
-                height: 10
-                source: "arrow-down"
-                color: Kirigami.Theme.textColor
-                isMask: true
-                rotation: section.expanded ? 180 : 0
-                Behavior on rotation { NumberAnimation { duration: 120 } }
-            }
+        trailing: section.hasMultiple ? arrowComponent : null
+        onClicked: if (section.hasMultiple) section.expanded = !section.expanded
+    }
+
+    Component {
+        id: arrowComponent
+        Kirigami.Icon {
+            width: 16
+            height: 16
+            source: "arrow-down"
+            color: Kirigami.Theme.textColor
+            isMask: true
+            rotation: section.expanded ? 180 : 0
+            Behavior on rotation { NumberAnimation { duration: 120 } }
         }
-        onClicked: section.expanded = !section.expanded
     }
 
     Item {
