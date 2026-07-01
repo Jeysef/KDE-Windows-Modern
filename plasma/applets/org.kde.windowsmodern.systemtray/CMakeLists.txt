@@ -54,12 +54,28 @@ set_source_files_properties(${SNI_XML} PROPERTIES
 )
 qt_add_dbus_interface(DBUS_SRCS ${SNI_XML} statusnotifieritem_interface)
 
-# Logging category
+# DBusMenu (copied from plasma-workspace/libdbusmenuqt)
+set_source_files_properties(com.canonical.dbusmenu.xml PROPERTIES
+   NO_NAMESPACE true
+   INCLUDE "dbusmenutypes_p.h"
+   CLASSNAME DBusMenuInterface
+)
+qt_add_dbus_interface(DBUS_SRCS com.canonical.dbusmenu.xml dbusmenu_interface)
+
+# Logging category — system tray
 ecm_qt_declare_logging_category(SRCS HEADER debug.h
     IDENTIFIER SYSTEM_TRAY
     CATEGORY_NAME kde.systemtray
     DEFAULT_SEVERITY Info
     DESCRIPTION "plasma applet systemtray"
+)
+
+# Logging category — dbusmenu (embedded from plasma-workspace/libdbusmenuqt)
+ecm_qt_declare_logging_category(SRCS HEADER debug_dbusmenu.h
+    IDENTIFIER DBUSMENUQT
+    CATEGORY_NAME org.kde.libdbusmenuqt
+    DEFAULT_SEVERITY Info
+    DESCRIPTION "libdbusmenu debug"
 )
 set(SRCS
     ${DBUS_SRCS}
@@ -74,6 +90,9 @@ set(SRCS
     systemtraytypes.cpp systemtraytypes.h
     systemtraytypedefs.h
     dbusmenuimporter.h dbusmenuimporter.cpp
+    dbusmenushortcut_p.h dbusmenushortcut_p.cpp
+    dbusmenutypes_p.h dbusmenutypes_p.cpp
+    utils_p.h utils.cpp
 )
 
 # Static library for shared code
@@ -84,7 +103,7 @@ target_link_libraries(systemtray_static
     PUBLIC
         Qt6::DBus
         Qt6::Gui
-
+        Qt6::Widgets
         Qt6::Quick
         KF6::ConfigCore
         KF6::IconThemes
