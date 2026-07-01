@@ -88,10 +88,19 @@ install() {
     cp -r ${SRC_DIR}/plasma/applets/org.kde.windowsmodern.quicksettings          ${APPLETS_DIR}
   fi
 
-  # Custom System Tray applet (Win11 style: icons in panel, hidden behind arrow)
+  # Custom System Tray applet (Win11 style C++ Containment — needs compilation)
+  # CRITICAL: This is a C++ applet installed via pkexec to system dirs.
+  # Do NOT copy to user-local plasmoids dir — conflicts with the compiled .so.
   if [ -d "${SRC_DIR}/plasma/applets/org.kde.windowsmodern.systemtray" ]; then
-    rm -rf ${APPLETS_DIR}/org.kde.windowsmodern.systemtray
-    cp -r ${SRC_DIR}/plasma/applets/org.kde.windowsmodern.systemtray             ${APPLETS_DIR}
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "  System Tray is a C++ applet — run its install.sh:     "
+    echo "    cd plasma/applets/org.kde.windowsmodern.systemtray  "
+    echo "    ./install.sh build-install                          "
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    # Remove any stale user-local copy
+    rm -rf "${HOME}/.local/share/plasma/plasmoids/org.kde.windowsmodern.systemtray" 2>/dev/null || true
   fi
 
   # Custom Start Menu applet (Win11 style: search, pinned, all-apps pages)

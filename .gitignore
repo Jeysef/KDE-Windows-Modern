@@ -2,3 +2,4 @@ icons/
 icons_v2/
 untracked/
 plasma/applets/org.kde.windowsmodern.systemtray/build/
+/plasma/applets/org.kde.windowsmodern.systemtray/CMakeFiles/

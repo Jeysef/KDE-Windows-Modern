@@ -4,16 +4,14 @@
  *
  *   Compact vertical-list row delegate for the StartAllBack-style
  *   pinned / all-apps left column.  Icon + name + optional submenu arrow,
- *   hover highlight, keyboard activation, right-click action menu.
+ *   hover highlight, keyboard activation.  Right-click uses a shared
+ *   in-dialog ContextMenu (declared at rootItem level) to avoid stacking.
  ***************************************************************************/
 
 import QtQuick
 
 import org.kde.plasma.components as PlasmaComponents3
-import org.kde.plasma.core as PlasmaCore
 import org.kde.kirigami as Kirigami
-
-import "../code/tools.js" as Tools
 
 Item {
     id: item
@@ -38,43 +36,17 @@ Item {
     property bool hasSubmenu: (("hasSubmenu" in model) && (model.hasSubmenu === true))
 
     property int iconSize: Kirigami.Units.iconSizes.smallMedium
-
-    // StartAllBack rows are single-line by default; enable for a two-line
-    // (name + description) layout.
     property bool showDescription: false
 
     Accessible.role: Accessible.MenuItem
     Accessible.name: model.display !== undefined ? model.display : ""
 
     signal activated(int index, string actionId, string actionArgument)
-    signal contextMenuRequested(int index)
 
-    function openActionMenu(x, y) {
-        var actionList = (model.actionList !== undefined) ? model.actionList : [];
-        var favModel = ListView.view && ListView.view.model ? (ListView.view.model.favoritesModel || null) : null;
-        Tools.fillActionMenu(i18n, actionMenu, actionList, favModel, model.favoriteId);
-        actionMenu.visualParent = item;
-        actionMenu.open(x, y);
-    }
-
-    function actionTriggered(actionId, actionArgument) {
-        var close = (Tools.triggerAction(ListView.view.model, model.index, actionId, actionArgument) === true);
-        if (close) {
-            root.closeMenu();
-        }
-    }
-
-    ActionMenu {
-        id: actionMenu
-        onActionClicked: {
-            visualParent.actionTriggered(actionId, actionArgument);
-        }
-    }
-
+    // ── Hover background ───────────────────────────────────────────────
     Rectangle {
         id: hoverBackground
         anchors.fill: parent
-        anchors.margins: 0
         radius: Kirigami.Units.smallSpacing
         color: Kirigami.Theme.hoverColor
         opacity: {
@@ -85,6 +57,7 @@ Item {
         Behavior on opacity { NumberAnimation { duration: 90 } }
     }
 
+    // ── Content row ────────────────────────────────────────────────────
     Row {
         id: row
         anchors.verticalCenter: parent.verticalCenter
@@ -149,44 +122,81 @@ Item {
         }
     }
 
-    PlasmaCore.ToolTipArea {
-        id: toolTip
-        property string text: model.display !== undefined ? model.display : ""
-        anchors.fill: parent
-        active: root.visible && label.truncated
-        mainItem: toolTipDelegate
-    }
-
+    // ── Mouse handling ─────────────────────────────────────────────────
     MouseArea {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         cursorShape: Qt.PointingHandCursor
+        z: 10
 
         onClicked: mouse => {
             if (mouse.button === Qt.RightButton) {
-                if (item.hasActionList) {
-                    item.openActionMenu(mouse.x, mouse.y);
-                }
+                openContextMenu(mouse.x, mouse.y);
                 return;
             }
-            if ("trigger" in ListView.view.model) {
-                ListView.view.model.trigger(item.itemIndex, "", null);
+            // Left click — trigger the app
+            var view = item.ListView.view
+            if (view && view.model && typeof view.model.trigger === "function") {
+                view.model.trigger(item.itemIndex, "", null);
                 root.closeMenu();
             }
             item.activated(item.itemIndex, "", null);
         }
     }
 
+    function openContextMenu(localX, localY) {
+        var acts = []
+
+        // App-specific actions from the model
+        var modelActions = (model.actionList !== undefined) ? model.actionList : []
+        for (var i = 0; i < modelActions.length; i++) {
+            acts.push(modelActions[i])
+        }
+
+        // Add pin/unpin favorite action
+        var favModel = (typeof kicker !== "undefined" && kicker.globalFavorites) ? kicker.globalFavorites : null
+        if (favModel && favModel.enabled && item.favoriteId !== "") {
+            if (acts.length > 0) {
+                acts.push({ type: "separator" })
+            }
+            if (favModel.isFavorite(item.favoriteId)) {
+                acts.push({
+                    text: i18n("Remove from Favorites"),
+                    icon: "bookmark-remove",
+                    actionId: "_kicker_favorite_remove",
+                    actionArgument: item.favoriteId
+                })
+            } else {
+                acts.push({
+                    text: i18n("Add to Favorites"),
+                    icon: "bookmark-new",
+                    actionId: "_kicker_favorite_add",
+                    actionArgument: item.favoriteId
+                })
+            }
+        }
+
+        if (acts.length === 0) return
+
+        // Map position to rootItem coordinate space
+        var pos = item.mapToItem(sharedContextMenu, localX, localY)
+
+        // Suppress dialog auto-hide
+        if (typeof root !== "undefined") {
+            root.hideOnWindowDeactivate = false
+        }
+
+        sharedContextMenu.open(acts, pos.x, pos.y)
+    }
+
     Keys.onPressed: event => {
-        if (event.key === Qt.Key_Menu && hasActionList) {
+        if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
             event.accepted = true;
-            openActionMenu(item);
-        } else if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
-            event.accepted = true;
-            if ("trigger" in ListView.view.model) {
-                ListView.view.model.trigger(index, "", null);
+            var view = item.ListView.view
+            if (view && view.model && typeof view.model.trigger === "function") {
+                view.model.trigger(index, "", null);
                 root.closeMenu();
             }
             item.activated(index, "", null);

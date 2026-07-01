@@ -451,6 +451,28 @@ Item {
                 }
             }
 
+            // ── Shared context menu for list delegates ─────────────────────
+            ContextMenu {
+                id: sharedContextMenu
+                anchors.fill: parent
+                onActionTriggered: function(actionId, argument) {
+                    handleContextAction(actionId, argument)
+                }
+                onClosed: {
+                    if (typeof root !== "undefined") {
+                        root.hideOnWindowDeactivate = true
+                    }
+                }
+            }
+
+            function handleContextAction(actionId, argument) {
+                if (actionId === "_kicker_favorite_remove") {
+                    globalFavorites.removeFavorite(argument)
+                } else if (actionId === "_kicker_favorite_add") {
+                    globalFavorites.addFavorite(argument)
+                }
+            }
+
             Keys.onPressed: event => {
                 if (event.modifiers === Qt.ControlModifier) {
                     var digit = event.key - Qt.Key_1;
