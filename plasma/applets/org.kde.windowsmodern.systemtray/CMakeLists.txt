@@ -63,22 +63,23 @@ set_source_files_properties(com.canonical.dbusmenu.xml PROPERTIES
 qt_add_dbus_interface(DBUS_SRCS com.canonical.dbusmenu.xml dbusmenu_interface)
 
 # Logging category — system tray
-ecm_qt_declare_logging_category(SRCS HEADER debug.h
+ecm_qt_declare_logging_category(SRC_LOGGING HEADER debug.h
     IDENTIFIER SYSTEM_TRAY
     CATEGORY_NAME kde.systemtray
     DEFAULT_SEVERITY Info
     DESCRIPTION "plasma applet systemtray"
 )
-
 # Logging category — dbusmenu (embedded from plasma-workspace/libdbusmenuqt)
-ecm_qt_declare_logging_category(SRCS HEADER debug_dbusmenu.h
+ecm_qt_declare_logging_category(SRC_LOGGING HEADER debug_dbusmenu.h
     IDENTIFIER DBUSMENUQT
     CATEGORY_NAME org.kde.libdbusmenuqt
     DEFAULT_SEVERITY Info
     DESCRIPTION "libdbusmenu debug"
 )
+
 set(SRCS
     ${DBUS_SRCS}
+    ${SRC_LOGGING}
     systemtray.cpp systemtray.h
     systemtraymodel.cpp systemtraymodel.h
     systemtraysettings.cpp systemtraysettings.h
