@@ -42,9 +42,7 @@ mkdir -p "$PLUGIN_DST"
 cp "$PLUGIN_SRC" "$PLUGIN_DST/"
 # Remove any KPackage — .so has embedded QML, KPackage causes dark rectangle
 rm -rf "$KPACKAGE_DIR"
-echo "Installed."
-INSTALLEOF
-echo "Installed."
+    echo "Installed."
 INSTALLEOF
 
 info "Files installed."
