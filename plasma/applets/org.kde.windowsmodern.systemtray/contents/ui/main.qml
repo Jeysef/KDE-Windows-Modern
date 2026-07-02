@@ -38,6 +38,10 @@ ContainmentItem {
     readonly property alias hiddenModel: hiddenModel
 
     Component.onCompleted: {
+        // We need all the plasmoiditems to be there for correct working of shortcuts.
+        // Instantiators create the plasmoiditems: ensure this is done after
+        // this containmentitem actually  exists so they can be immediately parented properly
+        // set active and not the model, as this will cause an assert deep in Qt
         activeInstantiator.active = true;
         hiddenInstantiator.active = true;
     }
@@ -56,7 +60,7 @@ ContainmentItem {
             let value = sourceModel.data(sourceModel.index(sourceRow, 0, sourceParent), filterRole);
             return value === PlasmaCore.Types.ActiveStatus;
         }
-        Component.onCompleted: sourceModel = Plasmoid.systemTrayModel
+        Component.onCompleted: sourceModel = Plasmoid.systemTrayModel // avoid unnecessary binding, it causes loops
     }
 
     KItemModels.KSortFilterProxyModel {
@@ -66,11 +70,13 @@ ContainmentItem {
             let value = sourceModel.data(sourceModel.index(sourceRow, 0, sourceParent), filterRole);
             return value === PlasmaCore.Types.PassiveStatus
         }
-        Component.onCompleted: sourceModel = Plasmoid.systemTrayModel
+        Component.onCompleted: sourceModel = Plasmoid.systemTrayModel // avoid unnecessary binding, it causes loops
     }
 
     Instantiator {
         id: hiddenInstantiator
+        // It's important that those are inactive at creation time
+        // to not create plasmoiditems too soon
         active: false
         model: hiddenModel
         delegate: Connections {
@@ -88,7 +94,7 @@ ContainmentItem {
     Instantiator {
         id: activeInstantiator
         active: false
-        model: activeModel
+        model:activeModel
         delegate: Connections {
             required property QtObject applet
             required property int row
@@ -105,6 +111,7 @@ ContainmentItem {
         anchors.fill: parent
 
         onWheel: wheel => {
+            // Don't propagate unhandled wheel events
             wheel.accepted = true;
         }
 
@@ -122,6 +129,8 @@ ContainmentItem {
 
             preventStealing: true
 
+            /** Extracts the name of the system tray applet in the drag data if present
+            * otherwise returns null*/
             function systemTrayAppletName(event) {
                 if (event.mimeData.formats.indexOf("text/x-plasmoidservicename") < 0) {
                     return null;
@@ -155,6 +164,7 @@ ContainmentItem {
             }
         }
 
+
         //Main Layout
         GridLayout {
             id: mainLayout
@@ -168,23 +178,27 @@ ContainmentItem {
             GridView {
                 id: tasksGrid
 
-                Layout.row: root.vertical && root.reverseLayout ? 1 : 0
-                Layout.column: 0
+                Layout.row: root.vertical && root.reverseLayout ? 1 : 0 // Explicitly define grid coordinates
+                Layout.column: 0                                        // to prevent overlapping
 
                 Layout.alignment: Qt.AlignCenter
 
-                interactive: false
+                interactive: false //disable features we don't need
                 flow: root.vertical ? GridView.LeftToRight : GridView.TopToBottom
 
+                // Tell the grid to populate bottom-to-top when flipped on a vertical panel
                 verticalLayoutDirection: (root.vertical && root.reverseLayout) ? GridView.BottomToTop : GridView.TopToBottom
 
+                // The icon size to display when not using the auto-scaling setting
                 readonly property int smallIconSize: Kirigami.Units.iconSizes.smallMedium
 
                 readonly property bool autoSize: Plasmoid.configuration.scaleIconsToFit
 
                 readonly property int gridThickness: root.vertical ? root.width : root.height
+                // Should change to 2 rows/columns on a 56px panel (in standard DPI)
                 readonly property int rowsOrColumns: autoSize ? 1 : Math.max(1, Math.min(count, Math.floor(gridThickness / (smallIconSize + Kirigami.Units.smallSpacing))))
 
+                // Add margins only if the panel is larger than a small icon (to avoid large gaps between tiny icons)
                 readonly property int cellSpacing: Kirigami.Units.smallSpacing * Plasmoid.configuration.iconSpacing
                 readonly property int smallSizeCellLength: gridThickness < smallIconSize ? smallIconSize : smallIconSize + cellSpacing
 
@@ -203,6 +217,7 @@ ContainmentItem {
                     }
                 }
 
+                //depending on the form factor, we are calculating only one dimension, second is always the same as root/parent
                 implicitHeight: root.vertical ? cellHeight * Math.ceil(count / rowsOrColumns) : root.height
                 implicitWidth: !root.vertical ? cellWidth * Math.ceil(count / rowsOrColumns) : root.width
 
@@ -222,6 +237,9 @@ ContainmentItem {
                     width: tasksGrid.cellWidth
                     height: tasksGrid.cellHeight
 
+                    // We need to recalculate the stacking order of the z values due to how keyboard navigation works
+                    // the tab order depends exclusively from this, so we redo it as the position in the list
+                    // ensuring tab navigation focuses the expected items
                     Component.onCompleted: {
                         let item = tasksGrid.itemAtIndex(index - 1);
                         if (item) {
@@ -239,8 +257,8 @@ ContainmentItem {
             ExpanderArrow {
                 id: expander
 
-                Layout.row: root.vertical && !root.reverseLayout ? 1 : 0
-                Layout.column: root.vertical ? 0 : 1
+                Layout.row: root.vertical && !root.reverseLayout ? 1 : 0 // Explicitly define grid coordinates
+                Layout.column: root.vertical ? 0 : 1                     // to prevent overlapping
 
                 Layout.fillWidth: vertical
                 Layout.fillHeight: !vertical
@@ -275,6 +293,9 @@ ContainmentItem {
 
             Behavior on margin {
                 NumberAnimation {
+                    // Since the panel animation won't be perfectly in sync,
+                    // using a duration larger than the panel animation results
+                    // in a better-looking animation.
                     duration: Kirigami.Units.veryLongDuration
                     easing.type: Easing.OutCubic
                 }
@@ -285,6 +306,7 @@ ContainmentItem {
             removeBorderStrategy: Plasmoid.location === PlasmaCore.Types.Floating
                 ? PlasmaCore.AppletPopup.AtScreenEdges
                 : PlasmaCore.AppletPopup.AtScreenEdges | PlasmaCore.AppletPopup.AtPanelEdges
+
 
             hideOnWindowDeactivate: !Plasmoid.configuration.pin
             visible: systemTrayState.expanded
@@ -311,13 +333,17 @@ ContainmentItem {
                     systemTrayState.expanded = false
                 }
 
+                // Being there forces the items to fully load, and they will be reparented in the stack one by one, this item is *never* visible
+                // it's important this item is parented to the popup, otherwise the full representation will be reparented every time the popup opens or closes
                 Item {
                     id: preloadedStorage
                     visible: false
                 }
 
+                // Draws a line between the applet dialog and the panel
                 KSvg.SvgItem {
                     id: separator
+                    // Only draw for popups of panel applets, not desktop applets
                     visible: [PlasmaCore.Types.TopEdge, PlasmaCore.Types.LeftEdge, PlasmaCore.Types.RightEdge, PlasmaCore.Types.BottomEdge]
                         .includes(Plasmoid.location) && !dialog.margin
                     anchors {
@@ -326,9 +352,10 @@ ContainmentItem {
                         rightMargin: -dialog.rightPadding
                         bottomMargin: -dialog.bottomPadding
                     }
-                    z: 999
+                    z: 999 /* Draw the line on top of the applet */
                     elementId: (Plasmoid.location === PlasmaCore.Types.TopEdge || Plasmoid.location === PlasmaCore.Types.BottomEdge) ? "horizontal-line" : "vertical-line"
                     imagePath: "widgets/line"
+                    // QTBUG-120464: Use AnchorChanges instead of bindings as it's officially supported: https://doc.qt.io/qt-6/qtquick-positioning-anchors.html#changing-anchors
                     states: [
                         State {
                             when: Plasmoid.location === PlasmaCore.Types.TopEdge
