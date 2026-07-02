@@ -15,7 +15,6 @@
             "desktop"
         ],
         "Icon": "preferences-system-windows",
-        "Id": "org.kde.windowsmodern.systemtray",
         "License": "GPL-2.0+",
         "Name": "System Tray (Windows Modern)",
         "Version": "1.0",

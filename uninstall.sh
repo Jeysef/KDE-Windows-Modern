@@ -1,72 +1,94 @@
- #!/bin/bash
+#!/bin/bash
+# ───────────────────────────────────────────────────────────────────
+#  uninstall.sh — remove all Windows Modern components
+#
+#  Usage:  ./uninstall.sh              Remove everything
+#          ./uninstall.sh <component>   Remove one component
+# ───────────────────────────────────────────────────────────────────
+set -euo pipefail
 
-ROOT_UID=0
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/scripts/install-lib.sh"
 
-# Destination directory
-if [ "$UID" -eq "$ROOT_UID" ]; then
-  AURORAE_DIR="/usr/share/aurorae/themes"
-  SCHEMES_DIR="/usr/share/color-schemes"
-  PLASMA_DIR="/usr/share/plasma/desktoptheme"
-  LAYOUT_DIR="/usr/share/plasma/layout-templates"
-  LOOKFEEL_DIR="/usr/share/plasma/look-and-feel"
-  KVANTUM_DIR="/usr/share/Kvantum"
-  WALLPAPER_DIR="/usr/share/wallpapers"
-  ICONS_DIR="/usr/share/icons"
-  LAYOUT_DIR="/usr/share/plasma/layout-templates"
-  APPLETS_DIR="/usr/share/plasma/plasmoids"
-else
-  AURORAE_DIR="$HOME/.local/share/aurorae/themes"
-  SCHEMES_DIR="$HOME/.local/share/color-schemes"
-  PLASMA_DIR="$HOME/.local/share/plasma/desktoptheme"
-  LAYOUT_DIR="$HOME/.local/share/plasma/layout-templates"
-  LOOKFEEL_DIR="$HOME/.local/share/plasma/look-and-feel"
-  KVANTUM_DIR="$HOME/.config/Kvantum"
-  WALLPAPER_DIR="$HOME/.local/share/wallpapers"
-  ICONS_DIR="$HOME/.local/share/icons"
-  APPLETS_DIR="$HOME/.local/share/plasma/plasmoids"
+ELEVATE=""
+if [ "$UID" -ne 0 ]; then
+    if command -v sudo &>/dev/null; then
+        ELEVATE="sudo"
+    fi
 fi
 
-SRC_DIR=$(cd $(dirname $0) && pwd)
-
-THEME_NAME=Windows-modern
-
-uninstall() {
-  local name=${1}
-
-  local AURORAE_THEME="${AURORAE_DIR}/${name}"
-  local PLASMA_THEME="${PLASMA_DIR}/${name}"
-  local LOOKFEEL_THEME="${LOOKFEEL_DIR}/com.github.yeyushengfan258.${name}"
-
-  [[ -d ${AURORAE_THEME} ]] && rm -rfv ${AURORAE_THEME}
-  [[ -d ${PLASMA_THEME} ]] && rm -rfv ${PLASMA_THEME}
-  [[ -d ${LOOKFEEL_THEME} ]] && rm -rfv ${LOOKFEEL_THEME}
-  [[ -d ${KVANTUM_DIR}/${name} ]] && rm -rfv ${KVANTUM_DIR}/${name}
-  [[ -d ${WALLPAPER_DIR}/${name} ]] && rm -rfv ${WALLPAPER_DIR}/${name}
-  [[ -d ${ICONS_DIR}/windows-modern ]] && rm -rfv ${ICONS_DIR}/windows-modern
-  [[ -d ${LAYOUT_DIR}/org.kde.windowsmodern.panel ]] && rm -rfv ${LAYOUT_DIR}/org.kde.windowsmodern.panel
-  [[ -d ${APPLETS_DIR}/org.kde.windowsmodern.showdesktop ]] && rm -rfv ${APPLETS_DIR}/org.kde.windowsmodern.showdesktop
-  [[ -d ${APPLETS_DIR}/org.kde.windowsmodern.quicksettings ]] && rm -rfv ${APPLETS_DIR}/org.kde.windowsmodern.quicksettings
-  [[ -d ${APPLETS_DIR}/org.kde.windowsmodern.systemtray ]] && rm -rfv ${APPLETS_DIR}/org.kde.windowsmodern.systemtray
-  [[ -d ${APPLETS_DIR}/org.kde.windowsmodern.startmenu ]] && rm -rfv ${APPLETS_DIR}/org.kde.windowsmodern.startmenu
+uninstall_component() {
+    local name="$1"
+    info "Uninstalling: $name"
+    case "$name" in
+        themes)
+            $ELEVATE rm -rf "$AURORAE_DIR/Windows-modern"* "$AURORAE_DIR/__aurorae__svg__windows-modern"* 2>/dev/null || true
+            $ELEVATE rm -f "$SCHEMES_DIR/WindowsModern"*.colors 2>/dev/null || true
+            $ELEVATE rm -rf "$KVANTUM_DIR/Windows-modern"* 2>/dev/null || true
+            $ELEVATE rm -rf "$PLASMA_DIR/Windows-modern"* 2>/dev/null || true
+            $ELEVATE rm -rf "$WALLPAPER_DIR/Windows-modern"* 2>/dev/null || true
+            info "Themes uninstalled."
+            ;;
+        icons)
+            $ELEVATE rm -rf "$ICONS_DIR/windows-modern" 2>/dev/null || true
+            info "Icons uninstalled."
+            ;;
+        lookfeel)
+            $ELEVATE rm -rf "$LOOKFEEL_DIR/org.kde.windowsmodern.dark" \
+                             "$LOOKFEEL_DIR/org.kde.windowsmodern.light" 2>/dev/null || true
+            info "Global themes uninstalled."
+            ;;
+        layout)
+            $ELEVATE rm -rf "$LAYOUT_DIR/org.kde.windowsmodern.panel" 2>/dev/null || true
+            info "Panel layout uninstalled."
+            ;;
+        showdesk)
+            $ELEVATE rm -rf "$APPLETS_DIR/org.kde.windowsmodern.showdesktop" 2>/dev/null || true
+            info "Show Desktop uninstalled."
+            ;;
+        quickset)
+            $ELEVATE rm -rf "$APPLETS_DIR/org.kde.windowsmodern.quicksettings" 2>/dev/null || true
+            info "Quick Settings uninstalled."
+            ;;
+        startmenu)
+            $ELEVATE rm -rf "$APPLETS_DIR/org.kde.windowsmodern.startmenu" 2>/dev/null || true
+            info "Start Menu uninstalled."
+            ;;
+        systray|systemtray)
+            $ELEVATE rm -f "/usr/lib64/qt6/plugins/plasma/applets/org.kde.windowsmodern.systemtray.so" 2>/dev/null || true
+            $ELEVATE rm -rf "/usr/share/plasma/plasmoids/org.kde.windowsmodern.systemtray" 2>/dev/null || true
+            rm -rf "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.systemtray" 2>/dev/null || true
+            info "System Tray uninstalled. Restart plasmashell to complete."
+            ;;
+        all)
+            for c in themes icons lookfeel layout showdesk quickset startmenu systray; do
+                uninstall_component "$c"
+            done
+            ;;
+        *)
+            err "Unknown component: $name"
+            echo "Available: themes, icons, lookfeel, layout, showdesk, quickset, startmenu, systray, all"
+            exit 1
+            ;;
+    esac
 }
 
-echo "Uninstalling '${THEME_NAME} kde themes'..."
-
-uninstall "${name:-${THEME_NAME}-light}"
-uninstall "${name:-${THEME_NAME}-dark}"
-uninstall "${THEME_NAME}-lightDark"
-
-# Remove color schemes (current and legacy hyphenated names)
-rm -f ${SCHEMES_DIR}/WindowsModernLight.colors
-rm -f ${SCHEMES_DIR}/WindowsModernDark.colors
-rm -f ${SCHEMES_DIR}/Windows-modernLight.colors
-rm -f ${SCHEMES_DIR}/Windows-modernDark.colors
-
-# Reset window decoration border size to default
-if command -v kwriteconfig6 &>/dev/null; then
-  kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSize" "Normal"
-  kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSizeAuto" "true"
-  dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null
-fi
-
-echo "Uninstall finished..."
+case "${1:-}" in
+    --help|-h|"")
+        echo "Usage: ./uninstall.sh [component]"
+        echo "  (no args)  Show help"
+        echo "  all        Uninstall everything"
+        echo "  themes     Themes (Aurorae, colors, Kvantum, Plasma, wallpapers)"
+        echo "  icons      Icon pack"
+        echo "  lookfeel   Global themes"
+        echo "  layout     Panel layout template"
+        echo "  showdesk   Show Desktop applet"
+        echo "  quickset   Quick Settings applet"
+        echo "  startmenu  Start Menu applet"
+        echo "  systray    System Tray"
+        exit 0
+        ;;
+    *)
+        uninstall_component "$1"
+        ;;
+esac
