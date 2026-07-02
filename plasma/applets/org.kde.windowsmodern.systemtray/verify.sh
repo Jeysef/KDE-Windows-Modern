@@ -50,7 +50,7 @@ fi
 # 4. Symbols
 if [ -f "$SO_PATH" ]; then
     for sym in SYSTEM_TRAY DBUSMENUQT; do
-        if nm -D "$SO_PATH" 2>/dev/null | grep -qw "_Z.*${sym}v"; then
+        if [ -n "$(nm -D "$SO_PATH" 2>/dev/null | grep "_Z.*${sym}v")" ]; then
             pass "Symbol ${sym} defined"
         else
             fail "Symbol ${sym} UNDEFINED — .so won't load"
