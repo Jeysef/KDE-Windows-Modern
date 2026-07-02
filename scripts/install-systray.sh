@@ -4,7 +4,7 @@
 # ───────────────────────────────────────────────────────────────────
 source "$(dirname "$0")/install-lib.sh"
 
-local dir="$SRC_DIR/plasma/applets/org.kde.windowsmodern.systemtray"
+dir="$SRC_DIR/plasma/applets/org.kde.windowsmodern.systemtray"
 [ -d "$dir" ] || { warn "System Tray source not found — skipping."; exit 0; }
 
 info "Installing System Tray (C++)..."
