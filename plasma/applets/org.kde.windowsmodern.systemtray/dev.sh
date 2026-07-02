@@ -1,7 +1,16 @@
 #!/bin/bash
 # ───────────────────────────────────────────────────────────────────
-# Windows Modern System Tray — quick dev cycle
-#   build → fix-config → install → restart → logs
+# Windows Modern System Tray — dev cycle (the ONLY install command)
+#
+#   Usage:  ./dev.sh
+#
+#   This builds the C++ .so, installs it to /usr/lib64/..., removes
+#   any stale KPackage (prevents the critical dark-rectangle bug),
+#   and restarts plasmashell.
+#
+#   Do NOT copy this directory to ~/.local/share/plasma/plasmoids/
+#   or /usr/share/plasma/plasmoids/ — that creates a duplicate
+#   applet registration and causes the dark-rectangle popup.
 # ───────────────────────────────────────────────────────────────────
 set -euo pipefail
 

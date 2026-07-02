@@ -94,13 +94,14 @@ install() {
   if [ -d "${SRC_DIR}/plasma/applets/org.kde.windowsmodern.systemtray" ]; then
     echo ""
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "  System Tray is a C++ applet — run its install.sh:     "
+    echo "  System Tray is a C++ applet — use its dev script:     "
     echo "    cd plasma/applets/org.kde.windowsmodern.systemtray  "
-    echo "    ./install.sh build-install                          "
+    echo "    ./dev.sh                                            "
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo ""
-    # Remove any stale user-local copy
+    # Remove stale copies to prevent the KPackage duplicate bug
     rm -rf "${HOME}/.local/share/plasma/plasmoids/org.kde.windowsmodern.systemtray" 2>/dev/null || true
+    rm -rf "${APPLETS_DIR}/org.kde.windowsmodern.systemtray" 2>/dev/null || true
   fi
 
   # Custom Start Menu applet (Win11 style: search, pinned, all-apps pages)
