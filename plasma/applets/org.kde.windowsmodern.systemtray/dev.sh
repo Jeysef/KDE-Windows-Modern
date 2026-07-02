@@ -1,16 +1,7 @@
 #!/bin/bash
 # ───────────────────────────────────────────────────────────────────
-# Windows Modern System Tray — dev cycle (the ONLY install command)
-#
-#   Usage:  ./dev.sh
-#
-#   This builds the C++ .so, installs it to /usr/lib64/..., removes
-#   any stale KPackage (prevents the critical dark-rectangle bug),
-#   and restarts plasmashell.
-#
-#   Do NOT copy this directory to ~/.local/share/plasma/plasmoids/
-#   or /usr/share/plasma/plasmoids/ — that creates a duplicate
-#   applet registration and causes the dark-rectangle popup.
+# Windows Modern System Tray — quick dev cycle
+#   build → fix-config → install → restart → logs
 # ───────────────────────────────────────────────────────────────────
 set -euo pipefail
 
@@ -39,7 +30,7 @@ if grep -q "plugin=metadata" "$LAYOUT_FILE" 2>/dev/null; then
     sed -i "/\[Containments\]\[.*\]\[Applets\]/,/\[/{s/^plugin=metadata$/plugin=${APP_ID}/}" "$LAYOUT_FILE"
 fi
 
-# ── Step 3: Install .so + minimal KPackage (metadata-only for scripting API discovery) ──
+# ── Step 3: Install .so only (no KPackage — prevents dark rectangle) ──
 info "Installing..."
 PLUGIN_SRC="$BUILD_DIR/lib/plasma/applets/${APP_ID}.so"
 PLUGIN_DST="/usr/lib64/qt6/plugins/plasma/applets"
@@ -47,13 +38,12 @@ KPACKAGE_DIR="/usr/share/plasma/plasmoids/${APP_ID}"
 
 pkexec bash -s <<INSTALLEOF
 set -e
-mkdir -p "$PLUGIN_DST" "$KPACKAGE_DIR"
+mkdir -p "$PLUGIN_DST"
 cp "$PLUGIN_SRC" "$PLUGIN_DST/"
-# Remove QML contents to prevent duplicate applet registration (dark rectangle bug)
-# Keep ONLY metadata.json so kpackagetool6/addWidget() can discover the plugin
-rm -rf "$KPACKAGE_DIR/contents"
-rm -f "$KPACKAGE_DIR/metadata.desktop"
-cp "${SRC_DIR}/metadata.json" "$KPACKAGE_DIR/"
+# Remove any KPackage — .so has embedded QML, KPackage causes dark rectangle
+rm -rf "$KPACKAGE_DIR"
+echo "Installed."
+INSTALLEOF
 echo "Installed."
 INSTALLEOF
 
