@@ -69,12 +69,20 @@ ColumnLayout {
         boundsBehavior: Flickable.StopAtBounds
         currentIndex: -1
 
+        // Drag-reorder tracking.  draggingIndex is the index currently
+        // being dragged (or -1); dropTargetIndex is where it would land
+        // if released (or -1).  Delegates read these to show the drop
+        // indicator and lift the dragged row.
+        property int draggingIndex: -1
+        property int dropTargetIndex: -1
+
         PlasmaComponents3.ScrollBar.vertical: PlasmaComponents3.ScrollBar {
             policy: PlasmaComponents3.ScrollBar.AsNeeded
         }
 
         delegate: ListItemDelegate {
             iconSize: Kirigami.Units.iconSizes.smallMedium
+            dragEnabled: true
         }
 
         highlightMoveDuration: 0

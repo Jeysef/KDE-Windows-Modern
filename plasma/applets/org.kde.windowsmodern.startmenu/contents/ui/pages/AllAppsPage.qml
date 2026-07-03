@@ -70,9 +70,6 @@ ColumnLayout {
         boundsBehavior: Flickable.StopAtBounds
         currentIndex: -1
 
-        onCountChanged: console.warn("[WM-STARTMENU] AllApps count=" + count)
-        onHeightChanged: console.warn("[WM-STARTMENU] AllApps height=" + height + " scrollable=" + (contentHeight > height))
-
         PlasmaComponents3.ScrollBar.vertical: PlasmaComponents3.ScrollBar {
             policy: PlasmaComponents3.ScrollBar.AsNeeded
         }

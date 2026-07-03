@@ -93,7 +93,6 @@ Item {
         }
 
         function reset() {
-            console.warn("[WM-STARTMENU] reset() called");
             bottomBarContent.searchText = "";
             leftColumnState = 0;
             // Reset the search filter pills to "All".
@@ -624,7 +623,6 @@ Item {
         }
 
         Component.onCompleted: {
-            console.warn("[WM-STARTMENU] loaded");
             rootModel.refreshed.connect(setModels);
             reset();
             rootModel.refresh();
