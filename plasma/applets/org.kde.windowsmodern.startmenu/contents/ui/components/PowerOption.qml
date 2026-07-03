@@ -52,7 +52,6 @@ Item {
         PlasmaComponents3.Label {
             text: option.label
             color: option.optionEnabled ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
-            font.family: "Segoe UI"
             font.pointSize: Kirigami.Theme.defaultFont.pointSize - 1
         }
     }

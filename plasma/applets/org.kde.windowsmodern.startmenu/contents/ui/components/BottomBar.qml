@@ -53,7 +53,6 @@ RowLayout {
         bottomPadding: 8
         leftPadding: Kirigami.Units.gridUnit + Kirigami.Units.iconSizes.small
         font.pointSize: Kirigami.Theme.defaultFont.pointSize
-        font.family: "Segoe UI"
 
         background: Rectangle {
             color: Kirigami.Theme.backgroundColor
@@ -143,7 +142,6 @@ RowLayout {
                 anchors.verticalCenter: parent.verticalCenter
                 text: i18n("Shut down")
                 color: Kirigami.Theme.textColor
-                font.family: "Segoe UI"
                 font.pointSize: Kirigami.Theme.defaultFont.pointSize - 1
             }
 

@@ -13,7 +13,9 @@
  *     └────────────────────────────────────────────────┘
  *
  *   Pages live in pages/, shared components in components/.
- *   Positioning matches working Start.Next.Menu pattern.
+ *   Keyboard input is handled by a single top-level handler on rootItem
+ *   so any printable character appends to the search field regardless
+ *   of which page or child widget currently holds focus.
  ***************************************************************************/
 
 import QtQuick
@@ -24,7 +26,6 @@ import Qt5Compat.GraphicalEffects
 import org.kde.plasma.plasmoid
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.components as PlasmaComponents3
-import org.kde.plasma.private.kicker 0.1 as Kicker
 
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.plasma5support as Plasma5Support
@@ -33,6 +34,7 @@ import org.kde.coreaddons as KCoreAddons
 
 import "components"
 import "pages"
+import "code/tools.js" as Tools
 
 Item {
     id: main
@@ -51,27 +53,7 @@ Item {
         location: PlasmaCore.Types.Floating
         hideOnWindowDeactivate: true
 
-        property int iconSize: {
-            switch (Plasmoid.configuration.appsIconSize) {
-            case 0: return Kirigami.Units.iconSizes.smallMedium;
-            case 1: return Kirigami.Units.iconSizes.medium;
-            case 2: return Kirigami.Units.iconSizes.large;
-            case 3: return Kirigami.Units.iconSizes.huge;
-            default: return Kirigami.Units.iconSizes.medium;
-            }
-        }
-
-        property int docsIconSize: {
-            switch (Plasmoid.configuration.docsIconSize) {
-            case 0: return Kirigami.Units.iconSizes.smallMedium;
-            case 1: return Kirigami.Units.iconSizes.medium;
-            case 2: return Kirigami.Units.iconSizes.large;
-            case 3: return Kirigami.Units.iconSizes.huge;
-            default: return Kirigami.Units.iconSizes.medium;
-            }
-        }
-
-        property bool searching: (bottomBarContent.searchText != "")
+        property bool searching: bottomBarContent.searchText !== ""
 
         // Left-column state: 0 = pinned, 1 = all apps, 2 = search results
         property int leftColumnState: 0
@@ -79,7 +61,6 @@ Item {
         onSearchingChanged: {
             if (searching) {
                 leftColumnState = 2;
-                kicker.searchRunnerFilter = "all";
                 // Reset scroll position when entering search mode.
                 searchPage.resultsView.contentY = 0;
                 searchPage.resultsView.currentIndex = 0;
@@ -90,29 +71,21 @@ Item {
 
         onVisibleChanged: {
             if (visible) {
-                var pos = popupPosition(width, height);
-                x = pos.x;
-                y = pos.y;
+                reposition();
                 reset();
             } else {
                 leftColumnState = 0;
+                sharedContextMenu.close();
+                powerMenu.close();
             }
         }
 
-        onHeightChanged: {
-            if (visible) {
-                var pos = popupPosition(width, height);
-                x = pos.x;
-                y = pos.y;
-            }
-        }
+        onHeightChanged: if (visible) reposition()
+        onWidthChanged: if (visible) reposition()
 
-        onWidthChanged: {
-            if (visible) {
-                var pos = popupPosition(width, height);
-                x = pos.x;
-                y = pos.y;
-            }
+        function reposition() {
+            var pos = popupPosition(width, height);
+            x = pos.x; y = pos.y;
         }
 
         function toggle() {
@@ -120,10 +93,13 @@ Item {
         }
 
         function reset() {
+            console.warn("[WM-STARTMENU] reset() called");
             bottomBarContent.searchText = "";
-            bottomBarContent.focusSearch();
             leftColumnState = 0;
-            kicker.searchRunnerFilter = "all";
+            // Reset the search filter pills to "All".
+            searchPage.resultsView.singleRunner = "";
+            // Defer focus until the dialog has finished laying out.
+            Qt.callLater(bottomBarContent.focusSearch);
         }
 
         function closeMenu() {
@@ -188,13 +164,14 @@ Item {
             readonly property int rowHeight: Kirigami.Units.gridUnit * 2
             readonly property int mainContentHeight: rowHeight * 12 + Kirigami.Units.gridUnit * 2
 
-            Layout.minimumWidth: leftColumnWidth + rightColumnWidth + Kirigami.Units.gridUnit * 3
-            Layout.maximumWidth: Layout.minimumWidth
-            Layout.minimumHeight: mainContentHeight + bottomBar.height + Kirigami.Units.gridUnit * 3
-            Layout.maximumHeight: Layout.minimumHeight
+            width: leftColumnWidth + rightColumnWidth + Kirigami.Units.gridUnit * 3
+            height: mainContentHeight + bottomBar.height + Kirigami.Units.gridUnit * 3
 
             focus: true
-            onFocusChanged: if (focus) bottomBarContent.focusSearch()
+            // Note: do NOT auto-redirect to the search field here.
+            // onFocusChanged fires when any child calls forceActiveFocus(),
+            // and stealing focus back makes it impossible to type from lists.
+            // Initial search focus is handled by reset().
 
             Plasma5Support.DataSource {
                 id: executable
@@ -224,6 +201,17 @@ Item {
                 sortOrder: {
                     var m = Plasmoid.configuration.allAppsSortMode;
                     return (m === 1 || m === 3) ? Qt.DescendingOrder : Qt.AscendingOrder;
+                }
+
+                // Map a proxy row through to the source model so delegates
+                // can call view.model.trigger(index, ...) uniformly whether
+                // the model is the favorites model or this sorted proxy.
+                function trigger(row, actionId, argument) {
+                    var srcIdx = mapToSource(index(row, 0));
+                    if (srcIdx.valid && sourceModel) {
+                        return sourceModel.trigger(srcIdx.row, actionId, argument);
+                    }
+                    return false;
                 }
 
                 property var favoritesModel: sourceModel ? sourceModel.favoritesModel : null
@@ -258,7 +246,7 @@ Item {
                         visible: root.leftColumnState === 0
                         onShowAllAppsRequested: {
                             root.leftColumnState = 1;
-                            allAppsPage.tryActivate(0);
+                            Qt.callLater(function() { allAppsPage.tryActivate(0); });
                         }
                         onKeyNavUpFromList: bottomBarContent.focusSearch()
                     }
@@ -280,6 +268,10 @@ Item {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         visible: root.leftColumnState === 2
+                        onContextMenuRequested: function(actions, x, y, context) {
+                            var pos = searchPage.mapToItem(sharedContextMenu, x, y)
+                            sharedContextMenu.open(actions, pos.x, pos.y, context)
+                        }
                     }
                 }
 
@@ -317,7 +309,7 @@ Item {
                             source: {
                                 var faceUrl = kuser.faceIconUrl.toString()
                                 if (faceUrl !== "") return faceUrl
-                                return "file://usr/share/icons/breeze/apps/48/kuser.svg"
+                                return "file:///usr/share/icons/breeze/apps/48/kuser.svg"
                             }
                             cache: false
                             fillMode: Image.PreserveAspectCrop
@@ -355,7 +347,6 @@ Item {
                         color: Kirigami.Theme.textColor
                         font.pointSize: Kirigami.Theme.defaultFont.pointSize * 0.95
                         font.weight: Font.DemiBold
-                        font.family: "Segoe UI"
                         Layout.leftMargin: Kirigami.Units.largeSpacing
                     }
 
@@ -400,19 +391,15 @@ Item {
                     onSearchTextChanged: {
                         // Explicitly push the query to Milou ResultsView.
                         searchPage.resultsView.queryString = bottomBarContent.searchText;
-                        // Reset scroll to top on new query.
-                        searchPage.resultsView.contentY = 0;
-                        searchPage.resultsView.currentIndex = 0;
-                    }
-                    onSearchFocusResults: {
-                        if (root.leftColumnState === 0) {
-                            pinnedPage.tryActivate(0);
-                        } else if (root.leftColumnState === 1) {
-                            allAppsPage.tryActivate(0);
-                        } else {
-                            searchPage.tryActivate(0, 0);
+                        // Reset scroll to top on new query — only when
+                        // the search page is active to avoid warnings
+                        // from setting properties on a non-visible view.
+                        if (root.leftColumnState === 2) {
+                            searchPage.resultsView.contentY = 0;
+                            searchPage.resultsView.currentIndex = 0;
                         }
                     }
+                    onSearchFocusResults: rootItem.focusActivePageResults()
                     onSearchActivateFirstResult: {
                         if (root.leftColumnState === 2) {
                             searchPage.activateFirstResult();
@@ -425,20 +412,12 @@ Item {
                             root.closeMenu();
                         }
                     }
-                    onTabOut: {
-                        if (root.leftColumnState === 0) {
-                            pinnedPage.tryActivate(0);
-                        } else if (root.leftColumnState === 1) {
-                            allAppsPage.tryActivate(0);
-                        }
-                    }
+                    onTabOut: rootItem.focusActivePageResults()
                     onPowerMenuRequested: {
                         powerMenu.visualParent = bottomBarContent.splitButton;
                         powerMenu.open();
                     }
-                    onPowerShutdownRequested: {
-                        powerMenu.triggerShutdown();
-                    }
+                    onPowerShutdownRequested: powerMenu.triggerShutdown()
                 }
             }
 
@@ -455,25 +434,103 @@ Item {
             ContextMenu {
                 id: sharedContextMenu
                 anchors.fill: parent
-                onActionTriggered: function(actionId, argument) {
-                    handleContextAction(actionId, argument)
+                onActionTriggered: function(actionId, argument, context) {
+                    rootItem.handleContextAction(actionId, argument, context)
                 }
-                onClosed: {
-                    if (typeof root !== "undefined") {
-                        root.hideOnWindowDeactivate = true
+            }
+
+            function handleContextAction(actionId, argument, context) {
+                // Milou runner actions: invoke the named action on the
+                // current match via ResultsView.runAction().
+                if (actionId === "_milou_runner_action" && context && context.kind === "milou") {
+                    if (argument && typeof argument.actionIndex !== "undefined") {
+                        searchPage.resultsView.currentIndex = argument.matchIndex
+                        searchPage.resultsView.runAction(argument.actionIndex)
+                    }
+                    return
+                }
+
+                // "Open" fallback for results with no runner actions
+                // (e.g. plain app launches from krunner_services).
+                if (actionId === "_milou_open" && context && context.kind === "milou") {
+                    if (argument) {
+                        searchPage.resultsView.currentIndex = argument.matchIndex
+                        searchPage.resultsView.runCurrentIndex(null)
+                    }
+                    return
+                }
+
+                var model = context ? (context.resolvedModel || context.model) : null;
+                var idx = context ? (context.resolvedIndex !== undefined ? context.resolvedIndex : context.index) : -1;
+                var close = (Tools.triggerAction(model, idx, actionId, argument) === true);
+                if (close) {
+                    root.closeMenu();
+                }
+            }
+
+            function focusActivePageResults() {
+                if (root.leftColumnState === 0) {
+                    pinnedPage.tryActivate(0);
+                } else if (root.leftColumnState === 1) {
+                    allAppsPage.tryActivate(0);
+                } else {
+                    searchPage.tryActivate(0, 0);
+                }
+            }
+
+            // Lookup map for search-result context menus.  Built by the
+            // hidden appLookupMap ListView below as delegates are
+            // instantiated — this is the only reliable way to access model
+            // roles by name in QML (QAbstractItemModel doesn't expose
+            // roleNames() to the QML side).  Keyed by display name.
+            property var _appLookupMap: ({})
+
+            // Rebuild the lookup map when the source model changes.
+            // Returns { favoriteId, url, actionList } or null.
+            function lookupAppByDisplayName(displayName) {
+                if (!displayName) return null;
+                return rootItem._appLookupMap[displayName] || null;
+            }
+
+            // Lookup map for search-result context menus.  Uses a Repeater
+            // (not ListView) because Repeater creates ALL delegates eagerly —
+            // ListView only creates delegates in/near the visible viewport,
+            // which fails for off-screen helpers.  Each delegate writes its
+            // model roles into the map on creation.
+            Column {
+                x: -9999
+                y: -9999
+                width: 0
+                height: 0
+                visible: true
+
+                Repeater {
+                    model: sortedAppsModel
+                    delegate: Item {
+                        Component.onCompleted: {
+                            var name = (model.display !== undefined) ? model.display : "";
+                            if (name !== "") {
+                                rootItem._appLookupMap[name] = {
+                                    favoriteId: (model.favoriteId !== undefined) ? model.favoriteId : "",
+                                    url: (model.url !== undefined) ? model.url : "",
+                                    actionList: (model.actionList !== undefined) ? model.actionList : null
+                                };
+                            }
+                        }
                     }
                 }
             }
 
-            function handleContextAction(actionId, argument) {
-                if (actionId === "_kicker_favorite_remove") {
-                    globalFavorites.removeFavorite(argument)
-                } else if (actionId === "_kicker_favorite_add") {
-                    globalFavorites.addFavorite(argument)
-                }
-            }
-
+            // ── Single global keyboard handler ─────────────────────────────
+            //
+            // Registered once on rootItem. Any printable character typed
+            // anywhere in the menu appends to the search field and switches
+            // to the search page. Escape/Backspace route to search or close.
+            // Navigation keys (Tab, arrows, Enter) are left for children to
+            // handle, and only reach here if no child consumed them.
             Keys.onPressed: event => {
+
+                // Ctrl+digit launches a pinned favorite (1..9).
                 if (event.modifiers === Qt.ControlModifier) {
                     var digit = event.key - Qt.Key_1;
                     if (digit >= 0 && digit <= 8) {
@@ -486,10 +543,19 @@ Item {
                         return;
                     }
                 }
-                if (event.modifiers & Qt.ShiftModifier && event.text !== "") {
-                    bottomBarContent.focusSearch();
+
+                // Ignore pure modifier presses.
+                if (event.key === Qt.Key_Shift || event.key === Qt.Key_Control
+                        || event.key === Qt.Key_Alt || event.key === Qt.Key_Meta
+                        || event.key === Qt.Key_AltGr) {
                     return;
                 }
+
+                // Let Tab/Backtab navigate the focus chain normally.
+                if (event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab) {
+                    return;
+                }
+
                 if (event.key === Qt.Key_Escape) {
                     event.accepted = true;
                     if (root.searching) {
@@ -503,20 +569,33 @@ Item {
                     return;
                 }
 
-                // Let Tab/Backtab navigate the focus chain normally.
-                if (event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab) {
-                    return;
-                }
-
+                // If the search field itself has focus, it handles its own
+                // input; don't double-append.
                 if (bottomBarContent.activeFocus) {
                     return;
                 }
 
+                // Backspace from a list: delete last search char.
                 if (event.key === Qt.Key_Backspace) {
                     event.accepted = true;
                     bottomBarContent.searchText = bottomBarContent.searchText.slice(0, -1);
                     bottomBarContent.focusSearch();
-                } else if (event.text !== "" && event.text !== "\t") {
+                    return;
+                }
+
+                // Arrow / Enter / Page / Home / End are navigation: let the
+                // focused child handle them.
+                if (event.key === Qt.Key_Up || event.key === Qt.Key_Down
+                        || event.key === Qt.Key_Left || event.key === Qt.Key_Right
+                        || event.key === Qt.Key_Enter || event.key === Qt.Key_Return
+                        || event.key === Qt.Key_PageUp || event.key === Qt.Key_PageDown
+                        || event.key === Qt.Key_Home || event.key === Qt.Key_End) {
+                    return;
+                }
+
+                // Any other printable character: append to search.
+                if (event.text !== "" && event.text !== "\t"
+                        && !(event.modifiers & Qt.ControlModifier)) {
                     event.accepted = true;
                     bottomBarContent.searchText = bottomBarContent.searchText + event.text;
                     bottomBarContent.focusSearch();
@@ -526,12 +605,26 @@ Item {
 
         function setModels() {
             pinnedPage.favoritesList.model = globalFavorites;
-            var allAppsRow = Plasmoid.configuration.showRecentDocs ? 2 : 1;
-            sortedAppsModel.sourceModel = rootModel.modelForRow(allAppsRow);
+            sortedAppsModel.sourceModel = findRowModel(rootModel, "KICKER_ALL_MODEL");
             allAppsPage.allAppsList.model = sortedAppsModel;
         }
 
+        // Locate a rootModel child row by its description.  The Kicker
+        // models expose "description" as a Q_PROPERTY (not a data role),
+        // so we read it off the model returned by modelForRow().
+        function findRowModel(parentModel, description) {
+            if (!parentModel) return null;
+            for (var i = 0; i < parentModel.rowCount(); i++) {
+                var m = parentModel.modelForRow(i);
+                if (m && m.description === description) {
+                    return m;
+                }
+            }
+            return null;
+        }
+
         Component.onCompleted: {
+            console.warn("[WM-STARTMENU] loaded");
             rootModel.refreshed.connect(setModels);
             reset();
             rootModel.refresh();

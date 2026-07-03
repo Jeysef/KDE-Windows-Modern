@@ -20,11 +20,15 @@ Rectangle {
     implicitWidth: row.implicitWidth + (Kirigami.Units.mediumSpacing * 2)
 
     border.width: mouseItem.containsMouse || focus || activeFocus ? 2 : 1
-    border.color: Qt.rgba(0.5, 0.5, 0.5, 0.6)
+    border.color: Qt.rgba(Kirigami.Theme.textColor.r,
+                           Kirigami.Theme.textColor.g,
+                           Kirigami.Theme.textColor.b, 0.5)
 
     radius: Kirigami.Units.smallSpacing
     color: mouseItem.containsMouse
-           ? Qt.rgba(0.7, 0.7, 0.7, 0.3)
+           ? Qt.rgba(Kirigami.Theme.textColor.r,
+                     Kirigami.Theme.textColor.g,
+                     Kirigami.Theme.textColor.b, 0.15)
            : Kirigami.Theme.backgroundColor
 
     smooth: true
@@ -51,7 +55,6 @@ Rectangle {
         Label {
             id: lb
             color: Kirigami.Theme.textColor
-            font.family: "Segoe UI"
             Layout.leftMargin: Kirigami.Units.smallSpacing
             Layout.fillWidth: true
         }

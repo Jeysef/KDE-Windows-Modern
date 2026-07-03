@@ -2,16 +2,19 @@
  *   License: GPL-3.0-or-later
  *   Author: Jeysef
  *
- *   Compact vertical-list row delegate for the StartAllBack-style
- *   pinned / all-apps left column.  Icon + name + optional submenu arrow,
- *   hover highlight, keyboard activation.  Right-click uses a shared
- *   in-dialog ContextMenu (declared at rootItem level) to avoid stacking.
+ *   Compact vertical-list row delegate for the pinned / all-apps left
+ *   column.  Icon + name, hover highlight, keyboard activation.
+ *   Right-click uses the shared in-dialog ContextMenu (declared at
+ *   rootItem level) via Tools.buildAppActions so the menu is identical
+ *   to what search results show.
  ***************************************************************************/
 
 import QtQuick
 
 import org.kde.plasma.components as PlasmaComponents3
 import org.kde.kirigami as Kirigami
+
+import "../code/tools.js" as Tools
 
 Item {
     id: item
@@ -24,24 +27,11 @@ Item {
     enabled: !model.disabled
 
     property int itemIndex: model.index
-    property string favoriteId: model.favoriteId !== undefined ? model.favoriteId : ""
-    property url url: model.url !== undefined ? model.url : ""
-    property variant icon: model.decoration !== undefined ? model.decoration : ""
-    property var m: model
-
-    property bool hasActionList: {
-        return (model.favoriteId !== null) || (("hasActionList" in model) && (model.hasActionList === true));
-    }
-
-    property bool hasSubmenu: (("hasSubmenu" in model) && (model.hasSubmenu === true))
-
     property int iconSize: Kirigami.Units.iconSizes.smallMedium
     property bool showDescription: false
 
     Accessible.role: Accessible.MenuItem
     Accessible.name: model.display !== undefined ? model.display : ""
-
-    signal activated(int index, string actionId, string actionArgument)
 
     // ── Hover background ───────────────────────────────────────────────
     Rectangle {
@@ -79,7 +69,7 @@ Item {
         Column {
             id: textBlock
             anchors.verticalCenter: parent.verticalCenter
-            width: row.width - icon.width - row.spacing - (arrowIndicator.visible ? arrowIndicator.width + row.spacing : 0)
+            width: row.width - icon.width - row.spacing
             spacing: Kirigami.Units.smallSpacing / 2
 
             PlasmaComponents3.Label {
@@ -89,7 +79,6 @@ Item {
                 maximumLineCount: 1
                 elide: Text.ElideRight
                 color: Kirigami.Theme.textColor
-                font.family: "Segoe UI"
                 font.pointSize: Kirigami.Theme.defaultFont.pointSize
                 text: ("name" in model ? model.name : (model.display !== undefined ? model.display : ""))
                 textFormat: Text.PlainText
@@ -103,22 +92,10 @@ Item {
                 maximumLineCount: 1
                 elide: Text.ElideRight
                 color: Kirigami.Theme.disabledTextColor
-                font.family: "Segoe UI"
                 font.pointSize: Kirigami.Theme.defaultFont.pointSize - 1
                 text: ("description" in model ? (model.description !== undefined ? model.description : "") : "")
                 textFormat: Text.PlainText
             }
-        }
-
-        Kirigami.Icon {
-            id: arrowIndicator
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            width: Kirigami.Units.iconSizes.small
-            height: width
-            source: "go-next"
-            visible: item.hasSubmenu
-            opacity: 0.6
         }
     }
 
@@ -132,74 +109,45 @@ Item {
         z: 10
 
         onClicked: mouse => {
+            var view = item.ListView.view
+            if (view) view.forceActiveFocus();
             if (mouse.button === Qt.RightButton) {
                 openContextMenu(mouse.x, mouse.y);
                 return;
             }
-            // Left click — trigger the app
-            var view = item.ListView.view
-            if (view && view.model && typeof view.model.trigger === "function") {
-                view.model.trigger(item.itemIndex, "", null);
-                root.closeMenu();
-            }
-            item.activated(item.itemIndex, "", null);
+            launchApp();
+        }
+    }
+
+    function launchApp() {
+        var view = item.ListView.view
+        if (view && view.model && typeof view.model.trigger === "function") {
+            view.model.trigger(item.itemIndex, "", null);
+            root.closeMenu();
         }
     }
 
     function openContextMenu(localX, localY) {
-        var acts = []
-
-        // App-specific actions from the model
-        var modelActions = (model.actionList !== undefined) ? model.actionList : []
-        for (var i = 0; i < modelActions.length; i++) {
-            acts.push(modelActions[i])
-        }
-
-        // Add pin/unpin favorite action
-        var favModel = (typeof kicker !== "undefined" && kicker.globalFavorites) ? kicker.globalFavorites : null
-        if (favModel && favModel.enabled && item.favoriteId !== "") {
-            if (acts.length > 0) {
-                acts.push({ type: "separator" })
-            }
-            if (favModel.isFavorite(item.favoriteId)) {
-                acts.push({
-                    text: i18n("Remove from Favorites"),
-                    icon: "bookmark-remove",
-                    actionId: "_kicker_favorite_remove",
-                    actionArgument: item.favoriteId
-                })
-            } else {
-                acts.push({
-                    text: i18n("Add to Favorites"),
-                    icon: "bookmark-new",
-                    actionId: "_kicker_favorite_add",
-                    actionArgument: item.favoriteId
-                })
-            }
-        }
-
+        var favModel = (typeof kicker !== "undefined" && kicker.globalFavorites)
+                       ? kicker.globalFavorites : null
+        var favId = (model.favoriteId !== undefined) ? model.favoriteId : ""
+        var url = (model.url !== undefined) ? model.url : ""
+        var actionList = (model.actionList !== undefined) ? model.actionList : null
+        var acts = Tools.buildAppActions(i18n, favModel, favId, url, actionList)
         if (acts.length === 0) return
 
-        // Map position to rootItem coordinate space
         var pos = item.mapToItem(sharedContextMenu, localX, localY)
-
-        // Suppress dialog auto-hide
-        if (typeof root !== "undefined") {
-            root.hideOnWindowDeactivate = false
-        }
-
-        sharedContextMenu.open(acts, pos.x, pos.y)
+        var view = item.ListView.view
+        sharedContextMenu.open(acts, pos.x, pos.y, {
+            model: view ? view.model : null,
+            index: item.itemIndex
+        })
     }
 
     Keys.onPressed: event => {
         if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
             event.accepted = true;
-            var view = item.ListView.view
-            if (view && view.model && typeof view.model.trigger === "function") {
-                view.model.trigger(index, "", null);
-                root.closeMenu();
-            }
-            item.activated(index, "", null);
+            launchApp();
         }
     }
 }

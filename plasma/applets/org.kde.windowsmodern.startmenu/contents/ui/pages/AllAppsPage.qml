@@ -16,10 +16,9 @@ import org.kde.kirigami as Kirigami
 
 import "../components"
 
-Column {
+ColumnLayout {
     id: allAppsPage
 
-    width: parent.width
     spacing: Kirigami.Units.largeSpacing
 
     property alias allAppsList: allAppsListView
@@ -37,7 +36,7 @@ Column {
     // ── Header row: "All apps" + spacer + "< Back" (right-aligned) ──────
     RowLayout {
         id: headerRow
-        width: parent.width
+        Layout.fillWidth: true
         spacing: Kirigami.Units.smallSpacing
 
         PlasmaComponents3.Label {
@@ -45,7 +44,6 @@ Column {
             color: Kirigami.Theme.textColor
             font.pointSize: Kirigami.Theme.defaultFont.pointSize * 0.95
             font.weight: Font.DemiBold
-            font.family: "Segoe UI"
             Layout.alignment: Qt.AlignVCenter
         }
 
@@ -62,34 +60,33 @@ Column {
     }
 
     // ── All apps vertical list ───────────────────────────────────────────
-    PlasmaComponents3.ScrollView {
-        id: appsScroll
-        width: parent.width
-        height: allAppsPage.height - headerRow.height - allAppsPage.spacing
-        PlasmaComponents3.ScrollBar.horizontal.policy: PlasmaComponents3.ScrollBar.AlwaysOff
+    ListView {
+        id: allAppsListView
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        clip: true
+        interactive: true
+        spacing: Kirigami.Units.smallSpacing / 2
+        boundsBehavior: Flickable.StopAtBounds
+        currentIndex: -1
 
-        ListView {
-            id: allAppsListView
-            anchors.fill: parent
-            clip: true
-            spacing: Kirigami.Units.smallSpacing / 2
-            boundsBehavior: Flickable.StopAtBounds
-            currentIndex: -1
+        onCountChanged: console.warn("[WM-STARTMENU] AllApps count=" + count)
+        onHeightChanged: console.warn("[WM-STARTMENU] AllApps height=" + height + " scrollable=" + (contentHeight > height))
 
-            delegate: ListItemDelegate {
-                iconSize: Kirigami.Units.iconSizes.smallMedium
-                onActivated: function(idx, actionId, actionArgument) {
-                    allAppsListView.currentIndex = idx;
-                }
-            }
+        PlasmaComponents3.ScrollBar.vertical: PlasmaComponents3.ScrollBar {
+            policy: PlasmaComponents3.ScrollBar.AsNeeded
+        }
 
-            highlightMoveDuration: 0
+        delegate: ListItemDelegate {
+            iconSize: Kirigami.Units.iconSizes.smallMedium
+        }
 
-            Keys.onUpPressed: event => {
-                if (currentIndex <= 0) {
-                    event.accepted = true;
-                    allAppsPage.keyNavUpFromList();
-                }
+        highlightMoveDuration: 0
+
+        Keys.onUpPressed: event => {
+            if (currentIndex <= 0) {
+                event.accepted = true;
+                allAppsPage.keyNavUpFromList();
             }
         }
     }

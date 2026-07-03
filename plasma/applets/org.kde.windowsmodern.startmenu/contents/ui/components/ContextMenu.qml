@@ -14,17 +14,21 @@ import org.kde.plasma.components as PlasmaComponents3
 import org.kde.kirigami as Kirigami
 
 Item {
-    id: root
+    id: contextMenu
 
-    signal actionTriggered(string actionId, var argument)
+    signal actionTriggered(string actionId, var argument, var context)
     signal closed
+
+    // Caller-supplied context (e.g. { model, index }) forwarded back with
+    // actionTriggered so the shell can dispatch to the right model.
+    property var context: ({})
 
     // ── Click catcher ──────────────────────────────────────────────────
     MouseArea {
         anchors.fill: parent
         visible: popup.visible
         z: 90
-        onClicked: root.close()
+        onClicked: contextMenu.close()
     }
 
     // ── The floating panel ─────────────────────────────────────────────
@@ -50,7 +54,7 @@ Item {
             spacing: 0
 
             Repeater {
-                model: root.actions
+                model: contextMenu.actions
 
                 delegate: Item {
                     width: menuColumn.width
@@ -92,7 +96,6 @@ Item {
                             Layout.fillWidth: true
                             text: modelData.text || ""
                             color: Kirigami.Theme.textColor
-                            font.family: "Segoe UI"
                             font.pointSize: Kirigami.Theme.defaultFont.pointSize - 1
                             elide: Text.ElideRight
                             maximumLineCount: 1
@@ -105,9 +108,14 @@ Item {
                         hoverEnabled: true
                         visible: modelData.type !== "separator"
                         cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            root.actionTriggered(modelData.actionId, modelData.actionArgument || null)
-                            root.close()
+                        onClicked: mouse => {
+                            // File-level ids are not accessible inside
+                            // Repeater delegates in Qt 6, so walk the
+                            // parent chain: MouseArea -> delegate Item ->
+                            // Column -> popup Rectangle -> contextMenu Item
+                            var menu = parent.parent.parent.parent
+                            menu.actionTriggered(modelData.actionId, modelData.actionArgument || null, menu.context)
+                            menu.close()
                         }
                     }
                 }
@@ -120,12 +128,11 @@ Item {
     // Measure the widest action text to size the popup.
     TextMetrics {
         id: widestText
-        font.family: "Segoe UI"
         font.pointSize: Kirigami.Theme.defaultFont.pointSize - 1
         text: {
             var maxText = ""
-            for (var i = 0; i < root.actions.length; i++) {
-                var a = root.actions[i]
+            for (var i = 0; i < contextMenu.actions.length; i++) {
+                var a = contextMenu.actions[i]
                 if (a.type === "separator") continue
                 var t = a.text || ""
                 if (t.length > maxText.length) maxText = t
@@ -139,18 +146,29 @@ Item {
         Kirigami.Units.gridUnit * 20
     )
 
-    function open(actionList, globalX, globalY) {
-        root.actions = actionList
+    function open(actionList, globalX, globalY, context) {
+        contextMenu.actions = actionList
+        contextMenu.context = context || ({})
         if (actionList.length === 0) return
 
-        var popupW = root.popupWidth
-        var popupH = popup.height
+        var popupW = contextMenu.popupWidth
         var gap = Kirigami.Units.smallSpacing
 
-        var px = Math.max(gap, Math.min(globalX, root.width - popupW - gap))
+        // Compute the expected height from the action list itself rather
+        // than measuring popup.height after make-visible — the latter is
+        // stale on the first open because QML layout hasn't run yet.
+        var itemH = Math.floor(Kirigami.Units.gridUnit * 1.6)
+        var popupH = Kirigami.Units.smallSpacing // top margin
+        for (var i = 0; i < actionList.length; i++) {
+            popupH += (actionList[i].type === "separator") ? 1 : itemH
+        }
+        popupH += Kirigami.Units.smallSpacing // bottom padding
+
+        var px = Math.max(gap, Math.min(globalX, contextMenu.width - popupW - gap))
         var py = globalY + gap
-        if (py + popupH > root.height) {
+        if (py + popupH > contextMenu.height - gap) {
             py = globalY - popupH - gap
+            if (py < gap) py = gap
         }
 
         popup.x = px
@@ -161,7 +179,8 @@ Item {
 
     function close() {
         popup.visible = false
-        root.actions = []
-        root.closed()
+        contextMenu.actions = []
+        contextMenu.context = ({})
+        contextMenu.closed()
     }
 }

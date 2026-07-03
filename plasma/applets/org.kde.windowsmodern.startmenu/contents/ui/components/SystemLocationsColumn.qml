@@ -101,7 +101,6 @@ Item {
                         width: parent.width - Kirigami.Units.iconSizes.smallMedium - parent.spacing
                         text: i18n(locDelegate.modelData.text)
                         color: Kirigami.Theme.textColor
-                        font.family: "Segoe UI"
                         font.pointSize: Kirigami.Theme.defaultFont.pointSize
                         elide: Text.ElideRight
                         maximumLineCount: 1

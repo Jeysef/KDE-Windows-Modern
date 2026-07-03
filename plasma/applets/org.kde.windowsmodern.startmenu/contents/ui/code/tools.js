@@ -8,26 +8,40 @@
 
 .pragma library
 
-function fillActionMenu(i18n, actionMenu, actionList, favoriteModel, favoriteId) {
-    // Accessing actionList can be a costly operation, so we don't
-    // access it until we need the menu.
+// Resolve a stable favorite id for a model entry. Some entries leave
+// favoriteId empty (e.g. transient runner results), so fall back to the
+// url — both are accepted by the favorites model.
+function resolveFavoriteId(favoriteId, url) {
+    if (favoriteId !== undefined && favoriteId !== null && favoriteId !== "") {
+        return favoriteId;
+    }
+    if (url !== undefined && url !== null && url !== "") {
+        return url.toString();
+    }
+    return "";
+}
 
-    var actions = createFavoriteActions(i18n, favoriteModel, favoriteId);
+// Build the full context-menu action list for an app: the app's own
+// actions (Run in terminal, Uninstall, …) followed by a pin/unpin
+// favorite action.  Used by both the All Apps list and search results so
+// the right-click menu is identical for the same app in either place.
+function buildAppActions(i18n, favoriteModel, favoriteId, url, actionList) {
+    var acts = [];
 
-    if (actions) {
-        if (actionList && actionList.length > 0) {
-            var actionListCopy = Array.from(actionList);
-            var separator = { "type": "separator" };
-            actionListCopy.push(separator);
-            // actionList = actions.concat(actionList); // this crashes Qt O.o
-            actionListCopy.push.apply(actionListCopy, actions);
-            actionList = actionListCopy;
-        } else {
-            actionList = actions;
+    if (actionList && actionList.length > 0) {
+        for (var i = 0; i < actionList.length; i++) {
+            acts.push(actionList[i]);
         }
     }
 
-    actionMenu.actionList = actionList;
+    var favId = resolveFavoriteId(favoriteId, url);
+    var favActions = createFavoriteActions(i18n, favoriteModel, favId);
+    if (favActions) {
+        if (acts.length > 0) acts.push({ "type": "separator" });
+        acts = acts.concat(favActions);
+    }
+
+    return acts;
 }
 
 function createFavoriteActions(i18n, favoriteModel, favoriteId) {
@@ -35,16 +49,18 @@ function createFavoriteActions(i18n, favoriteModel, favoriteId) {
         return null;
     }
 
-
-    if (favoriteModel.activities === undefined || !favoriteModel.activities.hasOwnProperty("runningActivities")
+    if (favoriteModel.activities === undefined
+        || !favoriteModel.activities.hasOwnProperty("runningActivities")
         || favoriteModel.activities.runningActivities.length <= 1) {
+
         var action = {};
 
         if (favoriteModel.isFavorite(favoriteId)) {
             action.text = i18n("Remove from Favorites");
             action.icon = "bookmark-remove";
             action.actionId = "_kicker_favorite_remove";
-        } else if (favoriteModel.maxFavorites === -1 || favoriteModel.count < favoriteModel.maxFavorites) {
+        } else if (favoriteModel.maxFavorites === -1
+                   || favoriteModel.count < favoriteModel.maxFavorites) {
             action.text = i18n("Add to Favorites");
             action.icon = "bookmark-new";
             action.actionId = "_kicker_favorite_add";
@@ -55,116 +71,85 @@ function createFavoriteActions(i18n, favoriteModel, favoriteId) {
         action.actionArgument = { favoriteModel: favoriteModel, favoriteId: favoriteId };
 
         return [action];
+    }
 
-    } else {
-        var actions = [];
+    var actions = [];
+    var linkedActivities = favoriteModel.linkedActivitiesFor(favoriteId);
+    var activities = favoriteModel.activities.runningActivities;
 
-        var linkedActivities = favoriteModel.linkedActivitiesFor(favoriteId);
+    var linkedToAllActivities = linkedActivities.indexOf(":global") !== -1;
 
-        var activities = favoriteModel.activities.runningActivities;
+    actions.push({
+        text: i18n("On All Activities"),
+        checkable: true,
+        actionId: linkedToAllActivities
+            ? "_kicker_favorite_remove_from_activity"
+            : "_kicker_favorite_set_to_activity",
+        checked: linkedToAllActivities,
+        actionArgument: {
+            favoriteModel: favoriteModel,
+            favoriteId: favoriteId,
+            favoriteActivity: ""
+        }
+    });
 
-        // Adding the item to link/unlink to all activities
-
-        var linkedToAllActivities =
-            !(linkedActivities.indexOf(":global") === -1);
+    var addActivityItem = function (activityId, activityName) {
+        var linkedToThisActivity = linkedActivities.indexOf(activityId) !== -1;
 
         actions.push({
-            text      : i18n("On All Activities"),
-            checkable : true,
-
-            actionId  : linkedToAllActivities ?
-                             "_kicker_favorite_remove_from_activity" :
-                             "_kicker_favorite_set_to_activity",
-            checked   : linkedToAllActivities,
-
-            actionArgument : {
+            text: activityName,
+            checkable: true,
+            checked: linkedToThisActivity && !linkedToAllActivities,
+            actionId: linkedToAllActivities
+                ? "_kicker_favorite_set_to_activity"
+                : linkedToThisActivity
+                    ? "_kicker_favorite_remove_from_activity"
+                    : "_kicker_favorite_add_to_activity",
+            actionArgument: {
                 favoriteModel: favoriteModel,
                 favoriteId: favoriteId,
-                favoriteActivity: ""
+                favoriteActivity: activityId
             }
         });
+    };
 
+    addActivityItem(favoriteModel.activities.currentActivity,
+                    i18n("On the Current Activity"));
 
-        // Adding items for each activity separately
+    actions.push({ "type": "separator", "actionId": "_kicker_favorite_separator" });
 
-        var addActivityItem = function(activityId, activityName) {
-            var linkedToThisActivity =
-                !(linkedActivities.indexOf(activityId) === -1);
+    activities.forEach(function (activityId) {
+        addActivityItem(activityId, favoriteModel.activityNameForId(activityId));
+    });
 
-            actions.push({
-                text      : activityName,
-                checkable : true,
-                checked   : linkedToThisActivity && !linkedToAllActivities,
-
-                actionId :
-                    // If we are on all activities, and the user clicks just one
-                    // specific activity, unlink from everything else
-                    linkedToAllActivities ? "_kicker_favorite_set_to_activity" :
-
-                    // If we are linked to the current activity, just unlink from
-                    // that single one
-                    linkedToThisActivity ? "_kicker_favorite_remove_from_activity" :
-
-                    // Otherwise, link to this activity, but do not unlink from
-                    // other ones
-                    "_kicker_favorite_add_to_activity",
-
-                actionArgument : {
-                    favoriteModel    : favoriteModel,
-                    favoriteId       : favoriteId,
-                    favoriteActivity : activityId
-                }
-            });
-        };
-
-        // Adding the item to link/unlink to the current activity
-
-        addActivityItem(favoriteModel.activities.currentActivity, i18n("On the Current Activity"));
-
-        actions.push({
-            type: "separator",
-            actionId: "_kicker_favorite_separator"
-        });
-
-        // Adding the items for each activity
-
-        activities.forEach(function(activityId) {
-            addActivityItem(activityId, favoriteModel.activityNameForId(activityId));
-        });
-
-        return [{
-            text       : i18n("Show in Favorites"),
-            icon       : "favorite",
-            subActions : actions
-        }];
-    }
+    return [{
+        text: i18n("Show in Favorites"),
+        icon: "favorite",
+        subActions: actions
+    }];
 }
 
 function triggerAction(model, index, actionId, actionArgument) {
-    function startsWith(txt, needle) {
-        return txt.substr(0, needle.length) === needle;
-    }
-
-    if (startsWith(actionId, "_kicker_favorite_")) {
+    if (actionId.indexOf("_kicker_favorite_") === 0) {
         handleFavoriteAction(actionId, actionArgument);
         return;
     }
 
-    var closeRequested = model.trigger(index, actionId, actionArgument);
-
-    if (closeRequested) {
-        return true;
+    if (model && typeof model.trigger === "function") {
+        return model.trigger(index, actionId, actionArgument) === true;
     }
 
     return false;
 }
 
 function handleFavoriteAction(actionId, actionArgument) {
+    if (!actionArgument) return;
+
     var favoriteId = actionArgument.favoriteId;
     var favoriteModel = actionArgument.favoriteModel;
 
     if (favoriteModel === null || favoriteId === null) {
-        return null;
+        return;
     }
 
     if (actionId === "_kicker_favorite_remove") {

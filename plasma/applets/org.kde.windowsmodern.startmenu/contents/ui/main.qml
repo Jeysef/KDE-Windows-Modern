@@ -9,10 +9,8 @@ import QtQuick
 import org.kde.plasma.plasmoid
 
 import org.kde.plasma.core as PlasmaCore
-import org.kde.plasma.components as PlasmaComponents3
 
 import org.kde.plasma.private.kicker 0.1 as Kicker
-import org.kde.ksvg as KSvg
 
 PlasmoidItem {
 
@@ -20,14 +18,9 @@ PlasmoidItem {
 
     anchors.fill: parent
 
-    signal reset
-
     preferredRepresentation: compactRep
     compactRepresentation: compactRep
     fullRepresentation: compactRep
-
-    property Item dragSource: null
-    property string searchRunnerFilter: "all"
 
     function action_menuedit() {
         processRunner.runMenuEditor();
@@ -41,7 +34,9 @@ PlasmoidItem {
     property QtObject globalFavorites: rootModel.favoritesModel
     property QtObject systemFavorites: rootModel.systemFavoritesModel
 
-    Plasmoid.icon: Plasmoid.configuration.useCustomButtonImage ? Plasmoid.configuration.customButtonImage : Plasmoid.configuration.icon
+    Plasmoid.icon: Plasmoid.configuration.useCustomButtonImage
+                   ? Plasmoid.configuration.customButtonImage
+                   : Plasmoid.configuration.icon
 
     onSystemFavoritesChanged: {
         if (systemFavorites) {
@@ -102,106 +97,44 @@ PlasmoidItem {
         }
     }
 
-    Kicker.RootModel {
-        id: categoryRootModel
-
-        autoPopulate: false
-        appNameFormat: 0
-        flat: false
-        sorted: true
-        showSeparators: false
-        showAllApps: false
-        showRecentApps: false
-        showRecentDocs: false
-        showPowerSession: false
-    }
-
     Connections {
         target: Plasmoid.configuration
 
-        function onFavoriteAppsChanged () {
+        function onFavoriteAppsChanged() {
             globalFavorites.favorites = Plasmoid.configuration.favoriteApps;
         }
 
-        function onFavoriteSystemActionsChanged () {
+        function onFavoriteSystemActionsChanged() {
             systemFavorites.favorites = Plasmoid.configuration.favoriteSystemActions;
         }
 
-        function onHiddenApplicationsChanged(){
+        function onHiddenApplicationsChanged() {
             rootModel.refresh();
-            categoryRootModel.refresh();
         }
     }
 
     Kicker.RunnerModel {
-         id: runnerModel
+        id: runnerModel
 
-         appletInterface: kicker
+        appletInterface: kicker
 
-         favoritesModel: globalFavorites
+        favoritesModel: globalFavorites
 
-         runners: {
-             const blacklist = ["krunner_webshortcuts", "webshortcuts"];
-             function clean(list) {
-                 return list.filter(function(r) { return blacklist.indexOf(r) === -1; });
-             }
-             if (kicker.searchRunnerFilter === "apps")
-                 return ["krunner_services"];
-             if (kicker.searchRunnerFilter === "files")
-                 return ["baloosearch", "bookmarks"];
-             if (kicker.searchRunnerFilter === "settings")
-                 return ["krunner_systemsettings"];
-             if (kicker.searchRunnerFilter === "actions")
-                 return ["krunner_sessions", "krunner_powerdevil", "calculator", "unitconverter"];
-
-             const results = ["krunner_services",
-                               "krunner_systemsettings",
-                               "krunner_sessions",
-                               "krunner_powerdevil",
-                               "calculator",
-                               "unitconverter"];
-             return results;
-         }
-     }
-
-    Kicker.DragHelper {
-        id: dragHelper
+        // Always load the full runner set; the SearchPage filter pills
+        // narrow results via Milou's singleRunner property instead of
+        // rebuilding this model.
+        runners: ["krunner_services",
+                  "baloosearch",
+                  "bookmarks",
+                  "krunner_systemsettings",
+                  "krunner_sessions",
+                  "krunner_powerdevil",
+                  "calculator",
+                  "unitconverter"]
     }
 
     Kicker.ProcessRunner {
-        id: processRunner;
-    }
-
-    Kicker.WindowSystem {
-        id: windowSystem
-    }
-
-    KSvg.FrameSvgItem {
-        id : panelSvg
-
-        visible: false
-
-        imagePath: "widgets/panel-background"
-    }
-
-    PlasmaComponents3.Label {
-        id: toolTipDelegate
-
-        width: contentWidth
-        height: undefined
-
-        property Item toolTip
-
-        text: toolTip ? toolTip.text : ""
-        textFormat: Text.PlainText
-    }
-
-    function resetDragSource() {
-        dragSource = null;
-    }
-
-    function enableHideOnWindowDeactivate() {
-        kicker.hideOnWindowDeactivate = true;
+        id: processRunner
     }
 
     Plasmoid.contextualActions: [
@@ -215,12 +148,7 @@ PlasmoidItem {
 
     Component.onCompleted: {
         if (Plasmoid.hasOwnProperty("activationTogglesExpanded")) {
-            Plasmoid.activationTogglesExpanded = !kicker.isDash
+            Plasmoid.activationTogglesExpanded = true;
         }
-
-        windowSystem.focusIn.connect(enableHideOnWindowDeactivate);
-        kicker.hideOnWindowDeactivate = true;
-
-        dragHelper.dropped.connect(resetDragSource);
     }
 }

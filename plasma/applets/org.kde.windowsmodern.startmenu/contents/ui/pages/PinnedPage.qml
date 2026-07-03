@@ -15,10 +15,9 @@ import org.kde.kirigami as Kirigami
 
 import "../components"
 
-Column {
+ColumnLayout {
     id: pinnedPage
 
-    width: parent.width
     spacing: Kirigami.Units.largeSpacing
 
     property alias favoritesList: favoritesListView
@@ -36,7 +35,7 @@ Column {
     // ── Header row: "Pinned" + spacer + "All apps >" ─────────────────────
     RowLayout {
         id: headerRow
-        width: parent.width
+        Layout.fillWidth: true
         spacing: Kirigami.Units.smallSpacing
 
         PlasmaComponents3.Label {
@@ -44,7 +43,6 @@ Column {
             color: Kirigami.Theme.textColor
             font.pointSize: Kirigami.Theme.defaultFont.pointSize * 0.95
             font.weight: Font.DemiBold
-            font.family: "Segoe UI"
             Layout.alignment: Qt.AlignVCenter
         }
 
@@ -61,34 +59,30 @@ Column {
     }
 
     // ── Pinned favorites vertical list ──────────────────────────────────
-    PlasmaComponents3.ScrollView {
-        id: favScroll
-        width: parent.width
-        height: pinnedPage.height - headerRow.height - pinnedPage.spacing
-        PlasmaComponents3.ScrollBar.horizontal.policy: PlasmaComponents3.ScrollBar.AlwaysOff
+    ListView {
+        id: favoritesListView
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        clip: true
+        interactive: true
+        spacing: Kirigami.Units.smallSpacing / 2
+        boundsBehavior: Flickable.StopAtBounds
+        currentIndex: -1
 
-        ListView {
-            id: favoritesListView
-            anchors.fill: parent
-            clip: true
-            spacing: Kirigami.Units.smallSpacing / 2
-            boundsBehavior: Flickable.StopAtBounds
-            currentIndex: -1
+        PlasmaComponents3.ScrollBar.vertical: PlasmaComponents3.ScrollBar {
+            policy: PlasmaComponents3.ScrollBar.AsNeeded
+        }
 
-            delegate: ListItemDelegate {
-                iconSize: Kirigami.Units.iconSizes.smallMedium
-                onActivated: function(idx, actionId, actionArgument) {
-                    favoritesListView.currentIndex = idx;
-                }
-            }
+        delegate: ListItemDelegate {
+            iconSize: Kirigami.Units.iconSizes.smallMedium
+        }
 
-            highlightMoveDuration: 0
+        highlightMoveDuration: 0
 
-            Keys.onUpPressed: event => {
-                if (currentIndex <= 0) {
-                    event.accepted = true;
-                    pinnedPage.keyNavUpFromList();
-                }
+        Keys.onUpPressed: event => {
+            if (currentIndex <= 0) {
+                event.accepted = true;
+                pinnedPage.keyNavUpFromList();
             }
         }
     }
