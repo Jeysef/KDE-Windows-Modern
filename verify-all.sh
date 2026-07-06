@@ -36,7 +36,7 @@ echo " Layout:"
 # Applets
 echo ""
 echo " Applets:"
-for applet in showdesktop quicksettings startmenu; do
+for applet in showdesktop startmenu; do
     d="$SCRIPT_DIR/plasma/applets/org.kde.windowsmodern.$applet"
     [ -d "$d" ] && [ -f "$d/metadata.json" ] && pass "$applet" || fail "$applet missing"
 done

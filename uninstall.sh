@@ -46,10 +46,6 @@ uninstall_component() {
             $ELEVATE rm -rf "$APPLETS_DIR/org.kde.windowsmodern.showdesktop" 2>/dev/null || true
             info "Show Desktop uninstalled."
             ;;
-        quickset)
-            $ELEVATE rm -rf "$APPLETS_DIR/org.kde.windowsmodern.quicksettings" 2>/dev/null || true
-            info "Quick Settings uninstalled."
-            ;;
         startmenu)
             $ELEVATE rm -rf "$APPLETS_DIR/org.kde.windowsmodern.startmenu" 2>/dev/null || true
             info "Start Menu uninstalled."
@@ -61,13 +57,13 @@ uninstall_component() {
             info "System Tray uninstalled. Restart plasmashell to complete."
             ;;
         all)
-            for c in themes icons lookfeel layout showdesk quickset startmenu systray; do
+            for c in themes icons lookfeel layout showdesk startmenu systray; do
                 uninstall_component "$c"
             done
             ;;
         *)
             err "Unknown component: $name"
-            echo "Available: themes, icons, lookfeel, layout, showdesk, quickset, startmenu, systray, all"
+            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, all"
             exit 1
             ;;
     esac
@@ -83,7 +79,6 @@ case "${1:-}" in
         echo "  lookfeel   Global themes"
         echo "  layout     Panel layout template"
         echo "  showdesk   Show Desktop applet"
-        echo "  quickset   Quick Settings applet"
         echo "  startmenu  Start Menu applet"
         echo "  systray    System Tray"
         exit 0

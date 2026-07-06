@@ -1,6 +1,6 @@
 // Windows Modern Panel — Win11-style centered taskbar layout for Plasma 6
 // Creates a bottom panel with:
-//   [...........] [Start] [icon-only tasks] [...........] [system tray] [quick settings] [clock] [show desktop]
+//   [...........] [Start] [icon-only tasks] [...........] [system tray] [clock] [show desktop]
 //
 // Default height is 48px (authentic Win11 taskbar height). The same template
 // works at 30/32px — just resize the panel after adding it.

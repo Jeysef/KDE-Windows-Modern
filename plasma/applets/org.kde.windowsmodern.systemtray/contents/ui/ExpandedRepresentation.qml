@@ -21,7 +21,7 @@ import "components" as Components
 Item {
     id: popup
 
-    // Width: pinned to 360px (matches the quicksettings flyout width)
+    // Width: pinned to 360px
     Layout.minimumWidth: 360
     Layout.maximumWidth: 360
 

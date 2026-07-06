@@ -190,7 +190,7 @@ The Windows Modern tray is currently a `PlasmoidItem`. To support containment, i
 
 ### Challenge 3: Integration with Windows Modern Theme
 
-The system tray's appearance significantly changes the overall feel. The panel's right side needs to look cohesive with the rest of the Windows Modern theme (start menu, quick settings, etc.).
+The system tray's appearance significantly changes the overall feel. The panel's right side needs to look cohesive with the rest of the Windows Modern theme (start menu, etc.).
 
 ### Challenge 4: The Windows Modern "Extras" Pages
 
