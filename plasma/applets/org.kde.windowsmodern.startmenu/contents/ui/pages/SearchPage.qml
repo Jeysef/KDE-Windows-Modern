@@ -259,7 +259,7 @@ Item {
                 color: Kirigami.Theme.hoverColor
                 opacity: {
                     if (resultMouse.containsMouse) return 1.0
-                    if (resultDelegate.isCurrent && resultsView.activeFocus) return 0.5
+                    if (resultDelegate.isCurrent) return 0.5
                     return 0.0
                 }
                 Behavior on opacity { NumberAnimation { duration: 90 } }

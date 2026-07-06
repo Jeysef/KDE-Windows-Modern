@@ -57,7 +57,7 @@ Item {
         opacity: {
             if (item._dragging) return 0.0;
             if (mouseArea.containsMouse) return 1.0;
-            if (item.ListView.isCurrentItem && item.activeFocus) return 0.5;
+            if (item.ListView.isCurrentItem) return 0.5;
             return 0.0;
         }
         Behavior on opacity { NumberAnimation { duration: 90 } }
