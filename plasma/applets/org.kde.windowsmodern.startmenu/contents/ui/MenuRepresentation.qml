@@ -165,8 +165,8 @@ Item {
 
             width: leftColumnWidth + rightColumnWidth + Kirigami.Units.gridUnit * 3
             height: mainContentHeight + bottomBar.height + Kirigami.Units.gridUnit * 3
-
             focus: true
+
             // Note: do NOT auto-redirect to the search field here.
             // onFocusChanged fires when any child calls forceActiveFocus(),
             // and stealing focus back makes it impossible to type from lists.
@@ -245,7 +245,6 @@ Item {
                         visible: root.leftColumnState === 0
                         onShowAllAppsRequested: {
                             root.leftColumnState = 1;
-                            Qt.callLater(function() { allAppsPage.tryActivate(0); });
                         }
                         onKeyNavUpFromList: bottomBarContent.focusSearch()
                     }
@@ -257,7 +256,6 @@ Item {
                         visible: root.leftColumnState === 1
                         onBackRequested: {
                             root.leftColumnState = 0;
-                            pinnedPage.tryActivate(0);
                         }
                         onKeyNavUpFromList: bottomBarContent.focusSearch()
                     }
@@ -399,10 +397,18 @@ Item {
                         }
                     }
                     onSearchFocusResults: rootItem.focusActivePageResults()
+                    onSearchNavUp: {
+                        if (root.leftColumnState === 0) pinnedPage.navigateUp();
+                        else if (root.leftColumnState === 1) allAppsPage.navigateUp();
+                        else if (root.leftColumnState === 2) searchPage.navigateUp();
+                    }
+                    onSearchNavDown: {
+                        if (root.leftColumnState === 0) pinnedPage.navigateDown();
+                        else if (root.leftColumnState === 1) allAppsPage.navigateDown();
+                        else if (root.leftColumnState === 2) searchPage.navigateDown();
+                    }
                     onSearchActivateFirstResult: {
-                        if (root.leftColumnState === 2) {
-                            searchPage.activateFirstResult();
-                        }
+                        rootItem.activateCurrentItem();
                     }
                     onSearchEscapePressed: {
                         if (bottomBarContent.searchText !== "") {
@@ -474,6 +480,16 @@ Item {
                     allAppsPage.tryActivate(0);
                 } else {
                     searchPage.tryActivate(0, 0);
+                }
+            }
+
+            function activateCurrentItem() {
+                if (root.leftColumnState === 0) {
+                    pinnedPage.activateCurrent();
+                } else if (root.leftColumnState === 1) {
+                    allAppsPage.activateCurrent();
+                } else if (root.leftColumnState === 2) {
+                    searchPage.activateCurrent();
                 }
             }
 

@@ -28,7 +28,25 @@ ColumnLayout {
     function tryActivate(row) {
         if (favoritesListView.count > 0) {
             favoritesListView.currentIndex = Math.min(row, favoritesListView.count - 1);
-            favoritesListView.forceActiveFocus();
+        }
+    }
+
+    function navigateUp() {
+        if (favoritesListView.count > 0) {
+            favoritesListView.currentIndex = Math.max(0, favoritesListView.currentIndex - 1);
+        }
+    }
+
+    function navigateDown() {
+        if (favoritesListView.count > 0) {
+            favoritesListView.currentIndex = Math.min(favoritesListView.count - 1, favoritesListView.currentIndex + 1);
+        }
+    }
+
+    function activateCurrent() {
+        if (favoritesListView.currentIndex >= 0 && favoritesListView.model) {
+            favoritesListView.model.trigger(favoritesListView.currentIndex, "", null);
+            root.closeMenu();
         }
     }
 

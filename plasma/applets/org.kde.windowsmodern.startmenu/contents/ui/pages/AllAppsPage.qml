@@ -29,7 +29,25 @@ ColumnLayout {
     function tryActivate(row) {
         if (allAppsListView.count > 0) {
             allAppsListView.currentIndex = Math.min(row, allAppsListView.count - 1);
-            allAppsListView.forceActiveFocus();
+        }
+    }
+
+    function navigateUp() {
+        if (allAppsListView.count > 0) {
+            allAppsListView.currentIndex = Math.max(0, allAppsListView.currentIndex - 1);
+        }
+    }
+
+    function navigateDown() {
+        if (allAppsListView.count > 0) {
+            allAppsListView.currentIndex = Math.min(allAppsListView.count - 1, allAppsListView.currentIndex + 1);
+        }
+    }
+
+    function activateCurrent() {
+        if (allAppsListView.currentIndex >= 0 && allAppsListView.model) {
+            allAppsListView.model.trigger(allAppsListView.currentIndex, "", null);
+            root.closeMenu();
         }
     }
 

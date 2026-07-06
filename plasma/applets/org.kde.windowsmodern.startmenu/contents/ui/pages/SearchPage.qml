@@ -61,14 +61,31 @@ Item {
     function tryActivate(row, col) {
         if (resultsView.count > 0) {
             resultsView.currentIndex = 0;
-            resultsView.forceActiveFocus();
+        }
+    }
+
+    function navigateUp() {
+        if (resultsView.count > 0) {
+            resultsView.currentIndex = Math.max(0, resultsView.currentIndex - 1);
+        }
+    }
+
+    function navigateDown() {
+        if (resultsView.count > 0) {
+            resultsView.currentIndex = Math.min(resultsView.count - 1, resultsView.currentIndex + 1);
+        }
+    }
+
+    function activateCurrent() {
+        if (resultsView.count > 0) {
+            resultsView.runCurrentIndex(null);
+            root.closeMenu();
         }
     }
 
     function activateFirstResult() {
         if (resultsView.count > 0) {
             resultsView.currentIndex = 0;
-            resultsView.forceActiveFocus();
             resultsView.runCurrentIndex(null);
         }
     }

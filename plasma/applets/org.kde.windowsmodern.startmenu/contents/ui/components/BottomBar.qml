@@ -26,6 +26,8 @@ RowLayout {
     readonly property Item splitButton: shutdownSplit
 
     signal searchFocusResults
+    signal searchNavUp
+    signal searchNavDown
     signal searchActivateFirstResult
     signal searchEscapePressed
     signal searchBackspace
@@ -71,7 +73,17 @@ RowLayout {
                 bottomBar.searchEscapePressed();
                 return;
             }
-            if (event.key === Qt.Key_Down || event.key === Qt.Key_Tab) {
+            if (event.key === Qt.Key_Down) {
+                event.accepted = true;
+                bottomBar.searchNavDown();
+                return;
+            }
+            if (event.key === Qt.Key_Up) {
+                event.accepted = true;
+                bottomBar.searchNavUp();
+                return;
+            }
+            if (event.key === Qt.Key_Tab) {
                 event.accepted = true;
                 bottomBar.searchFocusResults();
                 return;
