@@ -123,7 +123,19 @@ target_link_libraries(systemtray_static
 plasma_add_applet(org.kde.windowsmodern.systemtray
     CPP_SOURCES
         systemtray.cpp
-    QML_SOURCES
+    RESOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/config/main.xml
+)
+
+target_link_libraries(org.kde.windowsmodern.systemtray PRIVATE systemtray_static)
+target_include_directories(org.kde.windowsmodern.systemtray PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
+# Register QML sources with preserved subdirectory layout so relative imports
+# (import "lib", import "../js/funcs.js", etc.) resolve inside the qrc.
+# plasma_add_applet flattens everything to the module root, so we add QML
+# sources ourselves via ecm_target_qml_sources with PATH prefixes.
+ecm_target_qml_sources(org.kde.windowsmodern.systemtray
+    SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/main.qml
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/AbstractItem.qml
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/BackgroundAppItem.qml
@@ -140,11 +152,68 @@ plasma_add_applet(org.kde.windowsmodern.systemtray
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/PulseAnimation.qml
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/StatusNotifierItem.qml
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/SystemTrayState.qml
-    RESOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/contents/config/main.xml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/ActionPanel.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/FlyoutRouter.qml
 )
-
-target_link_libraries(org.kde.windowsmodern.systemtray PRIVATE systemtray_static)
-target_include_directories(org.kde.windowsmodern.systemtray PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ecm_target_qml_sources(org.kde.windowsmodern.systemtray
+    PATH lib
+    SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/lib/Tile.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/lib/SplitTile.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/lib/Slider.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/lib/SectionHeader.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/lib/PageHeader.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/lib/Page.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/lib/MoreSettingsLink.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/lib/ListRow.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/lib/FooterButton.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/lib/DetailPage.qml
+)
+ecm_target_qml_sources(org.kde.windowsmodern.systemtray
+    PATH js
+    SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/js/funcs.js
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/js/colorType.js
+)
+ecm_target_qml_sources(org.kde.windowsmodern.systemtray
+    PATH components
+    SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/NetworkPage.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/NetworkToggle.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/BluetoothPage.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/BluetoothToggle.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/VolumePage.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/VolumeSlider.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/BatteryPage.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/Battery.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/BrightnessPage.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/BrightnessSlider.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/PowerProfilePage.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/PowerButton.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/AirplaneToggle.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/BatterySaverToggle.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/NightLightToggle.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/DndToggle.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/ColorSchemeToggle.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/MicMuteToggle.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/HotspotToggle.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/CastInvertToggle.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/InhibitSleepToggle.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/TouchpadToggle.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/KeyboardBrightnessSlider.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/Footer.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/ClipboardPage.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/NotificationsPage.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/DeviceNotifierPage.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/MediaControllerPage.qml
+)
+ecm_target_qml_sources(org.kde.windowsmodern.systemtray
+    PATH components/volume
+    SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/volume/VolumeModels.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/volume/OutputDeviceSection.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/volume/InputDeviceSection.qml
+        ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/volume/VolumeMixerSection.qml
+)
 
 

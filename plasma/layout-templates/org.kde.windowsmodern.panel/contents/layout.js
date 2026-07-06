@@ -61,15 +61,12 @@ tasks.writeConfig("groupingStrategy", "1");
 //    from the system tray / clock on the far right.
 var spacerRight = panel.addWidget("org.kde.plasma.panelspacer");
 
-// 5. System tray — custom Win11-style tray (icons in panel, hidden behind arrow)
+// 5. System tray — custom Win11/10 hybrid tray (icons in panel, hidden
+//    behind arrow; action panel with quick-toggle tiles, sliders, and
+//    themed flyouts for network/bluetooth/volume/battery/clipboard/etc.)
 var tray = panel.addWidget("org.kde.windowsmodern.systemtray");
 
-// 6. Quick Settings — custom Win11-style flyout (Wi-Fi, volume, battery,
-//    toggles, sliders, media, power). Sits between the system tray and
-//    the clock, matching the Win11 system tray cluster order.
-var quick = panel.addWidget("org.kde.windowsmodern.quicksettings");
-
-// 7. Digital clock — Win11 puts the clock at the far right, in a small
+// 6. Digital clock — Win11 puts the clock at the far right, in a small
 //    Segoe UI Regular weight. Pin the font to 10pt so it stays readable
 //    but does not dominate the panel at 48px.
 //    IMPORTANT: autoFontAndSize must be set to false; otherwise Plasma
@@ -99,6 +96,5 @@ start.index = 1;
 tasks.index = 2;
 spacerRight.index = 3;
 tray.index = 4;
-quick.index = 5;
-clock.index = 6;
-peek.index = 7;
+clock.index = 5;
+peek.index = 6;

@@ -240,6 +240,32 @@ bool SystemTray::isSystemTrayApplet(const QString &appletId)
     return false;
 }
 
+QQuickItem *SystemTray::appletForPluginId(const QString &pluginId)
+{
+    if (!m_plasmoidModel || pluginId.isEmpty()) {
+        return nullptr;
+    }
+    const auto roles = m_plasmoidModel->roleNames();
+    int itemIdRole = -1, appletRole = -1;
+    for (auto it = roles.constBegin(); it != roles.constEnd(); ++it) {
+        if (it.value() == QByteArrayLiteral("itemId")) {
+            itemIdRole = it.key();
+        } else if (it.value() == QByteArrayLiteral("applet")) {
+            appletRole = it.key();
+        }
+    }
+    if (itemIdRole < 0 || appletRole < 0) {
+        return nullptr;
+    }
+    for (int i = 0; i < m_plasmoidModel->rowCount(); ++i) {
+        const QModelIndex idx = m_plasmoidModel->index(i, 0);
+        if (m_plasmoidModel->data(idx, itemIdRole).toString() == pluginId) {
+            return m_plasmoidModel->data(idx, appletRole).value<QQuickItem *>();
+        }
+    }
+    return nullptr;
+}
+
 SystemTrayModel *SystemTray::systemTrayModel()
 {
     if (!m_systemTrayModel) {

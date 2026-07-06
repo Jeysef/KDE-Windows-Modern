@@ -47,6 +47,7 @@ public:
     Q_INVOKABLE void showPlasmoidMenu(QQuickItem *appletInterface, int x, int y);
     Q_INVOKABLE QPointF popupPosition(QQuickItem *visualParent, int x, int y);
     Q_INVOKABLE bool isSystemTrayApplet(const QString &appletId);
+    Q_INVOKABLE QQuickItem *appletForPluginId(const QString &pluginId);
     Q_INVOKABLE void stackItemBefore(QQuickItem *newItem, QQuickItem *beforeItem);
     Q_INVOKABLE void stackItemAfter(QQuickItem *newItem, QQuickItem *afterItem);
     Q_INVOKABLE void activate(const QString &service, QPoint pos, QQuickItem *statusNotifierIcon);

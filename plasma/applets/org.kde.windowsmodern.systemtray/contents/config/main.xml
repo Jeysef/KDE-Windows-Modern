@@ -45,6 +45,62 @@
       <label>Whether the popup should remain open when another window is activated</label>
       <default>false</default>
     </entry>
+
+    <!-- Action panel (expander) contents -->
+    <entry name="scale" type="Int">
+      <label>Scale percentage for the action panel and flyouts</label>
+      <default>100</default>
+      <min>80</min>
+      <max>150</max>
+    </entry>
+    <entry name="showVolume" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showBrightness" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showBattery" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showNightLight" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showBatterySaver" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showAirplane" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showColorScheme" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showDnd" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showInhibitSleep" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showMicMute" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showCastInvert" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showHotspot" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showTouchpad" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showKeyboardBrightness" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="darkTheme" type="String">
+      <default>org.kde.windowsmodern.dark</default>
+    </entry>
+    <entry name="lightTheme" type="String">
+      <default>org.kde.windowsmodern.light</default>
+    </entry>
   </group>
 
 </kcfg>
