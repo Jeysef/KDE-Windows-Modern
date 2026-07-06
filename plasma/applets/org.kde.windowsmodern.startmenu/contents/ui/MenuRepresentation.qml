@@ -106,7 +106,6 @@ Item {
         }
 
         function popupPosition(width, height) {
-            var screenAvail = kicker.availableScreenRect;
             var screen = kicker.screenGeometry;
             var appletTopLeft = parent.mapToGlobal(0, 0);
             var horizMidPoint = screen.x + (screen.width / 2);
@@ -121,20 +120,20 @@ Item {
             } else if (menuPos === 2) {
                 // Center-bottom (above panel)
                 return Qt.point(horizMidPoint - width / 2,
-                                screenAvail.y + screenAvail.height - height - offset);
+                                screen.y + screen.height - height - kicker.height - offset);
             } else if (menuPos === 3) {
                 // Left-bottom (above panel, left-aligned)
                 return Qt.point(screen.x + offset,
-                                screenAvail.y + screenAvail.height - height - offset);
+                                screen.y + screen.height - height - kicker.height - offset);
             } else {
                 // menuPos 0 — follow panel: center horizontally over the
-                // start button, sit flush against the panel edge.
+                // start button, sit flush against the panel's top edge.
                 var centerX = appletTopLeft.x + (kicker.width / 2) - (width / 2);
                 centerX = Math.max(screen.x + offset,
                                    Math.min(centerX, screen.x + screen.width - width - offset));
                 switch (plasmoid.location) {
                 case PlasmaCore.Types.BottomEdge:
-                    return Qt.point(centerX, screenAvail.y + screenAvail.height - height - offset);
+                    return Qt.point(centerX, screen.y + screen.height - height - kicker.height - offset);
                 case PlasmaCore.Types.TopEdge:
                     return Qt.point(centerX, screen.y + kicker.height + offset);
                 case PlasmaCore.Types.LeftEdge:
@@ -148,7 +147,7 @@ Item {
                                              Math.min(appletTopLeft.y + (kicker.height / 2) - (height / 2),
                                                       screen.y + screen.height - height - offset)));
                 default:
-                    return Qt.point(centerX, screenAvail.y + screenAvail.height - height - offset);
+                    return Qt.point(centerX, screen.y + screen.height - height - kicker.height - offset);
                 }
             }
         }
