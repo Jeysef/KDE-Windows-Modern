@@ -75,6 +75,7 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.leftMargin: 14 * actionPanel.scale
         Layout.rightMargin: 14 * actionPanel.scale
+        Layout.bottomMargin: 14 * actionPanel.scale
         columns: 3
         rowSpacing: 12 * actionPanel.scale
         columnSpacing: 0
