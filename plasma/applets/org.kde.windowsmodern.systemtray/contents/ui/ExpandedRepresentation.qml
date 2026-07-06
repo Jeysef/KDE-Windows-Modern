@@ -21,8 +21,19 @@ import "components" as Components
 Item {
     id: popup
 
-    Layout.minimumWidth: Kirigami.Units.gridUnit * 24
-    Layout.minimumHeight: Kirigami.Units.gridUnit * 24
+    // Width: pinned to 360px (matches the quicksettings flyout width)
+    Layout.minimumWidth: 360
+    Layout.maximumWidth: 360
+
+    // Height: action panel mode is taller (gridUnit*36); flyouts stay at
+    // gridUnit*24. updateMinSize() grows to the minimum, updateMaxSize()
+    // shrinks to the maximum — both bypass the saved-size flag.
+    Layout.minimumHeight: systemTrayState.activeApplet
+        ? Kirigami.Units.gridUnit * 24
+        : Kirigami.Units.gridUnit * 36
+    Layout.maximumHeight: systemTrayState.activeApplet
+        ? Kirigami.Units.gridUnit * 24
+        : -1 // no cap for action panel
 
     property alias hiddenLayout: hiddenItemsView.layout
     property alias plasmoidContainer: container
