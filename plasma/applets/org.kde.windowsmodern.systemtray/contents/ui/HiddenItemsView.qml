@@ -24,25 +24,12 @@ PlasmaComponents3.ScrollView {
     GridView {
         id: hiddenTasks
 
-        readonly property int columns: 2
-        readonly property int minimumColumns: 4
+        readonly property int columns: 3
 
-        // Keep these in sync with ItemLoader.qml
-        readonly property int delegateMaxTextLines: 2
-        readonly property int delegateMargins: Kirigami.Units.smallSpacing
-
-        readonly property int delegateHeight: (metrics.height * delegateMaxTextLines) + (delegateMargins * 2)
-
-        // Accessible.List as role is not optimal here as it's not clear it's a grid, and there is no grid role
-        Accessible.description: i18nc("@info:whatsthis accessible description for popup grid", "Grid with %1 items in %2 columns", hiddenTasks.count, columns)
-
-        TextMetrics {
-            id: metrics
-            text: i18nc("Some letters with tall characters, ascenders, descenders, etc", "AILlmyjgGJP")
-        }
+        readonly property int cellSpacing: Kirigami.Units.smallSpacing
 
         cellWidth: Math.floor(hiddenTasksView.availableWidth / columns)
-        cellHeight: delegateHeight
+        cellHeight: Math.floor(cellWidth / 1.4)
 
         currentIndex: -1
         highlight: PlasmaExtras.Highlight {}
@@ -54,9 +41,11 @@ PlasmaComponents3.ScrollView {
 
         model: root.hiddenModel
         delegate: ItemLoader {
-            width: hiddenTasks.cellWidth
-            height: hiddenTasks.cellHeight
-            Accessible.role: Accessible.ListItem // needed to get the GridView description or role announced
+            width: hiddenTasks.cellWidth - hiddenTasks.cellSpacing
+            height: hiddenTasks.cellHeight - hiddenTasks.cellSpacing
+            x: hiddenTasks.cellSpacing / 2
+            y: hiddenTasks.cellSpacing / 2
+            Accessible.role: Accessible.ListItem
         }
 
         keyNavigationEnabled: true

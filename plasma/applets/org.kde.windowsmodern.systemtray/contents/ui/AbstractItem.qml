@@ -98,11 +98,28 @@ PlasmaCore.ToolTipArea {
         }
     }
 
-    RowLayout {
-        anchors.fill: abstractItem
-        anchors.margins: abstractItem.inHiddenLayout ? abstractItem.margins : 0
+    // Win11-styled card background for hidden layout
+    Rectangle {
+        visible: abstractItem.inHiddenLayout
+        anchors.fill: parent
+        radius: 4
+        border.width: 1
+        border.color: Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.08)
+        color: {
+            if (mouseArea.containsPress)
+                return Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.10);
+            if (mouseArea.containsMouse)
+                return Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.06);
+            return Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.04);
+        }
+        Behavior on color { ColorAnimation { duration: Kirigami.Units.shortDuration } }
+        z: -1
+    }
 
-        spacing: Kirigami.Units.smallSpacing
+    ColumnLayout {
+        anchors.fill: abstractItem
+        anchors.margins: abstractItem.inHiddenLayout ? 10 : 0
+        spacing: 0
 
         FocusScope {
             id: iconContainer
@@ -139,12 +156,20 @@ PlasmaCore.ToolTipArea {
 
             property alias container: abstractItem
             property alias inVisibleLayout: abstractItem.inVisibleLayout
-            readonly property int size: abstractItem.inVisibleLayout ? root.itemSize : Kirigami.Units.iconSizes.medium
+            readonly property int size: abstractItem.inVisibleLayout ? root.itemSize : Kirigami.Units.iconSizes.smallMedium
 
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.alignment: abstractItem.inHiddenLayout
+                ? Qt.AlignLeft | Qt.AlignTop
+                : Qt.AlignHCenter | Qt.AlignVCenter
             implicitWidth: root.vertical && abstractItem.inVisibleLayout ? abstractItem.width : size
             implicitHeight: !root.vertical && abstractItem.inVisibleLayout ? abstractItem.height : size
         }
+
+        Item {
+            Layout.fillHeight: true
+            visible: abstractItem.inHiddenLayout
+        }
+
         PlasmaComponents3.Label {
             id: label
 
@@ -153,10 +178,13 @@ PlasmaCore.ToolTipArea {
 
             visible: abstractItem.inHiddenLayout
 
-            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignBottom
             elide: Text.ElideRight
             textFormat: Text.PlainText
             wrapMode: Text.Wrap
+
+            font.pixelSize: 10
 
             opacity: visible ? 1 : 0
             Behavior on opacity {
