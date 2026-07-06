@@ -568,17 +568,10 @@ Item {
                     return;
                 }
 
-                // If the search field itself has focus, it handles its own
-                // input; don't double-append.
-                if (bottomBarContent.activeFocus) {
-                    return;
-                }
-
                 // Backspace from a list: delete last search char.
                 if (event.key === Qt.Key_Backspace) {
                     event.accepted = true;
                     bottomBarContent.searchText = bottomBarContent.searchText.slice(0, -1);
-                    bottomBarContent.focusSearch();
                     return;
                 }
 
@@ -592,12 +585,17 @@ Item {
                     return;
                 }
 
-                // Any other printable character: append to search.
+                // Any other printable character: append directly to the
+                // searchText property (aliased to the TextField's text).
+                // This works regardless of which item has focus — no need
+                // to steal focus or guard on activeFocus.  The onTextChanged
+                // → onSearchingChanged chain handles the page switch.
+                // When the search field itself has focus it handles its own
+                // input natively and this handler never fires.
                 if (event.text !== "" && event.text !== "\t"
                         && !(event.modifiers & Qt.ControlModifier)) {
                     event.accepted = true;
                     bottomBarContent.searchText = bottomBarContent.searchText + event.text;
-                    bottomBarContent.focusSearch();
                 }
             }
         }
