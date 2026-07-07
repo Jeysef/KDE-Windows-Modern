@@ -101,6 +101,9 @@ uninstall_component() {
             rm_path "$(detect_systray_so_dir)/org.kde.windowsmodern.systemtray.so"
             rm_path "/usr/share/plasma/plasmoids/org.kde.windowsmodern.systemtray"
             rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.systemtray"
+            # Legacy quicksettings plasmoid that was absorbed into the system tray
+            rm_path "/usr/share/plasma/plasmoids/org.kde.windowsmodern.quicksettings"
+            rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.quicksettings"
             info "System Tray uninstalled. Restart plasmashell to complete."
             ;;
         all)
