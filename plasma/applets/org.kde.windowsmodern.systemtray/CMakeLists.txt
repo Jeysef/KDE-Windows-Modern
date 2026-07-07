@@ -110,6 +110,7 @@ target_link_libraries(systemtray_static
         KF6::IconThemes
         KF6::I18n
         KF6::KIOCore
+        KF6::KIOGui
         KF6::JobWidgets
         KF6::Service
         KF6::ItemModels
@@ -215,5 +216,3 @@ ecm_target_qml_sources(org.kde.windowsmodern.systemtray
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/volume/InputDeviceSection.qml
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/components/volume/VolumeMixerSection.qml
 )
-
-

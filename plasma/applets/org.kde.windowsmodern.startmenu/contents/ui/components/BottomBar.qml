@@ -30,8 +30,6 @@ RowLayout {
     signal searchNavDown
     signal searchActivateFirstResult
     signal searchEscapePressed
-    signal searchBackspace
-    signal searchAppendText(string text)
     signal tabOut
     signal powerMenuRequested
     signal powerShutdownRequested
@@ -90,15 +88,6 @@ RowLayout {
             }
         }
         Keys.onReturnPressed: bottomBar.searchActivateFirstResult()
-
-        function backspace() {
-            focus = true;
-            text = text.slice(0, -1);
-        }
-        function appendText(newText) {
-            focus = true;
-            text = text + newText;
-        }
 
         Kirigami.Icon {
             source: "search"

@@ -26,6 +26,7 @@
 #include <QFileInfo>
 #include <QIcon>
 #include <QImage>
+#include <QSettings>
 #include <QPainter>
 #include <QPixmap>
 #include <QSysInfo>
@@ -107,6 +108,17 @@ StatusNotifierItemSource::StatusNotifierItemSource(const QString &notifierItemId
         connect(m_statusNotifierItemInterface.get(), &OrgKdeStatusNotifierItem::NewStatus, this, &StatusNotifierItemSource::syncStatus);
         connect(m_statusNotifierItemInterface.get(), &OrgKdeStatusNotifierItem::NewMenu, this, &StatusNotifierItemSource::refreshMenu);
         refresh();
+    }
+
+    auto pid = QDBusConnection::sessionBus().interface()->servicePid(service);
+    if (pid.isValid()) {
+        const QString flatpakInfoPath = u"/proc/"_s + QString::number(pid.value()) + u"/root/.flatpak-info"_s;
+        const QSettings flatpakInfo(flatpakInfoPath, QSettings::IniFormat);
+        const auto instance = flatpakInfo.value(u"Instance/instance-id"_s).toString();
+        m_flatpakInstance = instance;
+        if (!instance.isEmpty()) {
+            qCDebug(SYSTEM_TRAY) << "StatusNotifierItem" << notifierItemId << "is a flatpak" << instance;
+        }
     }
 }
 

@@ -10,10 +10,8 @@
 
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Templates as T
 
 import org.kde.plasma.components as PlasmaComponents3
-import org.kde.plasma.extras as PlasmaExtras
 import org.kde.kirigami as Kirigami
 import org.kde.milou as Milou
 

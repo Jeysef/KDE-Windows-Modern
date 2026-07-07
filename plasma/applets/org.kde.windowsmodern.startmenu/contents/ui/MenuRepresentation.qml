@@ -131,7 +131,7 @@ Item {
                 var centerX = appletTopLeft.x + (kicker.width / 2) - (width / 2);
                 centerX = Math.max(screen.x + offset,
                                    Math.min(centerX, screen.x + screen.width - width - offset));
-                switch (plasmoid.location) {
+                switch (Plasmoid.location) {
                 case PlasmaCore.Types.BottomEdge:
                     return Qt.point(centerX, screen.y + screen.height - height - kicker.height - offset);
                 case PlasmaCore.Types.TopEdge:

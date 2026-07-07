@@ -88,7 +88,7 @@ clock.writeConfig("use24hFormat", "1");
 
 // 7. Show Desktop — custom Win11-style thin sliver (minimize-all on click).
 //    Uses our forked applet (org.kde.windowsmodern.showdesktop) which renders
-//    as an 8px-wide bare sliver with a 1px separator line, no icon.
+//    as a 6px-wide bare sliver with no icon.
 var peek = panel.addWidget("org.kde.windowsmodern.showdesktop");
 peek.currentConfigGroup = new Array("General");
 peek.writeConfig("size", "6");

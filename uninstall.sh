@@ -10,56 +10,104 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/scripts/install-lib.sh"
 
-ELEVATE=""
-if [ "$UID" -ne 0 ]; then
-    if command -v sudo &>/dev/null; then
-        ELEVATE="sudo"
+# Remove one or more paths. User-local paths are deleted directly; system
+# paths (/usr/*) require pkexec or sudo because regular users cannot write
+# them. Globs must be unquoted on the caller side so the shell expands them.
+rm_path() {
+    local path
+    for path in "$@"; do
+        [ -e "$path" ] || continue
+        if [[ "$path" == "$HOME"/* ]]; then
+            rm -rf "$path" 2>/dev/null || true
+        else
+            if command -v pkexec &>/dev/null; then
+                pkexec rm -rf "$path" 2>/dev/null || warn "Could not remove system path (pkexec failed): $path"
+            elif command -v sudo &>/dev/null; then
+                sudo rm -rf "$path" 2>/dev/null || warn "Could not remove system path (sudo failed): $path"
+            else
+                rm -rf "$path" 2>/dev/null || warn "Could not remove path: $path"
+            fi
+        fi
+    done
+}
+
+detect_systray_so_dir() {
+    local plugin_dir=""
+    if command -v pkg-config &>/dev/null; then
+        plugin_dir=$(pkg-config --variable=plugindir Qt6Core 2>/dev/null || true)
     fi
-fi
+    if [ -z "$plugin_dir" ]; then
+        if [ -d /usr/lib64/qt6/plugins ]; then
+            plugin_dir=/usr/lib64/qt6/plugins
+        elif [ -d /usr/lib/qt6/plugins ]; then
+            plugin_dir=/usr/lib/qt6/plugins
+        else
+            plugin_dir=/usr/lib64/qt6/plugins
+        fi
+    fi
+    echo "$plugin_dir/plasma/applets"
+}
+
+reset_kwin_borders() {
+    if command -v kwriteconfig6 &>/dev/null; then
+        kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSize" "Normal"
+        kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSizeAuto" "true"
+        dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null || true
+    fi
+}
 
 uninstall_component() {
     local name="$1"
     info "Uninstalling: $name"
     case "$name" in
         themes)
-            $ELEVATE rm -rf "$AURORAE_DIR/Windows-modern"* "$AURORAE_DIR/__aurorae__svg__windows-modern"* 2>/dev/null || true
-            $ELEVATE rm -f "$SCHEMES_DIR/WindowsModern"*.colors 2>/dev/null || true
-            $ELEVATE rm -rf "$KVANTUM_DIR/Windows-modern"* 2>/dev/null || true
-            $ELEVATE rm -rf "$PLASMA_DIR/Windows-modern"* 2>/dev/null || true
-            $ELEVATE rm -rf "$WALLPAPER_DIR/Windows-modern"* 2>/dev/null || true
+            # Aurorae packages are lowercase in the current repo
+            rm_path "$AURORAE_DIR/windows-modern"*-aurorae
+            rm_path "$AURORAE_DIR/Windows-modern"*-aurorae
+            rm_path "$AURORAE_DIR/__aurorae__svg__windows-modern"*
+            rm_path "$AURORAE_DIR/__aurorae__svg__Windows-modern"*
+            rm_path "$SCHEMES_DIR/WindowsModern"*.colors
+            rm_path "$KVANTUM_DIR/Windows-modern"*
+            rm_path "$KVANTUM_DIR/windows-modern"*
+            rm_path "$PLASMA_DIR/Windows-modern"*
+            rm_path "$PLASMA_DIR/windows-modern"*
+            rm_path "$WALLPAPER_DIR/Windows-modern"*
+            rm_path "$WALLPAPER_DIR/windows-modern"*
+            reset_kwin_borders
             info "Themes uninstalled."
             ;;
         icons)
-            $ELEVATE rm -rf "$ICONS_DIR/windows-modern" 2>/dev/null || true
+            rm_path "$ICONS_DIR/windows-modern"
             info "Icons uninstalled."
             ;;
         lookfeel)
-            $ELEVATE rm -rf "$LOOKFEEL_DIR/org.kde.windowsmodern.dark" \
-                             "$LOOKFEEL_DIR/org.kde.windowsmodern.light" 2>/dev/null || true
+            rm_path "$LOOKFEEL_DIR/org.kde.windowsmodern.dark"
+            rm_path "$LOOKFEEL_DIR/org.kde.windowsmodern.light"
             info "Global themes uninstalled."
             ;;
         layout)
-            $ELEVATE rm -rf "$LAYOUT_DIR/org.kde.windowsmodern.panel" 2>/dev/null || true
+            rm_path "$LAYOUT_DIR/org.kde.windowsmodern.panel"
             info "Panel layout uninstalled."
             ;;
         showdesk)
-            $ELEVATE rm -rf "$APPLETS_DIR/org.kde.windowsmodern.showdesktop" 2>/dev/null || true
+            rm_path "$APPLETS_DIR/org.kde.windowsmodern.showdesktop"
             info "Show Desktop uninstalled."
             ;;
         startmenu)
-            $ELEVATE rm -rf "$APPLETS_DIR/org.kde.windowsmodern.startmenu" 2>/dev/null || true
+            rm_path "$APPLETS_DIR/org.kde.windowsmodern.startmenu"
             info "Start Menu uninstalled."
             ;;
         systray|systemtray)
-            $ELEVATE rm -f "/usr/lib64/qt6/plugins/plasma/applets/org.kde.windowsmodern.systemtray.so" 2>/dev/null || true
-            $ELEVATE rm -rf "/usr/share/plasma/plasmoids/org.kde.windowsmodern.systemtray" 2>/dev/null || true
-            rm -rf "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.systemtray" 2>/dev/null || true
+            rm_path "$(detect_systray_so_dir)/org.kde.windowsmodern.systemtray.so"
+            rm_path "/usr/share/plasma/plasmoids/org.kde.windowsmodern.systemtray"
+            rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.systemtray"
             info "System Tray uninstalled. Restart plasmashell to complete."
             ;;
         all)
             for c in themes icons lookfeel layout showdesk startmenu systray; do
                 uninstall_component "$c"
             done
+            reset_kwin_borders
             ;;
         *)
             err "Unknown component: $name"

@@ -169,9 +169,8 @@ do_install() {
         do_build
     fi
 
-    info "Installing to system directories via pkexec..."
+    info "Installing compiled plugin via pkexec..."
     info "  Plugin: $PLUGIN_INSTALL_DIR/$(basename "$PLUGIN_SO")"
-    info "  Data:   $DATA_INSTALL_DIR/$APP_ID/"
 
     # Write a temporary install script for pkexec
     TMP_INSTALL=$(mktemp /tmp/windowsmodern-systray-install.XXXXXX)
@@ -184,22 +183,16 @@ set -e
 PLUGIN_SRC="$PLUGIN_SO"
 PLUGIN_DST="$PLUGIN_INSTALL_DIR"
 APP_ID="$APP_ID"
-DATA_SRC="$SRC_DIR/contents"
-DATA_DST="$DATA_INSTALL_DIR/\$APP_ID/contents"
-META_SRC="$SRC_DIR/metadata.json"
-META_DST="$DATA_INSTALL_DIR/\$APP_ID/metadata.json"
+KPACKAGE_DIR="/usr/share/plasma/plasmoids/\$APP_ID"
 
 # Install compiled plugin
 mkdir -p "\$PLUGIN_DST"
 cp "\$PLUGIN_SRC" "\$PLUGIN_DST/"
 
-# Install QML / config files
-rm -rf "\$DATA_DST"
-mkdir -p "\$DATA_DST"
-cp -r "\$DATA_SRC"/* "\$DATA_DST/"
-
-# Install metadata.json at package root
-cp "\$META_SRC" "\$META_DST"
+# Ensure no stale KPackage copy exists: the compiled .so already embeds
+# QML/config via ecm_target_qml_sources. A KPackage at the same plugin id
+# causes the dark-rectangle popup bug.
+rm -rf "\$KPACKAGE_DIR"
 
 echo "Installation complete."
 SCRIPTEOF
@@ -263,6 +256,7 @@ case "${1:-build-install}" in
 #!/bin/bash
 set -e
 rm -f "$PLUGIN_INSTALL_DIR/$APP_ID.so"
+rm -rf "/usr/share/plasma/plasmoids/$APP_ID"
 rm -rf "$DATA_INSTALL_DIR/$APP_ID"
 echo "Uninstall complete."
 SCRIPTEOF
@@ -273,11 +267,11 @@ SCRIPTEOF
     *)
         echo "Usage: $0 {build|install|build-install|install-only|uninstall}"
         echo ""
-        echo "  build          — compile C++ only"
-        echo "  install        — install pre-built .so + QML (build first)"
-        echo "  build-install  — build + install + restart (default)"
-        echo "  install-only   — install from existing build dir"
-        echo "  uninstall      — remove from system"
+    echo "  build          — compile C++ only"
+    echo "  install        — install pre-built .so (build first)"
+    echo "  build-install  — build + install + restart (default)"
+    echo "  install-only   — install from existing build dir"
+    echo "  uninstall      — remove from system"
         exit 1
         ;;
 esac

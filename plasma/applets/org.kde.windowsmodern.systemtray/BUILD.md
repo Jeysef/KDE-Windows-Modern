@@ -62,14 +62,20 @@ plasmashell --replace &
 
 ## Pre-compiled Binary Distribution
 
-After building, the resulting files are:
+After building, the only runtime artifact is:
 
 ```
 /usr/lib64/qt6/plugins/plasma/applets/org.kde.windowsmodern.systemtray.so
-/usr/share/plasma/plasmoids/org.kde.windowsmodern.systemtray/
 ```
 
-For distribution, bundle these two items together with an install.sh that copies them to the correct locations. Users do not need a C++ compiler — they just need the runtime libs which come with any Plasma installation.
+The QML and config files are compiled into the `.so` via
+`ecm_target_qml_sources`. A separate KPackage directory at
+`/usr/share/plasma/plasmoids/org.kde.windowsmodern.systemtray/` must
+**not** be installed — it causes the dark-rectangle popup bug.
+
+For distribution, bundle the `.so` with an install script that copies it to
+the distro-specific Qt plugin directory. Users do not need a C++ compiler —
+they just need the runtime libs which come with any Plasma installation.
 
 ## File Summary
 
@@ -93,7 +99,7 @@ org.freedesktop.DBus.Properties.xml       - DBus interface XML
 CMakeLists.txt                 - Build system
 ```
 
-### QML UI (15 files)
+### QML UI
 ```
 contents/ui/main.qml                    - Root ContainmentItem
 contents/ui/AbstractItem.qml            - Base delegate for all item types
@@ -111,14 +117,8 @@ contents/ui/SystemTrayState.qml         - State management
 contents/ui/CurrentItemHighLight.qml    - Active item highlight
 contents/ui/PulseAnimation.qml          - Attention pulse animation
 contents/ui/config.qml                  - Config category
-contents/config/main.xml                - KConfig schema (9 settings)
-```
-
-### Old Windows Modern Files (preserved for Phase 3)
-```
-contents/ui-old-windowsmodern/
-  BatteryPage.qml, ClipboardPage.qml, CompactRepresentation.qml,
-  DevicesPage.qml, FullRepresentation.qml, MediaPlayerModel.qml,
-  MediaPlayerPage.qml, NotificationsPage.qml, SniModel.qml,
-  TrayIconsPage.qml
+contents/ui/lib/                        - Reusable tiles / sliders / page chrome
+contents/ui/components/                 - Quick-settings tiles and detail pages
+contents/ui/js/                         - Shared JS helpers
+contents/config/main.xml                - KConfig schema
 ```

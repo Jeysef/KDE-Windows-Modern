@@ -15,12 +15,12 @@ import org.kde.kirigami as Kirigami
 Item {
     id: root
 
-    readonly property var screenGeometry: plasmoid.screenGeometry
-    readonly property bool inPanel: (plasmoid.location == PlasmaCore.Types.TopEdge
-                                     || plasmoid.location == PlasmaCore.Types.RightEdge
-                                     || plasmoid.location == PlasmaCore.Types.BottomEdge
-                                     || plasmoid.location == PlasmaCore.Types.LeftEdge)
-    readonly property bool vertical: (plasmoid.formFactor == PlasmaCore.Types.Vertical)
+    readonly property var screenGeometry: Plasmoid.screenGeometry
+    readonly property bool inPanel: (Plasmoid.location == PlasmaCore.Types.TopEdge
+                                     || Plasmoid.location == PlasmaCore.Types.RightEdge
+                                     || Plasmoid.location == PlasmaCore.Types.BottomEdge
+                                     || Plasmoid.location == PlasmaCore.Types.LeftEdge)
+    readonly property bool vertical: (Plasmoid.formFactor == PlasmaCore.Types.Vertical)
     readonly property bool useCustomButtonImage: (Plasmoid.configuration.useCustomButtonImage
                                                   && Plasmoid.configuration.customButtonImage.length != 0)
     property QtObject dashWindow: null
@@ -49,7 +49,7 @@ Item {
 
     Component.onCompleted: {
         dashWindow = menuRepComponent.createObject(root);
-        plasmoid.activated.connect(function() {
+        Plasmoid.activated.connect(function() {
             dashWindow.visible = !dashWindow.visible;
         });
     }

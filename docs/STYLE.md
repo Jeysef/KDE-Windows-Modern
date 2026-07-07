@@ -119,12 +119,12 @@ The `contents/layout.js` creates:
      right.
   5. **System tray** — `org.kde.plasma.systemtray`
   6. **Digital clock** — `org.kde.plasma.digitalclock` pinned to
-     Segoe UI Regular 10pt, no date, no seconds, 12h format. The fixed
-     font size keeps the clock readable without dominating tall panels.
+      Segoe UI Regular 10pt, with date stacked below the time, no seconds,
+      and `use24hFormat=1` so it follows the user's locale. The fixed
+      font size keeps the clock readable without dominating tall panels.
   7. **Show Desktop** — `org.kde.windowsmodern.showdesktop`, a custom
-     forked applet (see below). Renders as an 6px-wide bare sliver with
-     a 1px separator line on its left edge, no icon. Click minimizes all
-     windows; click again restores.
+      forked applet (see below). Renders as a 6px-wide bare sliver with
+      no icon. Click minimizes all windows; click again restores.
 
 The template does not replace an existing panel automatically; users add it
 via right-click desktop → Add Panels → "Windows Modern Panel".
@@ -175,14 +175,17 @@ and shared grid components (see file tree below).
   panel button via `parent.mapToGlobal`.
 - Search field with rounded corners (`radius: smallSpacing*3`) and subtle
   border (12% text color alpha), Segoe UI font.
-- `SwipeView` with 3 pages: Pinned (favorites grid + recent strip),
-  All Apps (alphabetical grid), Search (filter pills + runner results).
-- Footer with user tile + `PlasmaComponents3.ToolButton` action buttons
-  (Home, Settings, Lock, Sleep, Restart, Shutdown).
+- Left column switches between three states (not a `SwipeView`): Pinned
+  (favorites vertical list), All Apps (alphabetical vertical list),
+  Search (filter pills + runner results).
+- Right column with user avatar and a vertical list of system locations
+  (Home, Documents, Pictures, Music, etc.).
+- Compound bottom bar with a search field on the left and a split
+  "Shut down" button on the right that opens a power-options popup.
 - `AToolButton` with rounded corners (`radius: smallSpacing`), gray border,
   subtle hover (rgba 0.3).
-- Config UI: icon picker, icon sizes, grid dimensions, display position,
-  recent toggles, all-apps view/sort mode.
+- Config UI: icon picker, icon sizes, display position, right-column
+  visibility, all-apps sort mode.
 
 **Imports:** Modern Qt6 style (no version numbers except
 `org.kde.plasma.private.kicker 0.1` and `org.kde.kitemmodels 1.0`).
@@ -451,7 +454,7 @@ respectively.
 
 ### Look-and-Feel
 
-Location: `plasma/look-and-feel/com.github.yeyushengfan258.Windows-modern-{dark,light}/`
+Location: `plasma/look-and-feel/org.kde.windowsmodern.{dark,light}/`
 
 The `contents/defaults` file wires everything together:
 

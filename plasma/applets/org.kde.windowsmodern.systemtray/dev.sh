@@ -20,6 +20,24 @@ info()  { echo -e "${GREEN}==>${RESET} ${BOLD}$*${RESET}"; }
 warn()  { echo -e "${YELLOW}==>${RESET} $*"; }
 err()   { echo -e "${RED}==>${RESET} $*"; }
 
+# ── Detect install paths ───────────────────────────────────────────
+detect_paths() {
+    if command -v pkg-config &>/dev/null; then
+        QT_PLUGIN_DIR=$(pkg-config --variable=plugindir Qt6Core 2>/dev/null || true)
+    fi
+    if [ -z "${QT_PLUGIN_DIR:-}" ]; then
+        if [ -d /usr/lib64/qt6/plugins ]; then
+            QT_PLUGIN_DIR=/usr/lib64/qt6/plugins
+        elif [ -d /usr/lib/qt6/plugins ]; then
+            QT_PLUGIN_DIR=/usr/lib/qt6/plugins
+        else
+            QT_PLUGIN_DIR=/usr/lib64/qt6/plugins
+        fi
+    fi
+    PLUGIN_DST="$QT_PLUGIN_DIR/plasma/applets"
+    KPACKAGE_DIR="/usr/share/plasma/plasmoids/${APP_ID}"
+}
+
 # ── Build ─────────────────────────────────────────────────────────
 info "Building..."
 cmake -S "$SRC_DIR" -B "$BUILD_DIR" -DCMAKE_BUILD_TYPE=Release > /dev/null
@@ -39,8 +57,7 @@ fi
 # ── Install .so only (no KPackage) ───────────────────────────────
 info "Installing..."
 PLUGIN_SRC="$BUILD_DIR/lib/plasma/applets/${APP_ID}.so"
-PLUGIN_DST="/usr/lib64/qt6/plugins/plasma/applets"
-KPACKAGE_DIR="/usr/share/plasma/plasmoids/${APP_ID}"
+detect_paths
 
 pkexec bash -s <<INSTALLEOF
 set -e

@@ -122,7 +122,7 @@ PlasmoidItem {
                              Kirigami.Theme.textColor.g,
                              Kirigami.Theme.textColor.b, 0.5)
             width: 1
-            height: root.vertical ? parent.height * 0.5 : parent.height * 0.5
+            height: parent.height * 0.5
             anchors.centerIn: parent
             opacity: mouseArea.state === "hover" || mouseArea.state === "pressed" ? 1 : 0
             Behavior on opacity { OpacityAnimator { duration: Kirigami.Units.shortDuration; easing.type: Easing.InOutQuad } }

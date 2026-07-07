@@ -61,26 +61,56 @@ private: int indexOfSource(const QString &source) const; void init();
     QList<QString> m_items;
 };
 
+/**
+ * @brief Data model for apps (really only flatpaks) running in background according to org.freedesktop.BackgroundMonitor
+ */
 class BackgroundAppsModel : public BaseModel {
     Q_OBJECT
 public:
     explicit BackgroundAppsModel(QPointer<SystemTraySettings> settings, QObject *parent = nullptr);
-    enum class Role { Name = static_cast<int>(BaseModel::BaseRole::LastBaseRole) + 1000, Icon, Message, FlatpakInstances };
+
+    enum class Role {
+        Name = static_cast<int>(BaseModel::BaseRole::LastBaseRole) + 1000,
+        Icon,
+        Message,
+        FlatpakInstances
+    };
+
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QHash<int, QByteArray> roleNames() const override;
+
     Q_INVOKABLE void openBackgroundApp(const QModelIndex &index);
     Q_INVOKABLE void stopBackgroundApp(const QModelIndex &index);
-private: void backgroundAppsChanged(const QList<QVariantMap> &backgroundApps);
-    struct BackgroundApp { QString appId; QString message; QStringList flatpakInstances; KService::Ptr service; };
+
+private:
+    void backgroundAppsChanged(const QList<QVariantMap> &backgroundApps);
+
+    struct BackgroundApp {
+        QString appId;
+        QString message;
+        QStringList flatpakInstances;
+        KService::Ptr service;
+    };
+
     QList<BackgroundApp> m_backgroundApps;
 };
 
+/**
+ * @brief Filters entries in BackgroundAppsModel such that apps that register a SNI don't appear twice
+ */
 class BackgroundAppsFilteredModel : public QSortFilterProxyModel {
 public:
     explicit BackgroundAppsFilteredModel(BackgroundAppsModel *sourceModel, QObject *parent = nullptr);
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
-private: struct Info { QString flatpakInstance; QString sniId; }; QList<Info> m_flatpaksWithSni;
+
+private:
+    struct Info {
+        QString flatpakInstance;
+        QString sniId;
+    };
+
+    QList<Info> m_flatpaksWithSni;
 };
 
 class SystemTrayModel : public QConcatenateTablesProxyModel {
