@@ -1,0 +1,37 @@
+Windows Modern Icon Pack — Credits and Sources
+==============================================
+
+This icon pack is a curated derivative work. Individual icons were selected
+from the following upstream Windows-11-style icon packs and then adjusted
+where needed.
+
+Upstream packs used during curation
+-----------------------------------
+
+- Eleven
+- Cobalt
+- Windows-Eleven
+- Windows-Beuty
+- Win11
+- We10X
+- Fluent
+- Fluentwin
+
+License notice
+--------------
+
+The selection, consolidation, and any custom icons in this pack are released
+under the GNU General Public License v3 (GPL-3.0), consistent with the
+Windows Modern KDE theme project.
+
+Upstream packs may have their own licenses. License and attribution details
+for each upstream pack are being compiled. Please refer to the project's
+ATTRIBUTION.md file once it is finalized.
+
+Custom additions
+----------------
+
+- status/brightness-high-symbolic.svg — custom override added to the pack.
+
+For questions about licensing or attribution, please open an issue in the
+project repository.
