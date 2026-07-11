@@ -42,10 +42,11 @@ Item {
     readonly property bool unknownActive: systemTrayState.activeApplet && !popup.themedActive
 
     readonly property var flyoutToPlugin: ({
-        "network":   "org.kde.plasma.networkmanagement",
-        "bluetooth": "org.kde.plasma.bluetooth",
-        "volume":    "org.kde.plasma.volume",
-        "battery":   "org.kde.plasma.battery"
+        "network":    "org.kde.plasma.networkmanagement",
+        "bluetooth":  "org.kde.plasma.bluetooth",
+        "volume":     "org.kde.plasma.volume",
+        "battery":    "org.kde.plasma.battery",
+        "brightness": "org.kde.plasma.brightness"
     })
 
     function activateFlyout(name) {
