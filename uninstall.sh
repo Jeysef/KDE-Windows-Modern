@@ -101,6 +101,10 @@ uninstall_component() {
             rm_path "$(detect_systray_so_dir)/org.kde.windowsmodern.systemtray.so"
             rm_path "/usr/share/plasma/plasmoids/org.kde.windowsmodern.systemtray"
             rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.systemtray"
+            # Stale local .so copies take precedence over the system plugin and
+            # can make uninstall+reinstall appear to do nothing.
+            rm_path "$HOME/.local/lib64/qt6/plugins/plasma/applets/org.kde.windowsmodern.systemtray.so"
+            rm_path "$HOME/.local/lib/qt6/plugins/plasma/applets/org.kde.windowsmodern.systemtray.so"
             # Legacy quicksettings plasmoid that was absorbed into the system tray
             rm_path "/usr/share/plasma/plasmoids/org.kde.windowsmodern.quicksettings"
             rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.quicksettings"
