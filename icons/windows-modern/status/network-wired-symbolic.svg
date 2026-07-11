@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333333 4.2333335"
+   version="1.1"
+   id="svg851"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20, custom)"
+   sodipodi:docname="network-wired.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview853"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     units="px"
+     showguides="false"
+     inkscape:zoom="24.84375"
+     inkscape:cx="3.8440252"
+     inkscape:cy="3.9245283"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg851" />
+  <defs
+     id="defs848" />
+  <path
+     id="rect934"
+     style="fill:#363636;stroke-width:3.99999;stroke-linecap:round;stroke-linejoin:round;fill-opacity:1"
+     d="M 12 0 C 11.446 0 11 0.446 11 1 L 11 6 C 11 6.5540001 11.446 7 12 7 L 13 7 L 13 16 L 14 16 L 14 7 L 15 7 C 15.554 7 16 6.5540001 16 6 L 16 1 C 16 0.446 15.554 0 15 0 L 12 0 z M 2 1 C 0.89199992 1 0 1.892 0 3 L 0 11 C 0 12.108 0.89199992 13 2 13 L 6 13 L 6 15 L 4 15 L 4 16 L 12 16 L 12 15 L 10 15 L 10 13 L 12 13 L 12 12 L 2 12 C 1.446 12 1 11.554 1 11 L 1 3 C 1 2.446 1.446 2 2 2 L 10 2 L 10 1 L 2 1 z M 12 1 L 15 1 L 15 2 L 12 2 L 12 1 z M 12 3 L 15 3 L 15 6 L 12 6 L 12 3 z M 7 13 L 9 13 L 9 15 L 7 15 L 7 13 z "
+     transform="scale(0.26458334)" />
+</svg>

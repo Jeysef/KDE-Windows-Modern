@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="22"
+   height="22"
+   viewBox="0 0 22 22"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="battery-000-charging.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="36.545455"
+     inkscape:cx="11"
+     inkscape:cy="11"
+     inkscape:window-width="1920"
+     inkscape:window-height="1008"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg5"
+     showguides="false" />
+  <defs
+     id="defs2">
+    <style
+       id="current-color-scheme"
+       type="text/css">
+   .ColorScheme-Text { color:#dedede; } .ColorScheme-Highlight { color:#4285f4; } .ColorScheme-NeutralText { color:#ff9800; } .ColorScheme-PositiveText { color:#4caf50; } .ColorScheme-NegativeText { color:#f44336; }
+   </style>
+  </defs>
+  <path
+     id="path1017"
+     style="fill:currentColor;fill-opacity:1"
+     class="ColorScheme-Text"
+     d="M 8.9980469,6 C 8.9986904,6.155098 8.9632515,6.3082213 8.8945312,6.4472656 L 8.6171875,7 H 16 c 0.553995,0 1,0.4460036 1,1 v 6 c 0,0.553994 -0.446005,1 -1,1 H 6 C 5.4460048,15 5,14.553994 5,14 V 10 8 H 4 v 6 c 0,1.107994 0.8920063,2 2,2 h 10 c 1.107994,0 2,-0.892006 2,-2 v -0.863281 c 1.107995,0 2,-0.892006 2,-2 0,-1.107995 -0.892005,-2 -2,-2 V 8 C 18,6.8920066 17.107994,6 16,6 Z" />
+  <path
+     d="M 6,3 4,7 h 2 v 3 L 8,6 H 6 Z"
+     style="fill:currentColor;fill-opacity:1"
+     class="ColorScheme-Text"
+     id="path1" />
+</svg>

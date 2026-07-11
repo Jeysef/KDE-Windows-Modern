@@ -1,0 +1,193 @@
+[Icon Theme]
+Name=windows-modern
+Comment=A consolidated Windows 11-style icon theme for KDE Plasma
+Inherits=breeze,breeze-dark,hicolor
+
+FollowsColorScheme=true
+KDE-Extensions=.svg
+DisplayDepth=32
+
+DesktopDefault=48
+DesktopSizes=16,22,24,32,48,64
+ToolbarDefault=22
+ToolbarSizes=16,22,24,32,48
+MainToolbarDefault=22
+MainToolbarSizes=16,22,24,32,48
+SmallDefault=16
+SmallSizes=16,22,24,32,48
+PanelDefault=48
+PanelSizes=16,22,24,32,48,64
+DialogDefault=48
+DialogSizes=16,22,24,32,48,64
+
+Directories=status,actions,apps,devices,places,mimetypes,categories,emblems,emotes,animations
+
+# ============================================================
+# Status icons (panel/tray - 16-24px)
+# ============================================================
+[status]
+Context=Status
+Type=Scalable
+Size=22
+MinSize=16
+MaxSize=48
+
+[status@2x]
+Context=Status
+Type=Scalable
+Size=44
+MinSize=32
+MaxSize=96
+
+# ============================================================
+# Actions icons (toolbar/menu - 16-32px)
+# ============================================================
+[actions]
+Context=Actions
+Type=Scalable
+Size=22
+MinSize=16
+MaxSize=48
+
+[actions@2x]
+Context=Actions
+Type=Scalable
+Size=44
+MinSize=32
+MaxSize=96
+
+# ============================================================
+# Apps icons (launcher - 32-256px)
+# ============================================================
+[apps]
+Context=Applications
+Type=Scalable
+Size=48
+MinSize=32
+MaxSize=256
+
+[apps@2x]
+Context=Applications
+Type=Scalable
+Size=96
+MinSize=64
+MaxSize=512
+
+# ============================================================
+# Devices icons (settings/file manager - 16-64px)
+# ============================================================
+[devices]
+Context=Devices
+Type=Scalable
+Size=48
+MinSize=16
+MaxSize=128
+
+[devices@2x]
+Context=Devices
+Type=Scalable
+Size=96
+MinSize=32
+MaxSize=256
+
+# ============================================================
+# Places icons (file manager - 16-256px)
+# ============================================================
+[places]
+Context=Places
+Type=Scalable
+Size=48
+MinSize=16
+MaxSize=256
+
+[places@2x]
+Context=Places
+Type=Scalable
+Size=96
+MinSize=32
+MaxSize=512
+
+# ============================================================
+# MIME Types icons (file manager - 16-256px)
+# ============================================================
+[mimetypes]
+Context=MimeTypes
+Type=Scalable
+Size=48
+MinSize=16
+MaxSize=256
+
+[mimetypes@2x]
+Context=MimeTypes
+Type=Scalable
+Size=96
+MinSize=32
+MaxSize=512
+
+# ============================================================
+# Categories icons (app menu - 16-64px)
+# ============================================================
+[categories]
+Context=Categories
+Type=Scalable
+Size=48
+MinSize=16
+MaxSize=128
+
+[categories@2x]
+Context=Categories
+Type=Scalable
+Size=96
+MinSize=32
+MaxSize=256
+
+# ============================================================
+# Emblems icons (file overlays - 8-24px)
+# ============================================================
+[emblems]
+Context=Emblems
+Type=Scalable
+Size=16
+MinSize=8
+MaxSize=48
+
+[emblems@2x]
+Context=Emblems
+Type=Scalable
+Size=32
+MinSize=16
+MaxSize=96
+
+# ============================================================
+# Emotes icons (chat - 16-24px)
+# ============================================================
+[emotes]
+Context=Emotes
+Type=Scalable
+Size=22
+MinSize=16
+MaxSize=48
+
+[emotes@2x]
+Context=Emotes
+Type=Scalable
+Size=44
+MinSize=32
+MaxSize=96
+
+# ============================================================
+# Animations icons (loading spinners - 16-24px)
+# ============================================================
+[animations]
+Context=Animations
+Type=Scalable
+Size=22
+MinSize=16
+MaxSize=48
+
+[animations@2x]
+Context=Animations
+Type=Scalable
+Size=44
+MinSize=32
+MaxSize=96
