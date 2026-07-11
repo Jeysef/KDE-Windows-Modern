@@ -9,6 +9,7 @@ In this repository you'll find:
 - Plasma Color Schemes
 - Plasma Desktop Themes
 - Plasma Look-and-Feel Settings
+- Icon pack
 - Custom Plasma applets (Start Menu, Show Desktop, System Tray)
 
 > **Note:** The System Tray applet is a compiled C++ Plasma Containment.
