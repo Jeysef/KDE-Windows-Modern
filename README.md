@@ -11,6 +11,9 @@ In this repository you'll find:
 - Plasma Look-and-Feel Settings
 - Custom Plasma applets (Start Menu, Show Desktop, System Tray)
 
+> **Note:** The System Tray applet is a compiled C++ Plasma Containment.
+> Install it with `./install.sh systray` so it is built and deployed correctly.
+
 ## Installation
 
 ```sh

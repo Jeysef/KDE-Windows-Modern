@@ -177,7 +177,7 @@ PlasmoidItem (main.qml)
 │   └── MediaPlayerPage        # Full media player controls
 │
 ├── ConfigGeneral.qml          # Minimal settings
-│   ├── iconSize: Int (16-32)
+│   ├── iconSize: Kirigami.Units.iconSizes.* (e.g., smallMedium for tiles)
 │   ├── spacing: Int (0-12)
 │   └── showExpandArrow: Bool
 │
@@ -201,7 +201,7 @@ Timer fires (every 5 seconds)
 
 ```
 main.xml:
-  iconSize:      Int (16-32, default 22)
+  iconSize:      Kirigami.Units.iconSizes.* (quick-toggle tiles use smallMedium)
   spacing:       Int (0-12, default 4)
   showExpandArrow: Bool (default true)
 ```

@@ -16,20 +16,26 @@ Fork the plasma-workspace `applets/systemtray/` C++ code, rebrand as `org.kde.wi
 
 ## Distribution Strategy
 
-### Primary: Pre-compiled Binaries
+### Current: Build on Install
 
-Build once per distribution, ship the resulting `.so` file:
+The system tray is a C++ Plasma::Containment. It is compiled on the user's
+machine during installation via `./install.sh systray` (repo root) or
+`./dev.sh` (inside the applet directory). The install scripts:
 
-```
-org.kde.windowsmodern.systemtray/
-├── metadata.json
-├── contents/
-│   ├── config/main.xml
-│   └── ui/*.qml                    # Windows 11 styled QML
-└── plugin/
-    └── libsystemtrayplugin.so       # Pre-compiled for target distro
-    └── libsystemtrayapplet.so       # Pre-compiled applet .so
-```
+- build the `.so` with QML embedded via `ecm_target_qml_sources`,
+- copy it to the distro-specific Qt plugin directory,
+- remove any conflicting KPackage at `/usr/share/plasma/plasmoids/...`,
+- remove stale local copies at `~/.local/lib*/qt6/plugins/plasma/applets/...`,
+- restart plasmashell.
+
+This avoids maintaining per-distribution pre-compiled binaries and ensures the
+applet is built against the Plasma/Qt versions actually installed.
+
+### Future: Pre-compiled Binaries
+
+Once a CI pipeline is in place, per-distro `.so` artifacts may be shipped so
+users without a compiler can install the applet directly. Until then, the
+build-on-install approach is the supported path.
 
 Target distributions (in priority order):
 1. **Fedora** (current dev machine, `plasma-workspace-6.7.0`) — first
@@ -39,11 +45,9 @@ Target distributions (in priority order):
 
 ### Installation
 
-`install.sh` copies the pre-compiled `.so` + QML files to system/user directories. No compilation step.
-
-### CI Pipeline (Future)
-
-Docker containers per distro, compile on tag/release, upload artifacts.
+```bash
+./install.sh systray
+```
 
 ## What Files to Fork
 

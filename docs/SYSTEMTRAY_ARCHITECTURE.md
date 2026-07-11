@@ -125,6 +125,15 @@ The stock `org.kde.plasma.systemtray` is installed ONLY as a `.so` (no KPackage)
 
 After this fix, the system tray behaves identically to the stock `org.kde.plasma.systemtray` — one popup for expander, one popup for icons, no dark rectangles.
 
+### Note: Local Plugin Shadowing
+
+A stale copy of the plugin at
+`~/.local/lib64/qt6/plugins/plasma/applets/org.kde.windowsmodern.systemtray.so`
+(or `~/.local/lib/qt6/plugins/...`) will be loaded in preference to the
+system-installed `/usr/lib64/...` copy. Symptom: edits appear to have no
+effect after running the install script. The install/uninstall scripts now
+remove these local copies automatically.
+
 ### Note: Theme Layout Compatibility
 
 The Plasma scripting API's `addWidget()` requires the plugin to be discoverable via KPackage. A minimal KPackage (metadata.json only, no QML) is installed at `/usr/share/plasma/plasmoids/` for this purpose. The QML remains embedded in the `.so`. Theme layout scripts fall back to the stock system tray if our fork isn't found.

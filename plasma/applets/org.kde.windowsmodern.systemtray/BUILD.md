@@ -49,16 +49,35 @@ cmake --build build --parallel $(nproc)
 
 ## Install
 
+The recommended way is to use the repository-wide installer, which builds,
+installs the `.so`, removes any conflicting KPackage, prunes stale local
+copies, and restarts plasmashell:
+
 ```bash
-sudo cmake --install build
+cd plasma/applets/org.kde.windowsmodern.systemtray
+./dev.sh
 ```
 
-Then restart plasmashell:
+Or from the repo root:
+
 ```bash
-systemctl --user restart plasma-plasmashell.service
-# or
-plasmashell --replace &
+./install.sh systray
 ```
+
+If you prefer a manual install:
+
+```bash
+sudo cmake --install build
+systemctl --user restart plasma-plasmashell.service
+```
+
+## Local plugin shadowing
+
+If you have an old copy of the plugin at
+`~/.local/lib64/qt6/plugins/plasma/applets/org.kde.windowsmodern.systemtray.so`
+(or `~/.local/lib/qt6/plugins/...`), Qt will load that local copy instead of
+the system one, and your changes will appear to have no effect. The install
+scripts above remove these stale copies automatically.
 
 ## Pre-compiled Binary Distribution
 
