@@ -85,6 +85,8 @@ ColumnLayout {
             Layout.columnSpan: 3
             visible: Plasmoid.configuration.showBrightness
             showArrow: true
+            panelScreenGeometry: Plasmoid.screenGeometry
+            panelScreenIndex: Plasmoid.containment.screen
             onArrowClicked: actionPanel.requestPage("battery")
         }
         Components.VolumeSlider {
