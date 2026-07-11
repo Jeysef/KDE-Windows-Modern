@@ -20,6 +20,10 @@ Lib.Slider {
         isSilent: false
     }
 
+    // The brightness backend exposes only opaque DBus names ("display3",
+    // "display4") as displayName, so we cannot match by KScreen connector
+    // name. Instead we decide whether the panel sits on an internal or
+    // external screen and pick the corresponding display.
     function displayForPanel() {
         const model = sbControl.displays;
         if (!model || model.rowCount() === 0) {
@@ -29,61 +33,48 @@ Lib.Slider {
             return model.index(0, 0);
         }
 
-        // Match panel screen geometry to a QScreen, then match QScreen name
-        // to the backend displayName. Some Qt/Plasma versions do not expose
-        // QScreen::geometry to QML, so guard every access and fall back to
-        // internal/first display if geometry matching is unavailable.
-        const panelRect = root.panelScreenGeometry;
-        const screens = Qt.application.screens;
-        let matchedScreen = null;
-        if (screens && screens.length > 0 && panelRect.width > 0 && panelRect.height > 0) {
-            for (let i = 0; i < screens.length; ++i) {
-                const s = screens[i];
-                if (!s) {
-                    continue;
-                }
-                const geom = s.geometry || s.virtualGeometry;
-                if (!geom) {
-                    continue;
-                }
-                if (Math.round(geom.x) === Math.round(panelRect.x) &&
-                    Math.round(geom.y) === Math.round(panelRect.y) &&
-                    Math.round(geom.width) === Math.round(panelRect.width) &&
-                    Math.round(geom.height) === Math.round(panelRect.height)) {
-                    matchedScreen = s;
-                    break;
-                }
-            }
-        }
-
-        if (!matchedScreen && root.panelScreenIndex >= 0 && screens.length > root.panelScreenIndex) {
-            const s = screens[root.panelScreenIndex];
-            if (s && s.name) {
-                matchedScreen = s;
-            }
-        }
-
-        if (matchedScreen && matchedScreen.name) {
-            const displayNameRole = model.KItemModels.KRoleNames.role("displayName");
-            for (let i = 0; i < model.rowCount(); ++i) {
-                const idx = model.index(i, 0);
-                if (model.data(idx, displayNameRole) === matchedScreen.name) {
-                    return idx;
-                }
-            }
-        }
-
-        // Fallback to the internal display (e.g. laptop panel)
         const isInternalRole = model.KItemModels.KRoleNames.role("isInternal");
+        const wantInternal = root.panelOnInternalScreen();
+
         for (let i = 0; i < model.rowCount(); ++i) {
             const idx = model.index(i, 0);
-            if (model.data(idx, isInternalRole)) {
+            if (model.data(idx, isInternalRole) === wantInternal) {
                 return idx;
             }
         }
 
-        // Final fallback to the first display
         return model.index(0, 0);
+    }
+
+    // True when the panel's screen is the internal (laptop) panel.
+    //
+    // Qt.application.screens[i].geometry is not exposed to QML in current
+    // Qt/Plasma builds (only .name is), so geometry matching is impossible.
+    // We resolve the connector name via the containment's screen index, and
+    // fall back to the Screen attached property (the popup window's screen,
+    // which opens on the panel's screen) and finally to panelScreenGeometry.
+    function isInternalConnectorName(name) {
+        if (!name) {
+            return false;
+        }
+        return name === "eDP-1" || name === "eDP1" || name === "eDP"
+            || name === "LVDS-1" || name === "LVDS1"
+            || name === "DSI-1" || name === "DSI1";
+    }
+
+    function panelOnInternalScreen() {
+        const idx = root.panelScreenIndex;
+        const screens = Qt.application.screens;
+        if (idx >= 0 && screens && screens.length > idx) {
+            const s = screens[idx];
+            if (s && s.name) {
+                return root.isInternalConnectorName(s.name);
+            }
+        }
+        if (typeof Screen !== "undefined" && Screen.name) {
+            return root.isInternalConnectorName(Screen.name);
+        }
+        return true;
     }
 
     function refreshDisplays() {
