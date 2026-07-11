@@ -67,8 +67,10 @@ rm -rf "$KPACKAGE_DIR"
 echo "Installed."
 INSTALLEOF
 
-# Also prune local copies
+# Also prune local copies (stale .so in ~/.local/lib* takes precedence over /usr)
 rm -rf "$HOME/.local/share/plasma/plasmoids/${APP_ID}" 2>/dev/null || true
+rm -f "$HOME/.local/lib64/qt6/plugins/plasma/applets/${APP_ID}.so" 2>/dev/null || true
+rm -f "$HOME/.local/lib/qt6/plugins/plasma/applets/${APP_ID}.so" 2>/dev/null || true
 info "Installed."
 
 # ── Start plasmashell ────────────────────────────────────────────

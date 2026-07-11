@@ -95,8 +95,8 @@ ColumnLayout {
         Kirigami.Icon {
             x: parent.width * 0.35 - width / 2
             anchors.verticalCenter: parent.verticalCenter
-            width: 20
-            height: 20
+            width: Kirigami.Units.iconSizes.smallMedium
+            height: Kirigami.Units.iconSizes.smallMedium
             source: tile.iconSource
             color: tile.fg
             isMask: true
@@ -114,8 +114,8 @@ ColumnLayout {
             anchors.right: parent.right
             anchors.rightMargin: 8
             anchors.verticalCenter: parent.verticalCenter
-            width: 16
-            height: 16
+            width: Kirigami.Units.iconSizes.small
+            height: Kirigami.Units.iconSizes.small
             source: "go-next"
             color: tile.fg
             isMask: true

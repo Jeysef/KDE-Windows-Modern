@@ -12,7 +12,7 @@ Item {
     property int to: 100
     property int value: 0
     property int stepSize: 1
-    property int iconSize: 20
+    property int iconSize: Kirigami.Units.iconSizes.smallMedium
     property bool pressed: false
     property bool showArrow: false
 
@@ -81,7 +81,8 @@ Item {
             Layout.alignment: Qt.AlignVCenter
 
             Kirigami.Icon {
-                width: 16; height: 16
+                width: Kirigami.Units.iconSizes.small
+                height: Kirigami.Units.iconSizes.small
                 anchors.centerIn: parent
                 visible: root.showArrow
                 source: "go-next"

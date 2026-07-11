@@ -200,6 +200,11 @@ SCRIPTEOF
     $PKEXEC bash "$TMP_INSTALL"
     rm -f "$TMP_INSTALL"
 
+    # Prune stale local copies that take precedence over the system plugin
+    rm -rf "$HOME/.local/share/plasma/plasmoids/$APP_ID" 2>/dev/null || true
+    rm -f "$HOME/.local/lib64/qt6/plugins/plasma/applets/$APP_ID.so" 2>/dev/null || true
+    rm -f "$HOME/.local/lib/qt6/plugins/plasma/applets/$APP_ID.so" 2>/dev/null || true
+
     info "Files installed."
 }
 

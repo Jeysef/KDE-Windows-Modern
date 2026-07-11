@@ -1,4 +1,5 @@
 import QtQuick
+import org.kde.kirigami as Kirigami
 import org.kde.plasma.private.brightnesscontrolplugin
 import org.kde.kitemmodels as KItemModels
 import "../lib" as Lib
@@ -9,7 +10,7 @@ Lib.Slider {
     property var mainScreen: null
 
     iconSource: "brightness-high-symbolic"
-    iconSize: 22
+    iconSize: Kirigami.Units.iconSizes.smallMedium
     showArrow: true
 
     ScreenBrightnessControl {
