@@ -16,3 +16,6 @@ ensure_dir "$LAYOUT_DIR"
 rm -rf "$LAYOUT_DIR/org.kde.windowsmodern.panel"
 cp -r "$src" "$LAYOUT_DIR/"
 info "Panel layout installed."
+
+echo ""
+info "To use it: right-click the desktop → Add Panel → Windows Modern Panel."
