@@ -127,6 +127,8 @@
          id="stop249222" />
     </linearGradient>
   </defs>
+  <g
+     transform="translate(32.0,32.0) scale(0.72) translate(-32.0,-32.0)">
   <path
      id="path1986"
      style="fill:url(#linearGradient1998);fill-opacity:1;stroke-width:4.49998;stroke-linejoin:round"
@@ -147,4 +149,5 @@
      style="fill:url(#linearGradient2004);fill-opacity:1;stroke-width:4.49998;stroke-linejoin:round"
      d="m 33.000001,33.000072 v 8 18.999999 h 23 C 58.215999,60.000071 60,58.21607 60,56.000068 V 33.000072 H 59.97657 41.000005 Z"
      sodipodi:nodetypes="cccsscccc" />
+  </g>
 </svg>
