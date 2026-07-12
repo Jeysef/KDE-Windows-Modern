@@ -21,6 +21,29 @@ In this repository you'll find:
 ./install.sh
 ```
 
+## Development
+
+### Committing icon pack changes
+
+The `icons/windows-modern/` pack contains thousands of SVGs. To keep `git status`
+fast, those files are marked with `--skip-worktree` and `icons/**` is treated as
+binary in `.gitattributes`. This hides icon changes from normal `git status` and
+`git diff` output.
+
+When you want to commit icon changes, use the helper script instead of staging
+manually:
+
+```sh
+COMMIT_MSG="feat(icons): describe your change" ./scripts/commit-icons.sh
+```
+
+The script will:
+
+1. Temporarily re-enable git tracking for all `icons/windows-modern/` files.
+2. Stage the current icon pack.
+3. Commit with the provided message (or prompt for one).
+4. Re-apply `--skip-worktree` so day-to-day git operations stay fast.
+
 ## License
 
 GNU GPL v3
