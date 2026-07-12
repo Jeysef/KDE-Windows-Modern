@@ -220,8 +220,8 @@ view/sort mode). Drop controls for dropped features.
 
 ### P1.14 — Layout wiring (replace Kickoff in 3 files)
 - `plasma/layout-templates/org.kde.windowsmodern.panel/contents/layout.js`
-- `plasma/look-and-feel/com.github.yeyushengfan258.Windows-modern-dark/contents/layouts/org.kde.plasma.desktop-layout.js`
-- `plasma/look-and-feel/com.github.yeyushengfan258.Windows-modern-light/contents/layouts/org.kde.plasma.desktop-layout.js`
+- `plasma/look-and-feel/org.kde.windowsmodern.dark/contents/layouts/org.kde.plasma.desktop-layout.js`
+- `plasma/look-and-feel/org.kde.windowsmodern.light/contents/layouts/org.kde.plasma.desktop-layout.js`
 
 In each: `panel.addWidget("org.kde.plasma.kickoff")` ->
 `panel.addWidget("org.kde.windowsmodern.startmenu")`. Keep
@@ -235,7 +235,7 @@ In each: `panel.addWidget("org.kde.plasma.kickoff")` ->
 - Update `docs/STYLE.md`: add a `#### Start menu applet` section matching the
   existing meticulous format.
 - Update `README.md`: add custom applets to the feature bullet list.
-- Write `STARTMENU_TIER1_DONE` marker into `startmenu-progress.md` when Phase 1 complete.
+- Mark Phase 1 complete once P1.1-P1.15 are verified.
 
 ### Phase 1 keyboard navigation (must work)
 - Escape: clear search -> back to Pinned -> close menu.
@@ -296,29 +296,5 @@ Built on top of Phase 1's structure. Add into existing pages/components.
   `appLaunchCounts`.
 - Extend `ConfigGeneral.qml` with new toggles.
 - Update `docs/STYLE.md` start-menu section with Phase 2 features.
-- Write `STARTMENU_TIER2_DONE` marker into `startmenu-progress.md` when Phase 2 complete.
+- Mark Phase 2 complete once P2.1-P2.6 are verified.
 
----
-
-## Loop usage
-
-This plan is executed by an OpenCode Loop job. Working state lives in
-`startmenu-progress.md` (root); the per-turn prompt is `startmenu-loop-prompt.md` (root).
-
-Start Phase 1 loop:
-
-```text
-/loop 0s --name startmenu-tier1 --ask-never --safe --no-overlap --batch 5 \
-  --compact-every 15 --checkpoint-only --max-runtime 4h \
-  --stop-file STOP_LOOP_SM --progress-file startmenu-progress.md \
-  --until STARTMENU_TIER1_DONE --prompt-file startmenu-loop-prompt.md
-```
-
-When Phase 1 is done (marker written), start Phase 2 by moving the Phase 2
-backlog items in `startmenu-progress.md` into a new "Active TODO — Phase 2"
-section (with `STARTMENU_TIER2_PENDING` marker at the end) and running the same
-command with `--name startmenu-tier2 --until STARTMENU_TIER2_DONE`.
-
-Controls: `STOP_LOOP_SM` file in repo root halts; `/loop-status`,
-`/loop-pause startmenu-tier1`, `/loop-resume startmenu-tier1`,
-`/loop-stop startmenu-tier1`.

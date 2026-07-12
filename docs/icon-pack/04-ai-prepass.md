@@ -149,7 +149,7 @@ The prepass produces:
 
 ## How This Feeds Into the Main Selection Loop
 
-The main loop (`icons_v2/loop-prompt.md`, to be created later) will:
+The main selection loop (prompt to be created later) will:
 
 1. For each icon group (from `03-icon-groups.md`), check if Eleven has all icons in the group
 2. If yes → use Eleven (skip comparison unless flagged as problematic in prepass)

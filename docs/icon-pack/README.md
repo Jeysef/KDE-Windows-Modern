@@ -78,5 +78,5 @@ Phase 6: DARK MODE
 2. **Normalize** — convert to context-based layout, deduplicate, materialize inheritance
 3. **Generate inventory** — `00-inventory.md`
 4. **Run AI prepass** — `04-ai-prepass.md`
-5. **Create loop prompt** — `loop-prompt.md`
+5. **Create autonomous loop prompt** for the selection phase
 6. **Begin autonomous selection loop**

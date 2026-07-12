@@ -55,8 +55,7 @@ look-and-feel package.
 | Close hover | `#C42B1C` | Close button hover (Win11 red) |
 
 > Color values are sourced from the WinUI 3 (microsoft-ui-xaml)
-> theme resource dictionaries. See `docs/colors.md` for full RGB
-> mappings including the plasma `colors` file.
+> theme resource dictionaries.
 
 ---
 
@@ -117,7 +116,7 @@ The `contents/layout.js` creates:
   4. **Right expanding spacer** — `org.kde.plasma.panelspacer`. Separates
      the centered Start + tasks group from the system tray on the far
      right.
-  5. **System tray** — `org.kde.plasma.systemtray`
+  5. **System tray** — `org.kde.windowsmodern.systemtray`
   6. **Digital clock** — `org.kde.plasma.digitalclock` pinned to
       Segoe UI Regular 10pt, with date stacked below the time, no seconds,
       and `use24hFormat=1` so it follows the user's locale. The fixed
@@ -170,7 +169,7 @@ A Win11-style start menu ported from the reference plasmoid
 plus independent pages (`PinnedPage.qml`, `AllAppsPage.qml`, `SearchPage.qml`)
 and shared grid components (see file tree below).
 
-**Phase 1 (current):**
+**Phase 1 (complete):**
 - `PlasmaCore.Dialog` with `Floating` location, positioned relative to the
   panel button via `parent.mapToGlobal`.
 - Search field with rounded corners (`radius: smallSpacing*3`) and subtle
@@ -187,10 +186,25 @@ and shared grid components (see file tree below).
 - Config UI: icon picker, icon sizes, display position, right-column
   visibility, all-apps sort mode.
 
+**Phase 2 (pending):** pinned folders, all-apps folders, launch-frequency
+ tracking, smart context labels, and a `/`-prefix command palette.
+ See `docs/STARTMENU_PLAN.md` for the full plan.
+
 **Imports:** Modern Qt6 style (no version numbers except
 `org.kde.plasma.private.kicker 0.1` and `org.kde.kitemmodels 1.0`).
 `KPlugin.Id`: `org.kde.windowsmodern.startmenu`, License `GPL-3.0-or-later`,
 Author `Jeysef`.
+
+#### System Tray applet (`plasma/applets/org.kde.windowsmodern.systemtray/`)
+
+A C++ fork of the upstream Plasma system tray, rebranded as
+`org.kde.windowsmodern.systemtray` and restyled with Windows 11 visuals.
+It is a full `Plasma::Containment`, so child applets (network, volume,
+battery, clipboard, notifications, etc.) appear and disappear
+automatically. The QML UI is embedded in the compiled `.so`; a separate
+KPackage must not be installed (it causes the dark-rectangle popup bug).
+See `docs/SYSTEMTRAY_ARCHITECTURE.md` and
+`plasma/applets/org.kde.windowsmodern.systemtray/BUILD.md`.
 
 #### Popups / tooltips
 
@@ -343,7 +357,7 @@ Rewritten with minimal 1px border elements:
 
 ### Kvantum Qt Style
 
-Location: `Kvantum/Windows-modern-{dark,light}/`
+Location: `Kvantum/Windows-modern-{dark,light,lightDark}/`
 
 SVG-based Qt widget theme. Based on the **Fluent** Kvantum theme by
 Vince Liuice (itself derived from KvAdapta by Tsu Jan), with colors
@@ -486,8 +500,10 @@ clock, and show-desktop sliver.
 
 Location: `icons/windows-modern/` (gitignored — ~145MB)
 
-Win11 icon theme by yeyushengfan258 (based on Yaru), restructured
-to a clean freedesktop layout: `<size>/<context>/` fixed tiers
+Curated Windows-11-style icon theme assembled from multiple upstream
+ packs (Eleven, Fluent, Cobalt, Windows-Eleven, Win11, We10X, Fluentwin,
+ Windows-Beuty), restructured to a clean freedesktop layout:
+ `<size>/<context>/` fixed tiers
 (8, 16, 22, 24, 32, 48, 64 + @2x where genuine HiDPI art exists),
 `scalable/<context>/` (16-256px), and `symbolic/<context>/`
 (8-512px monochrome). The original dual-layout duplication
@@ -519,18 +535,56 @@ A custom Windows-logo start menu icon is shipped as
 
 ### Install
 
+Interactive menu (recommended for first install):
+
 ```sh
 ./install.sh
+```
+
+Install everything non-interactively:
+
+```sh
+./install.sh all
+```
+
+Install individual components:
+
+```sh
+./install.sh themes      # Aurorae, colors, Kvantum, Plasma themes, wallpapers
+./install.sh icons       # Icon pack
+./install.sh lookfeel    # Global themes
+./install.sh layout      # Panel layout template
+./install.sh showdesk    # Show Desktop applet
+./install.sh startmenu   # Start Menu applet
+./install.sh systray     # System Tray applet (C++ — see below)
+./install.sh applets     # All three applets
 ```
 
 Copies all themes to `~/.local/share/` (user) or `/usr/share/` (root),
 then automatically sets `BorderSize=Tiny` in kwinrc and reconfigures
 KWin so window decorations have no extra padding.
 
+### System Tray
+
+The System Tray applet is a compiled C++ Plasma::Containment. Install it
+with:
+
+```sh
+./install.sh systray
+```
+
+This builds the `.so`, removes any conflicting KPackage, prunes stale
+local copies, and restarts `plasmashell`. Build dependencies are listed
+in `plasma/applets/org.kde.windowsmodern.systemtray/BUILD.md`.
+
 ### Uninstall
 
 ```sh
-./uninstall.sh
+./uninstall.sh all       # Remove everything
+./uninstall.sh themes    # Remove theme components
+./uninstall.sh icons     # Remove icon pack
+./uninstall.sh systray   # Remove system tray plugin
+# ... etc.
 ```
 
 Removes theme directories and resets `BorderSize` to `Normal`.
@@ -549,9 +603,10 @@ windows_modern2/
 │   └── WindowsModernLight.colors
 ├── Kvantum/
 │   ├── Windows-modern-dark/
-│   └── Windows-modern-light/
+│   ├── Windows-modern-light/
+│   └── Windows-modern-lightDark/
 ├── icons/
-│   └── windows-modern/                   # Win11 icon theme (gitignored)
+│   └── windows-modern/                   # Curated Win11 icon theme (gitignored)
 ├── plasma/
 │   ├── applets/
 │   │   ├── org.kde.windowsmodern.showdesktop/     # Win11 thin-show-desktop sliver
@@ -563,8 +618,8 @@ windows_modern2/
 │   ├── layout-templates/
 │   │   └── org.kde.windowsmodern.panel/ # Win11 centered taskbar layout
 │   └── look-and-feel/
-│       ├── com.github.yeyushengfan258.Windows-modern-dark/
-│       └── com.github.yeyushengfan258.Windows-modern-light/
+│       ├── org.kde.windowsmodern.dark/  # Dark global theme
+│       └── org.kde.windowsmodern.light/ # Light global theme
 ├── wallpaper/
 ├── docs/
 │   └── STYLE.md                         # This file
@@ -582,7 +637,22 @@ windows_modern2/
 - Win11 color values verified from
   [microsoft-ui-xaml](https://github.com/microsoft/microsoft-ui-xaml)
   theme resources.
-- Window decoration, popup SVGs, and integration by Jeysef.
+- Kvantum theme based on [Fluent-kde](https://github.com/vinceliuice/Fluent-kde)
+  by vinceliuice.
+- **[mjkim0727](https://github.com/mjkim0727/Eleven-icon-theme)** —
+  **Eleven** icon pack.
+- **[vinceliuice](https://github.com/vinceliuice/Fluent-icon-theme)** —
+  **Fluent** icon pack.
+- **[Eisteed](https://github.com/Eisteed/menu-11-next)** —
+  **Menu11 - Next** start menu plasmoid, used as a reference for the
+  Windows Modern Start Menu (forked from
+  [adhec/OnzeMenuKDE](https://github.com/adhec/OnzeMenuKDE)).
+- **[Zren / Chris Holland](https://github.com/Zren)** — upstream Show
+  Desktop applet (`win7showdesktop`).
+- Window decoration, popup SVGs, icon curation, applets, and integration
+  by Jeysef.
+- Additional icon pack sources are credited in
+  `icons/windows-modern/CREDITS`.
 
 ## License
 
