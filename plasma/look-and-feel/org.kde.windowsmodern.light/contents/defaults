@@ -18,3 +18,6 @@ theme=__aurorae__svg__windows-modern-light-aurorae
 
 [kcminputrc][Mouse]
 cursorTheme=breeze_cursors
+
+[ksplashrc][KSplash]
+Theme=none

@@ -24,3 +24,6 @@ theme=__aurorae__svg__windows-modern-dark-aurorae
 
 [plasmarc][Theme]
 name=Windows-modern-dark
+
+[ksplashrc][KSplash]
+Theme=none
