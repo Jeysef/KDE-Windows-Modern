@@ -256,7 +256,8 @@ systemctl --user restart plasma-plasmashell.service
 - **[mjkim0727](https://github.com/mjkim0727/Eleven-icon-theme)** — **Eleven** icon pack (Windows 11 style icons).
 - **[vinceliuice](https://github.com/vinceliuice/Fluent-icon-theme)** — **Fluent** icon pack.
 - **[Eisteed](https://github.com/Eisteed/menu-11-next)** — **Menu11 - Next** start menu plasmoid (forked from [adhec/OnzeMenuKDE](https://github.com/adhec/OnzeMenuKDE)), used as a reference for the Windows Modern Start Menu.
-- Additional icon pack sources are credited in `icons/windows-modern/CREDITS`.
+- Additional icon pack sources are credited in
+  [`ATTRIBUTION.md`](ATTRIBUTION.md).
 
 ---
 

@@ -654,7 +654,7 @@ windows_modern2/
 - Window decoration, popup SVGs, icon curation, applets, and integration
   by Jeysef.
 - Additional icon pack sources are credited in
-  `icons/windows-modern/CREDITS`.
+  [`ATTRIBUTION.md`](ATTRIBUTION.md).
 
 ## License
 
