@@ -19,7 +19,7 @@ echo ""
 echo " Themes:"
 [ -d "$SCRIPT_DIR/aurorae/windows-modern-dark-aurorae" ] && pass "Aurorae dark" || fail "Aurorae dark missing"
 [ -f "$SCRIPT_DIR/color-schemes/WindowsModernDark.colors" ] && pass "Color scheme dark" || fail "Color scheme dark missing"
-[ -d "$SCRIPT_DIR/Kvantum/Windows-modern-light" ] && pass "Kvantum light" || fail "Kvantum light missing"
+[ -d "$SCRIPT_DIR/Kvantum/Windows-modern" ] && pass "Kvantum theme" || fail "Kvantum theme missing"
 [ -d "$SCRIPT_DIR/plasma/desktoptheme/Windows-modern-dark" ] && pass "Plasma theme dark" || fail "Plasma theme dark missing"
 
 # Look-and-feel

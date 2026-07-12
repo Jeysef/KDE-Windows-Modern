@@ -357,9 +357,13 @@ Rewritten with minimal 1px border elements:
 
 ### Kvantum Qt Style
 
-Location: `Kvantum/Windows-modern-{dark,light,lightDark}/`
+Location: `Kvantum/Windows-modern/`
 
-SVG-based Qt widget theme. Based on the **Fluent** Kvantum theme by
+SVG-based Qt widget theme. The directory contains the base light theme
+(`Windows-modern.kvconfig` / `.svg`) and its dark variant
+(`Windows-modernDark.kvconfig` / `.svg`). KDE switches between them
+automatically by using the `kvantum` and `kvantum-dark` widget styles.
+Based on the **Fluent** Kvantum theme by
 Vince Liuice (itself derived from KvAdapta by Tsu Jan), with colors
 remapped to authentic Win11 values. The Fluent base was chosen over
 the previous KvAdapta/Materia base because it already ships Win11
@@ -602,9 +606,7 @@ windows_modern2/
 │   ├── WindowsModernDark.colors
 │   └── WindowsModernLight.colors
 ├── Kvantum/
-│   ├── Windows-modern-dark/
-│   ├── Windows-modern-light/
-│   └── Windows-modern-lightDark/
+│   └── Windows-modern/                   # Kvantum Qt style (light + dark variants)
 ├── icons/
 │   └── windows-modern/                   # Curated Win11 icon theme (gitignored)
 ├── plasma/

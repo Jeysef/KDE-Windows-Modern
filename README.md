@@ -18,7 +18,7 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 | Component | Path | Description |
 |-----------|------|-------------|
 | **Aurorae window decorations** | `aurorae/` | Dark and light title bars with Win11-style caption buttons. |
-| **Kvantum widget styles** | `Kvantum/` | `Windows-modern-dark`, `Windows-modern-light`, and `Windows-modern-lightDark`. |
+| **Kvantum widget style** | `Kvantum/` | `Windows-modern` — ships both light and dark variants; KDE switches between them via `kvantum`/`kvantum-dark`. |
 | **Plasma color schemes** | `color-schemes/` | `WindowsModernDark.colors`, `WindowsModernLight.colors`. |
 | **Plasma desktop themes** | `plasma/desktoptheme/` | Full SVG theme sets for panels, widgets, tooltips, dialogs, switches, and tasks. |
 | **Global themes** | `plasma/look-and-feel/` | `org.kde.windowsmodern.dark` and `org.kde.windowsmodern.light`. |
