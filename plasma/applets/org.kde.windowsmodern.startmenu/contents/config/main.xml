@@ -76,5 +76,9 @@
       <default>home,documents,pictures,music,downloads,recent,thispc,update,terminal,run</default>
     </entry>
 
+    <entry name="menuTranslucency" type="Int">
+      <default>0</default>
+    </entry>
+
   </group>
 </kcfg>

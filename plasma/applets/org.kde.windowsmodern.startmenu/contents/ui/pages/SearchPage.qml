@@ -17,6 +17,7 @@ import org.kde.milou as Milou
 
 import "../components"
 import "../code/tools.js" as Tools
+import "../code/theme.js" as Theme
 
 Item {
     id: searchPage
@@ -122,14 +123,14 @@ Item {
                        : (pillHover.containsMouse
                           ? Qt.rgba(Kirigami.Theme.textColor.r,
                                     Kirigami.Theme.textColor.g,
-                                    Kirigami.Theme.textColor.b, 0.12)
+                                    Kirigami.Theme.textColor.b, Theme.buttonFlatHoverOpacity)
                           : Qt.rgba(Kirigami.Theme.textColor.r,
                                     Kirigami.Theme.textColor.g,
-                                    Kirigami.Theme.textColor.b, 0.06))
+                                    Kirigami.Theme.textColor.b, Theme.buttonFlatBackgroundOpacity))
                 border.width: active ? 0 : 1
                 border.color: Qt.rgba(Kirigami.Theme.textColor.r,
                                        Kirigami.Theme.textColor.g,
-                                       Kirigami.Theme.textColor.b, 0.15)
+                                       Kirigami.Theme.textColor.b, Theme.buttonBorderOpacity)
                 Behavior on color { ColorAnimation { duration: 90 } }
 
                 Row {
@@ -211,7 +212,7 @@ Item {
                     Layout.preferredWidth: Kirigami.Units.iconSizes.small
                     Layout.preferredHeight: Kirigami.Units.iconSizes.small
                     source: searchPage.isCollapsed(section) ? "arrow-right" : "arrow-down"
-                    opacity: 0.6
+                    opacity: Theme.dimmedIconOpacity
                 }
 
                 PlasmaComponents3.Label {
@@ -226,7 +227,7 @@ Item {
                     Layout.preferredHeight: 1
                     color: Qt.rgba(Kirigami.Theme.textColor.r,
                                    Kirigami.Theme.textColor.g,
-                                   Kirigami.Theme.textColor.b, 0.08)
+                                   Kirigami.Theme.textColor.b, Theme.headerSeparatorOpacity)
                 }
             }
 
@@ -291,7 +292,7 @@ Item {
 
                 PlasmaComponents3.Label {
                     visible: text.length > 0
-                    opacity: 0.6
+                    opacity: Theme.dimmedTextOpacity
                     elide: Text.ElideRight
                     maximumLineCount: 1
                     color: Kirigami.Theme.textColor

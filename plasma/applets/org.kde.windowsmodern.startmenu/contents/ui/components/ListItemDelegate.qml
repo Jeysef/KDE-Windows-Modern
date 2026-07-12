@@ -18,6 +18,7 @@ import org.kde.plasma.components as PlasmaComponents3
 import org.kde.kirigami as Kirigami
 
 import "../code/tools.js" as Tools
+import "../code/theme.js" as Theme
 
 Item {
     id: item
@@ -55,10 +56,10 @@ Item {
         radius: Kirigami.Units.smallSpacing
         color: Kirigami.Theme.hoverColor
         opacity: {
-            if (item._dragging) return 0.0;
-            if (mouseArea.containsMouse) return 1.0;
-            if (item.ListView.isCurrentItem) return 0.5;
-            return 0.0;
+            if (item._dragging) return Theme.opacityHidden;
+            if (mouseArea.containsMouse) return Theme.opacityFull;
+            if (item.ListView.isCurrentItem) return Theme.listItemCurrentOpacity;
+            return Theme.opacityHidden;
         }
         Behavior on opacity { NumberAnimation { duration: 90 } }
     }
@@ -109,7 +110,7 @@ Item {
                 origin.y: contentWrapper.height / 2
             }
         ]
-        opacity: item._dragging ? 0.85 : 1.0
+        opacity: item._dragging ? Theme.draggingOpacity : Theme.opacityFull
 
         Behavior on opacity { NumberAnimation { duration: 90 } }
 

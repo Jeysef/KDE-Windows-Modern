@@ -13,6 +13,8 @@ import QtQuick.Layouts
 import org.kde.plasma.components as PlasmaComponents3
 import org.kde.kirigami as Kirigami
 
+import "../code/theme.js" as Theme
+
 Item {
     id: contextMenu
 
@@ -43,7 +45,7 @@ Item {
         border.width: 1
         border.color: Qt.rgba(Kirigami.Theme.textColor.r,
                                Kirigami.Theme.textColor.g,
-                               Kirigami.Theme.textColor.b, 0.2)
+                               Kirigami.Theme.textColor.b, Theme.popupBorderOpacity)
 
         Column {
             id: menuColumn
@@ -65,7 +67,7 @@ Item {
                         visible: modelData.type !== "separator"
                         radius: Kirigami.Units.smallSpacing / 2
                         color: rowHover.containsMouse ? Kirigami.Theme.hoverColor : "transparent"
-                        opacity: rowHover.containsMouse ? 1.0 : 0.0
+                        opacity: rowHover.containsMouse ? Theme.opacityFull : Theme.opacityHidden
                         Behavior on opacity { NumberAnimation { duration: 80 } }
                     }
 
@@ -74,7 +76,7 @@ Item {
                         visible: modelData.type === "separator"
                         color: Qt.rgba(Kirigami.Theme.textColor.r,
                                        Kirigami.Theme.textColor.g,
-                                       Kirigami.Theme.textColor.b, 0.15)
+                                       Kirigami.Theme.textColor.b, Theme.separatorOpacity)
                     }
 
                     RowLayout {

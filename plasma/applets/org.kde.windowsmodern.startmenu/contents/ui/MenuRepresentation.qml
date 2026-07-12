@@ -35,6 +35,7 @@ import org.kde.coreaddons as KCoreAddons
 import "components"
 import "pages"
 import "code/tools.js" as Tools
+import "code/theme.js" as Theme
 
 Item {
     id: main
@@ -52,6 +53,12 @@ Item {
         flags: Qt.WindowStaysOnTopHint
         location: PlasmaCore.Types.Floating
         hideOnWindowDeactivate: true
+
+        // Opaque mode forces the solid dialog background variant; otherwise
+        // let the desktop theme choose between default/translucent.
+        backgroundHints: Plasmoid.configuration.menuTranslucency === Theme.menuTranslucencyOpaque
+                         ? PlasmaCore.Dialog.SolidBackground
+                         : PlasmaCore.Dialog.StandardBackground
 
         property bool searching: bottomBarContent.searchText !== ""
 
@@ -277,7 +284,7 @@ Item {
                     Layout.preferredWidth: 1
                     Layout.fillHeight: true
                     color: Kirigami.Theme.textColor
-                    opacity: 0.12
+                    opacity: Theme.separatorOpacity
                 }
 
                 // ── Right column: avatar + system locations ────────────────
@@ -327,7 +334,7 @@ Item {
                             border.width: 1
                             border.color: Qt.rgba(Kirigami.Theme.textColor.r,
                                                    Kirigami.Theme.textColor.g,
-                                                   Kirigami.Theme.textColor.b, 0.15)
+                                                   Kirigami.Theme.textColor.b, Theme.buttonBorderOpacity)
                         }
 
                         MouseArea {
@@ -375,7 +382,7 @@ Item {
                     width: parent.width
                     height: 1
                     color: Kirigami.Theme.textColor
-                    opacity: 0.15
+                    opacity: Theme.separatorOpacity
                 }
 
                 BottomBar {

@@ -12,6 +12,8 @@ import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
 
+import "../code/theme.js" as Theme
+
 Rectangle {
     id: item
 
@@ -19,17 +21,29 @@ Rectangle {
     implicitHeight: buttonHeight
     implicitWidth: row.implicitWidth + (Kirigami.Units.mediumSpacing * 2)
 
-    border.width: mouseItem.containsMouse || focus || activeFocus ? 2 : 1
+    border.width: 1
     border.color: Qt.rgba(Kirigami.Theme.textColor.r,
                            Kirigami.Theme.textColor.g,
-                           Kirigami.Theme.textColor.b, 0.5)
+                           Kirigami.Theme.textColor.b, Theme.buttonBorderOpacity)
 
     radius: Kirigami.Units.smallSpacing
-    color: mouseItem.containsMouse
-           ? Qt.rgba(Kirigami.Theme.textColor.r,
-                     Kirigami.Theme.textColor.g,
-                     Kirigami.Theme.textColor.b, 0.15)
-           : Kirigami.Theme.backgroundColor
+    color: {
+        var hover = Qt.rgba(Kirigami.Theme.textColor.r,
+                            Kirigami.Theme.textColor.g,
+                            Kirigami.Theme.textColor.b, Theme.buttonHoverOpacity);
+        if (flat) {
+            return mouseItem.containsMouse
+                   ? Qt.rgba(Kirigami.Theme.textColor.r,
+                              Kirigami.Theme.textColor.g,
+                              Kirigami.Theme.textColor.b, Theme.buttonFlatHoverOpacity)
+                   : Qt.rgba(Kirigami.Theme.textColor.r,
+                              Kirigami.Theme.textColor.g,
+                              Kirigami.Theme.textColor.b, Theme.buttonFlatBackgroundOpacity);
+        }
+        return mouseItem.containsMouse ? hover : Kirigami.Theme.backgroundColor;
+    }
+
+    Behavior on color { ColorAnimation { duration: 90 } }
 
     smooth: true
     focus: true

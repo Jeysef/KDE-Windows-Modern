@@ -14,6 +14,8 @@ import org.kde.plasma.plasmoid
 import org.kde.plasma.components as PlasmaComponents3
 import org.kde.kirigami as Kirigami
 
+import "../code/theme.js" as Theme
+
 Item {
     id: column
 
@@ -76,7 +78,7 @@ Item {
                     anchors.margins: Kirigami.Units.smallSpacing / 2
                     radius: Kirigami.Units.smallSpacing
                     color: Kirigami.Theme.hoverColor
-                    opacity: locMouse.containsMouse ? 1.0 : 0.0
+                    opacity: locMouse.containsMouse ? Theme.opacityFull : Theme.opacityHidden
                     Behavior on opacity { NumberAnimation { duration: 90 } }
                 }
 

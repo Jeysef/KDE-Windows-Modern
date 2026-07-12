@@ -24,6 +24,7 @@ KCM.SimpleKCM {
     property alias cfg_displayPosition: displayPosition.currentIndex
     property alias cfg_showRightColumn: showRightColumn.checked
     property alias cfg_allAppsSortMode: allAppsSortMode.currentIndex
+    property alias cfg_menuTranslucency: menuTranslucency.currentIndex
 
     Kirigami.FormLayout {
         anchors.left: parent.left
@@ -121,6 +122,17 @@ KCM.SimpleKCM {
                 i18n("Newest first"),
                 i18n("Oldest first"),
                 i18n("Category")
+            ]
+        }
+
+        // ── Menu translucency ──────────────────────────────────────────
+        ComboBox {
+            Kirigami.FormData.label: i18n("Menu translucency")
+            id: menuTranslucency
+            model: [
+                i18n("Follow desktop theme"),
+                i18n("Translucent"),
+                i18n("Opaque")
             ]
         }
     }

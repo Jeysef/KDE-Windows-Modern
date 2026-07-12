@@ -15,6 +15,8 @@ import org.kde.plasma.components as PlasmaComponents3
 import org.kde.plasma.private.sessions
 import org.kde.kirigami as Kirigami
 
+import "../code/theme.js" as Theme
+
 Item {
     id: root
 
@@ -55,7 +57,7 @@ Item {
         border.width: 1
         border.color: Qt.rgba(Kirigami.Theme.textColor.r,
                                Kirigami.Theme.textColor.g,
-                               Kirigami.Theme.textColor.b, 0.2)
+                               Kirigami.Theme.textColor.b, Theme.popupBorderOpacity)
 
         // Soft shadow effect
         layer.enabled: true
@@ -114,7 +116,7 @@ Item {
                 height: 1
                 color: Qt.rgba(Kirigami.Theme.textColor.r,
                                Kirigami.Theme.textColor.g,
-                               Kirigami.Theme.textColor.b, 0.15)
+                               Kirigami.Theme.textColor.b, Theme.separatorOpacity)
             }
 
             PowerOption {

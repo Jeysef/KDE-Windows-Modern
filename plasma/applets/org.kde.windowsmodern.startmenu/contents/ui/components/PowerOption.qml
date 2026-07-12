@@ -12,6 +12,8 @@ import QtQuick.Layouts
 import org.kde.plasma.components as PlasmaComponents3
 import org.kde.kirigami as Kirigami
 
+import "../code/theme.js" as Theme
+
 Item {
     id: option
 
@@ -31,7 +33,7 @@ Item {
         color: option.optionEnabled && hoverArea.containsMouse
                ? Kirigami.Theme.hoverColor
                : "transparent"
-        opacity: option.optionEnabled && hoverArea.containsMouse ? 1.0 : 0.0
+        opacity: option.optionEnabled && hoverArea.containsMouse ? Theme.opacityFull : Theme.opacityHidden
         Behavior on opacity { NumberAnimation { duration: 80 } }
     }
 
@@ -46,7 +48,7 @@ Item {
             Layout.preferredWidth: Kirigami.Units.iconSizes.smallMedium
             Layout.preferredHeight: Kirigami.Units.iconSizes.smallMedium
             source: option.iconSource
-            opacity: option.optionEnabled ? 1.0 : 0.4
+            opacity: option.optionEnabled ? Theme.opacityFull : Theme.disabledIconOpacity
         }
 
         PlasmaComponents3.Label {

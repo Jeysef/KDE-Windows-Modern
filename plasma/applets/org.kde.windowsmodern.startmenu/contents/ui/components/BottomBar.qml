@@ -13,6 +13,8 @@ import QtQuick.Layouts
 import org.kde.plasma.components as PlasmaComponents3
 import org.kde.kirigami as Kirigami
 
+import "../code/theme.js" as Theme
+
 RowLayout {
     id: bottomBar
 
@@ -60,7 +62,7 @@ RowLayout {
             border.width: 1
             border.color: Qt.rgba(Kirigami.Theme.textColor.r,
                                    Kirigami.Theme.textColor.g,
-                                   Kirigami.Theme.textColor.b, 0.12)
+                                   Kirigami.Theme.textColor.b, Theme.fieldBorderOpacity)
             Behavior on border.color { ColorAnimation { duration: 100 } }
         }
 
@@ -115,14 +117,14 @@ RowLayout {
             color: splitMouse.containsMouse
                    ? Qt.rgba(Kirigami.Theme.textColor.r,
                              Kirigami.Theme.textColor.g,
-                             Kirigami.Theme.textColor.b, 0.12)
+                             Kirigami.Theme.textColor.b, Theme.buttonFlatHoverOpacity)
                    : Qt.rgba(Kirigami.Theme.textColor.r,
                              Kirigami.Theme.textColor.g,
-                             Kirigami.Theme.textColor.b, 0.06)
+                             Kirigami.Theme.textColor.b, Theme.buttonFlatBackgroundOpacity)
             border.width: 1
             border.color: Qt.rgba(Kirigami.Theme.textColor.r,
                                    Kirigami.Theme.textColor.g,
-                                   Kirigami.Theme.textColor.b, 0.15)
+                                   Kirigami.Theme.textColor.b, Theme.buttonBorderOpacity)
             Behavior on color { ColorAnimation { duration: 90 } }
         }
 
@@ -153,7 +155,7 @@ RowLayout {
                 height: shutdownSplit.height * 0.5
                 color: Qt.rgba(Kirigami.Theme.textColor.r,
                                Kirigami.Theme.textColor.g,
-                               Kirigami.Theme.textColor.b, 0.2)
+                               Kirigami.Theme.textColor.b, Theme.buttonDividerOpacity)
             }
 
             Kirigami.Icon {
@@ -161,7 +163,7 @@ RowLayout {
                 width: Kirigami.Units.iconSizes.small
                 height: width
                 source: "go-next"
-                opacity: 0.7
+                opacity: Theme.buttonChevronOpacity
             }
         }
 
