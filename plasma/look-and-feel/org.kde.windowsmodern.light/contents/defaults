@@ -10,6 +10,9 @@ Theme=windows-modern
 [plasmarc][Theme]
 name=Windows-modern-light
 
+[Wallpaper]
+Image=Windows-modern
+
 [kwinrc][org.kde.kdecoration2]
 ButtonsOnLeft=XAI
 ButtonsOnRight=

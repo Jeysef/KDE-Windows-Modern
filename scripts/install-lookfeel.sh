@@ -36,6 +36,7 @@ if [ ! -t 0 ]; then
     info "Non-interactive install. Theme files are in place."
     info "To apply: $APPLY_TOOL -a org.kde.windowsmodern.light --resetLayout"
     info "    or:  $APPLY_TOOL -a org.kde.windowsmodern.dark --resetLayout"
+    info "Then set the wallpaper:  bash $SRC_DIR/scripts/set-wallpaper.sh"
     exit 0
 fi
 
@@ -87,6 +88,10 @@ case "$layout_choice" in
         exit 1
         ;;
 esac
+
+# Set the wallpaper — Plasma's look-and-feel apply does not set it.
+step "Wallpaper"
+bash "$SRC_DIR/scripts/set-wallpaper.sh" || true
 
 echo ""
 info "Done. If panels do not appear, run:"

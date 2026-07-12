@@ -19,6 +19,22 @@ used to create it and the licenses that apply to them.
 | Win7 Show Desktop | Zren / Chris Holland | <https://github.com/Zren/plasma-applet-win7showdesktop> | GPL-2.0+ (upstream KDE) | Show Desktop applet reference |
 | KDE Plasma System Tray | KDE e.V. | <https://invent.kde.org/plasma/plasma-workspace> | GPL-2.0+ | C++ system tray containment fork source |
 
+## Wallpapers
+
+The `wallpaper/Windows-modern/` package and SDDM `background.jpg` files use
+photographs sourced from Pexels. Both are licensed under the **Pexels License**:
+free to use, modify, and distribute; attribution is not strictly required but is
+included here as a courtesy.
+
+The wallpaper package uses Plasma 6's light/dark image mechanism: `contents/images/`
+holds the light image and `contents/images_dark/` holds the dark image. Plasma
+auto-switches between them based on the active color scheme.
+
+| Image | Photographer | Source | License | Usage |
+|-------|--------------|--------|---------|-------|
+| Dark image | Mahmoud Ramadan | <https://www.pexels.com/photo/31622984/> | Pexels License | `wallpaper/Windows-modern/contents/images_dark/` and `sddm-dark/Windows-modern-dark/background.jpg` |
+| Light image | Ace Visuals Co | <https://www.pexels.com/photo/19931186/> | Pexels License | `wallpaper/Windows-modern/contents/images/` and `sddm-light/Windows-modern-light/background.jpg` |
+
 ## Icon Pack Sources
 
 The `icons/windows-modern/` icon theme is a curated derivative work.
