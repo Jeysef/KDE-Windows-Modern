@@ -214,7 +214,7 @@ color schemes that caused unreadable white popups on dark theme):
 
 | File | Purpose | Corners | Margin hints |
 |---|---|---|---|
-| `widgets/tooltip.svg` | Hover tooltips | 4px radius, 1px Fluent stroke | 8px |
+| `widgets/tooltip.svg` | Hover tooltips | 8px radius, 1px Fluent stroke | 8px |
 | `dialogs/background.svg` | Dialog/popup backgrounds | 7px | 8px |
 | `widgets/background.svg` | Applet/widget backgrounds | 7px | 8px |
 | `widgets/translucentbackground.svg` | Translucent applet popups | 7px | 8px |
@@ -228,8 +228,10 @@ to avoid the double-border artifact caused by an SVG `stroke`
 against the tooltip window edge. The fill matches the acrylic/popup
 spec for the default and translucent variants (`#2C2C2C` dark,
 `#F9F9F9` light) while solid fallbacks keep `#323130` dark and use
-`#F0F0F0` light. The soft outer drop shadow is reduced to 0.12 dark /
-0.10 light opacity for a diffuse Win11 elevation penumbra.
+`#F0F0F0` light. The soft outer drop shadow is 8px deep (matching the
+8px corner radius so the shadow curves around the rounded body rather
+than forming a square frame) at 0.16 dark / 0.14 light opacity for a
+Win11 elevation penumbra.
 
 #### Slider (`widgets/slider.svg` + Kvantum)
 
