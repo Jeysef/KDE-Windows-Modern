@@ -1,0 +1,27 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "hein@kde.org",
+                "Name": "Eike Hein"
+            },
+            {
+                "Email": "jeysef@users.noreply.github.com",
+                "Name": "Jeysef"
+            }
+        ],
+        "BugReportUrl": "https://github.com/anomalyco/windows_modern2/issues",
+        "Category": "Windows and Tasks",
+        "Description": "Windows 11-style icons-only task manager",
+        "EnabledByDefault": true,
+        "Icon": "preferences-system-windows",
+        "License": "GPL-2.0-or-later",
+        "Name": "Windows Modern Icon Tasks",
+        "Website": "https://userbase.kde.org/Plasma/Tasks"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-Provides": [
+        "org.kde.plasma.multitasking"
+    ],
+    "KPackageStructure": "Plasma/Applet"
+}

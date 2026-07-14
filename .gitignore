@@ -7,3 +7,6 @@ untracked/
 /~/
 plasma/applets/org.kde.windowsmodern.systemtray/build/
 /plasma/applets/org.kde.windowsmodern.systemtray/CMakeFiles/
+plasma/applets/org.kde.windowsmodern.icontasks/build/
+/plasma/applets/org.kde.windowsmodern.icontasks/CMakeFiles/
+/*.src.rpm

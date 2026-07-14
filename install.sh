@@ -49,7 +49,8 @@ menu() {
     echo -e "  ${BOLD}6${RESET})  Applets: Show Desktop"
     echo -e "  ${BOLD}7${RESET})  Applets: Start Menu"
     echo -e "  ${BOLD}8${RESET})  Applets: System Tray (C++ — requires compiler)"
-    echo -e "  ${BOLD}9${RESET})  All applets (6–8)"
+    echo -e "  ${BOLD}9${RESET})  Applets: Icon Tasks taskbar (C++ — requires compiler)"
+    echo -e "  ${BOLD}a${RESET})  All applets (6–9)"
     echo -e "  ${BOLD}0${RESET})  Quit"
     echo ""
     read -r -p "  Choice [1]: " choice
@@ -61,6 +62,7 @@ menu() {
             install_component layout
             install_component showdesk
             install_component startmenu; install_component systray
+            install_component icontasks
             post_install ;;
         2)  install_component themes ;;
         3)  install_component icons ;;
@@ -69,8 +71,10 @@ menu() {
         6)  install_component showdesk ;;
         7)  install_component startmenu ;;
         8)  install_component systray ;;
-        9)  install_component showdesk
-            install_component startmenu; install_component systray ;;
+        9)  install_component icontasks ;;
+        a|A) install_component showdesk
+            install_component startmenu; install_component systray
+            install_component icontasks ;;
         0)  echo "Nothing installed."; exit 0 ;;
         *)  err "Invalid choice."; exit 1 ;;
     esac
@@ -89,7 +93,8 @@ case "${1:-menu}" in
         echo "  showdesk    Show Desktop applet"
         echo "  startmenu   Start Menu applet"
         echo "  systray     System Tray (C++ — needs compiler)"
-        echo "  applets     All applets (showdesk, startmenu, systray)"
+        echo "  icontasks   Icon Tasks taskbar (C++ — needs compiler)"
+        echo "  applets     All applets (showdesk, startmenu, systray, icontasks)"
         echo "  all         Everything"
         echo ""
         exit 0
@@ -100,12 +105,14 @@ case "${1:-menu}" in
     applets)
         install_component showdesk
         install_component startmenu; install_component systray
+        install_component icontasks
         ;;
     all)
         install_component themes; install_component icons; install_component lookfeel
         install_component layout
         install_component showdesk
         install_component startmenu; install_component systray
+        install_component icontasks
         post_install
         ;;
     *)

@@ -70,7 +70,7 @@ function createWindowsModernPanel(screenId) {
     start.writeConfig("icon", "start-here");
 
     // 3. Icon-only task manager (the centered "taskbar").
-    var tasks = panel.addWidget("org.kde.plasma.icontasks");
+    var tasks = panel.addWidget("org.kde.windowsmodern.icontasks");
     tasks.currentConfigGroup = new Array("General");
     tasks.writeConfig("launchers", "");
     tasks.writeConfig("showOnlyCurrentScreen", "false");

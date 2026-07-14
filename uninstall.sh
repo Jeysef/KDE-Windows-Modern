@@ -110,15 +110,23 @@ uninstall_component() {
             rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.quicksettings"
             info "System Tray uninstalled. Restart plasmashell to complete."
             ;;
+        icontasks)
+            rm_path "$(detect_systray_so_dir)/org.kde.windowsmodern.icontasks.so"
+            rm_path "/usr/share/plasma/plasmoids/org.kde.windowsmodern.icontasks"
+            rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.icontasks"
+            rm_path "$HOME/.local/lib64/qt6/plugins/plasma/applets/org.kde.windowsmodern.icontasks.so"
+            rm_path "$HOME/.local/lib/qt6/plugins/plasma/applets/org.kde.windowsmodern.icontasks.so"
+            info "Icon Tasks uninstalled. Restart plasmashell to complete."
+            ;;
         all)
-            for c in themes icons lookfeel layout showdesk startmenu systray; do
+            for c in themes icons lookfeel layout showdesk startmenu systray icontasks; do
                 uninstall_component "$c"
             done
             reset_kwin_borders
             ;;
         *)
             err "Unknown component: $name"
-            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, all"
+            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, icontasks, all"
             exit 1
             ;;
     esac
@@ -136,6 +144,7 @@ case "${1:-}" in
         echo "  showdesk   Show Desktop applet"
         echo "  startmenu  Start Menu applet"
         echo "  systray    System Tray"
+        echo "  icontasks  Icon Tasks taskbar"
         exit 0
         ;;
     *)

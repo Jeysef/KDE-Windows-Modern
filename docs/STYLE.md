@@ -37,6 +37,7 @@ look-and-feel package.
 | Button hover bg | `#3F3F3F` | Hover states |
 | Button bg | `#2C2C2C` | Button backgrounds |
 | Close hover | `#C42B1C` | Close button hover (Win11 red) |
+| Close pressed | `#9E1B1B` | Close button pressed (Win11 dark red) |
 
 ### Light variant
 
@@ -53,6 +54,7 @@ look-and-feel package.
 | Button hover bg | `#E9E9E9` | Hover states |
 | Button bg | `#F3F3F3` | Button backgrounds |
 | Close hover | `#C42B1C` | Close button hover (Win11 red) |
+| Close pressed | `#9E1B1B` | Close button pressed (Win11 dark red) |
 
 > Color values are sourced from the WinUI 3 (microsoft-ui-xaml)
 > theme resource dictionaries.
@@ -205,6 +207,37 @@ automatically. The QML UI is embedded in the compiled `.so`; a separate
 KPackage must not be installed (it causes the dark-rectangle popup bug).
 See `docs/SYSTEMTRAY_ARCHITECTURE.md` and
 `plasma/applets/org.kde.windowsmodern.systemtray/BUILD.md`.
+
+#### Icon Tasks applet (`plasma/applets/org.kde.windowsmodern.icontasks/`)
+
+A C++ fork of the upstream `org.kde.plasma.taskmanager` (from
+plasma-desktop), rebranded as `org.kde.windowsmodern.icontasks` and
+restyled with Windows 11 tooltip visuals. The C++ backend is preserved
+unchanged (jump lists, places, recent docs, app categories, smart
+launcher badges, audio stream matching). The QML UI is forked from
+upstream with minimal Win11 refinements:
+
+- **Always icons-only** — `iconsOnly` hardcoded to `true`.
+- **Hidden subtext in thumbnail mode** — desktop/activity info ("On
+  Desktop 2") is hidden when a window thumbnail is visible (Win11
+  behavior — it's noise when the preview already shows the window).
+- **Subtle close button** — replaces the upstream `PlasmaComponents3.ToolButton`
+  with a minimal X icon pinned to the far right of the header row. Background is
+  transparent by default and turns Win11 red `#C42B1C` on hover; pressed is
+  `#9E1B1B`.
+- **Rounded thumbnail corners** — PipeWire thumbnail clipped to 8px
+  rounded corners via `OpacityMask` (Win11 thumbnails are rounded).
+
+No font is forced — the global `Kirigami.Theme.defaultFont` is used
+throughout, matching the rest of the desktop.
+
+The QML UI is embedded in the compiled `.so`; a separate KPackage must
+not be installed. Build and install with `./dev.sh` or
+`./install.sh icontasks`. See
+`plasma/applets/org.kde.windowsmodern.icontasks/BUILD.md`.
+
+The panel layout template and look-and-feel layout scripts use
+`org.kde.windowsmodern.icontasks` instead of `org.kde.plasma.icontasks`.
 
 #### Popups / tooltips
 
