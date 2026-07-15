@@ -10,3 +10,9 @@ plasma/applets/org.kde.windowsmodern.systemtray/build/
 plasma/applets/org.kde.windowsmodern.icontasks/build/
 /plasma/applets/org.kde.windowsmodern.icontasks/CMakeFiles/
 /*.src.rpm
+# Local tooling / personal notes
+/.yolo.json
+/.opencode/
+/add.txt
+# Release build artifacts
+/dist/

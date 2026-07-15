@@ -3,7 +3,7 @@
     "KPlugin": {
         "Authors": [
             {
-                "Email": "",
+                "Email": "jeysef@users.noreply.github.com",
                 "Name": "Jeysef"
             }
         ],
@@ -13,8 +13,8 @@
         "Id": "org.kde.windowsmodern.panel",
         "License": "GPL-3.0-or-later",
         "Name": "Windows Modern Panel",
-        "Version": "1.0",
-        "Website": "https://github.com/yeyushengfan258/Win11OS-kde"
+        "Version": "1.0.0",
+        "Website": "https://github.com/Jeysef/KDE-Windows-Modern"
     },
     "X-Plasma-ContainmentCategories": [
         "panel"
