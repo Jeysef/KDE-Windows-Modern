@@ -28,10 +28,16 @@ err()   { echo -e "${RED}==>${RESET} $*" >&2; }
 SHOTS=(
     "1|View-1.png|Dark desktop overview|Switch to the DARK global theme. Close all windows. Show the panel with taskbar icons and clock. Make sure the wallpaper is visible."
     "2|View-2.png|Light desktop overview|Switch to the LIGHT global theme. Close all windows. Same clean desktop shot showing the light panel and wallpaper."
-    "3|View-3.png|Start Menu (dark)|Switch to DARK. Open the Windows Modern Start Menu — Pinned apps tab. This shows the Win11-style start menu and panel together."
+    "3|View-3.png|Start Menu — Pinned apps (dark)|Switch to DARK. Open the Windows Modern Start Menu — Pinned apps tab. This shows the Win11-style start menu and panel together."
     "4|View-4.png|System Tray / Quick Settings (dark)|DARK theme. Click the system tray icon on the panel to open the quick settings flyout (network, Bluetooth, volume, brightness sliders). This showcases the custom C++ system tray."
     "5|View-5.png|Window decorations (dark)|DARK theme. Open 2-3 windows (e.g. Dolphin, System Settings, a text editor) cascaded so the Win11-style title bar caption buttons (minimize/maximize/close) are clearly visible."
     "6|View-6.png|Start Menu — All Apps (light)|LIGHT theme. Open the Start Menu and switch to the All Apps page. Shows the light variant of the menu."
+    "7|View-7.png|System Tray / Quick Settings (light)|LIGHT theme. Click the system tray icon on the panel to open the quick settings flyout (network, Bluetooth, volume, brightness sliders). Shows the light variant of the custom C++ system tray."
+    "8|View-8.png|Window decorations (light)|LIGHT theme. Open 2-3 windows (e.g. Dolphin, System Settings, a text editor) cascaded so the Win11-style title bar caption buttons (minimize/maximize/close) are clearly visible."
+    "9|View-9.png|Start Menu — Pinned apps (light)|LIGHT theme. Open the Windows Modern Start Menu — Pinned apps tab. Shows the light variant of the start menu and panel together."
+    "10|View-10.png|Start Menu + windows (dark)|DARK theme. Open 2-3 windows behind the menu, then open the Windows Modern Start Menu on top. This composite shows the panel, window decorations, wallpaper, and start menu all at once — the richest showcase shot."
+    "11|View-11.png|Start Menu + windows (light)|LIGHT theme. Open 2-3 windows behind the menu, then open the Windows Modern Start Menu on top. This composite shows the panel, window decorations, wallpaper, and start menu all at once — the richest showcase shot."
+    "12|View-12.png|Start Menu — All Apps (dark)|DARK theme. Open the Start Menu and switch to the All Apps page. Shows the dark variant of the menu."
 )
 
 list_shots() {
@@ -158,3 +164,4 @@ done
 echo ""
 echo -e "  ${BOLD}Next:${RESET} Review the images, then commit:"
 echo -e "  git add View-*.png && git commit -m 'docs: update README screenshots'"
+echo -e "  ./scripts/update-previews.sh   # regenerate global theme previews"

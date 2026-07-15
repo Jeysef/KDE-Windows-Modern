@@ -12,15 +12,16 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 |:---:|:---:|
 | ![Dark desktop](View-1.png) | ![Light desktop](View-2.png) |
 | *Desktop overview* | *Desktop overview* |
-| ![Start Menu](View-3.png) | ![Start Menu All Apps](View-6.png) |
-| *Start Menu — Pinned apps* | *Start Menu — All Apps* |
-
-| Feature showcase (dark) |
-|:---:|
-| ![System Tray](View-4.png) |
-| *Quick Settings flyout* |
-| ![Window decorations](View-5.png) |
-| *Window decorations* |
+| ![Start Menu](View-3.png) | ![Start Menu](View-9.png) |
+| *Start Menu — Pinned apps* | *Start Menu — Pinned apps* |
+| ![Start Menu All Apps](View-12.png) | ![Start Menu All Apps](View-6.png) |
+| *Start Menu — All Apps* | *Start Menu — All Apps* |
+| ![Start Menu + windows](View-10.png) | ![Start Menu + windows](View-11.png) |
+| *Start Menu with windows* | *Start Menu with windows* |
+| ![System Tray](View-4.png) | ![System Tray](View-7.png) |
+| *Quick Settings flyout* | *Quick Settings flyout* |
+| ![Window decorations](View-5.png) | ![Window decorations](View-8.png) |
+| *Window decorations* | *Window decorations* |
 
 ---
 
