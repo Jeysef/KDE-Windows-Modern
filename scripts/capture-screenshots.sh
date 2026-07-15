@@ -45,7 +45,18 @@ list_shots() {
     done
 }
 
-# Capture one shot: wait for user, then grab the screen.
+# Resolve the leftmost screen geometry via kscreen-doctor.
+# Prints "offset_x offset_y width height" for the screen with smallest x.
+leftmost_geometry() {
+    kscreen-doctor -o 2>/dev/null \
+        | sed 's/\x1b\[[0-9;]*m//g' \
+        | grep -oP 'Geometry:\s+\K\d+,\d+\s+\d+x\d+' \
+        | sort -t, -k1 -n \
+        | head -1 \
+        | awk '{split($1,a,","); split($2,b,"x"); print a[1], a[2], b[1], b[2]}'
+}
+
+# Capture one shot: wait for user, then grab the leftmost screen.
 capture_one() {
     local entry="$1"
     IFS='|' read -r num file title desc <<< "$entry"
@@ -63,6 +74,17 @@ capture_one() {
 
     local outpath="$SRC_DIR/$file"
 
+    # Resolve leftmost screen geometry (captured once, reused).
+    local geom ox oy gw gh
+    geom="$(leftmost_geometry)"
+    if [[ -z "$geom" ]]; then
+        warn "Could not parse screen geometry — capturing full desktop."
+        ox=0; oy=0; gw=0; gh=0
+    else
+        read -r ox oy gw gh <<< "$geom"
+        step "leftmost screen: ${gw}x${gh} @${ox},${oy}"
+    fi
+
     # 3-second countdown so you can hide the terminal / arrange windows.
     step "Capturing in 3..."
     sleep 1; echo -ne "  2...\r"; sleep 1; echo -ne "  1...\r"; sleep 1
@@ -73,6 +95,12 @@ capture_one() {
     if [[ ! -f "$outpath" ]]; then
         err "Capture failed — no file written."
         return 1
+    fi
+
+    # Crop to the leftmost screen only.
+    if [[ "$gw" -gt 0 ]] 2>/dev/null; then
+        convert "$outpath" -crop "${gw}x${gh}+${ox}+${oy}" +repage "$outpath"
+        step "cropped to left screen"
     fi
 
     # Resize to max 1920px wide, optimize PNG.
