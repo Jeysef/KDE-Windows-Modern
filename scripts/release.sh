@@ -66,6 +66,12 @@ if ! command -v gh &>/dev/null; then
 fi
 step "gh CLI present"
 
+if ! gh auth status >/dev/null 2>&1; then
+    err "Not logged into GitHub. Run: gh auth login"
+    exit 1
+fi
+step "gh authenticated"
+
 info "Running project health check..."
 if ! ./verify-all.sh >/dev/null 2>&1; then
     err "verify-all.sh failed. Fix issues before releasing."
@@ -86,19 +92,30 @@ if [[ "$DRY_RUN" -eq 1 ]]; then
     exit 0
 fi
 
-# ── 4. Tag ─────────────────────────────────────────────────────────
-info "Creating tag ${TAG}..."
-if git rev-parse "$TAG" >/dev/null 2>&1; then
-    err "Tag ${TAG} already exists."
-    exit 1
+# ── 4. Ensure GitHub repo + remote ─────────────────────────────────
+if ! git remote get-url origin >/dev/null 2>&1; then
+    info "No 'origin' remote — creating GitHub repo ${REPO_SLUG}..."
+    gh repo create "$REPO_SLUG" --public --source=. --remote=origin --push
+    step "repo created and main pushed"
+else
+    step "origin remote present"
 fi
-git tag -a "$TAG" -m "Windows Modern for KDE Plasma 6 — release ${TAG}"
-step "tagged ${TAG}"
 
-# ── 5. Push tag + create GitHub release ────────────────────────────
+# ── 5. Tag (reuse if already created locally) ──────────────────────
+if git rev-parse "$TAG" >/dev/null 2>&1; then
+    warn "Tag ${TAG} already exists locally — reusing."
+else
+    info "Creating tag ${TAG}..."
+    git tag -a "$TAG" -m "Windows Modern for KDE Plasma 6 — release ${TAG}"
+fi
+step "tag ${TAG} ready"
+
+# ── 6. Push tag ────────────────────────────────────────────────────
 info "Pushing tag..."
-git push origin "$TAG" || { err "Push failed. Is 'origin' configured and reachable?"; exit 1; }
+git push origin "$TAG"
+step "tag pushed"
 
+# ── 7. Create GitHub release (idempotent) ─────────────────────────
 info "Creating GitHub release..."
 NOTES="$(cat <<EOF
 ## Windows Modern for KDE Plasma 6 — ${TAG}
@@ -123,16 +140,20 @@ build instructions.
 EOF
 )"
 
-gh release create "$TAG" \
-    --repo "$REPO_SLUG" \
-    --title "Windows Modern ${TAG}" \
-    --notes "$NOTES" \
-    --generate-notes
+if gh release view "$TAG" --repo "$REPO_SLUG" >/dev/null 2>&1; then
+    warn "Release ${TAG} already exists on GitHub — uploading artifacts only."
+else
+    gh release create "$TAG" \
+        --repo "$REPO_SLUG" \
+        --title "Windows Modern ${TAG}" \
+        --notes "$NOTES"
+fi
 
-# Attach all built artifacts.
+# Attach all built artifacts (overwrite if re-running).
 info "Uploading artifacts..."
 gh release upload "$TAG" \
     --repo "$REPO_SLUG" \
+    --clobber \
     dist/*.zip
 
 echo ""
