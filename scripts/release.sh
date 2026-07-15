@@ -95,9 +95,21 @@ fi
 # ── 4. Ensure GitHub repo + remote ─────────────────────────────────
 if ! git remote get-url origin >/dev/null 2>&1; then
     info "No 'origin' remote — creating GitHub repo ${REPO_SLUG}..."
-    gh repo create "$REPO_SLUG" --public --source=. --remote=origin --push
-    step "repo created and main pushed"
+    # Create without --push so we can force HTTPS (SSH may auth as the
+    # wrong account if multiple SSH keys are present).
+    gh repo create "$REPO_SLUG" --public --source=. --remote=origin
+    git remote set-url origin "https://github.com/${REPO_SLUG}.git"
+    gh auth setup-git
+    git push -u origin main
+    step "repo created, HTTPS remote configured, main pushed"
 else
+    # Ensure HTTPS so gh token is used (not an SSH key from another account).
+    cur_url="$(git remote get-url origin)"
+    if [[ "$cur_url" == git@github.com:* ]]; then
+        warn "origin is SSH — switching to HTTPS for gh token auth..."
+        git remote set-url origin "https://github.com/${REPO_SLUG}.git"
+        gh auth setup-git
+    fi
     step "origin remote present"
 fi
 
