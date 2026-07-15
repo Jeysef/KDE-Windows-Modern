@@ -3,12 +3,13 @@
 This document describes how to publish a release of Windows Modern for KDE
 Plasma 6 to **GitHub** and the **KDE Store** (store.kde.org).
 
-The automated parts are handled by two scripts:
+The automated parts are handled by three scripts:
 
 | Script | Purpose |
 |--------|---------|
 | `scripts/package.sh` | Builds per-component ZIPs (for KDE Store) and a full bundle (for GitHub) into `dist/`. |
 | `scripts/release.sh` | Runs health checks, tags, pushes, and creates the GitHub release with artifacts attached. |
+| `scripts/capture-screenshots.sh` | Guided capture of README screenshots (dark/light, start menu, system tray, windows). |
 
 Everything below marked **[manual]** must be done by a human.
 
@@ -21,6 +22,7 @@ Before tagging, confirm:
 - `./verify-all.sh` passes.
 - All `metadata.json` / `metadata.desktop` share the same `Version`.
 - `Website` / `BugReportUrl` point at `https://github.com/Jeysef/KDE-Windows-Modern`.
+- Screenshots are up to date (run `./scripts/capture-screenshots.sh` if not).
 - Working tree is clean on `main`.
 
 These were set up for the initial release; keep them consistent on future ones.

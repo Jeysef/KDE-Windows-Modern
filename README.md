@@ -6,10 +6,16 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 
 > **Note:** This theme is designed for **KDE Plasma 6**. It will not work on Plasma 5.
 
-![View 1](View-1.png?raw=true)
-![View 2](View-2.png?raw=true)
-![View 3](View-3.png?raw=true)
-![View 4](View-4.png?raw=true)
+## Screenshots
+
+| Dark | Light |
+|:---:|:---:|
+| ![Dark desktop](View-1.png?raw=true) | ![Light desktop](View-2.png?raw=true) |
+| *Desktop overview* | *Desktop overview* |
+| ![Start Menu](View-3.png?raw=true) | ![Start Menu All Apps](View-6.png?raw=true) |
+| *Start Menu — Pinned apps* | *Start Menu — All Apps* |
+| ![System Tray](View-4.png?raw=true) | ![Window decorations](View-5.png?raw=true) |
+| *Quick Settings flyout* | *Window decorations* |
 
 ---
 
@@ -198,6 +204,14 @@ The script temporarily re-enables tracking, stages the icon pack, commits with y
 ### Building the System Tray locally
 
 See [`plasma/applets/org.kde.windowsmodern.systemtray/BUILD.md`](plasma/applets/org.kde.windowsmodern.systemtray/BUILD.md) for the full manual build steps and distribution notes.
+
+### Capturing README screenshots
+
+```bash
+./scripts/capture-screenshots.sh
+```
+
+Walks you through each desktop state (dark/light overview, start menu, system tray, window decorations) and captures optimized PNGs.
 
 ---
 
