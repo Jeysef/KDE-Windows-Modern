@@ -13,25 +13,46 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/scripts/install-lib.sh"
 
-# ── Install component by name ──────────────────────────────────────
+# ── Install component by name (non-fatal on failure) ────────────────
 install_component() {
     local name="$1"
     local script="$SCRIPT_DIR/scripts/install-${name}.sh"
     if [ -x "$script" ]; then
-        bash "$script"
+        bash "$script" || {
+            err "Component '$name' failed — continuing with remaining components."
+            err "If this is a C++ applet (systray/icontasks), install build deps and re-run:"
+            err "  ./install.sh $name"
+        }
     else
         err "Unknown component: $name (no script at $script)"
         return 1
     fi
 }
 
-# ── Post-install ───────────────────────────────────────────────────
+# ── Post-install: apply theme + layout (called at end of 'all') ─────
 post_install() {
     if command -v kwriteconfig6 &>/dev/null; then
         kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSize" "Tiny"
         kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSizeAuto" "false"
         dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null || true
     fi
+}
+
+# ── Apply the global theme with layout reset (non-interactive) ──────
+apply_theme() {
+    local theme="${1:-org.kde.windowsmodern.dark}"
+    local tool="plasma-apply-lookandfeel"
+    if ! command -v "$tool" &>/dev/null; then
+        warn "$tool not found — apply manually in System Settings → Appearance → Global Theme."
+        return 0
+    fi
+    if [ "$UID" -eq 0 ]; then
+        warn "Running as root — apply the theme manually from a user session."
+        return 0
+    fi
+    info "Applying $theme with layout reset..."
+    "$tool" -a "$theme" --resetLayout
+    bash "$SCRIPT_DIR/scripts/set-wallpaper.sh" || true
 }
 
 # ── Interactive menu ───────────────────────────────────────────────
@@ -58,11 +79,13 @@ menu() {
     echo ""
 
     case "$choice" in
-        1)  install_component themes; install_component icons; install_component lookfeel
-            install_component layout
+        1)  # Install applets FIRST so the layout script can find them.
+            install_component themes; install_component icons
             install_component showdesk
             install_component startmenu; install_component systray
             install_component icontasks
+            install_component layout
+            install_component lookfeel
             post_install ;;
         2)  install_component themes ;;
         3)  install_component icons ;;
@@ -108,12 +131,34 @@ case "${1:-menu}" in
         install_component icontasks
         ;;
     all)
-        install_component themes; install_component icons; install_component lookfeel
-        install_component layout
+        # Install applets FIRST so the layout script can find them when
+        # the global theme is applied with --resetLayout.
+        install_component themes; install_component icons
         install_component showdesk
         install_component startmenu; install_component systray
         install_component icontasks
+        install_component layout
+        install_component lookfeel
         post_install
+        # Apply the theme non-interactively now that everything is in place.
+        if [ -t 0 ]; then
+            echo ""
+            echo -e "${BOLD}Apply the theme now?${RESET}"
+            echo -e "  ${BOLD}1${RESET}) Light  (org.kde.windowsmodern.light)"
+            echo -e "  ${BOLD}2${RESET}) Dark   (org.kde.windowsmodern.dark)"
+            echo -e "  ${BOLD}3${RESET}) Do not apply"
+            echo ""
+            read -r -p "Choice [2]: " theme_choice
+            theme_choice="${theme_choice:-2}"
+            case "$theme_choice" in
+                1|light|Light) apply_theme "org.kde.windowsmodern.light" ;;
+                2|dark|Dark)   apply_theme "org.kde.windowsmodern.dark" ;;
+                3|none|no|n|N) info "Theme not applied. Apply later in System Settings." ;;
+                *) err "Invalid choice — skipping theme apply." ;;
+            esac
+        else
+            apply_theme "org.kde.windowsmodern.dark"
+        fi
         ;;
     *)
         install_component "$1"

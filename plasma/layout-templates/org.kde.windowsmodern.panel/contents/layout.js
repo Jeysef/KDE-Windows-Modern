@@ -33,23 +33,21 @@ panel.opacity = "opaque";
 
 // --- Widgets -------------------------------------------------------------
 // Order of addWidget calls determines left-to-right order in the panel.
+// Custom applets fall back to stock Plasma widgets if not installed.
 
 // 1. Left expanding spacer — pushes the centered Start + tasks group to
 //    the middle of the panel, matching Win11's centered taskbar.
 var spacerLeft = panel.addWidget("org.kde.plasma.panelspacer");
 
-// 2. Start button (Application Launcher / Kickoff).
-//    NOTE: the kickoff launcher icon scales with panel height by design;
-//    there is no reliable per-widget config key to cap it. At 48px the
-//    logo fills most of the panel; at 30-32px it looks proportionally
-//    correct. To get a smaller logo on tall panels, either keep the panel
-//    at ~32px or open Kickoff settings → "Icon size" after adding it.
+// 2. Start button — custom Win11 start menu, or fall back to Kickoff.
 var start = panel.addWidget("org.kde.windowsmodern.startmenu");
+if (!start) { start = panel.addWidget("org.kde.plasma.kickoff"); }
 start.currentConfigGroup = new Array("General");
 start.writeConfig("icon", "start-here");
 
-// 3. Icon-only task manager (the centered "taskbar").
+// 3. Icon-only task manager — custom Win11 style, or fall back to stock.
 var tasks = panel.addWidget("org.kde.windowsmodern.icontasks");
+if (!tasks) { tasks = panel.addWidget("org.kde.plasma.icontasks"); }
 tasks.currentConfigGroup = new Array("General");
 tasks.writeConfig("launchers", "");
 tasks.writeConfig("showOnlyCurrentScreen", "false");
@@ -61,10 +59,9 @@ tasks.writeConfig("groupingStrategy", "1");
 //    from the system tray / clock on the far right.
 var spacerRight = panel.addWidget("org.kde.plasma.panelspacer");
 
-// 5. System tray — custom Win11/10 hybrid tray (icons in panel, hidden
-//    behind arrow; action panel with quick-toggle tiles, sliders, and
-//    themed flyouts for network/bluetooth/volume/battery/clipboard/etc.)
+// 5. System tray — custom Win11/10 hybrid tray, or fall back to stock.
 var tray = panel.addWidget("org.kde.windowsmodern.systemtray");
+if (!tray) { tray = panel.addWidget("org.kde.plasma.systemtray"); }
 
 // 6. Digital clock — Win11 puts the clock at the far right, with the date
 //    stacked below the time. Use a small Segoe UI Regular weight and pin
@@ -86,10 +83,9 @@ clock.writeConfig("dateDisplayFormat", "2");
 clock.writeConfig("showSeconds", "0");
 clock.writeConfig("use24hFormat", "1");
 
-// 7. Show Desktop — custom Win11-style thin sliver (minimize-all on click).
-//    Uses our forked applet (org.kde.windowsmodern.showdesktop) which renders
-//    as a 6px-wide bare sliver with no icon.
+// 7. Show Desktop — custom Win11-style thin sliver, or fall back to stock.
 var peek = panel.addWidget("org.kde.windowsmodern.showdesktop");
+if (!peek) { peek = panel.addWidget("org.kde.plasma.showdesktop"); }
 peek.currentConfigGroup = new Array("General");
 peek.writeConfig("size", "6");
 

@@ -1,6 +1,10 @@
 #!/bin/bash
 # ───────────────────────────────────────────────────────────────────
 #  install-lookfeel.sh — Global themes (dark & light)
+#
+#  When invoked as part of 'install.sh all', the parent script handles
+#  theme application. This script only installs the files unless run
+#  standalone (interactive).
 # ───────────────────────────────────────────────────────────────────
 source "$(dirname "$0")/install-lib.sh"
 
@@ -19,7 +23,7 @@ cp -r "$SRC_DIR/plasma/look-and-feel/org.kde.windowsmodern.light" "$LOOKFEEL_DIR
 
 info "Global themes installed."
 
-# ── Optional: apply the theme now ──────────────────────────────────
+# ── Apply theme (standalone only — 'all' applies after all components) ─
 if [ "$UID" -eq 0 ]; then
     warn "Running as root — skipping automatic theme apply."
     warn "Apply manually from a user session: System Settings → Appearance → Global Theme."
