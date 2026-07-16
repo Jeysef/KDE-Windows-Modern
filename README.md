@@ -23,6 +23,9 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 | ![Window decorations](View-5.png) | ![Window decorations](View-8.png) |
 | *Window decorations* | *Window decorations* |
 
+![Icon taskbar — thumbnail preview](View-13.png)
+*Icon taskbar — hovering an icon on the icons-only taskbar reveals a Win11-style thumbnail tooltip with a per-tile close button. Dark variant shown.*
+
 ---
 
 ## What's included
@@ -35,7 +38,7 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 | **Plasma desktop themes** | `plasma/desktoptheme/` | Full SVG theme sets for panels, widgets, tooltips, dialogs, switches, and tasks. |
 | **Global themes** | `plasma/look-and-feel/` | `org.kde.windowsmodern.dark` and `org.kde.windowsmodern.light`. |
 | **Panel layout template** | `plasma/layout-templates/` | A Win11-style bottom panel layout you can add from the desktop context menu. |
-| **Custom applets** | `plasma/applets/` | Show Desktop, Start Menu, and a C++ System Tray containment. |
+| **Custom applets** | `plasma/applets/` | Show Desktop, Start Menu, C++ System Tray, and C++ Icon Tasks (icons-only taskbar). |
 | **Icon pack** | `icons/windows-modern/` | Curated Windows-11-style icon theme (~25,000 SVGs). |
 | **Wallpapers** | `wallpaper/` | Dark and light variants. |
 | **App decorations** | `app-decorations/` | Per-app CSD tweaks so non-KDE apps match the theme. Currently: Firefox `userChrome.css` window controls. |
@@ -47,6 +50,7 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 - **KDE Plasma 6**
 - **Kvantum** engine installed (`kvantum` package on most distros)
 - For the **System Tray applet**: a C++ compiler and KDE/Plasma development packages (see [System Tray](#system-tray) below)
+- For the **Icon Tasks applet**: a C++ compiler and a slightly different KDE/Plasma dev set (see [Icon Tasks](#icon-tasks) below)
 
 ---
 
@@ -76,7 +80,8 @@ This opens a menu where you can install everything, individual components, or ju
 ./install.sh showdesk    # Show Desktop applet
 ./install.sh startmenu   # Start Menu applet
 ./install.sh systray     # System Tray applet (C++ — see below)
-./install.sh applets     # All three applets
+./install.sh icontasks   # Icon Tasks taskbar (C++ — see below)
+./install.sh applets     # All four applets
 ```
 
 ---
@@ -170,6 +175,74 @@ cd plasma/applets/org.kde.windowsmodern.systemtray
 
 Detailed build instructions: [`plasma/applets/org.kde.windowsmodern.systemtray/BUILD.md`](plasma/applets/org.kde.windowsmodern.systemtray/BUILD.md)
 
+### Icon Tasks
+
+A C++ fork of the upstream icons-only task manager (`org.kde.plasma.taskmanager` from plasma-desktop), rebranded as `org.kde.windowsmodern.icontasks` and restyled with Windows 11 tooltip visuals. The C++ backend is preserved unchanged (jump lists, places, recent docs, app categories, smart launcher badges, audio stream matching); only the QML UI is restyled. This is the taskbar used by the Windows Modern panel layout template.
+
+Win11 refinements over upstream:
+
+- **Always icons-only** — `iconsOnly` is hardcoded to `true`.
+- **Hidden subtext in thumbnail mode** — desktop/activity info ("On Desktop 2") is hidden when a window thumbnail is visible, since it's noise next to a live preview.
+- **Subtle per-tile close button** — a minimal X pinned to the far right of the tooltip header. Background is transparent by default and turns Win11 red `#C42B1C` on hover; pressed is `#9E1B1B`.
+- **Fixed-width, rounded thumbnail tiles** — PipeWire thumbnails are clipped to 8px rounded corners, tiles render at a fixed width, and inter-tile spacing matches the tooltip SVG margin for even gaps.
+
+Because it is a compiled Plasma applet, it must be built during installation. The QML UI is embedded in the `.so`; a separate KPackage must **not** be installed — it causes rendering bugs.
+
+#### Install build dependencies
+
+The Icon Tasks dependency set differs slightly from the System Tray (it adds `plasma-activities`, `libksysguard`, and `knotifications`).
+
+**Fedora:**
+
+```bash
+sudo dnf install gcc-c++ cmake extra-cmake-modules \
+  qt6-qtbase-devel qt6-qtdeclarative-devel qt6-qtquickcontrols2-devel \
+  kf6-kpackage-devel kf6-kconfig-devel kf6-ki18n-devel kf6-kcoreaddons-devel \
+  kf6-kwindowsystem-devel kf6-kio-devel kf6-kservice-devel kf6-kxmlgui-devel \
+  kf6-knotifications-devel \
+  plasma-activities-devel plasma-activities-stats-devel \
+  plasma-framework-devel plasma-workspace-devel \
+  libksysguard-devel
+```
+
+**Arch Linux:**
+
+```bash
+sudo pacman -S cmake extra-cmake-modules qt6-base qt6-declarative \
+  kpackage kconfig ki18n kwindowsystem kio kservice kxmlgui knotifications \
+  plasma-activities plasma-activities-stats \
+  plasma-framework plasma-workspace \
+  libksysguard
+```
+
+**Debian/Ubuntu:**
+
+```bash
+sudo apt install cmake extra-cmake-modules \
+  qt6-base-dev qt6-declarative-dev \
+  libkf6package-dev libkf6config-dev libkf6i18n-dev \
+  libkf6windowsystem-dev libkf6kio-dev libkf6service-dev libkf6xmlgui-dev \
+  libkf6notifications-dev \
+  libplasma-dev plasma-workspace-dev \
+  plasma-activities-dev plasma-activities-stats-dev \
+  libksysguard-dev
+```
+
+#### Build and install
+
+```bash
+./install.sh icontasks
+```
+
+For development, use the applet's own script:
+
+```bash
+cd plasma/applets/org.kde.windowsmodern.icontasks
+./dev.sh
+```
+
+Detailed build instructions: [`plasma/applets/org.kde.windowsmodern.icontasks/BUILD.md`](plasma/applets/org.kde.windowsmodern.icontasks/BUILD.md)
+
 ---
 
 ## App decorations
@@ -243,6 +316,7 @@ Walks you through each desktop state (dark/light overview, start menu, system tr
 | [`docs/PLASMA_SYSTEMTRAY_ARCHITECTURE.md`](docs/PLASMA_SYSTEMTRAY_ARCHITECTURE.md) | Reverse-engineered upstream Plasma system tray internals. |
 | [`docs/RELEASE.md`](docs/RELEASE.md) | How to publish a release to GitHub and the KDE Store. |
 | [`plasma/applets/org.kde.windowsmodern.systemtray/BUILD.md`](plasma/applets/org.kde.windowsmodern.systemtray/BUILD.md) | System Tray build and install instructions. |
+| [`plasma/applets/org.kde.windowsmodern.icontasks/BUILD.md`](plasma/applets/org.kde.windowsmodern.icontasks/BUILD.md) | Icon Tasks build and install instructions. |
 | [`docs/icon-pack/README.md`](docs/icon-pack/README.md) | Icon theme consolidation pipeline overview. |
 
 ---
@@ -261,6 +335,15 @@ systemctl --user restart plasma-plasmashell.service
 ### Changes to the System Tray have no effect
 
 A stale local copy in `~/.local/lib64/qt6/plugins/plasma/applets/` or `~/.local/lib/qt6/plugins/plasma/applets/` can shadow the system plugin. The install scripts remove these automatically; otherwise delete them manually and restart Plasma.
+
+### Icon Tasks taskbar is unstyled or thumbnails don't render
+
+Same root causes as the System Tray: a conflicting KPackage was installed instead of the compiled `.so`, or a stale local `.so` (`org.kde.windowsmodern.icontasks.so`) is shadowing the system plugin. Re-run the installer, which prunes both:
+
+```bash
+./install.sh icontasks
+systemctl --user restart plasma-plasmashell.service
+```
 
 ### Window borders look wrong after install
 
