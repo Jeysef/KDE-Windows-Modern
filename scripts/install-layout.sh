@@ -19,3 +19,6 @@ info "Panel layout installed."
 
 echo ""
 info "To use it: right-click the desktop → Add Panel → Windows Modern Panel."
+echo -e "  ${BOLD}Tip:${RESET} For the authentic Win11 look, after adding the panel:"
+echo -e "  Right-click panel → Show Panel Configuration → Floating → Applets Only"
+echo -e "  (Plasma's scripting API can't set this automatically.)"

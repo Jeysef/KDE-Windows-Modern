@@ -159,6 +159,11 @@ case "${1:-menu}" in
         else
             apply_theme "org.kde.windowsmodern.dark"
         fi
+        echo ""
+        info "Almost done! For the authentic Win11 look, enable floating:"
+        echo -e "  ${BOLD}Right-click the panel → Show Panel Configuration →${RESET}"
+        echo -e "  ${BOLD}Floating → Applets Only${RESET}"
+        echo -e "  (Plasma's scripting API can't set this automatically.)"
         ;;
     *)
         install_component "$1"

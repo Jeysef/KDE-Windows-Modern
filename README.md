@@ -97,6 +97,9 @@ cd sddm-light && sudo ./install.sh
 5. Open **System Settings → Appearance → Icons** and select **windows-modern**.
 6. Add the Windows Modern panel:
    - Right-click the desktop → **Add Panel → Windows Modern Panel**.
+7. Enable floating for the authentic Win11 look:
+   - Right-click the panel → **Show Panel Configuration → Floating → Applets Only**.
+   - This can't be set automatically — Plasma's scripting API doesn't expose it.
 
 If the panel layout is not available immediately after install, log out and back in.
 
