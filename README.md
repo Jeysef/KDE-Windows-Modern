@@ -38,6 +38,7 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 | **Custom applets** | `plasma/applets/` | Show Desktop, Start Menu, and a C++ System Tray containment. |
 | **Icon pack** | `icons/windows-modern/` | Curated Windows-11-style icon theme (~25,000 SVGs). |
 | **Wallpapers** | `wallpaper/` | Dark and light variants. |
+| **App decorations** | `app-decorations/` | Per-app CSD tweaks so non-KDE apps match the theme. Currently: Firefox `userChrome.css` window controls. |
 
 ---
 
@@ -168,6 +169,21 @@ cd plasma/applets/org.kde.windowsmodern.systemtray
 ```
 
 Detailed build instructions: [`plasma/applets/org.kde.windowsmodern.systemtray/BUILD.md`](plasma/applets/org.kde.windowsmodern.systemtray/BUILD.md)
+
+---
+
+## App decorations
+
+Optional per-app stylesheets that make non-KDE apps blend in with the Windows Modern title bar. These are not applied by the installer — copy them into the app's config manually.
+
+### Firefox
+
+Replaces Firefox's CSD window buttons (minimize / maximize / restore / close) with flat white MDL2 SVGs and the Windows close-hover color (`#c42b1c`). Button size matches Aurorae metrics (46×30).
+
+- Copy [`app-decorations/firefox/userChrome.css`](app-decorations/firefox/userChrome.css) into your Firefox profile's `chrome/` folder.
+- In `about:config`, set `toolkit.legacyUserProfileCustomizations.stylesheets` to `true`, then fully restart Firefox.
+
+Full instructions: [`app-decorations/firefox/README.md`](app-decorations/firefox/README.md)
 
 ---
 
