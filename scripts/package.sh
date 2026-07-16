@@ -42,8 +42,6 @@ COMPONENTS=(
     "aurorae-light|$SRC_DIR/aurorae/windows-modern-light-aurorae|metadata.desktop|Aurorae Themes"
     "desktoptheme-dark|$SRC_DIR/plasma/desktoptheme/Windows-modern-dark|metadata.desktop|Plasma 6 Themes"
     "desktoptheme-light|$SRC_DIR/plasma/desktoptheme/Windows-modern-light|metadata.desktop|Plasma 6 Themes"
-    "sddm-dark|$SRC_DIR/sddm-dark/Windows-modern-dark|metadata.desktop|SDDM Themes"
-    "sddm-light|$SRC_DIR/sddm-light/Windows-modern-light|metadata.desktop|SDDM Themes"
     "wallpaper|$SRC_DIR/wallpaper/Windows-modern|metadata.json|Wallpapers"
     "applet-showdesktop|$SRC_DIR/plasma/applets/org.kde.windowsmodern.showdesktop|metadata.json|Plasma 6 Applets"
     "applet-startmenu|$SRC_DIR/plasma/applets/org.kde.windowsmodern.startmenu|metadata.json|Plasma 6 Applets"
@@ -128,7 +126,7 @@ FULL_VER="$(get_version "$SRC_DIR/plasma/look-and-feel/org.kde.windowsmodern.dar
 FULL_OUT="$DIST_DIR/KDE-Windows-Modern-${FULL_VER}.zip"
 rm -f "$FULL_OUT"
 (cd "$SRC_DIR" && zip -qr "$FULL_OUT" \
-    aurorae color-schemes icons Kvantum plasma sddm-dark sddm-light wallpaper \
+    aurorae color-schemes icons Kvantum plasma wallpaper \
     install.sh uninstall.sh verify-all.sh README.md LICENSE AUTHORS ATTRIBUTION.md \
     -x '*/build/*' '*/CMakeFiles/*' '*/.git/*')
 step "built KDE-Windows-Modern-${FULL_VER}.zip  (full bundle)"

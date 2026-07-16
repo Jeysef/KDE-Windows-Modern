@@ -2,7 +2,7 @@
 
 A complete Windows 11-inspired visual transformation for KDE Plasma 6.
 
-Windows Modern includes matching window decorations, widget styles, color schemes, Plasma desktop themes, global themes, an icon pack, custom applets, a panel layout template, wallpapers, and SDDM login themes — all available in **dark** and **light** variants.
+Windows Modern includes matching window decorations, widget styles, color schemes, Plasma desktop themes, global themes, an icon pack, custom applets, a panel layout template, and wallpapers — all available in **dark** and **light** variants.
 
 > **Note:** This theme is designed for **KDE Plasma 6**. It will not work on Plasma 5.
 
@@ -38,7 +38,6 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 | **Custom applets** | `plasma/applets/` | Show Desktop, Start Menu, and a C++ System Tray containment. |
 | **Icon pack** | `icons/windows-modern/` | Curated Windows-11-style icon theme (~25,000 SVGs). |
 | **Wallpapers** | `wallpaper/` | Dark and light variants. |
-| **SDDM themes** | `sddm-dark/`, `sddm-light/` | Matching login-screen themes. |
 
 ---
 
@@ -77,13 +76,6 @@ This opens a menu where you can install everything, individual components, or ju
 ./install.sh startmenu   # Start Menu applet
 ./install.sh systray     # System Tray applet (C++ — see below)
 ./install.sh applets     # All three applets
-```
-
-### SDDM login theme
-
-```bash
-cd sddm-dark && sudo ./install.sh
-cd sddm-light && sudo ./install.sh
 ```
 
 ---

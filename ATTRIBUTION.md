@@ -12,7 +12,7 @@ used to create it and the licenses that apply to them.
 
 | Component | Author | Source | License | Usage |
 |-----------|--------|--------|---------|-------|
-| Win11OS-kde | yeyushengfan258 | <https://github.com/yeyushengfan258/Win11OS-kde> | GPL-3.0 | Base Plasma desktop theme, Aurorae window decorations, Kvantum configs, color schemes, look-and-feel packages, SDDM themes |
+| Win11OS-kde | yeyushengfan258 | <https://github.com/yeyushengfan258/Win11OS-kde> | GPL-3.0 | Base Plasma desktop theme, Aurorae window decorations, Kvantum configs, color schemes, look-and-feel packages |
 | Fluent-kde | vinceliuice | <https://github.com/vinceliuice/Fluent-kde> | GPL-3.0 | Kvantum SVG and configuration base |
 | OnzeMenuKDE | adhec | <https://github.com/adhec/OnzeMenuKDE> | GPL-3.0 / GPL-2.0+ | Start menu ancestor |
 | menu-11-next | Eisteed | <https://github.com/Eisteed/menu-11-next> | GPL-2.0+ | Start menu reference / design basis |
@@ -21,7 +21,7 @@ used to create it and the licenses that apply to them.
 
 ## Wallpapers
 
-The `wallpaper/Windows-modern/` package and SDDM `background.jpg` files use
+The `wallpaper/Windows-modern/` package uses
 photographs sourced from Pexels. Both are licensed under the **Pexels License**:
 free to use, modify, and distribute; attribution is not strictly required but is
 included here as a courtesy.
@@ -32,8 +32,8 @@ auto-switches between them based on the active color scheme.
 
 | Image | Photographer | Source | License | Usage |
 |-------|--------------|--------|---------|-------|
-| Dark image | Mahmoud Ramadan | <https://www.pexels.com/photo/31622984/> | Pexels License | `wallpaper/Windows-modern/contents/images_dark/` and `sddm-dark/Windows-modern-dark/background.jpg` |
-| Light image | Ace Visuals Co | <https://www.pexels.com/photo/19931186/> | Pexels License | `wallpaper/Windows-modern/contents/images/` and `sddm-light/Windows-modern-light/background.jpg` |
+| Dark image | Mahmoud Ramadan | <https://www.pexels.com/photo/31622984/> | Pexels License | `wallpaper/Windows-modern/contents/images_dark/` |
+| Light image | Ace Visuals Co | <https://www.pexels.com/photo/19931186/> | Pexels License | `wallpaper/Windows-modern/contents/images/` |
 
 ## Icon Pack Sources
 

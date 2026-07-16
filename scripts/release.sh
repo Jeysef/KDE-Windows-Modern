@@ -135,7 +135,7 @@ NOTES="$(cat <<EOF
 A complete Windows 11-inspired visual transformation for KDE Plasma 6.
 Includes window decorations, widget style, color schemes, Plasma desktop
 themes, global themes, an icon pack, custom applets, a panel layout
-template, wallpapers, and SDDM login themes — in dark and light variants.
+template, and wallpapers — in dark and light variants.
 
 ### Install
 
