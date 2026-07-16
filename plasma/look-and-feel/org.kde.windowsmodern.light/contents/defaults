@@ -14,8 +14,6 @@ name=Windows-modern-light
 Image=Windows-modern
 
 [kwinrc][org.kde.kdecoration2]
-ButtonsOnLeft=XAI
-ButtonsOnRight=
 library=org.kde.kwin.aurorae
 theme=__aurorae__svg__windows-modern-light-aurorae
 
