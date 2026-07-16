@@ -72,6 +72,8 @@ menu() {
     echo -e "  ${BOLD}8${RESET})  Applets: System Tray (C++ — requires compiler)"
     echo -e "  ${BOLD}9${RESET})  Applets: Icon Tasks taskbar (C++ — requires compiler)"
     echo -e "  ${BOLD}a${RESET})  All applets (6–9)"
+    echo -e "  ${BOLD}l${RESET})  Session lock screen (Meta+L)"
+    echo -e "  ${BOLD}g${RESET})  Boot greeter / login screen (PLM — C++ build + system install)"
     echo -e "  ${BOLD}0${RESET})  Quit"
     echo ""
     read -r -p "  Choice [1]: " choice
@@ -98,6 +100,13 @@ menu() {
         a|A) install_component showdesk
             install_component startmenu; install_component systray
             install_component icontasks ;;
+        l|L) install_component sessionlock ;;
+        g|G) echo "Boot greeter install requires root for the system-wide step."
+            echo "Building patched PLM first (user)..."
+            install_component greeter
+            echo ""
+            echo "Now installing system-wide (needs sudo)..."
+            sudo bash "$SCRIPT_DIR/scripts/install-greeter-live.sh" || err "System greeter install failed or was cancelled." ;;
         0)  echo "Nothing installed."; exit 0 ;;
         *)  err "Invalid choice."; exit 1 ;;
     esac
@@ -118,7 +127,9 @@ case "${1:-menu}" in
         echo "  systray     System Tray (C++ — needs compiler)"
         echo "  icontasks   Icon Tasks taskbar (C++ — needs compiler)"
         echo "  applets     All applets (showdesk, startmenu, systray, icontasks)"
-        echo "  all         Everything"
+        echo "  sessionlock Session lock screen (Meta+L)"
+        echo "  greeter     Boot greeter / login screen (PLM build, user test)"
+        echo "  all         Everything (sessionlock included; greeter is opt-in)"
         echo ""
         exit 0
         ;;
@@ -139,6 +150,7 @@ case "${1:-menu}" in
         install_component icontasks
         install_component layout
         install_component lookfeel
+        install_component sessionlock
         post_install
         # Apply the theme non-interactively now that everything is in place.
         if [ -t 0 ]; then

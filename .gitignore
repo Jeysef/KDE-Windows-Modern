@@ -9,6 +9,8 @@ plasma/applets/org.kde.windowsmodern.systemtray/build/
 /plasma/applets/org.kde.windowsmodern.systemtray/CMakeFiles/
 plasma/applets/org.kde.windowsmodern.icontasks/build/
 /plasma/applets/org.kde.windowsmodern.icontasks/CMakeFiles/
+# Plasma Login Manager (PLM) build artifacts
+/third_party/plasma-login-manager/build-user/
 /*.src.rpm
 # Local tooling / personal notes
 /.yolo.json

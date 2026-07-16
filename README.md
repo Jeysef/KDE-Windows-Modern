@@ -39,6 +39,8 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 | **Global themes** | `plasma/look-and-feel/` | `org.kde.windowsmodern.dark` and `org.kde.windowsmodern.light`. |
 | **Panel layout template** | `plasma/layout-templates/` | A Win11-style bottom panel layout you can add from the desktop context menu. |
 | **Custom applets** | `plasma/applets/` | Show Desktop, Start Menu, C++ System Tray, and C++ Icon Tasks (icons-only taskbar). |
+| **Session lock screen** | `plasma/shells/org.kde.windowsmodern.lockscreen/` | Win11-style lock screen for Meta+L (kscreenlocker). Installed as a complete overlay of the default desktop shell. |
+| **Boot greeter** | `plasma/look-and-feel/.../contents/lockscreen/` + `third_party/plasma-login-manager/` | Patched Plasma Login Manager build that loads a Win11 login screen. Opt-in (system install needs root). |
 | **Icon pack** | `icons/windows-modern/` | Curated Windows-11-style icon theme (~25,000 SVGs). |
 | **Wallpapers** | `wallpaper/` | Dark and light variants. |
 | **App decorations** | `app-decorations/` | Per-app CSD tweaks so non-KDE apps match the theme. Currently: Firefox `userChrome.css` window controls. |
@@ -82,7 +84,13 @@ This opens a menu where you can install everything, individual components, or ju
 ./install.sh systray     # System Tray applet (C++ — see below)
 ./install.sh icontasks   # Icon Tasks taskbar (C++ — see below)
 ./install.sh applets     # All four applets
+./install.sh sessionlock # Session lock screen (Meta+L)
+./install.sh greeter     # Boot greeter / login screen (PLM build + user test)
 ```
+
+> `install.sh all` includes the session lock screen. The boot greeter is
+> **opt-in** (it replaces the system login manager) — use `./install.sh greeter`
+> or `sudo bash scripts/install-greeter-live.sh`.
 
 ---
 
@@ -242,6 +250,65 @@ cd plasma/applets/org.kde.windowsmodern.icontasks
 ```
 
 Detailed build instructions: [`plasma/applets/org.kde.windowsmodern.icontasks/BUILD.md`](plasma/applets/org.kde.windowsmodern.icontasks/BUILD.md)
+
+---
+
+## Lock screen and boot greeter
+
+Two separate components cover the two places a Windows-style lock/login look
+applies. Both reuse the Win11 dark palette (clock, power menu, password
+field) documented in [`docs/STYLE.md`](docs/STYLE.md).
+
+### Session lock screen (Meta+L)
+
+A Win11-style lock screen for kscreenlocker. kscreenlocker loads the lock
+screen from the **current desktop shell** (`org.kde.plasma.desktop`), so the
+installer creates a complete user-level overlay of that shell — symlinking
+every system directory except `lockscreen`, which is replaced with the
+Windows Modern QML. The shell is always kept complete (an incomplete shell
+triggers the Qt widget fallback).
+
+```bash
+./install.sh sessionlock          # install
+/usr/libexec/kscreenlocker_greet --testing   # test without locking
+./uninstall.sh sessionlock        # restore Breeze
+```
+
+Source: `plasma/shells/org.kde.windowsmodern.lockscreen/`.
+
+### Boot greeter / login screen (Plasma Login Manager)
+
+A patched build of [plasma-login-manager](https://invent.kde.org/plasma/plasma-login-manager)
+(vendored as a git submodule at `third_party/plasma-login-manager/`) that
+loads a Win11 login screen (`Main.qml`) from the dark look-and-feel's
+`contents/lockscreen/`. A single patch
+(`patches/main-cpp.patch`) redirects the greeter to our `Main.qml`.
+
+Because this replaces the system login manager, it is **opt-in** and **not
+included in `install.sh all`**.
+
+```bash
+# 1. Build the patched greeter + install theme for --test mode (user):
+./install.sh greeter
+third_party/plasma-login-manager/build-user/bin/plasma-login-greeter --test
+
+# 2. Install as your actual boot greeter (needs root, typed confirmation):
+sudo bash scripts/install-greeter-live.sh
+
+# Update the PLM submodule to a new upstream version:
+./scripts/update-plm.sh Plasma/6.7
+```
+
+Keep a TTY (Ctrl+Alt+F3) open before the live install. Revert:
+
+```bash
+sudo bash scripts/uninstall-greeter-system.sh   # restore distro greeter
+./uninstall.sh greeter                          # remove user theme + revert patches
+```
+
+Build dependencies differ slightly from the applets (PLM adds Qt6 ShaderTools,
+LayerShellQt, libkscreen, and PAM). Full per-distro lists:
+[`plasma/look-and-feel/org.kde.windowsmodern.dark/BUILD.md`](plasma/look-and-feel/org.kde.windowsmodern.dark/BUILD.md).
 
 ---
 

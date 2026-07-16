@@ -535,6 +535,87 @@ creates the Windows Modern Panel (see the Panel layout template section
 above) with the Win11-style centered taskbar, start menu, system tray,
 clock, and show-desktop sliver.
 
+### Session Lock Screen (Meta+L)
+
+Location: `plasma/shells/org.kde.windowsmodern.lockscreen/`
+
+A Windows 11-style session lock screen. kscreenlocker resolves the lock
+screen from the **current desktop shell package**
+(`org.kde.plasma.desktop`), so this is installed as a complete user-level
+overlay of that shell: `install-sessionlock.sh` symlinks every system
+`contents/` directory back to the system shell **except** `lockscreen`,
+which is replaced with our custom Windows Modern QML. The shell package
+is always kept complete — an incomplete shell triggers the ugly Qt widget
+fallback. On uninstall, the entire user shell directory is removed.
+
+Files under `contents/lockscreen/`:
+
+| File | Purpose |
+|---|---|
+| `LockScreen.qml` | Root item (kscreenlocker entry point). |
+| `LockScreenUi.qml` | Background, clock, status icons, unlock UI, footer. |
+| `MainBlock.qml` | Password entry block (avatar, username, MDL2 field). |
+| `NoPasswordUnlock.qml` | Direct unlock when no password is set. |
+| `MediaControls.qml` | Idle media playback controls (MPRIS). |
+| `config.qml` / `config.xml` | Config UI + schema (clock, media controls). |
+| `qmldir` | QML module definition. |
+
+Design (Win11 dark palette):
+
+- **Background**: KDE-configured wallpaper via `WallpaperFader` (same as
+  Breeze), with a `#000000` @ 0.45 overlay when the unlock UI is visible.
+- **Clock**: Centered, upper-middle. Segoe UI DemiBold 96px time, 24px
+  date (`#E0E0E0`). Visible only when idle; fades out when unlocking.
+- **Status icons**: Bottom-right, icon-only (network, volume, battery).
+  Idle only.
+- **Power menu**: `#2C2C2C` fill, `#3F3F3F` border, `#33FFFFFF` item hover.
+- **Password field**: 1px border, `#A0A0A0` idle / `#4CC2FF` focus (dark
+  accent `SystemAccentColorLight2`).
+- **Login button**: `go-next`, `#A0A0A0` idle / `#4CC2FF` hover.
+- **Animations**: `Kirigami.Units.veryLongDuration * 2` (~800ms),
+  `InOutQuad` easing.
+
+### Boot Greeter / Login Screen (Plasma Login Manager)
+
+Location: `plasma/look-and-feel/org.kde.windowsmodern.dark/contents/lockscreen/`
+(theme QML) and `third_party/plasma-login-manager/` (patched upstream
+submodule, KDE invent `Plasma/6.6` branch).
+
+The boot greeter (display-manager login screen) is a **patched build of
+`plasma-login-manager`**. The patch
+(`patches/main-cpp.patch`) makes the greeter's `main.cpp` load our
+`Main.qml` from the dark look-and-feel's `contents/lockscreen/` instead of
+the bundled qrc resource, trying the system path first then the user path.
+
+| File | Purpose |
+|---|---|
+| `Main.qml` | Root greeter: blurred wallpaper + dark overlay, clock, login stack, user switcher, footer. |
+| `Login.qml` | Login block: avatar, username, password field, GreeterState sync. |
+| `SessionButton.qml` | Desktop session selector (Wayland/X11). |
+| `KeyboardButton.qml` | Keyboard layout switcher. |
+| `faces/.face.icon` | Default avatar. |
+| `patches/main-cpp.patch` | Patches `main.cpp` to load our `Main.qml`. |
+
+The greeter QML reuses the same Win11 dark palette as the session lock
+screen (clock, power menu, password field colors). The wallpaper defaults
+to the Windows Modern dark wallpaper installed system-wide
+(`/usr/share/wallpapers/Windows-modern/contents/images_dark/2560x1440.png`);
+`install-greeter-live.sh` ensures it exists.
+
+Because this replaces the system login manager, it is **opt-in and not
+included in `install.sh all`**:
+
+- `./install.sh greeter` (or `scripts/install-greeter.sh`) — builds the
+  patched greeter and installs the theme to the user dir for `--test` mode.
+- `sudo bash scripts/install-greeter-live.sh` — installs the patched
+  binary system-wide (backs up `/usr/libexec/plasma-login-greeter` to
+  `.orig`, requires typed `YES`).
+- `./scripts/update-plm.sh [branch]` — updates the PLM submodule, reapplies
+  patches, rebuilds.
+
+Revert: `sudo bash scripts/uninstall-greeter-system.sh` (restores from
+`.orig` or reinstalls the distro package).
+
 ### Icons
 
 Location: `icons/windows-modern/` (gitignored — ~145MB)
@@ -654,9 +735,13 @@ windows_modern2/
 │   │   └── Windows-modern-light/        # Light plasma theme (165 SVGs)
 │   ├── layout-templates/
 │   │   └── org.kde.windowsmodern.panel/ # Win11 centered taskbar layout
-│   └── look-and-feel/
-│       ├── org.kde.windowsmodern.dark/  # Dark global theme
-│       └── org.kde.windowsmodern.light/ # Light global theme
+│   ├── look-and-feel/
+│   │   ├── org.kde.windowsmodern.dark/  # Dark global theme (+ boot greeter QML)
+│   │   └── org.kde.windowsmodern.light/ # Light global theme
+│   └── shells/
+│       └── org.kde.windowsmodern.lockscreen/ # Session lock (Meta+L) QML
+├── third_party/
+│   └── plasma-login-manager/             # Patched PLM submodule (boot greeter)
 ├── wallpaper/
 ├── docs/
 │   └── STYLE.md                         # This file

@@ -118,15 +118,48 @@ uninstall_component() {
             rm_path "$HOME/.local/lib/qt6/plugins/plasma/applets/org.kde.windowsmodern.icontasks.so"
             info "Icon Tasks uninstalled. Restart plasmashell to complete."
             ;;
+        sessionlock)
+            # kscreenlocker uses the current desktop shell's lockscreen. We
+            # themed Meta+L by creating a complete user-level overlay of
+            # org.kde.plasma.desktop. Remove the ENTIRE overlay — never leave
+            # an incomplete shell behind (it triggers the Qt widget fallback).
+            rm_path "$HOME/.local/share/plasma/shells/org.kde.plasma.desktop"
+            rm_path "$HOME/.local/share/plasma/shells/org.kde.windowsmodern.lockscreen"
+            if command -v kwriteconfig6 &>/dev/null; then
+                kwriteconfig6 --file kscreenlockerrc --group Greeter --key Theme --delete 2>/dev/null || true
+            fi
+            command -v kbuildsycoca6 &>/dev/null && kbuildsycoca6 2>/dev/null || true
+            rm -rf ~/.cache/qmlcache ~/.cache/QtProject/qmlcache 2>/dev/null || true
+            info "Session lock screen uninstalled. Breeze restored for Meta+L."
+            ;;
+        greeter)
+            # Revert any applied PLM patches and remove the user-level theme.
+            PLM_DIR="$SRC_DIR/third_party/plasma-login-manager"
+            PATCH_DIR="$SRC_DIR/plasma/look-and-feel/org.kde.windowsmodern.dark/patches"
+            if [ -d "${PLM_DIR}" ]; then
+                for p in main-cpp.patch; do
+                    if [ -f "${PATCH_DIR}/${p}" ]; then
+                        patch -d "${PLM_DIR}" -p1 -R --dry-run -s -f < "${PATCH_DIR}/${p}" 2>/dev/null \
+                            && patch -d "${PLM_DIR}" -p1 -R < "${PATCH_DIR}/${p}" 2>/dev/null || true
+                    fi
+                done
+            fi
+            rm_path "$HOME/.local/share/plasma/look-and-feel/org.kde.windowsmodern.dark/contents/lockscreen"
+            info "Boot greeter (user) uninstalled. Patches reverted, theme removed."
+            warn "To restore the SYSTEM greeter binary, run:  sudo bash scripts/uninstall-greeter-system.sh"
+            ;;
+        greetersystem)
+            bash "$SRC_DIR/scripts/uninstall-greeter-system.sh"
+            ;;
         all)
-            for c in themes icons lookfeel layout showdesk startmenu systray icontasks; do
+            for c in themes icons lookfeel layout showdesk startmenu systray icontasks sessionlock greeter; do
                 uninstall_component "$c"
             done
             reset_kwin_borders
             ;;
         *)
             err "Unknown component: $name"
-            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, icontasks, all"
+            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, icontasks, sessionlock, greeter, greetersystem, all"
             exit 1
             ;;
     esac
@@ -143,10 +176,14 @@ case "${1:-}" in
         echo "  layout     Panel layout template"
         echo "  showdesk   Show Desktop applet"
         echo "  startmenu  Start Menu applet"
-        echo "  systray    System Tray"
-        echo "  icontasks  Icon Tasks taskbar"
-        exit 0
-        ;;
+    echo "  systray    System Tray"
+    echo "  icontasks  Icon Tasks taskbar"
+    echo "  sessionlock Session lock screen (Meta+L)"
+    echo "  greeter    Boot greeter (user theme + revert patches)"
+    echo "  greetersystem Restore system greeter binary (needs sudo)"
+    echo "  all        Uninstall everything"
+    exit 0
+    ;;
     *)
         uninstall_component "$1"
         ;;

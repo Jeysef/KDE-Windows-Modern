@@ -1,0 +1,4 @@
+[submodule "third_party/plasma-login-manager"]
+	path = third_party/plasma-login-manager
+	url = https://invent.kde.org/plasma/plasma-login-manager.git
+	branch = Plasma/6.6
