@@ -10,12 +10,12 @@ in plasma-desktop, with full backend functionality preserved).
 **Fedora:**
 ```bash
 sudo dnf install gcc-c++ cmake extra-cmake-modules \
-  qt6-qtbase-devel qt6-qtdeclarative-devel qt6-qtquickcontrols2-devel \
+  qt6-qtbase-devel qt6-qtdeclarative-devel \
   kf6-kpackage-devel kf6-kconfig-devel kf6-ki18n-devel kf6-kcoreaddons-devel \
   kf6-kwindowsystem-devel kf6-kio-devel kf6-kservice-devel kf6-kxmlgui-devel \
   kf6-knotifications-devel \
   plasma-activities-devel plasma-activities-stats-devel \
-  plasma-framework-devel plasma-workspace-devel \
+  libplasma-devel plasma-workspace-devel \
   libksysguard-devel
 ```
 

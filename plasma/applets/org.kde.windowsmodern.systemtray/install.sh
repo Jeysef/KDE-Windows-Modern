@@ -57,7 +57,7 @@ do_deps() {
     local DEPS_LIST=""
     case "$DISTRO" in
         fedora)
-            DEPS_LIST="gcc-c++ cmake extra-cmake-modules qt6-qtbase-devel qt6-qtdeclarative-devel qt6-qtquickcontrols2-devel kf6-kpackage-devel kf6-kconfig-devel kf6-ki18n-devel kf6-kcoreaddons-devel kf6-kwindowsystem-devel kf6-kio-devel kf6-kiconthemes-devel kf6-kitemmodels-devel kf6-kservice-devel kf6-kxmlgui-devel kf6-kjobwidgets-devel kf6-kcmutils-devel libplasma-devel plasma-workspace-devel"
+            DEPS_LIST="gcc-c++ cmake extra-cmake-modules qt6-qtbase-devel qt6-qtdeclarative-devel kf6-kpackage-devel kf6-kconfig-devel kf6-ki18n-devel kf6-kcoreaddons-devel kf6-kwindowsystem-devel kf6-kio-devel kf6-kiconthemes-devel kf6-kitemmodels-devel kf6-kservice-devel kf6-kxmlgui-devel kf6-kjobwidgets-devel kf6-kcmutils-devel libplasma-devel plasma-workspace-devel"
             PKG_CMD="dnf install -y --skip-unavailable"
             CHECK_CMD="rpm -q"
             ;;

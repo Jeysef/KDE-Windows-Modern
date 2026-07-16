@@ -53,6 +53,8 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 - **Kvantum** engine installed (`kvantum` package on most distros)
 - For the **System Tray applet**: a C++ compiler and KDE/Plasma development packages (see [System Tray](#system-tray) below)
 - For the **Icon Tasks applet**: a C++ compiler and a slightly different KDE/Plasma dev set (see [Icon Tasks](#icon-tasks) below)
+- For the **session lock screen**: no extra deps (pure QML, installed as a shell overlay).
+- For the **boot greeter**: a C++ compiler and the Plasma Login Manager build deps (Qt6 ShaderTools, LayerShellQt, libkscreen, PAM) — see [`plasma/look-and-feel/org.kde.windowsmodern.dark/BUILD.md`](plasma/look-and-feel/org.kde.windowsmodern.dark/BUILD.md).
 
 ---
 
@@ -137,13 +139,12 @@ Because it is a compiled Plasma Containment, it must be built during installatio
 
 ```bash
 sudo dnf install gcc-c++ cmake extra-cmake-modules \
-  qt6-qtbase-devel qt6-qtdeclarative-devel qt6-qtquickcontrols2-devel \
+  qt6-qtbase-devel qt6-qtdeclarative-devel \
   kf6-kpackage-devel kf6-kconfig-devel kf6-ki18n-devel kf6-kcoreaddons-devel \
   kf6-kwindowsystem-devel kf6-kio-devel kf6-kiconthemes-devel \
   kf6-kitemmodels-devel kf6-kservice-devel kf6-kxmlgui-devel \
   kf6-kjobwidgets-devel kf6-kcmutils-devel \
-  plasma-framework-devel plasma-workspace-devel plasma-workspace-libs \
-  dbusmenu-qt6-devel
+  libplasma-devel plasma-workspace-devel plasma-workspace-libs
 ```
 
 **Arch Linux:**
@@ -204,12 +205,12 @@ The Icon Tasks dependency set differs slightly from the System Tray (it adds `pl
 
 ```bash
 sudo dnf install gcc-c++ cmake extra-cmake-modules \
-  qt6-qtbase-devel qt6-qtdeclarative-devel qt6-qtquickcontrols2-devel \
+  qt6-qtbase-devel qt6-qtdeclarative-devel \
   kf6-kpackage-devel kf6-kconfig-devel kf6-ki18n-devel kf6-kcoreaddons-devel \
   kf6-kwindowsystem-devel kf6-kio-devel kf6-kservice-devel kf6-kxmlgui-devel \
   kf6-knotifications-devel \
   plasma-activities-devel plasma-activities-stats-devel \
-  plasma-framework-devel plasma-workspace-devel \
+  libplasma-devel plasma-workspace-devel \
   libksysguard-devel
 ```
 
@@ -330,10 +331,13 @@ Full instructions: [`app-decorations/firefox/README.md`](app-decorations/firefox
 ## Uninstall and verify
 
 ```bash
-./uninstall.sh all      # Remove everything
-./uninstall.sh themes   # Remove theme components only
-./uninstall.sh icons    # Remove icon pack
-./uninstall.sh systray  # Remove system tray plugin
+./uninstall.sh all           # Remove everything
+./uninstall.sh themes        # Remove theme components only
+./uninstall.sh icons         # Remove icon pack
+./uninstall.sh systray       # Remove system tray plugin
+./uninstall.sh sessionlock   # Restore Breeze lock screen (Meta+L)
+./uninstall.sh greeter       # Remove user greeter theme + revert patches
+./uninstall.sh greetersystem # Restore system greeter binary (needs sudo)
 ```
 
 Run a project health check:

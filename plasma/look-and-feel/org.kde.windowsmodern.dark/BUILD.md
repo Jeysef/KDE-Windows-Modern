@@ -23,12 +23,12 @@ and **PAM**.
 ```bash
 sudo dnf install gcc-c++ cmake extra-cmake-modules pkgconf-pkg-config \
   qt6-qtbase-devel qt6-qtdeclarative-devel qt6-qttools-devel \
-  qt6-qtshadertools-devel qt6-qtquickcontrols2-devel \
+  qt6-qtshadertools-devel \
   kf6-kconfig-devel kf6-kpackage-devel kf6-kwindowsystem-devel \
   kf6-ki18n-devel kf6-kdbusaddons-devel kf6-kcmutils-devel \
   kf6-kauth-devel kf6-kio-devel \
-  plasma-framework-devel plasma-workspace-devel \
-  layer-shell-qt-devel libkscreen-qt6-devel \
+  libplasma-devel plasma-workspace-devel \
+  layer-shell-qt-devel libkscreen-devel \
   pam-devel
 ```
 
