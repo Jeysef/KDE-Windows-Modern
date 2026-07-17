@@ -28,6 +28,11 @@ fi
 info "Icons installed ($THEME_NAME)"
 
 # ── Apply icon theme instantly (same as System Settings) ───────────
+# Skipped in batch mode — the parent 'all' driver applies the whole
+# look-and-feel (which sets the icon theme via defaults) at the end.
+if is_batch; then
+    exit 0
+fi
 if command -v kwriteconfig6 &>/dev/null; then
     step "Applying icon theme ($THEME_NAME)"
     # Plasma 6 stores the theme in kcmicons; kdeglobals is the legacy fallback

@@ -15,7 +15,17 @@ info "Installing panel layout template..."
 ensure_dir "$LAYOUT_DIR"
 rm -rf "$LAYOUT_DIR/org.kde.windowsmodern.panel"
 cp -r "$src" "$LAYOUT_DIR/"
+
+# Refresh sycoca so the template is discoverable in "Add Panel".
+command -v kbuildsycoca6 &>/dev/null && kbuildsycoca6 2>/dev/null || true
+
 info "Panel layout installed."
+
+# Layout templates cannot replace the panel by themselves — that requires
+# the global theme's --resetLayout (handled by install-lookfeel.sh / 'all').
+if is_batch; then
+    exit 0
+fi
 
 echo ""
 info "To use it: right-click the desktop → Add Panel → Windows Modern Panel."

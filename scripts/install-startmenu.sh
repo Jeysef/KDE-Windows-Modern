@@ -28,39 +28,21 @@ fi
 info "Start Menu installed."
 
 # Plasma Shell must be restarted for the updated applet to be reloaded in
-# the running session. Only prompt when running interactively.
-if ! pgrep -x plasmashell >/dev/null; then
-    warn "Plasma Shell does not appear to be running — skipping reload."
+# the running session. In batch mode the parent 'all' driver restarts
+# once at the end; standalone we restart now (no prompt).
+if is_batch; then
     exit 0
 fi
 
-if [ ! -t 0 ]; then
-    info "Non-interactive install. To reload the Start Menu, restart Plasma Shell:"
-    info "  systemctl --user restart plasma-plasmashell.service"
+if ! pgrep -x plasmashell >/dev/null 2>&1; then
+    warn "Plasma Shell not running — Start Menu will load on next session."
     exit 0
 fi
 
-echo ""
-echo -e "${BOLD}Restart Plasma Shell now to apply the updated Start Menu?${RESET}"
-echo -e "  ${BOLD}1${RESET}) Yes"
-echo -e "  ${BOLD}2${RESET}) No — apply later manually"
-echo ""
-read -r -p "Choice [1]: " restart_choice
-restart_choice="${restart_choice:-1}"
+if ! is_interactive; then
+    info "Non-interactive install — restarting Plasma Shell to apply."
+    restart_plasmashell
+    exit 0
+fi
 
-case "$restart_choice" in
-    1|yes|y|Y|"")
-        if command -v systemctl &>/dev/null && systemctl --user is-active --quiet plasma-plasmashell.service 2>/dev/null; then
-            info "Restarting Plasma Shell..."
-            systemctl --user restart plasma-plasmashell.service
-        else
-            info "Restarting Plasma Shell with killall/kstart6..."
-            killall plasmashell 2>/dev/null || true
-            kstart6 plasmashell &
-        fi
-        ;;
-    *)
-        info "Plasma Shell not restarted. Restart later with:"
-        info "  systemctl --user restart plasma-plasmashell.service"
-        ;;
-esac
+restart_plasmashell

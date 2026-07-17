@@ -74,6 +74,14 @@ rm -f "$HOME/.local/lib/qt6/plugins/plasma/applets/${APP_ID}.so" 2>/dev/null || 
 info "Installed."
 
 # ── Start plasmashell ────────────────────────────────────────────
+# In batch mode (WM_BATCH=1) the parent 'all' driver restarts Plasma
+# Shell once at the very end — skipping the start here avoids a storm
+# of restarts when systray + icontasks install back-to-back.
+if [ "${WM_BATCH:-0}" = "1" ]; then
+    info "Installed (batch mode — Plasma Shell will restart at end of 'all')."
+    exit 0
+fi
+
 info "Restarting plasmashell..."
 systemctl --user start plasma-plasmashell.service
 sleep 3

@@ -61,57 +61,66 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 
 ## Installation
 
-### Quick start (interactive)
+### Quick start
 
 ```bash
 ./install.sh
 ```
 
-This opens a menu where you can install everything, individual components, or just the applets.
+Opens a menu (default choice = **Everything**). Pick **1** and you'll be
+asked only one question: **Light or Dark?** Everything else — themes,
+icons, applets, layout, KWin borders, Application Style, wallpaper,
+panel layout reset — is applied automatically.
 
 ### Install everything non-interactively
 
 ```bash
-./install.sh all
+./install.sh all              # asks Light/Dark if run in a terminal
+./install.sh all --dark       # no prompts, Dark
+./install.sh all --light      # no prompts, Light
 ```
+
+`all` installs in three phases: **atomic pieces** (themes, icons,
+applets, session lock) → **compose** (layout template, look-and-feel)
+→ **apply once** (borders, global theme with layout reset, Kvantum
+engine, single Plasma Shell restart).
+
+> `all` includes the session lock screen (Meta+L). The boot greeter is
+> **opt-in** (it replaces the system login manager) — use
+> `./install.sh greeter`.
 
 ### Install individual components
 
-```bash
-./install.sh themes      # Aurorae, colors, Kvantum, Plasma themes, wallpapers
-./install.sh icons       # Icon pack
-./install.sh lookfeel    # Global themes
-./install.sh layout      # Panel layout template
-./install.sh showdesk    # Show Desktop applet
-./install.sh startmenu   # Start Menu applet
-./install.sh systray     # System Tray applet (C++ — see below)
-./install.sh icontasks   # Icon Tasks taskbar (C++ — see below)
-./install.sh digitalclock # Digital Clock applet (QML)
-./install.sh applets     # All five applets
-./install.sh sessionlock # Session lock screen (Meta+L)
-./install.sh greeter     # Boot greeter / login screen (PLM build + user test)
-```
+Each component installs **and applies immediately** — no extra steps
+needed (Plasma Shell restarts automatically where required).
 
-> `install.sh all` includes the session lock screen. The boot greeter is
-> **opt-in** (it replaces the system login manager) — use `./install.sh greeter`
-> or `sudo bash scripts/install-greeter-live.sh`.
+```bash
+./install.sh themes       # Aurorae, colors, Kvantum, Plasma, wallpapers (+ applies)
+./install.sh icons        # Icon pack (+ activates)
+./install.sh lookfeel     # Global themes (asks Light/Dark, applies with layout reset)
+./install.sh layout       # Panel layout template
+./install.sh showdesk     # Show Desktop applet (+ restarts shell)
+./install.sh startmenu    # Start Menu applet (+ restarts shell)
+./install.sh systray      # System Tray (C++ — see below)
+./install.sh icontasks    # Icon Tasks taskbar (C++ — see below)
+./install.sh digitalclock # Digital Clock (+ restarts shell)
+./install.sh applets      # All five applets (single restart)
+./install.sh sessionlock  # Session lock screen (Meta+L)
+./install.sh greeter      # Boot greeter (PLM build + system install)
+```
 
 ---
 
-## Applying the theme
+## After installing
 
-1. Open **System Settings → Appearance → Global Theme**.
-2. Select **Windows Modern Dark** or **Windows Modern Light**.
-3. Click **Apply** (choose "Use desktop layout from theme" if prompted).
-4. Open **System Settings → Appearance → Application Style** and set it to **Kvantum**.
-5. Open **System Settings → Appearance → Icons** and select **windows-modern**.
-6. Add the Windows Modern panel:
-   - Right-click the desktop → **Add Panel → Windows Modern Panel**.
-7. Enable floating for the authentic Win11 look:
-   - Right-click the panel → **Show Panel Configuration → Floating → Applets Only**.
-   - This can't be set automatically — Plasma's scripting API doesn't expose it.
+For `all` / menu **Everything**, the only manual step is:
 
-If the panel layout is not available immediately after install, log out and back in.
+- **Enable floating** for the authentic Win11 look:
+  Right-click the panel → **Show Panel Configuration → Floating → Applets Only**.
+  (Plasma's scripting API can't set this automatically.)
+
+That's it — global theme, colors, icons, Application Style (Kvantum),
+wallpaper, and panel layout are all applied for you.
 
 ---
 

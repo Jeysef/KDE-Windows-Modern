@@ -53,3 +53,13 @@ rm -rf "$WALLPAPER_DIR/Windows-modern"*
 cp -r "$SRC_DIR/wallpaper/"* "$WALLPAPER_DIR/"
 
 info "Themes installed."
+
+# ── Standalone: make the change visible ─────────────────────────────
+# In batch mode the parent 'all' driver applies everything once at the
+# end, so we only apply here when running standalone.
+if ! is_batch && [ "$UID" -ne 0 ]; then
+    step "Applying Kvantum engine & desktop theme"
+    apply_kvantum_engine dark
+    command -v plasma-apply-desktoptheme &>/dev/null && plasma-apply-desktoptheme Windows-modern 2>/dev/null || true
+    bash "$SRC_DIR/scripts/set-wallpaper.sh" || true
+fi
