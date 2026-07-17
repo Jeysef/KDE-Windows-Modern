@@ -35,6 +35,27 @@ if [ "$PLM_DIRTY" -gt 0 ]; then
     (cd "${PLM_DIR}" && git reset --hard HEAD)
 fi
 
+# ── Verify PLM HEAD matches the commit this repo pins ──
+# A "clean" worktree is not enough: a clean checkout of some *other* ref would
+# be patched, built, and installed as the system login binary. Refuse to build
+# unless the submodule HEAD equals the gitlink recorded in the superproject.
+PLM_HEAD=$(cd "${PLM_DIR}" && git rev-parse HEAD 2>/dev/null)
+PLM_PINNED=$(cd "${SRC_DIR}" && git ls-tree HEAD -- third_party/plasma-login-manager 2>/dev/null | awk '{print $3}')
+if [ -z "$PLM_PINNED" ]; then
+    err "Could not read the pinned PLM commit from the superproject."
+    err "Run this from a clean checkout with the submodule initialized."
+    exit 1
+fi
+if [ "$PLM_HEAD" != "$PLM_PINNED" ]; then
+    err "PLM submodule HEAD does not match the pinned commit."
+    err "  pinned:   ${PLM_PINNED}"
+    err "  checkout: ${PLM_HEAD:-<none>}"
+    err "Refusing to build the login greeter from an unverified source."
+    err "Restore the pinned revision with:"
+    err "  git submodule update --init --recursive third_party/plasma-login-manager"
+    exit 1
+fi
+
 # ── Apply all PLM patches ──
 BUILD_NEEDED=false
 for patch_name in "${PATCHES[@]}"; do
