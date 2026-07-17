@@ -17,8 +17,8 @@ pinned upstream commit.
 |---|----------|------|-------|--------|
 | 3 | High | `scripts/install-greeter.sh` | Greeter built from unverified submodule state | **Fixed** |
 | 4 | High | `plasma/look-and-feel/org.kde.windowsmodern.dark/patches/main-cpp.patch` | Greeter loads user-writable QML | **Fixed** |
-| 1 | High | `plasma/applets/org.kde.windowsmodern.icontasks/dev.sh:62` | Root command injection via `pkg-config` path | Open (dev-only) |
-| 2 | High | `plasma/applets/org.kde.windowsmodern.systemtray/dev.sh:62`, `.../systemtray/install.sh:179` | Root command injection via interpolated install script | Open |
+| 1 | High | `plasma/applets/org.kde.windowsmodern.icontasks/dev.sh:62` | Root command injection via `pkg-config` path | **Fixed** |
+| 2 | High | `plasma/applets/org.kde.windowsmodern.systemtray/dev.sh:62`, `.../systemtray/install.sh:179` | Root command injection via interpolated install script | **Fixed** |
 | 5 | Medium | `scripts/update-plm.sh:32` | Updater builds a moving ref without commit/signature check | Open (maintainer-only) |
 | 6 | Low | `plasma/shells/org.kde.windowsmodern.lockscreen/contents/lockscreen/MediaControls.qml:38` | Lock screen fetches remote MPRIS art URL | Open |
 | 7 | Low | `plasma/shells/org.kde.windowsmodern.lockscreen/contents/lockscreen/config.xml:19` | Media controls default on (info disclosure at lock) | Open |
@@ -43,23 +43,25 @@ credentials is a code-injection channel into the credential path. The patch now
 loads only from the root-owned `/usr/share` path, falling back to the built-in
 `qrc:` theme — never from `$HOME`.
 
+### 1 & 2 — Root command injection in developer / plugin install scripts
+`icontasks/dev.sh`, `systemtray/dev.sh`, and `systemtray/install.sh` previously
+piped a heredoc into `pkexec bash -s` (or wrote a temp script run by `pkexec`)
+with paths interpolated from `pkg-config`/`kf6-config` output *before* the root
+shell parsed them. A malicious or malformed `.pc` file could yield root code
+execution.
+
+All three now pass the paths as **positional arguments** into a **quoted**
+heredoc (`pkexec bash -s -- "$PLUGIN_DST" … <<'EOF'`, read via `"$1"`/`"$2"`), so
+a shell-metacharacter in a hostile value is an inert string, never a command.
+Each destructive/privileged path is additionally guarded against an unexpected
+prefix (`/usr/*`, or the user's `$HOME` for the uninstall data dir) before
+`pkexec` runs. The `dev.sh` scripts remain developer-only and are not part of the
+end-user `install.sh` flow.
+
 ## Open findings and recommended fixes
 
 Not malicious; not triggered by the normal `install.sh` flow. Listed most
 important first.
-
-### 1 & 2 — Root command injection in developer / plugin install scripts (High)
-`icontasks/dev.sh`, `systemtray/dev.sh`, and `systemtray/install.sh` pipe a
-heredoc into `pkexec bash -s` (or write a temp script run by `pkexec`) with paths
-interpolated from `pkg-config` output *before* the root shell parses them. A
-malicious or malformed `.pc` file yields root code execution.
-
-*Fix:* never feed an interpolated string to a root shell. Pass values as quoted
-positional arguments to a fixed, non-interpolated script
-(`pkexec bash /path/to/static-install.sh "$KPACKAGE_DIR" "$PLUGIN_DEST"`,
-referencing `"$1"`/`"$2"`), and validate each path against an allowlisted prefix
-(`/usr/lib`, `/usr/share`) before use. The `dev.sh` scripts are developer-only
-and not part of the end-user install.
 
 ### 5 — Updater builds a moving ref without verification (Medium, MITM)
 `update-plm.sh` fetches and builds a caller-selected branch/tag with no
