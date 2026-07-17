@@ -190,17 +190,17 @@ ContainmentItem {
                 verticalLayoutDirection: (root.vertical && root.reverseLayout) ? GridView.BottomToTop : GridView.TopToBottom
 
                 // The icon size to display when not using the auto-scaling setting
-                // Hafızadaki panelIconSize değerine göre (0 ise Small, 1 ise Medium) temel boyutu belirler
+                // Determines the base size based on the panelIconSize value in memory (Small if 0, Medium if 1).
                 readonly property int smallIconSize: {
                     if (Plasmoid.configuration.panelIconSize === 1) {
-                        // Medium seçeneği (Örn: Orijinal 22px olan smallMedium değerine 6px ekleyerek 28px yapıyoruz)
+                        // Medium option (e.g., we add 6px to the original 22px small Medium value to make it 28px)
                         return Kirigami.Units.iconSizes.smallMedium + 6;
                     }
-                    // 0 (Small) veya varsayılan durum için orijinal 22px boyutu
+                    // 0 (Small) or the default original 22px size
                     return Kirigami.Units.iconSizes.smallMedium;
                 }
 
-                // Eğer panelIconSize değeri 2 ise (Scale with Panel height) otomatik ölçekleme aktif olur
+                // If the panelIconSize value is 2, automatic scaling (Scale with Panel height) will be activated.
                 readonly property bool autoSize: Plasmoid.configuration.panelIconSize === 2
 
                 readonly property int gridThickness: root.vertical ? root.width : root.height
