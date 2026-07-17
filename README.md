@@ -38,7 +38,7 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 | **Plasma desktop themes** | `plasma/desktoptheme/` | Full SVG theme sets for panels, widgets, tooltips, dialogs, switches, and tasks. |
 | **Global themes** | `plasma/look-and-feel/` | `org.kde.windowsmodern.dark` and `org.kde.windowsmodern.light`. |
 | **Panel layout template** | `plasma/layout-templates/` | A Win11-style bottom panel layout you can add from the desktop context menu. |
-| **Custom applets** | `plasma/applets/` | Show Desktop, Start Menu, C++ System Tray, and C++ Icon Tasks (icons-only taskbar). |
+| **Custom applets** | `plasma/applets/` | Show Desktop, Start Menu, Digital Clock, C++ System Tray, and C++ Icon Tasks (icons-only taskbar). |
 | **Session lock screen** | `plasma/shells/org.kde.windowsmodern.lockscreen/` | Win11-style lock screen for Meta+L (kscreenlocker). Installed as a complete overlay of the default desktop shell. |
 | **Boot greeter** | `plasma/look-and-feel/.../contents/lockscreen/` + `third_party/plasma-login-manager/` | Patched Plasma Login Manager build that loads a Win11 login screen. Opt-in (system install needs root). |
 | **Icon pack** | `icons/windows-modern/` | Curated Windows-11-style icon theme (~25,000 SVGs). |
@@ -53,6 +53,7 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 - **Kvantum** engine installed (`kvantum` package on most distros)
 - For the **System Tray applet**: a C++ compiler and KDE/Plasma development packages (see [System Tray](#system-tray) below)
 - For the **Icon Tasks applet**: a C++ compiler and a slightly different KDE/Plasma dev set (see [Icon Tasks](#icon-tasks) below)
+- For the **Digital Clock applet**: no extra deps (pure QML).
 - For the **session lock screen**: no extra deps (pure QML, installed as a shell overlay).
 - For the **boot greeter**: a C++ compiler and the Plasma Login Manager build deps (Qt6 ShaderTools, LayerShellQt, libkscreen, PAM) — see [`plasma/look-and-feel/org.kde.windowsmodern.dark/BUILD.md`](plasma/look-and-feel/org.kde.windowsmodern.dark/BUILD.md).
 
@@ -85,7 +86,8 @@ This opens a menu where you can install everything, individual components, or ju
 ./install.sh startmenu   # Start Menu applet
 ./install.sh systray     # System Tray applet (C++ — see below)
 ./install.sh icontasks   # Icon Tasks taskbar (C++ — see below)
-./install.sh applets     # All four applets
+./install.sh digitalclock # Digital Clock applet (QML)
+./install.sh applets     # All five applets
 ./install.sh sessionlock # Session lock screen (Meta+L)
 ./install.sh greeter     # Boot greeter / login screen (PLM build + user test)
 ```
@@ -126,6 +128,13 @@ A Win11-style start menu with Pinned apps, All Apps, and Search pages.
 - Install: `./install.sh startmenu`
 - Add it to the panel and remove the default Plasma menu.
 - Implementation plan: [`docs/STARTMENU_PLAN.md`](docs/STARTMENU_PLAN.md)
+
+### Digital Clock
+
+A pure-QML digital clock with a Windows 11 styled compact panel view and expanded calendar popup. It reuses the upstream Plasma clock and calendar backends but draws its own visuals: padded text in the panel, a dark rounded popup, a month calendar with the current day highlighted in blue, and optional event dots from KDE calendar plugins. It keeps all upstream settings (time format, date format, time zones, calendar plugins) while omitting pin-on-middle-click, calendar launch, clipboard copy, and wheel timezone switching.
+
+- Install: `./install.sh digitalclock`
+- The Windows Modern panel layout uses it automatically; it falls back to the upstream `org.kde.plasma.digitalclock` if the custom applet is not installed.
 
 ### System Tray
 
@@ -335,6 +344,7 @@ Full instructions: [`app-decorations/firefox/README.md`](app-decorations/firefox
 ./uninstall.sh themes        # Remove theme components only
 ./uninstall.sh icons         # Remove icon pack
 ./uninstall.sh systray       # Remove system tray plugin
+./uninstall.sh digitalclock  # Remove Digital Clock applet
 ./uninstall.sh sessionlock   # Restore Breeze lock screen (Meta+L)
 ./uninstall.sh greeter       # Remove user greeter theme + revert patches
 ./uninstall.sh greetersystem # Restore system greeter binary (needs sudo)

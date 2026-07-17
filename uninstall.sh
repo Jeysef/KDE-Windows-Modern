@@ -118,6 +118,11 @@ uninstall_component() {
             rm_path "$HOME/.local/lib/qt6/plugins/plasma/applets/org.kde.windowsmodern.icontasks.so"
             info "Icon Tasks uninstalled. Restart plasmashell to complete."
             ;;
+        digitalclock)
+            rm_path "/usr/share/plasma/plasmoids/org.kde.windowsmodern.digitalclock"
+            rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.digitalclock"
+            info "Digital Clock uninstalled. Restart plasmashell to complete."
+            ;;
         sessionlock)
             # kscreenlocker uses the current desktop shell's lockscreen. We
             # themed Meta+L by creating a complete user-level overlay of
@@ -152,14 +157,14 @@ uninstall_component() {
             bash "$SRC_DIR/scripts/uninstall-greeter-system.sh"
             ;;
         all)
-            for c in themes icons lookfeel layout showdesk startmenu systray icontasks sessionlock greeter; do
+            for c in themes icons lookfeel layout showdesk startmenu systray icontasks digitalclock sessionlock greeter; do
                 uninstall_component "$c"
             done
             reset_kwin_borders
             ;;
         *)
             err "Unknown component: $name"
-            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, icontasks, sessionlock, greeter, greetersystem, all"
+            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, icontasks, digitalclock, sessionlock, greeter, greetersystem, all"
             exit 1
             ;;
     esac
@@ -178,6 +183,7 @@ case "${1:-}" in
         echo "  startmenu  Start Menu applet"
     echo "  systray    System Tray"
     echo "  icontasks  Icon Tasks taskbar"
+    echo "  digitalclock Digital Clock"
     echo "  sessionlock Session lock screen (Meta+L)"
     echo "  greeter    Boot greeter (user theme + revert patches)"
     echo "  greetersystem Restore system greeter binary (needs sudo)"

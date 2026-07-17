@@ -64,24 +64,25 @@ var tray = panel.addWidget("org.kde.windowsmodern.systemtray");
 if (!tray) { tray = panel.addWidget("org.kde.plasma.systemtray"); }
 
 // 6. Digital clock — Win11 puts the clock at the far right, with the date
-//    stacked below the time. Use a small Segoe UI Regular weight and pin
-//    the font to 10pt so it stays readable but does not dominate the panel
-//    at 48px.
-//    IMPORTANT: autoFontAndSize must be set to false; otherwise Plasma
-//    ignores fontFamily/fontSize and auto-sizes the text to the panel.
+//    stacked below the time. Use the custom Windows Modern digital clock
+//    so the compact view respects padding and matches the icon-task icon
+//    height. Fall back to the upstream clock if the custom applet is not
+//    installed.
+//    autoFontAndSize = true lets the clock follow the system font while
+//    compactPadding still keeps vertical padding around the text.
 //    use24hFormat = 1 lets the clock follow the user's locale/region
 //    defaults instead of forcing 12- or 24-hour time.
 //    dateDisplayFormat = 2 forces the date below the time (BelowTime).
-var clock = panel.addWidget("org.kde.plasma.digitalclock");
+var clock = panel.addWidget("org.kde.windowsmodern.digitalclock");
+if (!clock) { clock = panel.addWidget("org.kde.plasma.digitalclock"); }
 clock.currentConfigGroup = new Array("Appearance");
-clock.writeConfig("autoFontAndSize", "false");
-clock.writeConfig("fontFamily", "Segoe UI");
-clock.writeConfig("fontStyleName", "Regular");
-clock.writeConfig("fontSize", "10");
+clock.writeConfig("autoFontAndSize", "true");
 clock.writeConfig("showDate", "true");
 clock.writeConfig("dateDisplayFormat", "2");
 clock.writeConfig("showSeconds", "0");
 clock.writeConfig("use24hFormat", "1");
+clock.writeConfig("compactPadding", "0.18");
+clock.writeConfig("expandedWidth", "320");
 
 // 7. Show Desktop — custom Win11-style thin sliver, or fall back to stock.
 var peek = panel.addWidget("org.kde.windowsmodern.showdesktop");

@@ -119,10 +119,14 @@ The `contents/layout.js` creates:
      the centered Start + tasks group from the system tray on the far
      right.
   5. **System tray** — `org.kde.windowsmodern.systemtray`
-  6. **Digital clock** — `org.kde.plasma.digitalclock` pinned to
-      Segoe UI Regular 10pt, with date stacked below the time, no seconds,
-      and `use24hFormat=1` so it follows the user's locale. The fixed
-      font size keeps the clock readable without dominating tall panels.
+  6. **Digital clock** — `org.kde.windowsmodern.digitalclock` (with a
+      fallback to `org.kde.plasma.digitalclock`). Stacked date below the
+      time, no seconds by default, `use24hFormat=1` so it follows the
+      user's locale. The compact view uses `compactPadding` (default 0.18)
+      so the text height matches the icon-task icon area instead of
+      spanning the full panel. The expanded popup is a dark rounded
+      Windows 11 calendar with month navigation, current-day blue circle,
+      hover highlights, and optional KDE calendar event dots.
   7. **Show Desktop** — `org.kde.windowsmodern.showdesktop`, a custom
       forked applet (see below). Renders as a 6px-wide bare sliver with
       no icon. Click minimizes all windows; click again restores.
@@ -196,6 +200,52 @@ and shared grid components (see file tree below).
 `org.kde.plasma.private.kicker 0.1` and `org.kde.kitemmodels 1.0`).
 `KPlugin.Id`: `org.kde.windowsmodern.startmenu`, License `GPL-3.0-or-later`,
 Author `Jeysef`.
+
+#### Digital Clock applet (`plasma/applets/org.kde.windowsmodern.digitalclock/`)
+
+A pure-QML fork of the upstream `org.kde.plasma.digitalclock`, rebranded
+as `org.kde.windowsmodern.digitalclock` and redrawn with Windows 11
+visuals. It reuses the upstream Plasma clock and calendar backends
+(`org.kde.plasma.clock`, `org.kde.plasma.private.digitalclock`,
+`org.kde.plasma.workspace.calendar`) so all KDE functionality is
+preserved: time/date formatting, time zones, calendar events, week
+numbers, and calendar plugins.
+
+Win11 refinements over upstream:
+
+- **Padded compact clock** — `compactPadding` (default 0.18) caps the
+  text height so the clock visually matches the icon-task icon area
+  instead of spanning the full panel height. Works with both Automatic
+  and Manual text display modes.
+- **Theme-aware rounded popup** — the popup fill, border and shadow are
+  supplied by the Plasma theme's `dialogs/background.svg`
+  (`#2C2C2C`/`#F9F9F9` fill with `#3F3F3F`/`#E5E5E5` border), 8px corner
+  radius, sized by `expandedWidth` (default 320px). Text colors come
+  from the Win11 palette via `Win11Palette`.
+- **Win11 time header** — large seconds-capable time with AM/PM rendered
+  smaller and raised, plus a locale-aware "dddd, MMMM d" date line.
+- **Win11 calendar grid** — month/year header with custom chevron
+  buttons, localized day-of-week header, 6-week grid, current day as a
+  solid accent circle (`#4CC2FF` dark / `#0067C0` light), hover/pressed
+  rounded rectangles (`#3F3F3F`/`#E9E9E9`), selected day as a subtle
+  rounded rectangle (`#2C2C2C`/`#F3F3F3`), and previous/next month days
+  dimmed. Days scale slightly when pressed and colors animate.
+- **Event dots** — small colored dots under days that have events from
+  enabled KDE calendar plugins; hovering a day with events shows a
+  tooltip with the event summaries.
+- **Dynamic navigation** — mouse wheel over the grid flips months, arrow
+  keys move the selection, Page Up/Down flips months, Home jumps to
+  today, and clicking a day from the previous/next month jumps to that
+  month. Month changes cross-fade.
+- **Time zone list** — shown in the popup when multiple time zones are
+  configured.
+
+Removed interactions: pin on middle-click, calendar launch,
+clipboard time copy, and wheel-to-switch-timezone.
+
+Config keys are the same as upstream plus `compactPadding` (double)
+and `expandedWidth` (int). Build and install with
+`./install.sh digitalclock`.
 
 #### System Tray applet (`plasma/applets/org.kde.windowsmodern.systemtray/`)
 

@@ -90,7 +90,8 @@ wired up later (see step 3c).
 | 8 | Windows Modern — Show Desktop applet | Plasma 6 Applets | `WindowsModern-applet-showdesktop-*.zip` |
 | 9 | Windows Modern — Start Menu applet | Plasma 6 Applets | `WindowsModern-applet-startmenu-*.zip` |
 | 10 | Windows Modern — Icon Tasks applet | Plasma 6 Applets | `WindowsModern-applet-icontasks-*.zip` |
-| 11 | Windows Modern — Panel Layout | Plasma 6 Layout Templates | `WindowsModern-layout-panel-*.zip` |
+| 11 | Windows Modern — Digital Clock applet | Plasma 6 Applets | `WindowsModern-applet-digitalclock-*.zip` |
+| 12 | Windows Modern — Panel Layout | Plasma 6 Layout Templates | `WindowsModern-layout-panel-*.zip` |
 | 12 | Windows Modern — Global Theme Dark | Global Themes (Plasma 6) | `WindowsModern-lookfeel-dark-*.zip` |
 | 13 | Windows Modern — Global Theme Light | Global Themes (Plasma 6) | `WindowsModern-lookfeel-light-*.zip` |
 
@@ -108,7 +109,7 @@ wired up later (see step 3c).
 
 ### 3c. Wire up Global Theme dependencies **[manual]**
 
-The Global Themes (items 12–13) can auto-install their color scheme, Plasma
+The Global Themes (items 13–14) can auto-install their color scheme, Plasma
 theme, Aurorae, and icon dependencies via `X-KPackage-Dependencies`.
 These dependency lines were **emptied** for the initial release because the
 new KDE Store product IDs were not yet known.
@@ -140,7 +141,7 @@ Format (one per dependency, example):
 X-KPackage-Dependencies=kns://colorschemes.knsrc/api.kde-look.org/<NEW_ID>,kns://plasma-themes.knsrc/api.kde-look.org/<NEW_ID>,...
 ```
 
-Then re-package and re-upload the Global Themes (items 12–13) with the updated
+Then re-package and re-upload the Global Themes (items 13–14) with the updated
 dependencies, and bump the version (e.g. `1.0.1`).
 
 ### 3d. Components NOT published to the KDE Store

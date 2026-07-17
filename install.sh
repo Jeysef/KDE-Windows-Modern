@@ -71,7 +71,8 @@ menu() {
     echo -e "  ${BOLD}7${RESET})  Applets: Start Menu"
     echo -e "  ${BOLD}8${RESET})  Applets: System Tray (C++ — requires compiler)"
     echo -e "  ${BOLD}9${RESET})  Applets: Icon Tasks taskbar (C++ — requires compiler)"
-    echo -e "  ${BOLD}a${RESET})  All applets (6–9)"
+    echo -e "  ${BOLD}d${RESET})  Applets: Digital Clock (QML)"
+    echo -e "  ${BOLD}a${RESET})  All applets (6–9, d)"
     echo -e "  ${BOLD}l${RESET})  Session lock screen (Meta+L)"
     echo -e "  ${BOLD}g${RESET})  Boot greeter / login screen (PLM — C++ build + system install)"
     echo -e "  ${BOLD}0${RESET})  Quit"
@@ -86,6 +87,7 @@ menu() {
             install_component showdesk
             install_component startmenu; install_component systray
             install_component icontasks
+            install_component digitalclock
             install_component layout
             install_component lookfeel
             post_install ;;
@@ -97,9 +99,11 @@ menu() {
         7)  install_component startmenu ;;
         8)  install_component systray ;;
         9)  install_component icontasks ;;
+        d|D) install_component digitalclock ;;
         a|A) install_component showdesk
             install_component startmenu; install_component systray
-            install_component icontasks ;;
+            install_component icontasks
+            install_component digitalclock ;;
         l|L) install_component sessionlock ;;
         g|G) echo "Boot greeter install requires root for the system-wide step."
             echo "Building patched PLM first (user)..."
@@ -126,7 +130,8 @@ case "${1:-menu}" in
         echo "  startmenu   Start Menu applet"
         echo "  systray     System Tray (C++ — needs compiler)"
         echo "  icontasks   Icon Tasks taskbar (C++ — needs compiler)"
-        echo "  applets     All applets (showdesk, startmenu, systray, icontasks)"
+        echo "  digitalclock Digital Clock (QML)"
+        echo "  applets     All applets (showdesk, startmenu, systray, icontasks, digitalclock)"
         echo "  sessionlock Session lock screen (Meta+L)"
         echo "  greeter     Boot greeter / login screen (PLM build, user test)"
         echo "  all         Everything (sessionlock included; greeter is opt-in)"
@@ -140,6 +145,7 @@ case "${1:-menu}" in
         install_component showdesk
         install_component startmenu; install_component systray
         install_component icontasks
+        install_component digitalclock
         ;;
     all)
         # Install applets FIRST so the layout script can find them when
@@ -148,6 +154,7 @@ case "${1:-menu}" in
         install_component showdesk
         install_component startmenu; install_component systray
         install_component icontasks
+        install_component digitalclock
         install_component layout
         install_component lookfeel
         install_component sessionlock
