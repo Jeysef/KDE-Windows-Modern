@@ -1,0 +1,29 @@
+{
+    "KPackageStructure": "Plasma/Theme",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "jeysef@users.noreply.github.com",
+                "Name": "Jeysef"
+            }
+        ],
+        "Category": "Plasma 6 Themes",
+        "Description": "Windows Modern Light desktop theme for KDE Plasma 6. Based on Win11OS-kde by yeyushengfan258.",
+        "EnabledByDefault": true,
+        "Id": "Windows-modern-light",
+        "License": "GPL-3.0-only",
+        "Name": "Windows-modern-light",
+        "Version": "1.0.0",
+        "Website": "https://github.com/Jeysef/KDE-Windows-Modern"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "ContrastEffect": {
+        "enabled": false,
+        "contrast": 0.2,
+        "intensity": 0.4,
+        "saturation": 1.7
+    },
+    "AdaptiveTransparency": {
+        "enabled": true
+    }
+}
