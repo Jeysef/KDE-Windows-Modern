@@ -35,45 +35,60 @@ if [ "$PLM_DIRTY" -gt 0 ]; then
     (cd "${PLM_DIR}" && git reset --hard HEAD)
 fi
 
-# ── Apply all PLM patches ──
-BUILD_NEEDED=false
-for patch_name in "${PATCHES[@]}"; do
-    patch_path="${PATCH_DIR}/${patch_name}"
-    step "Applying ${patch_name}..."
-    if patch -d "${PLM_DIR}" -p1 --dry-run -s -f < "${patch_path}" 2>/dev/null; then
-        patch -d "${PLM_DIR}" -p1 < "${patch_path}"
-        echo "    Patch applied."
-        BUILD_NEEDED=true
-    else
-        echo "    Patch already applied or not needed — skipping."
-    fi
-done
-
-# ── Build PLM (skip if binary exists and is newer than patches) ──
+# ── Determine whether a build is needed ──
 BUILD_DIR="${PLM_DIR}/build-user"
 BINARY="${BUILD_DIR}/bin/plasma-login-greeter"
 mkdir -p "${BUILD_DIR}"
+
+BUILD_NEEDED=false
+SOURCE_COMMIT_FILE="${BUILD_DIR}/.source_commit"
+CURRENT_COMMIT=$(cd "${PLM_DIR}" && git rev-parse HEAD 2>/dev/null || echo "unknown")
+if [ ! -f "$BINARY" ]; then
+    BUILD_NEEDED=true
+elif [ ! -f "$SOURCE_COMMIT_FILE" ] || [ "$(cat "$SOURCE_COMMIT_FILE" 2>/dev/null)" != "$CURRENT_COMMIT" ]; then
+    BUILD_NEEDED=true
+else
+    for patch_name in "${PATCHES[@]}"; do
+        patch_path="${PATCH_DIR}/${patch_name}"
+        if [ "$patch_path" -nt "$BINARY" ]; then
+            BUILD_NEEDED=true
+            break
+        fi
+    done
+fi
 
 # Ensure patches are ALWAYS reverted, even if the build fails (set -e would
 # otherwise skip the revert step and leave the submodule dirty).
 revert_patches() {
     for patch_name in "${PATCHES[@]}"; do
         patch_path="${PATCH_DIR}/${patch_name}"
-        patch -d "${PLM_DIR}" -R -p1 < "${patch_path}" 2>/dev/null || true
+        patch --batch -d "${PLM_DIR}" -R -p1 < "${patch_path}" 2>/dev/null || true
     done
 }
 trap revert_patches EXIT
 
-if [ -f "$BINARY" ] && [ "$BUILD_NEEDED" = false ]; then
+if [ "$BUILD_NEEDED" = false ]; then
     step "Patched binary already up-to-date, skipping build."
 else
+    # ── Apply all PLM patches ──
+    for patch_name in "${PATCHES[@]}"; do
+        patch_path="${PATCH_DIR}/${patch_name}"
+        step "Applying ${patch_name}..."
+        if patch -d "${PLM_DIR}" -p1 --dry-run -s -f < "${patch_path}" 2>/dev/null; then
+            patch -d "${PLM_DIR}" -p1 < "${patch_path}"
+            echo "    Patch applied."
+        else
+            echo "    Patch already applied or not needed — skipping."
+        fi
+    done
+
     step "Building plasma-login-manager..."
     cd "${BUILD_DIR}"
 
     # Configure if needed. A previously FAILED configure can leave a stale
     # CMakeCache.txt with no Makefile, so reconfigure whenever the Makefile
-    # is missing — and force a fresh configure when we just patched source.
-    if [ "$BUILD_NEEDED" = true ] || [ ! -f Makefile ]; then
+    # is missing.
+    if [ ! -f Makefile ]; then
         echo "  Configuring CMake..."
         rm -f CMakeCache.txt
         cmake "${PLM_DIR}" \
@@ -84,6 +99,7 @@ else
 
     cmake --build . --target plasma-login-greeter --parallel "$(nproc)"
     echo "  Build complete."
+    echo "$CURRENT_COMMIT" > "$SOURCE_COMMIT_FILE"
 fi
 
 # Patches are reverted automatically by the EXIT trap (defined above) so the

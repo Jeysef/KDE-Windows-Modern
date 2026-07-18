@@ -205,12 +205,7 @@ case "${1:-menu}" in
         install_everything "$variant_from_flag"
         ;;
     greeter)
-        echo "Boot greeter install requires root for the system-wide step."
-        echo "Building patched PLM first (user)..."
         install_component greeter
-        echo ""
-        echo "Now installing system-wide (needs sudo)..."
-        sudo bash "$SCRIPT_DIR/scripts/install-greeter-live.sh" || err "System greeter install failed or was cancelled."
         ;;
     *)
         install_component "$1"
