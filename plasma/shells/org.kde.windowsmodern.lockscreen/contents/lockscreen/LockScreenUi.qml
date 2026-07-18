@@ -103,9 +103,14 @@ Item {
 
         property bool uiVisible: false
         property bool blockUI: containsMouse && (mainStack.depth > 1 || mainBlock.mainPasswordBox.text.length > 0)
+        property bool loginUiActive: uiVisible || mainBlock.mainPasswordBox.text.length > 0 || graceLockTimer.running
         cursorShape: Qt.ArrowCursor
         drag.filterChildren: true
 
+        onEntered: {
+            uiVisible = true;
+            fadeoutTimer.restart();
+        }
         onPressed: (mouse) => {
             var item = lockScreenRoot.childAt(mouse.x, mouse.y);
             while (item && item !== lockScreenRoot) {
@@ -146,13 +151,13 @@ Item {
             }
         }
         Timer { id: notificationRemoveTimer; interval: 3000; onTriggered: root.notification = "" }
-        Timer { id: graceLockTimer; interval: 3000; onTriggered: { root.clearPassword(); authenticator.startAuthenticating() } }
+        Timer { id: graceLockTimer; interval: 3000; onTriggered: { authenticator.startAuthenticating() } }
 
         // ── Wallpaper layer ──
         WallpaperFader {
             id: wallpaperFader
             anchors.fill: parent
-            state: lockScreenRoot.uiVisible ? "on" : "off"
+            state: lockScreenRoot.loginUiActive ? "on" : "off"
             source: wallpaper
             mainStack: mainStack
             footer: footer
@@ -165,7 +170,7 @@ Item {
         Rectangle {
             anchors.fill: parent
             color: "#000000"
-            opacity: lockScreenRoot.uiVisible ? 0.45 : 0.0
+            opacity: lockScreenRoot.loginUiActive ? 0.45 : 0.0
 
             Behavior on opacity {
                 NumberAnimation {
@@ -184,7 +189,7 @@ Item {
             width: childrenRect.width
             height: childrenRect.height
 
-            opacity: lockScreenRoot.uiVisible ? 0.0 : 1.0
+            opacity: lockScreenRoot.loginUiActive ? 0.0 : 1.0
             visible: opacity > 0
 
             Behavior on opacity {
@@ -242,7 +247,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             source: "MediaControls.qml"
             active: cfg_showMediaControls
-            visible: !lockScreenRoot.uiVisible
+            visible: !lockScreenRoot.loginUiActive
         }
 
         // ── Status icons (bottom-right, icon-only, idle only) ──
@@ -252,7 +257,7 @@ Item {
             anchors.right: parent.right
             anchors.margins: Kirigami.Units.largeSpacing
             spacing: Kirigami.Units.mediumSpacing
-            visible: !lockScreenRoot.uiVisible
+            visible: !lockScreenRoot.loginUiActive
 
             PlasmaComponents3.ToolButton {
                 width: 32
@@ -301,7 +306,7 @@ Item {
             height: Math.min(parent.height * 0.8, 600)
             focus: true
             visible: opacity > 0
-            opacity: lockScreenRoot.uiVisible ? 1.0 : 0.0
+            opacity: lockScreenRoot.loginUiActive ? 1.0 : 0.0
 
             Behavior on opacity {
                 NumberAnimation {
@@ -314,7 +319,7 @@ Item {
                 id: mainBlock
                 lockScreenUiVisible: lockScreenRoot.uiVisible
                 showUserList: true
-                enabled: !graceLockTimer.running
+                lockedOut: graceLockTimer.running
                 StackView.onStatusChanged: {
                     if (StackView.status === StackView.Activating) {
                         mainPasswordBox.clear(); mainPasswordBox.focus = true; root.notification = "";

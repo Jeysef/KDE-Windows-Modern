@@ -24,6 +24,7 @@ SessionManagementScreen {
     readonly property alias mainPasswordBox: passwordBox
     property bool lockScreenUiVisible: false
     property alias showPassword: passwordBox.showPassword
+    property bool lockedOut: false
 
     showUserList: true
     property string customErrorMessage: ""
@@ -40,6 +41,9 @@ SessionManagementScreen {
     }
 
     function startLogin() {
+        if (sessionManager.lockedOut) {
+            return;
+        }
         const password = passwordBox.text
         loginButton.forceActiveFocus();
         passwordResult(password);
@@ -158,7 +162,7 @@ SessionManagementScreen {
             background: Item {}
 
             onAccepted: {
-                if (sessionManager.lockScreenUiVisible) {
+                if (sessionManager.lockScreenUiVisible && !sessionManager.lockedOut) {
                     sessionManager.startLogin();
                 }
             }
@@ -198,9 +202,21 @@ SessionManagementScreen {
             visible: passwordBox.text.length > 0
             icon.color: hovered ? "#4CC2FF" : "#A0A0A0"
 
-            onClicked: sessionManager.startLogin()
-            Keys.onEnterPressed: clicked()
-            Keys.onReturnPressed: clicked()
+            onClicked: {
+                if (!sessionManager.lockedOut) {
+                    sessionManager.startLogin();
+                }
+            }
+            Keys.onEnterPressed: {
+                if (!sessionManager.lockedOut) {
+                    clicked();
+                }
+            }
+            Keys.onReturnPressed: {
+                if (!sessionManager.lockedOut) {
+                    clicked();
+                }
+            }
 
             background: Rectangle {
                 color: parent.hovered ? "#33FFFFFF" : "transparent"
