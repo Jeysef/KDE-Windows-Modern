@@ -10,8 +10,8 @@
 #
 #  Revert (fast):   sudo cp /usr/libexec/plasma-login-greeter.orig \
 #                       /usr/libexec/plasma-login-greeter && \
-#                   sudo systemctl restart plasmalogin
-#  Revert (full):   sudo bash scripts/uninstall-greeter-system.sh
+#                   sudo reboot
+#  Revert (full):   sudo bash scripts/uninstall-greeter-system.sh && sudo reboot
 # ───────────────────────────────────────────────────────────────────
 set -e
 
@@ -36,14 +36,14 @@ echo "╚═══════════════════════�
 echo ""
 
 # ── Step 1: Build patched PLM (fresh build every time) ──
-echo "Step 1 / 5: Building patched PLM..."
+echo "Step 1 / 4: Building patched PLM..."
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 bash "${SRC_DIR}/scripts/install-greeter.sh"
 echo ""
 
-# ── Step 2: Require root for system install ──
+# ── Require root for system install ──
 if [ "$EUID" -ne 0 ]; then
-    echo "ERROR: Step 2 (system install) requires root."
+    echo "ERROR: System install requires root."
     echo "       Run the complete script with sudo:"
     echo ""
     echo "       sudo bash scripts/install-greeter-live.sh"
@@ -51,7 +51,7 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-# ── Step 3: Typed confirmation ──
+# ── Typed confirmation ──
 read -r -p "Type YES to proceed with system install: " CONFIRM
 echo ""
 if [ "$CONFIRM" != "YES" ]; then
@@ -61,27 +61,35 @@ if [ "$CONFIRM" != "YES" ]; then
     exit 1
 fi
 
-# ── Step 4: Backup pristine binary (once) ──
+# ── Step 2: Backup pristine binary (once) ──
 if [ -f "$PLM_BINARY" ] && [ ! -f "${PLM_BINARY}.orig" ]; then
-    echo "Step 2 / 5: Saving pristine backup → ${PLM_BINARY}.orig"
+    echo "Step 2 / 4: Saving pristine backup → ${PLM_BINARY}.orig"
     cp "$PLM_BINARY" "${PLM_BINARY}.orig"
 else
-    echo "Step 2 / 5: Pristine backup already exists."
+    echo "Step 2 / 4: Pristine backup already exists."
 fi
 
-# ── Step 5: Install patched binary ──
-echo "Step 3 / 5: Installing patched binary..."
+# ── Step 3: Stop plasmalogin so we can overwrite the running binary ──
+# We do NOT restart the service here: starting plasmalogin while a user is
+# already logged into a graphical session spawns a greeter overlay on top of
+# the running desktop. The new binary will be used automatically on reboot.
+if systemctl is-active --quiet plasmalogin.service; then
+    echo "Step 3 / 4: Stopping plasmalogin.service..."
+    systemctl stop plasmalogin.service
+    echo "           Service stopped."
+fi
+
+# ── Step 4: Install patched binary, theme, and wallpaper system-wide ──
+echo "Step 4 / 4: Installing patched binary..."
 cp "${PLM_BUILD}/bin/plasma-login-greeter" "$PLM_BINARY"
 chmod 755 "$PLM_BINARY"
 
-# ── Step 6: Install theme system-wide ──
 echo "           Installing theme to ${SYSTEM_LOOKFEEL}..."
 rm -rf "${SYSTEM_LOOKFEEL}/contents/lockscreen"
 mkdir -p "${SYSTEM_LOOKFEEL}/contents"
 cp -r "${USER_LOOKFEEL}/contents/lockscreen" "${SYSTEM_LOOKFEEL}/contents/"
 
-# ── Step 7: Ensure the greeter wallpaper is installed system-wide ──
-echo "Step 4 / 5: Ensuring greeter wallpaper is installed system-wide..."
+echo "           Ensuring greeter wallpaper is installed system-wide..."
 if [ ! -d "${SYSTEM_WALLPAPER}" ]; then
     cp -r "${SRC_DIR}/wallpaper/Windows-modern" "${SYSTEM_WALLPAPER}"
     echo "           Wallpaper installed to ${SYSTEM_WALLPAPER}"
@@ -89,26 +97,23 @@ else
     echo "           Wallpaper already present at ${SYSTEM_WALLPAPER}"
 fi
 
-# ── Step 8: Restart service ──
-echo "Step 5 / 5: Restarting plasmalogin.service..."
-if systemctl is-active --quiet plasmalogin.service; then
-    systemctl restart plasmalogin.service
-    echo "           Service restarted."
-else
-    echo "           Service not running. Next reboot will use patched greeter."
-fi
-
 echo ""
 echo "╔══════════════════════════════════════════════════════════════════╗"
 echo "║                     INSTALL COMPLETE                            ║"
 echo "╚══════════════════════════════════════════════════════════════════╝"
 echo ""
-echo "Your patched PLM is now live. Log out (or reboot) to see it."
+echo "The patched greeter binary is installed. It will be used on the next boot."
+echo ""
+echo "DO NOT run 'sudo systemctl start plasmalogin' while logged in — that will"
+echo "spawn a greeter overlay on top of your current session."
+echo ""
+echo "Reboot now to see the new greeter:"
+echo "  sudo reboot"
 echo ""
 echo "Quick revert (no package manager needed):"
 echo "  sudo cp ${PLM_BINARY}.orig ${PLM_BINARY}"
-echo "  sudo systemctl restart plasmalogin"
+echo "  sudo reboot"
 echo ""
 echo "Full revert (restores distro package):"
-echo "  sudo bash scripts/uninstall-greeter-system.sh"
+echo "  sudo bash scripts/uninstall-greeter-system.sh && sudo reboot"
 echo ""

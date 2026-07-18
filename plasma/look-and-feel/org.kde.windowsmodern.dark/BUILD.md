@@ -84,9 +84,14 @@ third_party/plasma-login-manager/build-user/bin/plasma-login-greeter --test
 sudo bash scripts/install-greeter-live.sh
 ```
 
-This backs up `/usr/libexec/plasma-login-greeter` to `.orig`, copies the
-patched binary into place, installs the theme + wallpaper system-wide,
-and restarts `plasmalogin.service`. Requires typing `YES`.
+This backs up `/usr/libexec/plasma-login-greeter` to `.orig`, stops
+`plasmalogin.service` so the running binary can be overwritten, copies the
+patched binary into place, and installs the theme + wallpaper system-wide.
+Requires typing `YES`.
+
+**You must reboot to activate the patched greeter.** The script does **not**
+start `plasmalogin.service` again, because doing so while you are logged into
+a graphical session spawns a greeter overlay on top of your desktop.
 
 **Keep a TTY open (Ctrl+Alt+F3) before proceeding** — if the patched
 binary crashes, you log in via TTY and revert.
@@ -97,13 +102,18 @@ Quick revert from the pristine backup (no package manager):
 
 ```bash
 sudo cp /usr/libexec/plasma-login-greeter.orig /usr/libexec/plasma-login-greeter
-sudo systemctl restart plasmalogin
+sudo reboot
 ```
+
+> Do **not** run `sudo systemctl restart plasmalogin` while logged into a
+> graphical session — restarting the display manager spawns a greeter overlay
+> on top of your running desktop.
 
 Full revert (restores the distro package):
 
 ```bash
 sudo bash scripts/uninstall-greeter-system.sh
+sudo reboot
 ```
 
 Remove the user theme + revert any applied patches:

@@ -21,8 +21,13 @@ echo "Reverting PLM boot greeter to distro default..."
 if [ -f "${PLM_BINARY}.orig" ]; then
     echo "  Fast revert from ${PLM_BINARY}.orig"
     cp "${PLM_BINARY}.orig" "$PLM_BINARY"
-    systemctl restart plasmalogin.service || true
+    # Do NOT restart plasmalogin here: restarting the display manager while a
+    # graphical session is active spawns a greeter overlay on the running desktop.
+    systemctl stop plasmalogin.service || true
     echo "  Done."
+    echo ""
+    echo "Reboot to finish reverting to the original greeter:"
+    echo "  sudo reboot"
     echo ""
     echo "To fully clean up (remove .orig and reinstall package):"
     echo "  rm ${PLM_BINARY}.orig"
@@ -44,7 +49,11 @@ else
     echo "  Reinstall plasma-login-manager with your distro's package manager."
     exit 1
 fi
-systemctl restart plasmalogin.service || true
+# Do NOT restart plasmalogin here: restarting the display manager while a
+# graphical session is active spawns a greeter overlay on the running desktop.
+systemctl stop plasmalogin.service || true
 
 echo ""
 echo "PLM boot greeter reverted to distro default."
+echo "Reboot to finish reverting:"
+echo "  sudo reboot"
