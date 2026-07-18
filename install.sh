@@ -74,6 +74,8 @@ install_everything() {
     post_kwin_borders
     apply_lookandfeel "$theme" reset
     apply_kvantum_engine "$variant"
+    # Let the layout script finish writing panels before restarting Plasma.
+    sleep 1
     restart_plasmashell
 
     echo ""

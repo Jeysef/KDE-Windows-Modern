@@ -52,6 +52,9 @@ theme="$(lookfeel_id "$variant")"
 
 apply_lookandfeel "$theme" reset
 apply_kvantum_engine "$variant"
+# Let the layout script finish writing panels before restarting Plasma.
+sleep 1
+restart_plasmashell
 
 echo ""
 info "Done. If panels do not appear, run:"

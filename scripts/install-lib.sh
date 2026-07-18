@@ -57,19 +57,83 @@ is_interactive() { [ -t 0 ]; }
 # should then install files only and stay silent.
 is_batch() { [ "${WM_BATCH:-0}" = "1" ]; }
 
+# Wait up to ~5 s for the plasmashell process to disappear.
+_wait_plasmashell_exit() {
+    local i
+    for i in {1..25}; do
+        pgrep -x plasmashell >/dev/null 2>&1 || return 0
+        sleep 0.2
+    done
+    return 1
+}
+
+# Return the name of the available KDE launcher (kstart6 or kstart).
+_kstart_cmd() {
+    if command -v kstart6 &>/dev/null; then
+        echo "kstart6"
+    elif command -v kstart &>/dev/null; then
+        echo "kstart"
+    else
+        echo ""
+    fi
+}
+
 # Restart Plasma Shell for the running user session (no-op if not running).
 restart_plasmashell() {
     if ! pgrep -x plasmashell >/dev/null 2>&1; then
         return 0
     fi
+    info "Restarting Plasma Shell..."
     if command -v systemctl &>/dev/null && systemctl --user is-active --quiet plasma-plasmashell.service 2>/dev/null; then
-        info "Restarting Plasma Shell..."
         systemctl --user restart plasma-plasmashell.service
-    else
-        info "Restarting Plasma Shell with killall/kstart6..."
-        killall plasmashell 2>/dev/null || true
-        kstart6 plasmashell >/dev/null 2>&1 &
+        return 0
     fi
+
+    # Graceful quit first, fall back to killall.
+    if command -v kquitapp6 &>/dev/null; then
+        kquitapp6 plasmashell 2>/dev/null || true
+    else
+        killall plasmashell 2>/dev/null || true
+    fi
+
+    if ! _wait_plasmashell_exit; then
+        warn "Plasma Shell did not stop gracefully; forcing..."
+        killall -9 plasmashell 2>/dev/null || true
+        sleep 0.5
+    fi
+
+    # Let the session bus release the old plasma-shell name before restarting.
+    sleep 0.5
+
+    local kstart
+    kstart="$(_kstart_cmd)"
+    if [ -n "$kstart" ]; then
+        $kstart plasmashell >/dev/null 2>&1
+    else
+        warn "kstart not found; launching plasmashell directly..."
+        plasmashell >/dev/null 2>&1 &
+    fi
+
+    # Verify the shell actually came back; retry once if it didn't.
+    sleep 1
+    if ! pgrep -x plasmashell >/dev/null 2>&1; then
+        warn "Plasma Shell did not restart; trying once more..."
+        if [ -n "$kstart" ]; then
+            $kstart plasmashell >/dev/null 2>&1
+        else
+            plasmashell >/dev/null 2>&1 &
+        fi
+        sleep 2
+    fi
+
+    if ! pgrep -x plasmashell >/dev/null 2>&1; then
+        err "Plasma Shell could not be restarted."
+        err "Run manually:  killall plasmashell && kstart plasmashell"
+        return 1
+    fi
+
+    # Give the layout script time to finish rebuilding panels before we return.
+    sleep 1
 }
 
 # Apply a global theme. Usage: apply_lookandfeel <theme-id> [reset]
@@ -114,17 +178,24 @@ post_kwin_borders() {
 
 # Prompt the user for a theme variant. Prints 'light' or 'dark'.
 # Non-interactive sessions default to dark (no prompt).
+# Prompt text goes to stderr so callers can safely use command substitution
+# to capture only the answer (e.g. variant="$(ask_theme_variant)").
 ask_theme_variant() {
     if ! is_interactive; then
         echo "dark"
         return
     fi
-    echo ""
-    echo -e "${BOLD}Light or Dark?${RESET}"
-    echo -e "  ${BOLD}1${RESET}) Light  (org.kde.windowsmodern.light)"
-    echo -e "  ${BOLD}2${RESET}) Dark   (org.kde.windowsmodern.dark)"
-    echo ""
-    read -r -p "Choice [2]: " choice
+    echo "" >&2
+    echo -e "${BOLD}┌──────────────────────────────────────────────────────┐${RESET}" >&2
+    echo -e "${BOLD}│  Choose the Windows Modern theme variant             │${RESET}" >&2
+    echo -e "${BOLD}└──────────────────────────────────────────────────────┘${RESET}" >&2
+    echo "" >&2
+    echo -e "  ${BOLD}1${RESET}) Light  (org.kde.windowsmodern.light)" >&2
+    echo -e "  ${BOLD}2${RESET}) Dark   (org.kde.windowsmodern.dark)" >&2
+    echo "" >&2
+    echo -e "  Type ${BOLD}1${RESET} for Light, ${BOLD}2${RESET} for Dark, or press ${BOLD}Enter${RESET} for Dark." >&2
+    echo "" >&2
+    read -r -p "  Choice [2]: " choice
     choice="${choice:-2}"
     case "$choice" in
         1|light|Light) echo "light" ;;
