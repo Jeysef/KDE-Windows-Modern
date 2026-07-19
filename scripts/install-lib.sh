@@ -78,9 +78,32 @@ _kstart_cmd() {
     fi
 }
 
-# Restart Plasma Shell for the running user session (no-op if not running).
+# Restart Plasma Shell for the running user session. Also handles the
+# stopped case: component scripts (dev.sh) stop the shell before
+# installing plugins and, in batch mode, rely on this function to bring
+# it back — treating "not running" as a no-op would end an 'all' run
+# with no desktop at all.
 restart_plasmashell() {
     if ! pgrep -x plasmashell >/dev/null 2>&1; then
+        info "Plasma Shell is stopped — starting it..."
+        if command -v systemctl &>/dev/null; then
+            systemctl --user start plasma-plasmashell.service 2>/dev/null || true
+        fi
+        if ! pgrep -x plasmashell >/dev/null 2>&1; then
+            local kstart
+            kstart="$(_kstart_cmd)"
+            if [ -n "$kstart" ]; then
+                $kstart plasmashell >/dev/null 2>&1
+            else
+                plasmashell >/dev/null 2>&1 &
+            fi
+        fi
+        sleep 2
+        if ! pgrep -x plasmashell >/dev/null 2>&1; then
+            err "Plasma Shell could not be started."
+            err "Run manually:  systemctl --user start plasma-plasmashell.service"
+            return 1
+        fi
         return 0
     fi
     info "Restarting Plasma Shell..."
@@ -209,4 +232,54 @@ lookfeel_id() {
         light) echo "org.kde.windowsmodern.light" ;;
         *)     echo "org.kde.windowsmodern.dark" ;;
     esac
+}
+
+# Swap a stock applet for its Windows Modern replacement inside existing
+# panels. layout.js freezes its fallback choice into the panel at creation
+# time, so installing a C++ applet after the layout was applied does
+# nothing visible without this. Goes through the Plasma scripting API —
+# plasmashell owns plasma-org.kde.plasma.desktop-appletsrc, never edit it
+# directly. Widget.index cannot be trusted on a live panel (reads as -1,
+# and re-indexing scrambles the widget order), so the replacement is
+# simply appended at the panel's end and the user drags it into place.
+# Usage: adopt_wm_applet "stock.type.a stock.type.b" "new.type"
+adopt_wm_applet() {
+    local stock_types="$1" new_type="$2"
+    pgrep -x plasmashell >/dev/null 2>&1 || return 0
+    local i
+    for i in {1..15}; do
+        dbus-send --session --print-reply --dest=org.kde.plasmashell \
+            /PlasmaShell org.freedesktop.DBus.Peer.Ping >/dev/null 2>&1 && break
+        sleep 1
+    done
+    info "Swapping stock applet for $new_type in existing panels..."
+    local stock_js="" t
+    for t in $stock_types; do stock_js="${stock_js:+$stock_js, }\"$t\""; done
+    local js
+    js=$(cat <<'ADOPTEOF'
+var STOCK = [@STOCK@];
+var NEW = "@NEW@";
+var ps = panels();
+var n = 0;
+for (var i = 0; i < ps.length; i++) {
+    var ws = ps[i].widgets();
+    for (var j = 0; j < ws.length; j++) {
+        if (STOCK.indexOf(ws[j].type) >= 0) {
+            ws[j].remove();
+            if (ps[i].addWidget(NEW)) { n++; }
+        }
+    }
+}
+print(n);
+ADOPTEOF
+)
+    js="${js//@STOCK@/$stock_js}"
+    js="${js//@NEW@/$new_type}"
+    if dbus-send --session --print-reply --dest=org.kde.plasmashell \
+        /PlasmaShell org.kde.PlasmaShell.evaluateScript string:"$js" >/dev/null 2>&1; then
+        warn "The new applet lands at the end of the panel — drag it into"
+        warn "place: right-click the panel → Enter Edit Mode."
+    else
+        warn "Automatic swap failed — re-apply the panel layout or replace the applet manually."
+    fi
 }
