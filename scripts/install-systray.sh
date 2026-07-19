@@ -20,3 +20,7 @@ else
     err "dev.sh not found in $dir"
     exit 0
 fi
+
+# In batch mode the 'all' driver re-applies the panel layout afterwards,
+# which picks the custom tray itself — the swap is only needed standalone.
+is_batch || adopt_wm_applet "org.kde.plasma.systemtray" "org.kde.windowsmodern.systemtray"
