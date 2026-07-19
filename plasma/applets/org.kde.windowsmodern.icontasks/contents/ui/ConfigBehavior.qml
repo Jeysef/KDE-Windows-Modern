@@ -104,14 +104,14 @@ KCMUtils.SimpleKCM {
 
         QQC2.CheckBox {
             id: groupPopups
-            visible: (Plasmoid.pluginName !== "org.kde.windowsmodern.icontasks")
+            visible: (Plasmoid.pluginName !== "org.kde.plasma.icontasks")
             text: i18nc("@option:check grouped task", "Combine into single button")
             enabled: groupingStrategy.currentIndex > 0
         }
 
         QQC2.CheckBox {
             id: onlyGroupWhenFull
-            visible: (Plasmoid.pluginName !== "org.kde.windowsmodern.icontasks")
+            visible: (Plasmoid.pluginName !== "org.kde.plasma.icontasks")
             text: i18nc("@option:check grouped task","Group only when the Task Manager is full")
             enabled: groupingStrategy.currentIndex > 0 && groupPopups.checked
             Accessible.onPressAction: toggle()
@@ -119,7 +119,7 @@ KCMUtils.SimpleKCM {
 
         Item {
             Kirigami.FormData.isSection: true
-            visible: (Plasmoid.pluginName !== "org.kde.windowsmodern.icontasks")
+            visible: (Plasmoid.pluginName !== "org.kde.plasma.icontasks")
         }
 
         QQC2.ComboBox {
@@ -161,20 +161,20 @@ KCMUtils.SimpleKCM {
 
         QQC2.CheckBox {
             id: separateLaunchers
-            visible: (Plasmoid.pluginName !== "org.kde.windowsmodern.icontasks")
+            visible: (Plasmoid.pluginName !== "org.kde.plasma.icontasks")
             text: i18nc("@option:check configure task sorting", "Keep launchers separate")
             enabled: sortingStrategy.currentValue === TaskManager.TasksModel.SortManual
         }
 
         QQC2.CheckBox {
             id: hideLauncherOnStart
-            visible: (Plasmoid.pluginName !== "org.kde.windowsmodern.icontasks")
+            visible: (Plasmoid.pluginName !== "org.kde.plasma.icontasks")
             text: i18nc("@option:check for icons-and-text task manager", "Hide launchers after application startup")
         }
 
         Item {
             Kirigami.FormData.isSection: true
-            visible: (Plasmoid.pluginName !== "org.kde.windowsmodern.icontasks")
+            visible: (Plasmoid.pluginName !== "org.kde.plasma.icontasks")
         }
 
         QQC2.CheckBox {

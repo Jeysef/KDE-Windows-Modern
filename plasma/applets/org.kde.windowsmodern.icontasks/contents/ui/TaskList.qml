@@ -9,7 +9,7 @@ import QtQuick.Layouts
 
 import org.kde.plasma.plasmoid
 import org.kde.plasma.core as PlasmaCore
-import plasma.applet.org.kde.windowsmodern.icontasks as TaskManagerApplet
+import plasma.applet.org.kde.plasma.icontasks as TaskManagerApplet
 
 GridLayout {
     property bool animating: false

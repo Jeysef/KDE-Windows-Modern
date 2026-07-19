@@ -29,7 +29,7 @@ find_package(PlasmaActivitiesStats REQUIRED)
 find_package(KSysGuard REQUIRED)
 find_package(LibNotificationManager REQUIRED)
 
-add_definitions(-DTRANSLATION_DOMAIN=\"plasma_applet_org.kde.windowsmodern.icontasks\")
+add_definitions(-DTRANSLATION_DOMAIN=\"plasma_applet_org.kde.plasma.icontasks\")
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -46,9 +46,9 @@ kconfig_add_kcfg_files(KCFG_SRCS
 # Logging category
 ecm_qt_declare_logging_category(SRC_LOGGING HEADER log_settings.h
     IDENTIFIER TASKMANAGER_DEBUG
-    CATEGORY_NAME org.kde.windowsmodern.icontasks
+    CATEGORY_NAME org.kde.plasma.icontasks
     DEFAULT_SEVERITY Info
-    DESCRIPTION "plasma applet org.kde.windowsmodern.icontasks"
+    DESCRIPTION "plasma applet org.kde.plasma.icontasks"
 )
 
 set(CPP_SRCS
@@ -67,7 +67,7 @@ set(CPP_SRCS
 # (matching the systemtray build pattern) to preserve subdirectory layout.
 # Note: generated sources (KCFG, logging) are added via target_sources after
 # plasma_add_applet creates the target, to avoid empty-variable parsing issues.
-plasma_add_applet(org.kde.windowsmodern.icontasks
+plasma_add_applet(org.kde.plasma.icontasks
     CPP_SOURCES
         backend.cpp
         backend.h
@@ -85,9 +85,9 @@ plasma_add_applet(org.kde.windowsmodern.icontasks
 )
 
 # Add generated sources to the target
-target_sources(org.kde.windowsmodern.icontasks PRIVATE ${KCFG_SRCS} ${SRC_LOGGING})
+target_sources(org.kde.plasma.icontasks PRIVATE ${KCFG_SRCS} ${SRC_LOGGING})
 
-target_link_libraries(org.kde.windowsmodern.icontasks PRIVATE
+target_link_libraries(org.kde.plasma.icontasks PRIVATE
     Qt6::Core
     Qt6::Qml
     Qt6::Quick
@@ -107,13 +107,13 @@ target_link_libraries(org.kde.windowsmodern.icontasks PRIVATE
     PW::LibNotificationManager
 )
 
-target_include_directories(org.kde.windowsmodern.icontasks PRIVATE
+target_include_directories(org.kde.plasma.icontasks PRIVATE
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 # Register QML sources with preserved subdirectory layout so relative imports
 # (import "code/LayoutMetrics.js", etc.) resolve inside the qrc.
-ecm_target_qml_sources(org.kde.windowsmodern.icontasks
+ecm_target_qml_sources(org.kde.plasma.icontasks
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/AudioStream.qml
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/ConfigAppearance.qml
@@ -136,7 +136,7 @@ ecm_target_qml_sources(org.kde.windowsmodern.icontasks
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/ToolTipInstance.qml
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/ToolTipWindowMouseArea.qml
 )
-ecm_target_qml_sources(org.kde.windowsmodern.icontasks
+ecm_target_qml_sources(org.kde.plasma.icontasks
     PATH code
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/contents/ui/code/LayoutMetrics.js

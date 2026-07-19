@@ -15,6 +15,7 @@
         "Description": "Windows 11-style icons-only task manager",
         "EnabledByDefault": true,
         "Icon": "preferences-system-windows",
+        "Id": "org.kde.plasma.icontasks",
         "License": "GPL-2.0-or-later",
         "Name": "Windows Modern Icon Tasks",
         "Version": "1.0.0",

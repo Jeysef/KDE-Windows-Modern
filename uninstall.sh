@@ -111,11 +111,11 @@ uninstall_component() {
             info "System Tray uninstalled. Restart plasmashell to complete."
             ;;
         icontasks)
-            rm_path "$(detect_systray_so_dir)/org.kde.windowsmodern.icontasks.so"
-            rm_path "/usr/share/plasma/plasmoids/org.kde.windowsmodern.icontasks"
-            rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.icontasks"
-            rm_path "$HOME/.local/lib64/qt6/plugins/plasma/applets/org.kde.windowsmodern.icontasks.so"
-            rm_path "$HOME/.local/lib/qt6/plugins/plasma/applets/org.kde.windowsmodern.icontasks.so"
+            rm_path "$(detect_systray_so_dir)/org.kde.plasma.icontasks.so"
+            rm_path "/usr/share/plasma/plasmoids/org.kde.plasma.icontasks"
+            rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.plasma.icontasks"
+            rm_path "$HOME/.local/lib64/qt6/plugins/plasma/applets/org.kde.plasma.icontasks.so"
+            rm_path "$HOME/.local/lib/qt6/plugins/plasma/applets/org.kde.plasma.icontasks.so"
             info "Icon Tasks uninstalled. Restart plasmashell to complete."
             ;;
         digitalclock)

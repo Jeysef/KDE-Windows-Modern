@@ -17,7 +17,7 @@ KCMUtils.SimpleKCM {
 
     readonly property bool plasmaPaAvailable: Qt.createComponent("PulseAudio.qml").status === Component.Ready
     readonly property bool plasmoidVertical: Plasmoid.formFactor === PlasmaCore.Types.Vertical
-    readonly property bool iconOnly: Plasmoid.pluginName === "org.kde.windowsmodern.icontasks"
+    readonly property bool iconOnly: Plasmoid.pluginName === "org.kde.plasma.icontasks"
 
     property alias cfg_showToolTips: showToolTips.checked
     property alias cfg_highlightWindows: highlightWindows.checked

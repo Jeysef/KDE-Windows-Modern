@@ -15,7 +15,7 @@ import org.kde.ksvg as KSvg
 import org.kde.plasma.extras as PlasmaExtras
 import org.kde.plasma.components as PlasmaComponents3
 import org.kde.kirigami as Kirigami
-import plasma.applet.org.kde.windowsmodern.icontasks as TaskManagerApplet
+import plasma.applet.org.kde.plasma.icontasks as TaskManagerApplet
 import org.kde.plasma.plasmoid
 
 import org.kde.taskmanager as TaskManager
@@ -79,7 +79,7 @@ FloatingToolTipArea {
         || (task.contextMenu && task.contextMenu.status === PlasmaExtras.Menu.Open)
         || (!!tasksRoot.groupDialog && tasksRoot.groupDialog.visualParent === task)
 
-    active: !inPopup && !tasksRoot.groupDialog && task.contextMenu?.status !== PlasmaExtras.Menu.Open
+    active: !inPopup && !tasksRoot.groupDialog && task.contextMenu?.status !== PlasmaExtras.Menu.Open && model.IsWindow
     interactive: model.IsWindow || mainItem.playerData
     location: Plasmoid.location
     margin: (Plasmoid.containmentDisplayHints & PlasmaCore.Types.ContainmentPrefersFloatingApplets) ? Kirigami.Units.largeSpacing : 0
@@ -238,7 +238,7 @@ FloatingToolTipArea {
 
     onSmartLauncherEnabledChanged: {
         if (smartLauncherEnabled && !smartLauncherItem) {
-            const component = Qt.createComponent("plasma.applet.org.kde.windowsmodern.icontasks", "SmartLauncherItem");
+            const component = Qt.createComponent("plasma.applet.org.kde.plasma.icontasks", "SmartLauncherItem");
             const smartLauncher = component.createObject(task);
             component.destroy();
 

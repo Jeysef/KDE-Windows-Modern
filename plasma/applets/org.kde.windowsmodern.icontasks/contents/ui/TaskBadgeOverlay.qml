@@ -15,7 +15,7 @@ Item {
     readonly property bool verySmallIcon:
         icon.width < Kirigami.Units.iconSizes.smallMedium ||
         icon.height < Kirigami.Units.iconSizes.smallMedium
-    readonly property bool shiftBadgeDown: (Plasmoid.pluginName === "org.kde.windowsmodern.icontasks") && task.audioStreamIcon !== null
+    readonly property bool shiftBadgeDown: (Plasmoid.pluginName === "org.kde.plasma.icontasks") && task.audioStreamIcon !== null
     readonly property int badgeMaskY: shiftBadgeDown ? root.height - badgeRect.height : 0
     readonly property int offset: Math.round(Math.max(Kirigami.Units.smallSpacing / 2, badgeMask.width / 32))
     readonly property int extraHorizontalOffset: verySmallIcon && badgeRect.text.length > 2 ? -2 : 0

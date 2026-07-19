@@ -8,7 +8,7 @@ import QtQuick
 
 import org.kde.taskmanager as TaskManager
 import org.kde.plasma.plasmoid
-import plasma.applet.org.kde.windowsmodern.icontasks as TaskManagerApplet
+import plasma.applet.org.kde.plasma.icontasks as TaskManagerApplet
 
 DropArea {
     id: dropArea

@@ -13,7 +13,7 @@ import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.components as PlasmaComponents3
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.plasmoid
-import plasma.applet.org.kde.windowsmodern.icontasks as TaskManagerApplet
+import plasma.applet.org.kde.plasma.icontasks as TaskManagerApplet
 
 PlasmaCore.PopupPlasmaWindow {
     id: groupDialog

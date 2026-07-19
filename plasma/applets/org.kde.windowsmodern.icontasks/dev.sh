@@ -12,7 +12,7 @@ set -euo pipefail
 
 SRC_DIR="$(cd "$(dirname "$0")" && pwd)"
 BUILD_DIR="$SRC_DIR/build"
-APP_ID="org.kde.windowsmodern.icontasks"
+APP_ID="org.kde.plasma.icontasks"
 LAYOUT_FILE="$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
 
 BOLD="\033[1m"; GREEN="\033[32m"; YELLOW="\033[33m"; RED="\033[31m"; RESET="\033[0m"
@@ -48,6 +48,14 @@ info "Stopping plasmashell..."
 systemctl --user stop plasma-plasmashell.service 2>/dev/null || true
 sleep 1
 
+# ── Migrate old plugin-id references in the layout ─────────────────
+# Any panel config that still uses the legacy org.kde.windowsmodern.icontasks
+# ID must be updated, otherwise plasmashell will write plugin=metadata.
+if grep -q "org.kde.windowsmodern.icontasks" "$LAYOUT_FILE" 2>/dev/null; then
+    info "Migrating legacy plugin references in layout..."
+    sed -i "s/org\.kde\.windowsmodern\.icontasks/org.kde.plasma.icontasks/g" "$LAYOUT_FILE"
+fi
+
 # ── Fix layout if corrupted ───────────────────────────────────────
 if grep -q "plugin=metadata" "$LAYOUT_FILE" 2>/dev/null; then
     info "Fixing corrupted plugin=metadata in layout..."
@@ -71,6 +79,13 @@ INSTALLEOF
 rm -rf "$HOME/.local/share/plasma/plasmoids/${APP_ID}" 2>/dev/null || true
 rm -f "$HOME/.local/lib64/qt6/plugins/plasma/applets/${APP_ID}.so" 2>/dev/null || true
 rm -f "$HOME/.local/lib/qt6/plugins/plasma/applets/${APP_ID}.so" 2>/dev/null || true
+
+# Remove the old .so under the legacy plugin ID
+rm -f "$HOME/.local/lib64/qt6/plugins/plasma/applets/org.kde.windowsmodern.icontasks.so" 2>/dev/null || true
+rm -f "$HOME/.local/lib/qt6/plugins/plasma/applets/org.kde.windowsmodern.icontasks.so" 2>/dev/null || true
+rm -rf "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.icontasks" 2>/dev/null || true
+pkexec rm -f /usr/lib64/qt6/plugins/plasma/applets/org.kde.windowsmodern.icontasks.so 2>/dev/null || true
+pkexec rm -rf /usr/share/plasma/plasmoids/org.kde.windowsmodern.icontasks 2>/dev/null || true
 info "Installed."
 
 # ── Start plasmashell ────────────────────────────────────────────

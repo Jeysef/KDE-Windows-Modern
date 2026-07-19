@@ -10,7 +10,7 @@ import QtQuick.Templates as T
 import org.kde.ksvg as KSvg
 import org.kde.plasma.plasmoid
 
-import plasma.applet.org.kde.windowsmodern.icontasks as TaskManagerApplet
+import plasma.applet.org.kde.plasma.icontasks as TaskManagerApplet
 
 T.ProgressBar {
     id: control

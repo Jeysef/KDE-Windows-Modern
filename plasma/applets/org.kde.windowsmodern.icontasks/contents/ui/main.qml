@@ -18,7 +18,7 @@ import org.kde.kirigami as Kirigami
 import org.kde.plasma.workspace.trianglemousefilter
 
 import org.kde.taskmanager as TaskManager
-import plasma.applet.org.kde.windowsmodern.icontasks as TaskManagerApplet
+import plasma.applet.org.kde.plasma.icontasks as TaskManagerApplet
 import org.kde.plasma.workspace.dbus as DBus
 
 PlasmoidItem {
