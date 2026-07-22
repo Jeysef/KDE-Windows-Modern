@@ -9,7 +9,6 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-
 pragma ComponentBehavior: Bound
 
 import QtQuick
@@ -27,6 +26,7 @@ KCMUtils.ScrollViewKCM {
     id: iconsPage
 
     signal configurationChanged
+    property int cfg_panelIconSize
     property bool unsavedChanges: !(changedVisibility.size === 0 && changedShortcuts.size === 0)
 
     property bool cfg_scaleIconsToFit
@@ -207,30 +207,27 @@ KCMUtils.ScrollViewKCM {
                 id: sizeChooser
 
                 readonly property string scaleString: Plasmoid.formFactor === PlasmaCore.Types.Horizontal
-                    ? i18nc("@item:inlistbox Icon size", "Scale with Panel height")
-                    : i18nc("@item:inlistbox Icon size", "Scale with Panel width")
+                ? i18nc("@item:inlistbox Icon size", "Scale with Panel height")
+                : i18nc("@item:inlistbox Icon size", "Scale with Panel width")
 
                 Kirigami.FormData.label: i18nc("@label:listbox Whether the system tray icons in the Panel always stay small or scale with the Panel's size", "Panel icon size:")
                 Layout.preferredWidth: formLayout.maxComboboxWidth
+
                 model: [
-                    {
-                        "label": i18nc("@item:inlistbox Icon size", "Small"),
-                        "size": "small"
-                    },
-                    {
-                        "label": scaleString,
-                        "size": "scale"
-                    }
+                    { "label": i18nc("@item:inlistbox Icon size", "Small"), "value": 0 },
+                    { "label": i18nc("@item:inlistbox Icon size", "Medium"), "value": 1 },
+                    { "label": scaleString, "value": 2 }
                 ]
                 textRole: "label"
 
-                currentIndex: iconsPage.cfg_scaleIconsToFit ? 1 : 0
+                currentIndex: iconsPage.cfg_panelIconSize
 
                 onActivated: index => {
-                    iconsPage.cfg_scaleIconsToFit = model[currentIndex]["size"] == "scale";
+                    let selectedValue = model[index]["value"];
+                    iconsPage.cfg_panelIconSize = selectedValue;
+                    iconsPage.cfg_scaleIconsToFit = (selectedValue === 2);
                 }
             }
-
             QQC2.ComboBox {
                 id: spacingChooser
 
