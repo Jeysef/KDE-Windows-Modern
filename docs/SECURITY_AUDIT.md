@@ -5,9 +5,10 @@ delegated Codex `reviewer-critic` pass (read-only, no network). Neither found
 telemetry, phone-home behaviour, remote code download, or malicious code. What
 follows are the hardening findings both passes surfaced.
 
-Findings 10–11 were surfaced later, by a review of the upstream commits merged
-when this branch was rebased onto `7ef6bfe`. They are **introduced by upstream**,
-not by this branch, and are not yet fixed here.
+Findings 10–12 were surfaced later, by a review of the upstream commits merged
+when this branch was rebased onto `7ef6bfe` (a manual pass plus a second
+delegated Codex pass). They are **introduced by upstream**, not by this branch,
+and are not yet fixed here.
 
 **Scope caveat:** the `third_party/plasma-login-manager` submodule source was
 *not* audited line-by-line — it is only verified to be pinned to an official KDE
@@ -24,6 +25,7 @@ pinned upstream commit.
 | 1 | High | `plasma/applets/org.kde.windowsmodern.icontasks/dev.sh:62` | Root command injection via `pkg-config` path | **Fixed** |
 | 2 | High | `plasma/applets/org.kde.windowsmodern.systemtray/dev.sh:62`, `.../systemtray/install.sh:179` | Root command injection via interpolated install script | **Fixed** |
 | 10 | High | `plasma/applets/org.kde.windowsmodern.icontasks/metadata.json:18`, `.../icontasks/dev.sh:15`, `uninstall.sh:114` | Applet squats the stock KDE plugin ID — root install overwrites, and uninstall deletes, distro-owned files | Open (upstream) |
+| 12 | Medium | `scripts/install-greeter.sh:63-78` | Build-skip cache lets a planted binary be installed as the login greeter, bypassing finding 3 | Open (upstream) |
 | 5 | Medium | `scripts/update-plm.sh:32` | Updater builds a moving ref without commit/signature check | Open (maintainer-only) |
 | 6 | Low | `plasma/shells/org.kde.windowsmodern.lockscreen/contents/lockscreen/MediaControls.qml:38` | Lock screen fetches remote MPRIS art URL | Open |
 | 7 | Low | `plasma/shells/org.kde.windowsmodern.lockscreen/contents/lockscreen/config.xml:19` | Media controls default on (info disclosure at lock) | Open |
@@ -96,6 +98,37 @@ the destination genuinely *is* under `/usr` and is simply the wrong file.
 stock Icon Tasks configuration, migrate that config in the layout script instead
 of taking over the upstream ID. Failing that, guard the privileged `cp`/`rm -rf`
 so they refuse any path owned by a distro package, and back up what is replaced.
+
+### 12 — Build-skip cache weakens the greeter source check (Medium)
+Upstream commit `08c55d2` added a build cache to `install-greeter.sh`: the build
+is skipped when `build-user/bin/plasma-login-greeter` exists **and**
+`build-user/.source_commit` matches the submodule HEAD **and** no patch file is
+newer than the binary.
+
+Before this change the patch-revert `EXIT` trap left the submodule unpatched
+after every run, so the next run always re-applied the patches, set
+`BUILD_NEEDED=true`, and rebuilt from source — overwriting anything sitting in
+the build directory.
+
+Now an attacker who can write the checkout (same-user malware, an imported or
+stale `build-user/`) can drop an ELF at `build-user/bin/plasma-login-greeter`
+and write the submodule HEAD hash into `build-user/.source_commit`. The build is
+then skipped, and `install-greeter-live.sh:41` → `:84` copies that binary to
+`/usr/libexec/plasma-login-greeter` as root — the process that handles login
+credentials. The `git reset --hard HEAD` at `install-greeter.sh:35` does not
+help: it does not remove untracked files, so `build-user/` survives the "reset
+to clean state" step.
+
+This matters most because it **undercuts finding 3**. Our pin check verifies the
+submodule *source* matches the commit this repo pins — but with the build
+skipped, that verified source is never compiled. Source verification no longer
+implies binary integrity.
+
+*Fix:* make the cache non-authoritative on the privileged path — have
+`install-greeter-live.sh` force a rebuild before the system install (e.g.
+`rm -f "${PLM_BUILD}/.source_commit"`, or a `WM_FORCE_BUILD=1` that sets
+`BUILD_NEEDED=true`). Keeping the cache for the unprivileged developer path is
+fine.
 
 ### 11 — Failed unlock attempt is retained on the lock screen (Low)
 Upstream commit `cd6c6d9` dropped `root.clearPassword()` from the 3-second
