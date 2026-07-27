@@ -8,7 +8,8 @@ follows are the hardening findings both passes surfaced.
 Findings 10–12 were surfaced later, by a review of the upstream commits merged
 when this branch was rebased onto `7ef6bfe` (a manual pass plus a second
 delegated Codex pass). They are **introduced by upstream**, not by this branch,
-and are not yet fixed here.
+and are fixed downstream here — so they will need re-applying, or upstreaming,
+on future rebases.
 
 **Scope caveat:** the `third_party/plasma-login-manager` submodule source was
 *not* audited line-by-line — it is only verified to be pinned to an official KDE
@@ -24,14 +25,14 @@ pinned upstream commit.
 | 4 | High | `plasma/look-and-feel/org.kde.windowsmodern.dark/patches/main-cpp.patch` | Greeter loads user-writable QML | **Fixed** |
 | 1 | High | `plasma/applets/org.kde.windowsmodern.icontasks/dev.sh:62` | Root command injection via `pkg-config` path | **Fixed** |
 | 2 | High | `plasma/applets/org.kde.windowsmodern.systemtray/dev.sh:62`, `.../systemtray/install.sh:179` | Root command injection via interpolated install script | **Fixed** |
-| 10 | High | `plasma/applets/org.kde.windowsmodern.icontasks/metadata.json:18`, `.../icontasks/dev.sh:15`, `uninstall.sh:114` | Applet squats the stock KDE plugin ID — root install overwrites, and uninstall deletes, distro-owned files | Open (upstream) |
-| 12 | Medium | `scripts/install-greeter.sh:63-78` | Build-skip cache lets a planted binary be installed as the login greeter, bypassing finding 3 | Open (upstream) |
+| 10 | Med-High | `plasma/applets/org.kde.windowsmodern.icontasks/dev.sh:24`, `uninstall.sh:113` | Applet squats the stock KDE plugin ID — root install overwrites, and uninstall deletes, distro-owned files | **Fixed** (upstream bug) |
+| 12 | Medium | `scripts/install-greeter.sh:63-78` | Build-skip cache lets a planted binary be installed as the login greeter, bypassing finding 3 | **Fixed** (upstream bug) |
 | 5 | Medium | `scripts/update-plm.sh:32` | Updater builds a moving ref without commit/signature check | Open (maintainer-only) |
 | 6 | Low | `plasma/shells/org.kde.windowsmodern.lockscreen/contents/lockscreen/MediaControls.qml:38` | Lock screen fetches remote MPRIS art URL | Open |
 | 7 | Low | `plasma/shells/org.kde.windowsmodern.lockscreen/contents/lockscreen/config.xml:19` | Media controls default on (info disclosure at lock) | Open |
 | 8 | Low | `plasma/applets/org.kde.windowsmodern.systemtray/contents/ui/components/ColorSchemeToggle.qml:20` | Config value concatenated into shell command | Open |
 | 9 | Low | `plasma/applets/org.kde.windowsmodern.systemtray/contents/ui/components/BatteryPage.qml:99` | Sleep/lock inhibitor with no time bound | Open |
-| 11 | Low | `plasma/shells/org.kde.windowsmodern.lockscreen/contents/lockscreen/LockScreenUi.qml:154` | Failed unlock attempt is retained in the password field indefinitely | Open (upstream) |
+| 11 | Low | `plasma/shells/org.kde.windowsmodern.lockscreen/contents/lockscreen/LockScreenUi.qml:154` | Failed unlock attempt is retained in the password field indefinitely | **Fixed** (upstream bug) |
 
 ## Fixed in this branch
 
@@ -66,9 +67,9 @@ prefix (`/usr/*`, or the user's `$HOME` for the uninstall data dir) before
 `pkexec` runs. The `dev.sh` scripts remain developer-only and are not part of the
 end-user `install.sh` flow.
 
-## Introduced by upstream (rebase onto `7ef6bfe`)
+## Introduced by upstream, fixed here (rebase onto `7ef6bfe`)
 
-### 10 — Icon Tasks squats the stock KDE plugin ID (High, integrity)
+### 10 — Icon Tasks squats the stock KDE plugin ID (Med-High, integrity)
 Upstream commit `7ef6bfe` renamed the applet's plugin ID from the vendor-
 namespaced `org.kde.windowsmodern.icontasks` to `org.kde.plasma.icontasks` — the
 ID of KDE's own Icons-only Task Manager shipped by `plasma-desktop`. This repo's
@@ -94,10 +95,35 @@ The `/usr/*` prefix guard added in finding 1 still holds — it stops a hostile
 `pkg-config` value from redirecting the write — but it cannot help here, because
 the destination genuinely *is* under `/usr` and is simply the wrong file.
 
-*Fix:* restore the vendor-namespaced ID. If the rename was to make Plasma reuse
-stock Icon Tasks configuration, migrate that config in the layout script instead
-of taking over the upstream ID. Failing that, guard the privileged `cp`/`rm -rf`
-so they refuse any path owned by a distro package, and back up what is replaced.
+**Why the ID itself has to stay.** The rename was not gratuitous: `libkicker`
+hardcodes a list of task-manager plugin ids (`org.kde.plasma.taskmanager`,
+`org.kde.plasma.icontasks`) to decide whether to offer *Pin to Taskbar* /
+*Add to Task Manager* in the Start Menu context menu. A vendor-namespaced id is
+not on that list, so the action disappears. KF6 resolves applets with
+`findPluginById`, so the `.so` basename has to match the id too. Reverting the
+id would trade this bug for a lost feature.
+
+**Fixed** by changing *where* it installs, not what it is called. `dev.sh` now
+installs to the **user prefix** — `~/.local/lib{64}/qt6/plugins/plasma/applets/`
+— and uses no `pkexec` at all:
+
+- Qt loads a plugin from `~/.local/lib*/qt6/plugins` in preference to the system
+  copy (documented in this applet's own `BUILD.md`), so the themed applet still
+  wins at runtime.
+- `Plasmoid.pluginName` is still `org.kde.plasma.icontasks`, so libkicker's
+  allowlist matches and *Pin to Taskbar* keeps working.
+- The distro's `.so` and KPackage are never written or deleted, so package
+  verification stays intact and a distro update cannot silently revert the theme.
+- `uninstall.sh` removes only the user-level copy; the stock applet becomes
+  visible again by itself. The `/usr` paths under this id are no longer touched.
+
+Note the ordering trap this removes: `dev.sh` used to *delete* the user-local
+copy specifically to force the `/usr` one to load. That precedence is exactly
+what makes the safe install work.
+
+For anyone who already ran the upstream version, the stock applet was
+overwritten with no backup and cannot be restored from this repo; `dev.sh` now
+detects that (via `rpm -Vf`) and points at `dnf reinstall plasma-desktop`.
 
 ### 12 — Build-skip cache weakens the greeter source check (Medium)
 Upstream commit `08c55d2` added a build cache to `install-greeter.sh`: the build
@@ -124,11 +150,18 @@ submodule *source* matches the commit this repo pins — but with the build
 skipped, that verified source is never compiled. Source verification no longer
 implies binary integrity.
 
-*Fix:* make the cache non-authoritative on the privileged path — have
-`install-greeter-live.sh` force a rebuild before the system install (e.g.
-`rm -f "${PLM_BUILD}/.source_commit"`, or a `WM_FORCE_BUILD=1` that sets
-`BUILD_NEEDED=true`). Keeping the cache for the unprivileged developer path is
-fine.
+**Fixed** by making the cache non-authoritative on the privileged path:
+`install-greeter-live.sh` now discards the entire build tree (`rm -rf
+"${PLM_BUILD}"`) before invoking the build, so the greeter is always relinked
+from the pinned, verified source before it goes system-wide. The cache is left
+in place for the unprivileged developer loop.
+
+Clearing only `.source_commit` is **not** sufficient, which is why the whole
+tree goes: a planted binary carrying a fresh mtime would survive an incremental
+build (target newer than its dependencies), and planted object files would be
+linked straight in. The cost is a full rebuild on a deliberate, root-only,
+once-per-install operation — the right trade for the binary that handles login
+credentials.
 
 ### 11 — Failed unlock attempt is retained on the lock screen (Low)
 Upstream commit `cd6c6d9` dropped `root.clearPassword()` from the 3-second
@@ -143,7 +176,17 @@ not directly readable — but the credential stays resident in the QML property
 rather than being cleared per attempt, and the password's length is left on
 display to anyone passing the machine.
 
-*Fix:* restore `root.clearPassword()` in the `graceLockTimer` handler.
+**Fixed** by restoring `root.clearPassword()` in the `graceLockTimer` handler,
+with a comment recording why it must stay. This also repairs the functional side
+effect: with the field cleared, `loginUiActive` goes false again and the lock
+screen returns to its idle clock after a failed attempt.
+
+One structural caveat is *not* fixed, because it is upstream's design choice:
+the lockout moved from a single declarative `enabled: !graceLockTimer.running`
+(which Qt propagated to the whole subtree) to four hand-maintained `lockedOut`
+checks. Coverage is complete today — `startLogin()` is the sole emitter of
+`passwordResult` and guards itself — but a call site added later would bypass it
+silently. Worth watching on future rebases.
 
 ## Open findings and recommended fixes
 

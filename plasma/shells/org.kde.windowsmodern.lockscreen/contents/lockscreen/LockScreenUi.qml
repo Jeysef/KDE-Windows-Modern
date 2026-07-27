@@ -151,7 +151,12 @@ Item {
             }
         }
         Timer { id: notificationRemoveTimer; interval: 3000; onTriggered: root.notification = "" }
-        Timer { id: graceLockTimer; interval: 3000; onTriggered: { authenticator.startAuthenticating() } }
+        // clearPassword() must stay here: it is the only automatic scrub of a
+        // rejected password. Without it the secret lingers in the TextInput
+        // buffer indefinitely, and because loginUiActive keys off
+        // mainPasswordBox.text.length the lock screen can never idle back to
+        // the clock after a single mistyped attempt.
+        Timer { id: graceLockTimer; interval: 3000; onTriggered: { root.clearPassword(); authenticator.startAuthenticating() } }
 
         // ── Wallpaper layer ──
         WallpaperFader {
