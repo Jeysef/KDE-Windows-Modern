@@ -176,6 +176,16 @@ post_kwin_borders() {
     dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null || true
 }
 
+# KWin per-monitor Alt+Tab: only list windows on the active monitor.
+# [TabBox] MultiScreenMode: 0 = all monitors (default), 1 = current only,
+# 2 = exclude current.
+post_kwin_per_monitor_alt_tab() {
+    command -v kwriteconfig6 &>/dev/null || return 0
+    step "KWin Alt+Tab → per-monitor"
+    kwriteconfig6 --file kwinrc --group "TabBox" --key "MultiScreenMode" "1"
+    dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null || true
+}
+
 # Prompt the user for a theme variant. Prints 'light' or 'dark'.
 # Non-interactive sessions default to dark (no prompt).
 # Prompt text goes to stderr so callers can safely use command substitution

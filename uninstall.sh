@@ -52,6 +52,7 @@ reset_kwin_borders() {
     if command -v kwriteconfig6 &>/dev/null; then
         kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSize" "Normal"
         kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSizeAuto" "true"
+        kwriteconfig6 --file kwinrc --group "TabBox" --key "MultiScreenMode" "0"
         dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null || true
     fi
 }

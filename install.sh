@@ -35,7 +35,7 @@ install_component() {
 # ── Install everything (menu 1 + CLI 'all') ─────────────────────────
 # Phase A: atomic pieces (themes, icons, applets, sessionlock)
 # Phase B: compose (layout template, look-and-feel files)
-# Phase C: apply once (borders, theme+layout reset, Kvantum engine, restart)
+# Phase C: apply once (KWin tweaks, theme+layout reset, Kvantum engine, restart)
 install_everything() {
     local variant="${1:-}"
 
@@ -72,6 +72,7 @@ install_everything() {
     # ── Phase C: apply once ──
     info "[3/3] Applying theme (${variant})..."
     post_kwin_borders
+    post_kwin_per_monitor_alt_tab
     apply_lookandfeel "$theme" reset
     apply_kvantum_engine "$variant"
     # Let the layout script finish writing panels before restarting Plasma.

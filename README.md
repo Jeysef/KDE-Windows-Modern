@@ -69,8 +69,8 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 
 Opens a menu (default choice = **Everything**). Pick **1** and you'll be
 asked only one question: **Light or Dark?** Everything else — themes,
-icons, applets, layout, KWin borders, Application Style, wallpaper,
-panel layout reset — is applied automatically.
+icons, applets, layout, KWin borders, per-monitor Alt+Tab, Application
+Style, wallpaper, panel layout reset — is applied automatically.
 
 ### Install everything non-interactively
 
@@ -82,7 +82,7 @@ panel layout reset — is applied automatically.
 
 `all` installs in three phases: **atomic pieces** (themes, icons,
 applets, session lock) → **compose** (layout template, look-and-feel)
-→ **apply once** (borders, global theme with layout reset, Kvantum
+→ **apply once** (KWin tweaks, global theme with layout reset, Kvantum
 engine, single Plasma Shell restart).
 
 > `all` includes the session lock screen (Meta+L). The boot greeter is
@@ -444,6 +444,18 @@ kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSize" "T
 kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSizeAuto" "false"
 dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure
 ```
+
+### Alt+Tab not limited to the current monitor
+
+The installer sets KWin Alt+Tab to per-monitor scope. If you changed it
+manually, re-run:
+
+```bash
+kwriteconfig6 --file kwinrc --group "TabBox" --key "MultiScreenMode" "1"
+dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure
+```
+
+Values: `0` = all monitors, `1` = current monitor only, `2` = all except current.
 
 ### Restart Plasma Shell
 
