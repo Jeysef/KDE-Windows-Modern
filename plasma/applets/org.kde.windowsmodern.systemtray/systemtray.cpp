@@ -342,13 +342,13 @@ void SystemTray::startApplet(const QString &pluginId)
     qCDebug(SYSTEM_TRAY) << "Adding applet:" << pluginId;
 
     if (m_configGroupIds.contains(pluginId)) {
-        Applet *applet = Plasma::PluginLoader::self()->loadApplet(pluginId, m_configGroupIds.value(pluginId), QVariantList());
+        auto applet = Plasma::PluginLoader::self()->loadApplet(pluginId, m_configGroupIds.value(pluginId), QVariantList());
         if (!applet) {
             qCWarning(SYSTEM_TRAY) << "Unable to find applet" << pluginId;
             return;
         }
         applet->setProperty("org.kde.plasma:force-create", true);
-        addApplet(applet);
+        addApplet(std::move(applet));
     } else {
         Applet *applet = createApplet(pluginId, QVariantList() << u"org.kde.plasma:force-create"_s);
         if (applet) {
