@@ -8,6 +8,10 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- KWin settings applied by the installer (Alt+Tab switcher, border size,
+  per-monitor Alt+Tab) now take effect immediately. The reload request was
+  sent as a D-Bus signal, which KWin ignores, so they only applied after
+  logging out.
 - **Icon Tasks builds and loads on Plasma 6.8.** libplasma 6.8 dropped
   `PlasmaQuick::SharedQmlEngine` and bumped its sonames; the tooltip now loads
   its default content with a plain `QQmlComponent`.
