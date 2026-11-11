@@ -77,6 +77,35 @@ Item {
     // close button visibility so the X only shows when hovering this tile.
     HoverHandler { id: tileHover }
 
+    // Make the header clickable if image tooltips are disabled. These overlay
+    // the header but live outside contentColumn: anchoring items that a
+    // layout manages is undefined behaviour (Qt warns on every tooltip).
+    // Declared before contentColumn so they stack below the header's buttons.
+    Loader {
+        id: headerHoverHandler
+        active: (root.index !== -1) && !Plasmoid.configuration.showToolTips
+        x: contentColumn.x + headerItem.x
+        y: contentColumn.y + headerItem.y
+        width: headerItem.width
+        height: headerItem.height
+        sourceComponent: ToolTipWindowMouseArea {
+            rootTask: toolTipDelegate.parentTask
+            modelIndex: root.submodelIndex
+            winId: thumbnailSourceItem.winId
+        }
+    }
+
+    PlasmaExtras.Highlight {
+        id: headerHoverHighlight
+        x: headerHoverHandler.x
+        y: headerHoverHandler.y
+        width: headerHoverHandler.width
+        height: headerHoverHandler.height
+        visible: (headerHoverHandler.item as MouseArea)?.containsMouse ?? false
+        pressed: (headerHoverHandler.item as MouseArea)?.containsPress ?? false
+        hovered: true
+    }
+
     ColumnLayout {
         id: contentColumn
         anchors.fill: parent
@@ -262,28 +291,6 @@ Item {
                     }
                 }
             }
-        }
-
-        // make the header clickable if image tooltips are disabled
-        Loader {
-            id: headerHoverHandler
-            active: (root.index !== -1) && !Plasmoid.configuration.showToolTips
-            z: -2
-            anchors.fill: headerItem
-            sourceComponent: ToolTipWindowMouseArea {
-                rootTask: toolTipDelegate.parentTask
-                modelIndex: root.submodelIndex
-                winId: thumbnailSourceItem.winId
-            }
-        }
-
-        PlasmaExtras.Highlight {
-            id: headerHoverHighlight
-            anchors.fill: headerHoverHandler
-            z: -1
-            visible: (headerHoverHandler.item as MouseArea)?.containsMouse ?? false
-            pressed: (headerHoverHandler.item as MouseArea)?.containsPress ?? false
-            hovered: true
         }
 
         // ── Thumbnail container ──
