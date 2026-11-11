@@ -7,6 +7,7 @@
  ***************************************************************************/
 
 import QtQuick
+import QtQuick.Layouts
 
 import org.kde.plasma.plasmoid
 import org.kde.plasma.core as PlasmaCore
@@ -27,10 +28,21 @@ Item {
 
     Plasmoid.status: dashWindow && dashWindow.visible ? PlasmaCore.Types.RequiresAttentionStatus : PlasmaCore.Types.PassiveStatus
 
+    // Square button that follows the panel thickness; the icon is inset slightly and not
+    // snapped to fixed icon sizes, so Start matches the task manager's icons at any height.
+    Layout.minimumWidth: vertical ? -1 : height
+    Layout.minimumHeight: vertical ? width : -1
+    Layout.preferredWidth: vertical ? -1 : height
+    Layout.preferredHeight: vertical ? width : -1
+
     Kirigami.Icon {
         id: buttonIcon
 
-        anchors.fill: parent
+        // Same visual size as the icon task manager's icons (about 80% of the panel cell).
+        anchors.centerIn: parent
+        width: inPanel ? Math.round(Math.min(root.width, root.height) * 0.8) : root.width
+        height: width
+        roundToIconSize: false
         source: useCustomButtonImage ? Plasmoid.configuration.customButtonImage : Plasmoid.configuration.icon
         active: mouseArea.containsMouse
         smooth: true
