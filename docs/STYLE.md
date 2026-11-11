@@ -120,7 +120,8 @@ The `contents/layout.js` creates:
      the centered Start + tasks group from the system tray on the far
      right.
   5. **System tray** — `org.kde.windowsmodern.systemtray`. The overflow
-     chevron (`^`) sits *left* of the tray icons, as in Windows 11.
+     chevron (`^`) sits *right* of the tray icons, next to the clock (a
+     deliberate choice; Windows 11 puts it on the left).
   6. **Digital clock** — `org.kde.windowsmodern.digitalclock` (with a
       fallback to `org.kde.plasma.digitalclock`). Stacked date below the
       time, no seconds by default, `use24hFormat=1` so it follows the

@@ -76,6 +76,8 @@ Not added, even on request, unless this brief changes:
 
 ## Settled
 
+- **Tray overflow chevron:** stays right of the tray icons, next to the
+  clock. Windows 11 puts it on the left; the right side was preferred.
 - **Start menu:** feature-complete as far as the product is concerned.
   Changes are bug fixes and polish only. The Phase 2 ideas in
   `docs/STARTMENU_PLAN.md` (folders, launch tracking, command palette) are

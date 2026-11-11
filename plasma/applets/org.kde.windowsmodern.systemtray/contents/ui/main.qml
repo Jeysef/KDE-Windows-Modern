@@ -179,10 +179,11 @@ ContainmentItem {
                 id: tasksGrid
 
                 // Explicitly define grid coordinates to prevent overlapping.
-                // Horizontal: the expander comes first (column 0), as in
-                // Windows 11, where "^" sits left of the tray icons.
+                // The expander ("^") stays right of the icons, next to the
+                // clock — a deliberate choice over Windows 11's left position
+                // (see PRODUCT.md, "Settled").
                 Layout.row: root.vertical && root.reverseLayout ? 1 : 0
-                Layout.column: root.vertical ? 0 : 1
+                Layout.column: 0
 
                 Layout.alignment: Qt.AlignCenter
 
@@ -261,7 +262,7 @@ ContainmentItem {
                 id: expander
 
                 Layout.row: root.vertical && !root.reverseLayout ? 1 : 0
-                Layout.column: 0
+                Layout.column: root.vertical ? 0 : 1
 
                 Layout.fillWidth: vertical
                 Layout.fillHeight: !vertical
