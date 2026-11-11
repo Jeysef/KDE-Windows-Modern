@@ -5,6 +5,11 @@
 #  Replaces the system plasma-login-greeter with our patched build and
 #  installs the theme + wallpaper system-wide.
 #
+#  Run with sudo from your normal account:
+#      sudo bash scripts/install-greeter-live.sh
+#  The build runs as the invoking user ($SUDO_USER); only the final copy
+#  into /usr runs as root.
+#
 #  WARNING: If the patched binary crashes, you may not be able to log in.
 #  Keep a TTY open (Ctrl+Alt+F3) before proceeding.
 #
@@ -13,41 +18,61 @@
 #                   sudo reboot
 #  Revert (full):   sudo bash scripts/uninstall-greeter-system.sh && sudo reboot
 # ───────────────────────────────────────────────────────────────────
-set -e
+set -euo pipefail
 
 SRC_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-PLM_BUILD="${SRC_DIR}/third_party/plasma-login-manager/build-user"
+PLM_DIR="${SRC_DIR}/third_party/plasma-login-manager"
+PLM_BUILD="${PLM_DIR}/build-user"
+BUILT_BINARY="${PLM_BUILD}/bin/plasma-login-greeter"
 PLM_BINARY="/usr/libexec/plasma-login-greeter"
 SYSTEM_LOOKFEEL="/usr/share/plasma/look-and-feel/org.kde.windowsmodern.dark"
-USER_LOOKFEEL="${SRC_DIR}/plasma/look-and-feel/org.kde.windowsmodern.dark"
+REPO_LOOKFEEL="${SRC_DIR}/plasma/look-and-feel/org.kde.windowsmodern.dark"
 SYSTEM_WALLPAPER="/usr/share/wallpapers/Windows-modern"
+
+# ── Require root for system install (checked first: no wasted build) ──
+if [ "$EUID" -ne 0 ]; then
+    echo "ERROR: System install requires root."
+    echo "       Run the complete script with sudo from your normal account:"
+    echo ""
+    echo "       sudo bash scripts/install-greeter-live.sh"
+    echo ""
+    exit 1
+fi
 
 echo ""
 echo "╔══════════════════════════════════════════════════════════════════╗"
 echo "║   Patched PLM Boot Greeter — LIVE System Install                 ║"
 echo "║                                                                  ║"
-echo "║   ⚠  This REPLACES your system login manager.                   ║"
+echo "║   ⚠  This REPLACES your system login manager.                    ║"
 echo "║                                                                  ║"
-echo "║   • /usr/libexec/plasma-login-greeter will be overwritten       ║"
+echo "║   • /usr/libexec/plasma-login-greeter will be overwritten        ║"
 echo "║   • If the patched binary crashes, you may be LOCKED OUT         ║"
-echo "║   • Keep another terminal / TTY open (Ctrl+Alt+F3)             ║"
-echo "║   • Revert command is shown at the end of this script           ║"
+echo "║   • Keep another terminal / TTY open (Ctrl+Alt+F3)               ║"
+echo "║   • Revert command is shown at the end of this script            ║"
 echo "╚══════════════════════════════════════════════════════════════════╝"
 echo ""
 
-# ── Step 1: Build patched PLM (fresh build every time) ──
+# ── Step 1: Build patched PLM as the invoking user ──
+# Never build (or write into the user-owned source tree) as root: root-owned
+# artifacts break later user runs, and root would execute build steps from a
+# user-writable directory. Root only copies the finished artifact.
 echo "Step 1 / 4: Building patched PLM..."
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-bash "${SRC_DIR}/scripts/install-greeter.sh"
+if [ -n "${SUDO_USER:-}" ] && [ "${SUDO_USER}" != "root" ]; then
+    sudo -u "$SUDO_USER" -H bash "${SRC_DIR}/scripts/install-greeter.sh"
+elif [ -x "$BUILT_BINARY" ]; then
+    echo "  Not invoked via sudo — using the existing build at ${BUILT_BINARY}."
+    echo "  (Rebuild it first as your normal user with: ./install.sh greeter)"
+else
+    echo "ERROR: No patched build found and no invoking user to build as."
+    echo "       Build first as your normal user:  ./install.sh greeter"
+    echo "       then run:                         sudo bash scripts/install-greeter-live.sh"
+    exit 1
+fi
 echo ""
 
-# ── Require root for system install ──
-if [ "$EUID" -ne 0 ]; then
-    echo "ERROR: System install requires root."
-    echo "       Run the complete script with sudo:"
-    echo ""
-    echo "       sudo bash scripts/install-greeter-live.sh"
-    echo ""
+if [ ! -x "$BUILT_BINARY" ]; then
+    echo "ERROR: Build did not produce ${BUILT_BINARY}. No system files were changed."
     exit 1
 fi
 
@@ -57,16 +82,31 @@ echo ""
 if [ "$CONFIRM" != "YES" ]; then
     echo "Aborted. No system files were changed."
     echo "To test without installing:"
-    echo "  ${PLM_BUILD}/bin/plasma-login-greeter --test"
+    echo "  ${BUILT_BINARY} --test"
+    exit 1
+fi
+
+# ── Refuse to drop file capabilities ──
+# If the distro ships the greeter with file capabilities, a plain cp would
+# silently strip them and the greeter could fail at boot. Replicating them
+# automatically is unsafe, so stop and let the user decide.
+if command -v getcap &>/dev/null && [ -f "$PLM_BINARY" ] && [ -n "$(getcap "$PLM_BINARY" 2>/dev/null)" ]; then
+    echo "ERROR: ${PLM_BINARY} carries file capabilities:"
+    getcap "$PLM_BINARY"
+    echo "Refusing to overwrite it — the patched copy would lose them."
+    echo "Check your distro's plasma-login-manager packaging before continuing."
     exit 1
 fi
 
 # ── Step 2: Backup pristine binary (once) ──
-if [ -f "$PLM_BINARY" ] && [ ! -f "${PLM_BINARY}.orig" ]; then
+if [ ! -f "$PLM_BINARY" ]; then
+    echo "Step 2 / 4: No system greeter at ${PLM_BINARY} — nothing to back up."
+    echo "           (Revert will need your package manager: see uninstall-greeter-system.sh)"
+elif [ ! -f "${PLM_BINARY}.orig" ]; then
     echo "Step 2 / 4: Saving pristine backup → ${PLM_BINARY}.orig"
-    cp "$PLM_BINARY" "${PLM_BINARY}.orig"
+    cp -p "$PLM_BINARY" "${PLM_BINARY}.orig"
 else
-    echo "Step 2 / 4: Pristine backup already exists."
+    echo "Step 2 / 4: Pristine backup already exists at ${PLM_BINARY}.orig"
 fi
 
 # ── Step 3: Stop plasmalogin so we can overwrite the running binary ──
@@ -77,17 +117,23 @@ if systemctl is-active --quiet plasmalogin.service; then
     echo "Step 3 / 4: Stopping plasmalogin.service..."
     systemctl stop plasmalogin.service
     echo "           Service stopped."
+else
+    echo "Step 3 / 4: plasmalogin.service not running — nothing to stop."
 fi
 
 # ── Step 4: Install patched binary, theme, and wallpaper system-wide ──
 echo "Step 4 / 4: Installing patched binary..."
-cp "${PLM_BUILD}/bin/plasma-login-greeter" "$PLM_BINARY"
+# cp onto the existing file keeps its inode, ownership and SELinux label;
+# restorecon re-applies the policy label in case the file was newly created.
+cp "$BUILT_BINARY" "$PLM_BINARY"
+chown root:root "$PLM_BINARY"
 chmod 755 "$PLM_BINARY"
+command -v restorecon &>/dev/null && restorecon "$PLM_BINARY" 2>/dev/null || true
 
 echo "           Installing theme to ${SYSTEM_LOOKFEEL}..."
 rm -rf "${SYSTEM_LOOKFEEL}/contents/lockscreen"
 mkdir -p "${SYSTEM_LOOKFEEL}/contents"
-cp -r "${USER_LOOKFEEL}/contents/lockscreen" "${SYSTEM_LOOKFEEL}/contents/"
+cp -r "${REPO_LOOKFEEL}/contents/lockscreen" "${SYSTEM_LOOKFEEL}/contents/"
 
 echo "           Ensuring greeter wallpaper is installed system-wide..."
 if [ ! -d "${SYSTEM_WALLPAPER}" ]; then
@@ -99,7 +145,7 @@ fi
 
 echo ""
 echo "╔══════════════════════════════════════════════════════════════════╗"
-echo "║                     INSTALL COMPLETE                            ║"
+echo "║                     INSTALL COMPLETE                             ║"
 echo "╚══════════════════════════════════════════════════════════════════╝"
 echo ""
 echo "The patched greeter binary is installed. It will be used on the next boot."
@@ -110,10 +156,12 @@ echo ""
 echo "Reboot now to see the new greeter:"
 echo "  sudo reboot"
 echo ""
-echo "Quick revert (no package manager needed):"
-echo "  sudo cp ${PLM_BINARY}.orig ${PLM_BINARY}"
-echo "  sudo reboot"
-echo ""
+if [ -f "${PLM_BINARY}.orig" ]; then
+    echo "Quick revert (no package manager needed):"
+    echo "  sudo cp ${PLM_BINARY}.orig ${PLM_BINARY}"
+    echo "  sudo reboot"
+    echo ""
+fi
 echo "Full revert (restores distro package):"
 echo "  sudo bash scripts/uninstall-greeter-system.sh && sudo reboot"
 echo ""

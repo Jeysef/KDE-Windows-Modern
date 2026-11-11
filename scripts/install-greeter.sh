@@ -9,6 +9,7 @@
 #  This does NOT touch system files. To install as your actual boot
 #  greeter, run:  sudo bash scripts/install-greeter-live.sh
 # ───────────────────────────────────────────────────────────────────
+# shellcheck source=scripts/install-lib.sh
 source "$(dirname "$0")/install-lib.sh"
 
 PLM_DIR="$SRC_DIR/third_party/plasma-login-manager"
@@ -28,11 +29,32 @@ if [ ! -d "${PLM_DIR}" ]; then
     exit 1
 fi
 
+# ── Never build as root ──
+# The source tree is user-owned. Building as root leaves root-owned files
+# behind that later user runs cannot overwrite, and it means root executes
+# build steps from a user-writable directory. The system install step
+# (install-greeter-live.sh) re-invokes this script as the invoking user.
+if [ "$UID" -eq 0 ]; then
+    err "Do not run install-greeter.sh as root."
+    err "Build as your normal user, then install system-wide with:"
+    err "  sudo bash scripts/install-greeter-live.sh"
+    exit 1
+fi
+
 # ── Verify PLM is clean ──
-PLM_DIRTY=$(cd "${PLM_DIR}" && git status --porcelain 2>/dev/null | wc -l)
-if [ "$PLM_DIRTY" -gt 0 ]; then
-    warn "PLM repo has uncommitted changes. Resetting to clean state..."
-    (cd "${PLM_DIR}" && git reset --hard HEAD)
+# Local edits in the submodule are stashed, never discarded. Set
+# WM_ALLOW_RESET=1 to throw them away instead.
+if [ -n "$(cd "${PLM_DIR}" && git status --porcelain 2>/dev/null)" ]; then
+    if [ "${WM_ALLOW_RESET:-0}" = "1" ]; then
+        warn "PLM repo has uncommitted changes. Discarding them (WM_ALLOW_RESET=1)..."
+        (cd "${PLM_DIR}" && git reset --hard HEAD)
+    else
+        warn "PLM repo has uncommitted changes. Stashing them instead of discarding:"
+        (cd "${PLM_DIR}" && git status --porcelain)
+        (cd "${PLM_DIR}" && git stash push --include-untracked \
+            -m "windows-modern auto-stash $(date +%Y%m%d%H%M%S)")
+        warn "Restore them later with:  git -C ${PLM_DIR} stash pop"
+    fi
 fi
 
 # ── Determine whether a build is needed ──
@@ -83,7 +105,7 @@ else
     done
 
     step "Building plasma-login-manager..."
-    cd "${BUILD_DIR}"
+    cd "${BUILD_DIR}" || exit 1
 
     # Configure if needed. A previously FAILED configure can leave a stale
     # CMakeCache.txt with no Makefile, so reconfigure whenever the Makefile
@@ -131,5 +153,5 @@ echo ""
 echo "To install as your ACTUAL boot greeter:"
 echo "  sudo bash scripts/install-greeter-live.sh"
 echo ""
-warn "This shows warnings and requires typing YES."
+warn "That step shows warnings and requires typing YES."
 warn "Keep a TTY (Ctrl+Alt+F3) open before proceeding."

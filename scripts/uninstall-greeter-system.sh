@@ -5,7 +5,7 @@
 #  Fast path: restores from pristine .orig backup (no package manager).
 #  Fallback: reinstalls the distro package.
 # ───────────────────────────────────────────────────────────────────
-set -e
+set -euo pipefail
 
 PLM_BINARY="/usr/libexec/plasma-login-greeter"
 
@@ -20,6 +20,10 @@ echo "Reverting PLM boot greeter to distro default..."
 # ── Fast revert from pristine backup ──
 if [ -f "${PLM_BINARY}.orig" ]; then
     echo "  Fast revert from ${PLM_BINARY}.orig"
+    echo "  (backup taken $(stat -c %y "${PLM_BINARY}.orig" | cut -d. -f1))"
+    echo "  Note: if your distro updated plasma-login-manager after that date, the"
+    echo "  backup is older than the packaged binary — prefer the package reinstall"
+    echo "  shown below once you have rebooted."
     cp "${PLM_BINARY}.orig" "$PLM_BINARY"
     # Do NOT restart plasmalogin here: restarting the display manager while a
     # graphical session is active spawns a greeter overlay on the running desktop.
