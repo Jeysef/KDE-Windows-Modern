@@ -40,7 +40,7 @@ Item {
 
         // Same visual size as the icon task manager's icons (about 80% of the panel cell).
         anchors.centerIn: parent
-        width: inPanel ? Math.round(Math.min(root.width, root.height) * 0.8) : root.width
+        width: Math.round(Math.min(root.width, root.height) * (inPanel ? 0.8 : 1))
         height: width
         roundToIconSize: false
         source: useCustomButtonImage ? Plasmoid.configuration.customButtonImage : Plasmoid.configuration.icon
