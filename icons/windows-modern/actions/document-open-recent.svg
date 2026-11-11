@@ -1,9 +1,50 @@
-<svg version="1.1" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
- <defs>
-  <style id="current-color-scheme" type="text/css">.ColorScheme-Text {
-        color:#363636;
-      }</style>
- </defs>
- <path class="ColorScheme-Text" d="m16.5 13c-1.933 0-3.5 1.567-3.5 3.5s1.567 3.5 3.5 3.5 3.5-1.567 3.5-3.5-1.567-3.5-3.5-3.5zm-1 1c0.277 0 0.5 0.223 0.5 0.5v2.5h2.5c0.277 0 0.5 0.223 0.5 0.5s-0.223 0.5-0.5 0.5h-3c-0.277 0-0.5-0.223-0.5-0.5v-3c0-0.277 0.223-0.5 0.5-0.5z" fill="currentColor"/>
- <path d="m9 2c-1.3091 0-2.4068 0.83531-2.8184 2h-1.1816c-1.662 0-3 1.338-3 3v10c0 1.662 1.338 3 3 3h7v-1h-7c-1.108 0-2-0.892-2-2v-10c0-1.108 0.892-2 2-2h1 1 3v5h5v2h1v-2-1l-1-1h4v4h1v-4-1l-5-5h-1-5zm0 1h5v4l-3-3h-1-2.7246c0.34556-0.5958 0.98354-1 1.7246-1zm6 0.41406 3.5859 3.5859h-3.5859v-3.5859zm-4 2 3.5859 3.5859h-3.5859v-3.5859z" class="ColorScheme-Text" fill="currentColor"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Recent Files (also resolved for the Places panel, which picks
+     actions/ first; identical to places/document-open-recent): a generic document with a clock badge, like the rest
+     of the pack (white page from text-plain, Windows-style badge in the
+     pack's blue). The dark folder this replaces clashed with the yellow
+     folders around it. -->
+<svg
+   width="64"
+   height="64"
+   viewBox="0 0 64 64"
+   version="1.1"
+   id="svg5"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <!-- page (from mimetypes/text-plain) -->
+  <path
+     id="page-outline"
+     style="fill:#7d7d7b;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+     d="M 12,4 H 40.5 L 51.999999,15.5 V 60.000002 H 12 Z"
+     sodipodi:nodetypes="cccccc" />
+  <path
+     id="page"
+     style="fill:#fafafa;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+     d="M 13,5 V 59 H 51 V 17 H 40 c -0.554003,0 -1,-0.446 -1,-1 V 5 Z m 27,0 v 11 h 11 z"
+     sodipodi:nodetypes="ccccsscccccc" />
+  <path
+     id="text-lines"
+     style="fill:#999999;fill-opacity:1;stroke-width:2.89827;stroke-linecap:round;stroke-linejoin:round"
+     d="m 18,24 v 1 h 20 v -1 z m 0,3 v 1 h 14 v -1 z m 0,3 v 1 h 26 v -1 z m 0,3 v 1 h 28 v -1 z m 0,3 v 1 h 24 v -1 z m 0,3 v 1 h 28 v -1 z m 0,3 v 1 h 18 v -1 z m 0,3 v 1 h 20 v -1 z"
+     sodipodi:nodetypes="cccccccccccccccccccc" />
+  <!-- clock badge -->
+  <circle
+     id="badge-keyline"
+     style="fill:#ffffff"
+     cx="46"
+     cy="46"
+     r="14" />
+  <circle
+     id="badge"
+     style="fill:#0091e6"
+     cx="46"
+     cy="46"
+     r="12" />
+  <path
+     id="badge-hands"
+     style="fill:none;stroke:#ffffff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"
+     d="M 46,46 V 38.6 M 46,46 h 6.4" />
 </svg>
