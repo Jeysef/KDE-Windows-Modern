@@ -371,14 +371,14 @@ fails if anything but accent shows around the on-pill.
 
 | State | Track | Knob |
 |---|---|---|
-| Off | 1 px outline, `ColorScheme-Text` at 55 % (dark) / 45 % (light) | 10 px, `ColorScheme-Text` at 79 % / 62 % |
-| On | Solid `ColorScheme-Highlight` pill | 10 px, `ColorScheme-Background` |
-| Hover / pressed | unchanged | 11 px accent ring around a 9 px `ColorScheme-Background` dot |
+| Off | 36×20 1 px outline, `ColorScheme-Text` at 55 % (dark) / 45 % (light) | 11 px, `ColorScheme-Text` at 79 % / 62 % |
+| On | 37×20 solid `ColorScheme-Highlight` pill | 12 px, `ColorScheme-Background` |
+| Hover / pressed | unchanged | 12 px accent ring around a 10 px `ColorScheme-Background` dot |
 
 Geometry follows Plasma's `SwitchIndicator.qml`, which draws the on-pill
-1 px further right than the off-outline. The on-pill (caps radius 9) is
-therefore centred on the knob, and the off-outline (outer radius 8) sits
-entirely inside it. If the outline is as large as the pill, it shows as
+1 px further right than the off-outline. The on-pill's ends (9 px wide,
+10 px tall, so slightly oval and full height) are therefore centred on
+the knob, and the off-outline's ends (8.5 × 10) sit just inside them. If the outline is as large as the pill, it shows as
 a white (dark) or black (light) rim on the left of every switched-on
 switch. Hover and pressed use one element for both states, so the accent
 ring merges into the on-pill and only highlights the off knob. There is

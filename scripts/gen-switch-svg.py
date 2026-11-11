@@ -9,13 +9,19 @@ Geometry follows Plasma's SwitchIndicator.qml (root 40x20 from hint-bar-size):
   active frame    = root x 2..button.right-1 (1px further right on the left!)
   knob box (20px) = root x 0..20 when off, 20..40 when on
 So in root coordinates the on-pill's end caps are centred at x 11 and 30
-(radius 9), the off outline is drawn concentric with them but 1px smaller,
-so the on-pill always covers it completely: no outline can show around the
-blue pill. The off knob is drawn 1px right inside its box (centre 11) so it
-sits in the middle of the outline's cap.
+(9 wide, 10 tall: slightly oval, so the pill keeps the full 20 px height,
+37x20). The off outline (36x20) is drawn concentric with them but 0.5 px
+narrower, so the on-pill always covers it completely: no outline can show
+around the blue pill. The off knob is drawn 1px right inside its box
+(centre 11) so it sits in the middle of the outline's cap.
 """
+import os
 import pathlib
 import sys
+
+# Knob radii (env overrides are for trying sizes side by side).
+OFF_R = os.environ.get("OFF_R", "5.5")
+ON_R = os.environ.get("ON_R", "6")
 
 
 def svg(text, bg, hl, outline_op, knob_op):
@@ -31,56 +37,56 @@ def svg(text, bg, hl, outline_op, knob_op):
   <rect id="hint-stretch-borders" x="140" y="0" width="4" height="4" {B}/>
   <rect id="hint-bar-size" x="0" y="0" width="40" height="20" {B}/>
 
-  <!-- On: accent pill, caps radius 9 (y 1..19) -->
+  <!-- On: accent pill, oval caps 9x10 (full 20 px height) -->
   <g id="active-left" transform="translate(0,30)">
     <rect width="9" height="20" {B}/>
-    <path class="ColorScheme-Highlight" fill="currentColor" d="M9,1 A9,9 0 0 0 9,19 Z"/>
+    <path class="ColorScheme-Highlight" fill="currentColor" d="M9,0 A9,10 0 0 0 9,20 Z"/>
   </g>
   <g id="active-center" transform="translate(12,30)">
     <rect width="1" height="20" {B}/>
-    <rect class="ColorScheme-Highlight" fill="currentColor" y="1" width="1" height="18"/>
+    <rect class="ColorScheme-Highlight" fill="currentColor" width="1" height="20"/>
   </g>
   <g id="active-right" transform="translate(16,30)">
     <rect width="9" height="20" {B}/>
-    <path class="ColorScheme-Highlight" fill="currentColor" d="M0,1 A9,9 0 0 1 0,19 Z"/>
+    <path class="ColorScheme-Highlight" fill="currentColor" d="M0,0 A9,10 0 0 1 0,20 Z"/>
   </g>
 
-  <!-- Off: 1px outline, outer radius 8 (y 2..18), inside the on-pill -->
+  <!-- Off: 1px outline, oval caps 8.5x10, just inside the on-pill -->
   <g id="inactive-left" transform="translate(0,60)">
     <rect width="10" height="20" {B}/>
     <path class="ColorScheme-Text" fill="currentColor" opacity="{outline_op}"
-          d="M10,2 A8,8 0 0 0 10,18 V17 A7,7 0 0 1 10,3 Z"/>
+          d="M10,0 A8.5,10 0 0 0 10,20 V19 A7.5,9 0 0 1 10,1 Z"/>
   </g>
   <g id="inactive-center" transform="translate(12,60)">
     <rect width="1" height="20" {B}/>
-    <path class="ColorScheme-Text" fill="currentColor" opacity="{outline_op}" d="M0,2 H1 V3 H0 Z M0,17 H1 V18 H0 Z"/>
+    <path class="ColorScheme-Text" fill="currentColor" opacity="{outline_op}" d="M0,0 H1 V1 H0 Z M0,19 H1 V20 H0 Z"/>
   </g>
   <g id="inactive-right" transform="translate(16,60)">
     <rect width="9" height="20" {B}/>
     <path class="ColorScheme-Text" fill="currentColor" opacity="{outline_op}"
-          d="M0,2 A8,8 0 0 1 0,18 V17 A7,7 0 0 0 0,3 Z"/>
+          d="M0,0 A8.5,10 0 0 1 0,20 V19 A7.5,9 0 0 0 0,1 Z"/>
   </g>
 
   <!-- Knobs, each in a 20x20 box -->
   <g id="handle" transform="translate(0,90)">
     <rect width="20" height="20" {B}/>
-    <circle class="ColorScheme-Text" fill="currentColor" opacity="{knob_op}" cx="11" cy="10" r="5"/>
+    <circle class="ColorScheme-Text" fill="currentColor" opacity="{knob_op}" cx="11" cy="10" r="{OFF_R}"/>
   </g>
   <g id="handle-active" transform="translate(24,90)">
     <rect width="20" height="20" {B}/>
-    <circle class="ColorScheme-Background" fill="currentColor" cx="10" cy="10" r="5"/>
+    <circle class="ColorScheme-Background" fill="currentColor" cx="10" cy="10" r="{ON_R}"/>
   </g>
   <!-- Hover/pressed are shared by both states (SwitchIndicator.qml): an
        accent ring that merges into the on-pill and highlights the off knob. -->
   <g id="handle-hover" transform="translate(48,90)">
     <rect width="20" height="20" {B}/>
-    <circle class="ColorScheme-Highlight" fill="currentColor" cx="10.5" cy="10" r="5.5"/>
-    <circle class="ColorScheme-Background" fill="currentColor" cx="10.5" cy="10" r="4.5"/>
+    <circle class="ColorScheme-Highlight" fill="currentColor" cx="10.5" cy="10" r="6"/>
+    <circle class="ColorScheme-Background" fill="currentColor" cx="10.5" cy="10" r="5"/>
   </g>
   <g id="handle-pressed" transform="translate(72,90)">
     <rect width="20" height="20" {B}/>
-    <circle class="ColorScheme-Highlight" fill="currentColor" cx="10.5" cy="10" r="5.5"/>
-    <circle class="ColorScheme-Background" fill="currentColor" cx="10.5" cy="10" r="4.5"/>
+    <circle class="ColorScheme-Highlight" fill="currentColor" cx="10.5" cy="10" r="6"/>
+    <circle class="ColorScheme-Background" fill="currentColor" cx="10.5" cy="10" r="5"/>
   </g>
   <g id="handle-focus" transform="translate(96,90)">
     <rect width="18" height="18" {B}/>
