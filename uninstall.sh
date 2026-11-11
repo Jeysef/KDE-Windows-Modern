@@ -240,6 +240,8 @@ uninstall_component() {
             elif [ -f "$backup_dir/mimeapps.list.none" ]; then
                 rm -f "$HOME/.config/mimeapps.list" "$backup_dir/mimeapps.list.none"
             fi
+            ui="$HOME/.local/share/kxmlgui5/dolphin/dolphinui.rc"
+            grep -qs "Windows Modern:" "$ui" && rm_path "$ui"
             busctl --user status org.kde.kglobalaccel &>/dev/null \
                 && python3 "$SRC_DIR/scripts/windows-shortcuts.py" restore --group apps || true
             info "App defaults restored. Haruna, KWrite and Mission Center stay installed;"

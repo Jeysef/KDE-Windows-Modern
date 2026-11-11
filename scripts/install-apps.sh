@@ -7,6 +7,7 @@
 #    Task Manager   Mission Center (Flathub, per user), on Ctrl+Shift+Esc
 #    Snipping Tool  Spectacle: PrtSc / Win+Shift+S select a region; on
 #                   release it is copied and saved to Pictures/Screenshots
+#    Explorer       Dolphin gets an Up button next to Back/Forward
 #
 #  Previous defaults are backed up; ./uninstall.sh apps restores them
 #  (the apps themselves stay installed).
@@ -62,7 +63,18 @@ kwriteconfig6 --file spectaclerc --group General --key useReleaseToCapture true
 kwriteconfig6 --file spectaclerc --group General --key autoSaveImage true
 kwriteconfig6 --file spectaclerc --group General --key clipboardGroup PostScreenshotCopyImage
 
-# 5. Ctrl+Shift+Esc opens Mission Center.
+# 5. Explorer (Dolphin): an Up button next to Back/Forward. Only if you have
+#    no toolbar layout of your own (or the one there is ours).
+ui="$HOME/.local/share/kxmlgui5/dolphin/dolphinui.rc"
+if [ ! -f "$ui" ] || grep -q "Windows Modern:" "$ui"; then
+    step "Explorer: Up button in the toolbar"
+    ensure_dir "$(dirname "$ui")"
+    cp "$SRC_DIR/config/kxmlgui5/dolphin/dolphinui.rc" "$ui"
+else
+    step "Explorer: keeping your own toolbar layout"
+fi
+
+# 6. Ctrl+Shift+Esc opens Mission Center.
 if busctl --user status org.kde.kglobalaccel &>/dev/null; then
     step "Ctrl+Shift+Esc: Mission Center"
     python3 "$SRC_DIR/scripts/windows-shortcuts.py" apply --group apps || warn "Ctrl+Shift+Esc not set."

@@ -174,6 +174,7 @@ puts them back. Win+Up/Down come from a small KWin script
 | Notepad | **KWrite** | Installed; your default text editor is left alone. |
 | Task Manager | **Mission Center** | From Flathub (per user), on Ctrl+Shift+Esc. GNOME-styled. |
 | Snipping Tool | **Spectacle** | PrtSc / Win+Shift+S: select a region; on release it is copied and saved to Pictures/Screenshots. |
+| File Explorer | **Dolphin** | Up button next to Back/Forward (only if you have no toolbar layout of your own). Win+E opens it. |
 
 `./uninstall.sh apps` restores your previous defaults; the apps stay
 installed.

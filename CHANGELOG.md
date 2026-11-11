@@ -16,7 +16,8 @@ the `Version` field shared by every component's metadata.
   Previous keys are backed up; `./uninstall.sh shortcuts` restores them.
 - `./install.sh apps`: Haruna (default video player), KWrite, Mission
   Center (Flathub, per user) on Ctrl+Shift+Esc, and Snipping Tool
-  behaviour for Spectacle (capture on release, copy, save).
+  behaviour for Spectacle (capture on release, copy, save), and an Up
+  button in Dolphin's toolbar as in File Explorer.
 - `./install.sh deps`: Kvantum, Flatpak and the C++ applets' build
   dependencies, so "Everything" works on a fresh machine.
 - "Everything" now also installs dependencies, shortcuts and apps.
