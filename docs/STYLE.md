@@ -122,6 +122,9 @@ The `contents/layout.js` creates:
   5. **System tray** — `org.kde.windowsmodern.systemtray`. The overflow
      chevron (`^`) sits *right* of the tray icons, next to the clock (a
      deliberate choice; Windows 11 puts it on the left).
+     The tray always ends with input language, network, volume, battery,
+     in that order, as on Windows 11 (`s_windowsTail` in
+     `sortedsystemtraymodel.cpp`; checked by `tests/panel/e2e.py tray-order`).
   6. **Digital clock** — `org.kde.windowsmodern.digitalclock` (with a
       fallback to `org.kde.plasma.digitalclock`). Stacked date below the
       time, no seconds by default, `use24hFormat=1` so it follows the

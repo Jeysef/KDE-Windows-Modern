@@ -14,8 +14,8 @@ Nothing here changes system state: no toggles are switched, the keyboard
 layout and power buttons are not pressed.
 
 Usage: tests/panel/e2e.py [--out DIR] [SCENARIO ...]
-Scenarios: show-desktop start-meta start-click tray-pages clock
-           quick-settings  (default: all)
+Scenarios: show-desktop start-meta start-click tray-order tray-pages
+           clock quick-settings  (default: all)
 
 Not covered: the taskbar's right-click menu. It is a native Qt menu, and
 under uinput input it closes the instant it opens (a real mouse works), so
@@ -166,6 +166,31 @@ def tray_pages(p, c):
         p.close_popups()
 
 
+# Windows 11 ends the tray with these, left to right, before the clock.
+TRAY_TAIL = ["Keyboard Layout", "Networks", "Audio Volume", "Power & Battery"]
+
+
+def tray_order(p, c):
+    """Reads positions only; nothing is clicked."""
+    panel_window = p.item("Show desktop").window
+    row_y = p.item("Show desktop").rect[1]
+    xs = {}
+    for node in a11y.nodes(APP):
+        if node.window == panel_window and node.rect[1] == row_y and node.rect[2] > 0 \
+                and node.role == "button" and node.name:
+            xs.setdefault(node.name, node.rect[0])
+    tail = [n for n in TRAY_TAIL if n in xs]
+    p.shot("tray-order")
+    print(f"        tray, left to right: {sorted((n for n in xs if xs[n] > xs.get('Start', 0) + 400), key=xs.get)}")
+    c.check(len(tail) >= 3, f"most of {TRAY_TAIL} are in the panel row (found {tail})")
+    c.check(sorted(tail, key=xs.get) == tail, f"{' → '.join(tail)} in Windows order")
+    others = [n for n, x in xs.items() if n not in TRAY_TAIL and tail and xs[tail[0]] < x < xs[tail[-1]]]
+    c.check(not others, f"nothing sits between them (found {others})")
+    if tail and "Clock" in xs:
+        between = [n for n, x in xs.items() if xs[tail[-1]] < x < xs["Clock"] and n != "Show hidden icons"]
+        c.check(not between, f"only the chevron between {tail[-1]!r} and the clock (found {between})")
+
+
 def clock(p, c):
     panel_window = p.item("Show desktop").window
     year = time.strftime("%Y")
@@ -190,7 +215,7 @@ def quick_settings(p, c):
 
 
 SCENARIOS = {"show-desktop": show_desktop, "start-meta": start_meta, "start-click": start_click,
-             "tray-pages": tray_pages, "clock": clock,
+             "tray-order": tray_order, "tray-pages": tray_pages, "clock": clock,
              "quick-settings": quick_settings}
 
 

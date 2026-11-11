@@ -6,6 +6,12 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+### Changed
+
+- System tray: the last icons before the clock are always input language,
+  network, volume, battery, in that order, as on Windows 11. Other icons
+  (apps, Bluetooth, clipboard...) come before them.
+
 ### Fixed
 
 - `./install.sh themes` run on its own now applies the dark Plasma theme;

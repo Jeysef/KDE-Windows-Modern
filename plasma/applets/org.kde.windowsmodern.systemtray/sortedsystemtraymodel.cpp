@@ -15,6 +15,16 @@ static const QList<QString> s_categoryOrder = {
     QStringLiteral("Hardware"),
 };
 
+// Windows 11 ends the tray with the same four icons, in this order, right
+// before the clock: input language, network, volume, battery. Everything
+// else (app icons, Bluetooth, clipboard...) comes before them.
+static const QList<QString> s_windowsTail = {
+    QStringLiteral("org.kde.plasma.keyboardlayout"),
+    QStringLiteral("org.kde.plasma.networkmanagement"),
+    QStringLiteral("org.kde.plasma.volume"),
+    QStringLiteral("org.kde.plasma.battery"),
+};
+
 SortedSystemTrayModel::SortedSystemTrayModel(SortingType sorting, QObject *parent)
     : QSortFilterProxyModel(parent), m_sorting(sorting) { setSortLocaleAware(true); sort(0); }
 
@@ -36,6 +46,9 @@ bool SortedSystemTrayModel::lessThanSystemTray(const QModelIndex &left, const QM
     QVariant rid = right.data(static_cast<int>(BaseModel::BaseRole::ItemId));
     if (rid.toString() == QLatin1String("org.kde.plasma.notifications")) return false;
     if (lid.toString() == QLatin1String("org.kde.plasma.notifications")) return true;
+    const int ltail = s_windowsTail.indexOf(lid.toString());
+    const int rtail = s_windowsTail.indexOf(rid.toString());
+    if (ltail != -1 || rtail != -1) return ltail < rtail; // -1 (not in the tail) sorts first
     int cmp = compareCategoriesOrderly(left, right);
     return cmp == 0 ? QSortFilterProxyModel::lessThan(left, right) : cmp < 0;
 }
