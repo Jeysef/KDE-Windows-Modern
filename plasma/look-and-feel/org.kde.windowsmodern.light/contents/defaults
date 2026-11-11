@@ -18,7 +18,7 @@ library=org.kde.kwin.aurorae
 theme=__aurorae__svg__windows-modern-light-aurorae
 
 [kcminputrc][Mouse]
-cursorTheme=breeze_cursors
+cursorTheme=Breeze_Light
 
 [ksplashrc][KSplash]
 Theme=none
