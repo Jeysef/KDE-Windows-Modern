@@ -402,7 +402,8 @@ FloatingToolTipArea {
     TapHandler {
         acceptedButtons: Qt.RightButton
         acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad | PointerDevice.Stylus
-        gesturePolicy: TapHandler.WithinBounds // Release grab when menu appears
+        // No gesturePolicy: WithinBounds (as upstream Plasma 6.8 dropped it).
+        // Its exclusive grab closed the context menu the moment it opened.
         onPressedChanged: if (pressed) contextMenuTimer.start()
     }
 
