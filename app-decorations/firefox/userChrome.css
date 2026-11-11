@@ -1,10 +1,18 @@
 /* Minimal Windows Modern Window Controls for Firefox CSD - Background Method */
 
+/* Dark Theme Variables */
 :root {
   --wm-hover: rgba(255, 255, 255, 0.1);
   --wm-close-hover: #c42b1c;
   --wm-btn-w: 46px;
   --wm-btn-h: 30px;
+}
+
+/* Light Theme Variables */
+@media (prefers-color-scheme: light) {
+  :root {
+    --wm-hover: rgba(0, 0, 0, 0.1);
+  }
 }
 
 /* Window control buttons base sizing and reset */
@@ -28,20 +36,17 @@
 
 /* Completely hide the stubbornly themed native icons */
 .titlebar-button .toolbarbutton-icon {
-  display: none !important; 
+  display: none !important;
 }
 
 .titlebar-button .toolbarbutton-badge-stack {
   display: none !important;
 }
 
+/* Dark Theme Icons */
 /* Minimize button */
 .titlebar-button.titlebar-min {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='1'%3E%3Crect fill='%23ffffff' width='10' height='1'/%3E%3C/svg%3E") !important;
-}
-
-.titlebar-button.titlebar-min:hover {
-  background-color: var(--wm-hover) !important;
 }
 
 /* Maximize button */
@@ -49,17 +54,9 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Crect fill='none' stroke='%23ffffff' stroke-width='1' x='0.5' y='0.5' width='9' height='9'/%3E%3C/svg%3E") !important;
 }
 
-.titlebar-button.titlebar-max:hover {
-  background-color: var(--wm-hover) !important;
-}
-
 /* Restore button */
 .titlebar-button.titlebar-restore {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11'%3E%3Crect fill='none' stroke='%23ffffff' stroke-width='1' x='3.5' y='0.5' width='7' height='7'/%3E%3Crect fill='%23000000' stroke='%23ffffff' stroke-width='1' x='0.5' y='2.5' width='7' height='7'/%3E%3C/svg%3E") !important;
-}
-
-.titlebar-button.titlebar-restore:hover {
-  background-color: var(--wm-hover) !important;
 }
 
 /* Close button */
@@ -67,6 +64,36 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath fill='%23ffffff' d='M 0.5 0 L 5 4.5 L 9.5 0 L 10 0.5 L 5.5 5 L 10 9.5 L 9.5 10 L 5 5.5 L 0.5 10 L 0 9.5 L 4.5 5 L 0 0.5 Z'/%3E%3C/svg%3E") !important;
 }
 
+/* Hover effects */
+.titlebar-button.titlebar-min:hover,
+.titlebar-button.titlebar-max:hover,
+.titlebar-button.titlebar-restore:hover {
+  background-color: var(--wm-hover) !important;
+}
+
 .titlebar-button.titlebar-close:hover {
   background-color: var(--wm-close-hover) !important;
+}
+
+/* Light Theme Icons */
+@media (prefers-color-scheme: light) {
+  /* Minimize button */
+  .titlebar-button.titlebar-min {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='1'%3E%3Crect fill='%23000000' width='10' height='1'/%3E%3C/svg%3E") !important;
+  }
+
+  /* Maximize button */
+  .titlebar-button.titlebar-max {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Crect fill='none' stroke='%23000000' stroke-width='1' x='0.5' y='0.5' width='9' height='9'/%3E%3C/svg%3E") !important;
+  }
+
+  /* Restore button */
+  .titlebar-button.titlebar-restore {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11'%3E%3Crect fill='none' stroke='%23000000' stroke-width='1' x='3.5' y='0.5' width='7' height='7'/%3E%3Crect fill='%23ffffff' stroke='%23000000' stroke-width='1' x='0.5' y='2.5' width='7' height='7'/%3E%3C/svg%3E") !important;
+  }
+
+  /* Close button */
+  .titlebar-button.titlebar-close {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath fill='%23000000' d='M 0.5 0 L 5 4.5 L 9.5 0 L 10 0.5 L 5.5 5 L 10 9.5 L 9.5 10 L 5 5.5 L 0.5 10 L 0 9.5 L 4.5 5 L 0 0.5 Z'/%3E%3C/svg%3E") !important;
+  }
 }
