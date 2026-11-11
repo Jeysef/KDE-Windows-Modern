@@ -15,7 +15,8 @@ from .session import kwin_call
 
 DEVICE_NAME = "windows-modern-e2e"
 KEYS = [e.KEY_LEFTALT, e.KEY_LEFTMETA, e.KEY_TAB, e.KEY_ESC, e.KEY_ENTER, e.KEY_BACKSPACE,
-        e.KEY_LEFT, e.KEY_RIGHT, e.KEY_UP, e.KEY_DOWN, e.KEY_SPACE] + \
+        e.KEY_LEFT, e.KEY_RIGHT, e.KEY_UP, e.KEY_DOWN, e.KEY_SPACE,
+        e.KEY_LEFTSHIFT, e.KEY_LEFTCTRL, e.KEY_SYSRQ, e.KEY_HOME] + \
        [getattr(e, f"KEY_{c}") for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"]
 
 

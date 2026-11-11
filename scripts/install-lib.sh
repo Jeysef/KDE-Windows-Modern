@@ -150,6 +150,42 @@ restart_plasmashell() {
     sleep 1
 }
 
+# Stop Plasma Shell (for config it rewrites on exit). restart_plasmashell
+# starts it again.
+stop_plasmashell() {
+    if command -v systemctl &>/dev/null && systemctl --user cat plasma-plasmashell.service &>/dev/null; then
+        systemctl --user stop plasma-plasmashell.service
+    elif command -v kquitapp6 &>/dev/null; then
+        kquitapp6 plasmashell 2>/dev/null || true
+    fi
+    _wait_plasmashell_exit || killall plasmashell 2>/dev/null || true
+}
+
+# Install distro packages that are missing, with one password prompt.
+# Usage: install_packages <package>...   (same names on Fedora/Debian/Arch/openSUSE)
+install_packages() {
+    local missing=() p
+    for p in "$@"; do
+        if command -v rpm &>/dev/null && rpm -q "$p" &>/dev/null; then continue; fi
+        if command -v dpkg-query &>/dev/null && dpkg-query -W -f='${Status}' "$p" 2>/dev/null | grep -q "ok installed"; then continue; fi
+        if command -v pacman &>/dev/null && pacman -Q "$p" &>/dev/null; then continue; fi
+        missing+=("$p")
+    done
+    [ "${#missing[@]}" -eq 0 ] && { step "Already installed: $*"; return 0; }
+    local cmd
+    if command -v dnf &>/dev/null; then cmd="dnf install -y --skip-unavailable"
+    elif command -v apt-get &>/dev/null; then cmd="apt-get install -y"
+    elif command -v pacman &>/dev/null; then cmd="pacman -S --needed --noconfirm"
+    elif command -v zypper &>/dev/null; then cmd="zypper --non-interactive install"
+    else
+        warn "No supported package manager; install yourself: ${missing[*]}"
+        return 1
+    fi
+    step "Installing ${missing[*]} (password prompt)..."
+    # shellcheck disable=SC2086  # $cmd is a command line on purpose
+    pkexec $cmd "${missing[@]}"
+}
+
 # Apply a global theme. Usage: apply_lookandfeel <theme-id> [reset]
 # 'reset' adds --resetLayout so the desktop layout is rebuilt from the theme.
 apply_lookandfeel() {

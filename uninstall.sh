@@ -207,15 +207,53 @@ uninstall_component() {
         greetersystem)
             bash "$SRC_DIR/scripts/uninstall-greeter-system.sh"
             ;;
+        shortcuts)
+            if busctl --user status org.kde.kglobalaccel &>/dev/null; then
+                python3 "$SRC_DIR/scripts/windows-shortcuts.py" restore --group shortcuts || true
+                stop_plasmashell
+                python3 "$SRC_DIR/scripts/windows-shortcuts.py" tray-restore || true
+                restart_plasmashell
+            else
+                warn "No Plasma session — log in and run ./uninstall.sh shortcuts to restore the keys."
+            fi
+            kwriteconfig6 --file kwinrc --group Plugins --key org.kde.windowsmodern.snapkeysEnabled --delete
+            kwriteconfig6 --file kwinrc --group Plugins --key minimizeallEnabled --delete
+            kpackagetool6 --type KWin/Script --remove org.kde.windowsmodern.snapkeys &>/dev/null || true
+            kwin_reconfigure
+            rm_path "$HOME/.local/share/applications/windowsmodern-screenshot.desktop"
+            info "Windows shortcuts removed; your previous keys are back."
+            ;;
+        apps)
+            backup_dir="$HOME/.local/share/windows-modern/backup"
+            if [ -f "$backup_dir/spectaclerc.General" ]; then
+                while IFS='=' read -r k v; do
+                    if [ -n "$v" ]; then
+                        kwriteconfig6 --file spectaclerc --group General --key "$k" "$v"
+                    else
+                        kwriteconfig6 --file spectaclerc --group General --key "$k" --delete
+                    fi
+                done < "$backup_dir/spectaclerc.General"
+                rm -f "$backup_dir/spectaclerc.General"
+            fi
+            if [ -f "$backup_dir/mimeapps.list" ]; then
+                mv "$backup_dir/mimeapps.list" "$HOME/.config/mimeapps.list"
+            elif [ -f "$backup_dir/mimeapps.list.none" ]; then
+                rm -f "$HOME/.config/mimeapps.list" "$backup_dir/mimeapps.list.none"
+            fi
+            busctl --user status org.kde.kglobalaccel &>/dev/null \
+                && python3 "$SRC_DIR/scripts/windows-shortcuts.py" restore --group apps || true
+            info "App defaults restored. Haruna, KWrite and Mission Center stay installed;"
+            info "remove them with your package manager / flatpak if you want."
+            ;;
         all)
-            for c in themes icons lookfeel layout showdesk startmenu systray icontasks digitalclock sessionlock alttab greeter; do
+            for c in shortcuts apps themes icons lookfeel layout showdesk startmenu systray icontasks digitalclock sessionlock alttab greeter; do
                 uninstall_component "$c"
             done
             reset_kwin_borders
             ;;
         *)
             err "Unknown component: $name"
-            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, icontasks, digitalclock, sessionlock, alttab, greeter, greetersystem, all"
+            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, icontasks, digitalclock, sessionlock, alttab, shortcuts, apps, greeter, greetersystem, all"
             exit 1
             ;;
     esac
@@ -237,6 +275,8 @@ case "${1:-}" in
     echo "  digitalclock Digital Clock"
     echo "  sessionlock Session lock screen (Meta+L)"
     echo "  alttab     Alt+Tab window switcher"
+    echo "  shortcuts  Windows keyboard shortcuts (previous keys restored)"
+    echo "  apps       App defaults (video player, Snipping Tool, Ctrl+Shift+Esc)"
     echo "  greeter    Boot greeter (user theme + revert patches)"
     echo "  greetersystem Restore system greeter binary (needs sudo)"
     echo "  all        Uninstall everything"

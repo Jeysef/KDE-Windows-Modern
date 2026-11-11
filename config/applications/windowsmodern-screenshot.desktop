@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Screenshot (full screen, saved)
+Comment=Windows Modern: Win+PrtSc saves a full-screen screenshot to Pictures/Screenshots, as on Windows
+Exec=spectacle --background --fullscreen
+Icon=spectacle
+NoDisplay=true
+StartupNotify=false
+X-KDE-GlobalAccel-CommandShortcut=true
