@@ -48,15 +48,20 @@ KWin (against a mock `org.kde.kwin`):
 ```bash
 tests/windowswitcher/run-tests.sh            # layout, keyboard and main.qml wiring tests
 tests/windowswitcher/preview.sh dark 7 x.png # render a screenshot
-tests/windowswitcher/e2e.py shot.png         # real Alt+Tab inside your running KWin
+tests/windowswitcher/e2e.py --out shots/     # real Alt+Tab inside your running KWin
+tests/windowswitcher/e2e.py --scenario close-buttons --out shots/
 ```
 
 KWin caches the compiled QML of a switcher it has already shown for the
 whole session, so reinstalling the switcher does not change what Alt+Tab
 shows until you log out. `e2e.py` installs the current code under a one-off
-ID (a fresh compile), presses Alt+Tab through a virtual keyboard, saves a
-screenshot, fails on any QML error KWin logs, and restores your setting.
-It needs `python3-evdev` and access to `/dev/uinput`.
+ID (a fresh compile), drives a virtual keyboard and mouse through uinput,
+saves screenshots, fails on any QML error KWin logs, and restores your
+setting. The `close-buttons` scenario opens three disposable windows and
+closes two of them from the switcher with the mouse. `--package DIR` runs a
+scenario against other code (e.g. a `git archive` of an older commit) to
+confirm a test fails where it should. It needs `python3-evdev`, access to
+`/dev/uinput`, and Spectacle.
 
 For QML changes, also run `qmllint` (`/usr/lib64/qt6/bin/qmllint` on Fedora)
 on the files you touched and don't add new warnings.

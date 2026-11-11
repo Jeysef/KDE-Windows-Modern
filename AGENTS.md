@@ -13,9 +13,11 @@ you'll keep building on it.
 Static checks and headless tests are not proof for anything KWin or Plasma
 loads. Verify in the live session:
 
-- Drive real input with a uinput virtual keyboard (`python3-evdev`; the
+- Drive real input with uinput virtual devices (`python3-evdev`; the
   logged-in user can open `/dev/uinput`) and capture with
   `spectacle -b -n -f -o <file>`, then look at the image.
+  `tests/windowswitcher/e2e.py` does all of this for the Alt+Tab switcher;
+  extend its scenarios rather than writing one-off scripts.
 - Read `journalctl --user -b --since …` for QML errors from `kwin_wayland`
   and `plasmashell`.
 - Use `pkexec` for anything that needs root. Never build as root.
@@ -32,6 +34,10 @@ loads. Verify in the live session:
 - **QML name shadowing across components**: inside a delegate, `foo: foo`
   binds to the object's own `foo` property, not an outer `id: foo`. Give ids
   names that no property uses.
+- **Hover over interactive children**: a `MouseArea`'s `containsMouse`
+  drops when the pointer moves onto a child `MouseArea` stacked above it, so
+  anything bound to it flickers. Track hover with a `HoverHandler`, and test
+  hover in the live session; QtTest's synthetic hover hides the flicker.
 - **Headless renders use the software scene graph**: shader effects
   (`MultiEffect`) draw nothing there. Render inside the Wayland session to
   see the GPU path, and give shader-only visuals a software fallback.
