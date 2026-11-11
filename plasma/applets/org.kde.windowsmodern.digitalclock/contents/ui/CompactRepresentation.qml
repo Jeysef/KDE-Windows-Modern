@@ -36,9 +36,12 @@ MouseArea {
     // Reserve the full text width plus breathing room on both sides, and tell the
     // panel about it explicitly; otherwise long times/dates are clipped and the
     // clock crowds the system tray.
+    // On a vertical panel the width is the panel's, so only horizontal panels (and the
+    // desktop) get the explicit minimum.
+    readonly property bool vertical: Plasmoid.formFactor === PlasmaCore.Types.Vertical
     implicitWidth: contentLayout.implicitWidth + Kirigami.Units.largeSpacing * 2
-    Layout.minimumWidth: implicitWidth
-    Layout.preferredWidth: implicitWidth
+    Layout.minimumWidth: vertical ? -1 : implicitWidth
+    Layout.preferredWidth: vertical ? -1 : implicitWidth
     implicitHeight: panelHeight
 
     // Font configured by the user or theme defaults.
@@ -130,7 +133,7 @@ MouseArea {
     ColumnLayout {
         id: contentLayout
         anchors.centerIn: parent
-        width: implicitWidth
+        width: main.vertical ? parent.width : implicitWidth
         height: main.maxContentHeight
         spacing: Kirigami.Units.smallSpacing / 2
 
