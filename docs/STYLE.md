@@ -154,8 +154,9 @@ the essentials for the Win11 look:
 - **Thin sliver** — `Layout.maximumWidth` is driven by the `size`
   config key (default 6px), overriding the upstream 22px floor.
 - **No icon** — the `Kirigami.Icon` is only visible in edit mode.
-- **Minimize-all** — uses `MinimizeAllController` (toggle minimize on
-  all windows) rather than peek.
+- **Show desktop** — `ShowDesktopController` toggles KWin's show-desktop
+  mode (`KWindowSystem.showingDesktop`), the same state as Win+D: click to
+  show the desktop, click again to restore the windows.
 - **Win11 hover indicator** — invisible by default. On hover, a 1px
   vertical line (50% of panel height, centered) fades in at 50% text
   color alpha. No background fill, no separator line — matches Win11
@@ -261,7 +262,9 @@ KPackage must not be installed (it causes the dark-rectangle popup bug).
 See `docs/SYSTEMTRAY_ARCHITECTURE.md` and
 `plasma/applets/org.kde.windowsmodern.systemtray/BUILD.md`.
 
-The chevron opens the Quick Settings flyout (a Windows 11/10 hybrid):
+Tray icons stay separate, Windows 10 style: each opens its own page
+(network, volume, battery…). The chevron opens the Quick Settings flyout
+(a Windows 11/10 hybrid):
 hidden tray icons as a 3-column tile grid, then the toggles and sliders.
 The flyout fits its content (no fixed height). The tile grid shows up to
 three rows, then scrolls; its edges and 6 px gaps match the toggle grid

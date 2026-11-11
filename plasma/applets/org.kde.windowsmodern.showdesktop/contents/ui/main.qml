@@ -8,7 +8,8 @@
 
     Simplified fork of org.kde.plasma.win7showdesktop for the Windows
     Modern theme. Removes command/mousewheel/peek-on-hover features;
-    keeps the thin sliver rendering and minimize-all behavior.
+    keeps the thin sliver rendering. Uses KWin's show-desktop mode (the
+    same state as Win+D) rather than minimizing windows one by one.
 */
 
 import QtQuick 2.15
@@ -48,10 +49,10 @@ PlasmoidItem {
     readonly property bool horizontal: Plasmoid.location === PlasmaCore.Types.TopEdge || Plasmoid.location === PlasmaCore.Types.BottomEdge
     readonly property bool vertical: Plasmoid.location === PlasmaCore.Types.RightEdge || Plasmoid.location === PlasmaCore.Types.LeftEdge
 
-    readonly property Controller activeController: minimizeAllController
+    readonly property Controller activeController: showDesktopController
 
-    MinimizeAllController {
-        id: minimizeAllController
+    ShowDesktopController {
+        id: showDesktopController
     }
 
     MouseArea {
