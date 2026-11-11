@@ -63,6 +63,12 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- "Recent Files" in Dolphin's Places panel drew a dark-gray line-art
+  document that clashed with the yellow folder icons around it. The pack's
+  `document-open-recent` is now a full-colour white document with a blue
+  clock badge, in the style of the rest of the Places icons (the actions
+  and places variants are identical, since Qt resolves the name to
+  `actions/` first).
 - Dolphin's status bar: the capacity bar and the "228 GiB free" text were
   squashed to a sliver with our Kvantum style (upstream bug 483172 —
   negative margins in `StatusBarSpaceInfo`). Fedora's dolphin is now
