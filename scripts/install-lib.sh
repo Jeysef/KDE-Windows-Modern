@@ -172,13 +172,21 @@ apply_kvantum_engine() {
     kwriteconfig6 --file kdeglobals --group KDE --key widgetStyle "$style"
 }
 
+# Ask the running KWin to reload kwinrc. dbus-send defaults to sending a
+# *signal*, which KWin ignores, so --type=method_call is required.
+kwin_reconfigure() {
+    command -v dbus-send &>/dev/null || return 0
+    dbus-send --session --type=method_call --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure \
+        2>/dev/null || warn "Could not reach KWin — changes apply at next login."
+}
+
 # KWin tiny borders + reconfigure (the "post_install" borders step).
 post_kwin_borders() {
     command -v kwriteconfig6 &>/dev/null || return 0
     step "KWin border size → Tiny"
     kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSize" "Tiny"
     kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSizeAuto" "false"
-    dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null || true
+    kwin_reconfigure
 }
 
 # KWin per-monitor Alt+Tab: only list windows on the active monitor.
@@ -188,7 +196,7 @@ post_kwin_per_monitor_alt_tab() {
     command -v kwriteconfig6 &>/dev/null || return 0
     step "KWin Alt+Tab → per-monitor"
     kwriteconfig6 --file kwinrc --group "TabBox" --key "MultiScreenMode" "1"
-    dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null || true
+    kwin_reconfigure
 }
 
 # KWin Alt+Tab: use the Windows Modern window switcher.
@@ -198,7 +206,7 @@ post_kwin_alt_tab_switcher() {
     [ -d "$TABBOX_DIR/$ALT_TAB_LAYOUT" ] || return 0
     step "KWin Alt+Tab → Windows Modern switcher"
     kwriteconfig6 --file kwinrc --group "TabBox" --key "LayoutName" "$ALT_TAB_LAYOUT"
-    dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null || true
+    kwin_reconfigure
 }
 
 # Prompt the user for a theme variant. Prints 'light' or 'dark'.

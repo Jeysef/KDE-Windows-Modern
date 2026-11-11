@@ -495,7 +495,7 @@ The installer sets KWin borders to `Tiny`. If you changed it manually, re-run:
 ```bash
 kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSize" "Tiny"
 kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSizeAuto" "false"
-dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure
+dbus-send --session --type=method_call --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure
 ```
 
 ### Alt+Tab not limited to the current monitor
@@ -505,7 +505,7 @@ manually, re-run:
 
 ```bash
 kwriteconfig6 --file kwinrc --group "TabBox" --key "MultiScreenMode" "1"
-dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure
+dbus-send --session --type=method_call --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure
 ```
 
 Values: `0` = all monitors, `1` = current monitor only, `2` = all except current.

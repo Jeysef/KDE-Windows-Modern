@@ -77,7 +77,7 @@ reset_kwin_borders() {
         kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSize" "Normal"
         kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "BorderSizeAuto" "true"
         kwriteconfig6 --file kwinrc --group "TabBox" --key "MultiScreenMode" "0"
-        dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null || true
+        kwin_reconfigure
     fi
 }
 
@@ -183,7 +183,7 @@ uninstall_component() {
             if command -v kreadconfig6 &>/dev/null && \
                [ "$(kreadconfig6 --file kwinrc --group TabBox --key LayoutName)" = "$ALT_TAB_LAYOUT" ]; then
                 kwriteconfig6 --file kwinrc --group TabBox --key LayoutName --delete
-                dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null || true
+                kwin_reconfigure
             fi
             info "Alt+Tab switcher uninstalled. KWin's default switcher restored."
             ;;
