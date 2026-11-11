@@ -147,10 +147,10 @@ echo ""
 echo " QML tests:"
 if command -v qmltestrunner6 &>/dev/null || command -v qmltestrunner &>/dev/null \
    || [ -x /usr/lib64/qt6/bin/qmltestrunner ] || [ -x /usr/lib/qt6/bin/qmltestrunner ]; then
-    if QT_QPA_PLATFORM=offscreen tests/windowswitcher/run-tests.sh >/dev/null 2>&1; then
-        pass "Alt+Tab switcher tests"
+    if QT_QPA_PLATFORM=offscreen tests/run-qml-tests.sh >/dev/null 2>&1; then
+        pass "QML test suites (tests/*/tst_*.qml)"
     else
-        fail "Alt+Tab switcher tests — run: tests/windowswitcher/run-tests.sh"
+        fail "QML tests failed — run: tests/run-qml-tests.sh"
     fi
 else
     warn "qmltestrunner not installed — skipped (CI runs it)"

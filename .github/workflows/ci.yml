@@ -46,5 +46,5 @@ jobs:
             kf6-kirigami
       - name: Build and link-check both applets
         run: ./scripts/ci-build.sh "$RUNNER_TEMP/build"
-      - name: QML tests (Alt+Tab switcher)
-        run: QT_QPA_PLATFORM=offscreen tests/windowswitcher/run-tests.sh
+      - name: QML tests
+        run: QT_QPA_PLATFORM=offscreen tests/run-qml-tests.sh
