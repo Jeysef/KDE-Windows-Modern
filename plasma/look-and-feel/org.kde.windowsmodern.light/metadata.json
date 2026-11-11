@@ -16,7 +16,7 @@
         "Id": "org.kde.windowsmodern.light",
         "License": "GPL-3.0-only",
         "Name": "Windows Modern Light",
-        "Version": "1.0.0",
+        "Version": "1.1.0",
         "Website": "https://github.com/Jeysef/KDE-Windows-Modern",
         "BugReportUrl": "https://github.com/Jeysef/KDE-Windows-Modern/issues"
     },

@@ -4,7 +4,7 @@
         "Id": "org.kde.windowsmodern.lockscreen",
         "Name": "Windows Modern Lock Screen",
         "Description": "Windows Modern flat lock screen for KDE Plasma 6 (session lock, Meta+L)",
-        "Version": "1.0.0",
+        "Version": "1.1.0",
         "License": "GPL-3.0-only",
         "Authors": [
             {

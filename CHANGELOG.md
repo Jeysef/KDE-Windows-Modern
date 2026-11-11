@@ -6,6 +6,8 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-11
+
 ### Added
 
 - Quick Settings footer, as in Windows 11: battery level on the left
@@ -42,6 +44,16 @@ the `Version` field shared by every component's metadata.
 - "Everything" now also installs dependencies, shortcuts and apps.
 - `tests/shortcuts/e2e.py` presses every new shortcut in the live session
   and checks the result.
+- **Windows 11-style Alt+Tab switcher** (`./install.sh alttab`, included in
+  `all`): aspect-correct previews in centered rows, icon + title headers,
+  close on hover, rounded focus ring, keyboard navigation across rows. Both
+  global themes select it. Comes with a mock-KWin preview tool, QML tests,
+  and an end-to-end test that drives a real Alt+Tab in the running KWin.
+- `PRODUCT.md`: the product brief — vision, scope, and what is deliberately
+  left out.
+- CI (GitHub Actions): the repository health check plus a build-and-link check
+  of both C++ applets against Fedora's Plasma.
+- `scripts/ci-build.sh`, `CONTRIBUTING.md`, `.editorconfig`, `.shellcheckrc`.
 
 ### Changed
 
@@ -80,6 +92,14 @@ the `Version` field shared by every component's metadata.
   Everything else (apps, Bluetooth, clipboard, brightness...) waits behind
   the chevron until it needs attention or you pin it ("Always shown" in
   the tray settings).
+- The Icon Tasks applet is no longer packaged for the KDE Store; like the
+  System Tray it is a compiled plugin and ships only in the GitHub bundle.
+- The global themes no longer reference Plasma 5's Breeze window and desktop
+  switchers, which Plasma 6 no longer ships.
+- `verify-all.sh` checks both theme variants, all five applets, layout drift,
+  metadata, and shell scripts. `--installed` adds checks of the installed C++
+  plugins; Icon Tasks has a new `verify.sh`.
+- The System Tray `metadata.json` now declares its `KPlugin.Id`.
 
 ### Fixed
 
@@ -213,30 +233,6 @@ the `Version` field shared by every component's metadata.
   run on a dirty submodule, prints the resolved commit, and always reverts its
   patches.
 - The System Tray installer no longer runs root scripts from `/tmp`.
-
-### Changed
-
-- The Icon Tasks applet is no longer packaged for the KDE Store; like the
-  System Tray it is a compiled plugin and ships only in the GitHub bundle.
-- The global themes no longer reference Plasma 5's Breeze window and desktop
-  switchers, which Plasma 6 no longer ships.
-- `verify-all.sh` checks both theme variants, all five applets, layout drift,
-  metadata, and shell scripts. `--installed` adds checks of the installed C++
-  plugins; Icon Tasks has a new `verify.sh`.
-- The System Tray `metadata.json` now declares its `KPlugin.Id`.
-
-### Added
-
-- **Windows 11-style Alt+Tab switcher** (`./install.sh alttab`, included in
-  `all`): aspect-correct previews in centered rows, icon + title headers,
-  close on hover, rounded focus ring, keyboard navigation across rows. Both
-  global themes select it. Comes with a mock-KWin preview tool, QML tests,
-  and an end-to-end test that drives a real Alt+Tab in the running KWin.
-- `PRODUCT.md`: the product brief — vision, scope, and what is deliberately
-  left out.
-- CI (GitHub Actions): the repository health check plus a build-and-link check
-  of both C++ applets against Fedora's Plasma.
-- `scripts/ci-build.sh`, `CONTRIBUTING.md`, `.editorconfig`, `.shellcheckrc`.
 
 ## [1.0.0]
 

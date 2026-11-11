@@ -15,7 +15,7 @@
         "Id": "org.kde.windowsmodern.snapkeys",
         "License": "GPL-3.0-or-later",
         "Name": "Windows Modern: Win+Up / Win+Down",
-        "Version": "1.0.0",
+        "Version": "1.1.0",
         "Website": "https://github.com/Jeysef/KDE-Windows-Modern"
     },
     "X-Plasma-API": "javascript",

@@ -137,26 +137,33 @@ step "tag pushed"
 
 # ── 7. Create GitHub release (idempotent) ─────────────────────────
 info "Creating GitHub release..."
-NOTES="$(cat <<EOF
-## Windows Modern for KDE Plasma 6 — ${TAG}
+# This version's section of CHANGELOG.md, without its heading.
+CHANGES="$(awk -v v="$VERSION" '
+    index($0, "## [" v "]") == 1 { on = 1; next }
+    on && index($0, "## [") == 1 { exit }
+    on { print }' CHANGELOG.md)"
 
-A complete Windows 11-inspired visual transformation for KDE Plasma 6.
-Includes window decorations, widget style, color schemes, Plasma desktop
-themes, global themes, an icon pack, custom applets, a panel layout
-template, and wallpapers — in dark and light variants.
+NOTES="$(cat <<EOF
+Windows 11's look and feel for KDE Plasma 6, with a few Windows 10
+touches: Start menu, taskbar, system tray with Quick Settings, window
+decorations, themes, icons, cursors, shortcuts and Snap Layouts.
 
 ### Install
 
-Download and extract the full bundle \`.zip\`, then:
+Download and extract the full bundle \`.zip\` (or clone the \`${TAG}\` tag), then:
 
 \`\`\`bash
-./install.sh all
+./install.sh        # menu; Enter installs everything
 \`\`\`
 
-See the README for component-by-component options and the C++ System Tray
-build instructions.
+On the Fedora versions CI builds for, the System Tray and taskbar plugins
+come prebuilt (attached below, checksum-verified), so no compiler is
+needed; elsewhere they are built from source. See the README for single
+components.
 
-**Requires KDE Plasma 6 and Kvantum.**
+### Changes
+
+${CHANGES:-See CHANGELOG.md.}
 EOF
 )"
 
