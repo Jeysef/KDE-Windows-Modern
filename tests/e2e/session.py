@@ -21,6 +21,7 @@ def _spectacle_last_save(value=None):
 def screenshot(path):
     # Spectacle remembers every --output path as the user's last save
     # location ("Save As" then opens in our temp folder). Put it back.
+    pathlib.Path(path).parent.mkdir(parents=True, exist_ok=True)
     saved = _spectacle_last_save()
     try:
         subprocess.run(["spectacle", "--background", "--nonotify", "--fullscreen", "--output", str(path)],

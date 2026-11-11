@@ -150,6 +150,41 @@ restart_plasmashell() {
     sleep 1
 }
 
+# ── Cursor theme ──────────────────────────────────────────────────
+# Win10OS cursors (yeyushengfan258, GPL-3.0: the author's own drawings in
+# the Windows 10 style). Fetched from upstream at a pinned commit, never
+# bundled; skipped when the theme is already installed anywhere.
+CURSOR_THEME="Win10OS-cursors"
+CURSOR_URL="https://github.com/yeyushengfan258/Win10OS-cursors/archive/79d13bb90eb9346a40a2da5a1f5cb24cb919f256.tar.gz"
+CURSOR_SHA256="c2babe0b2ad4db74052dd724b22f0b5fa5fc6ac0a1181bf686f2c6beffebd393"
+
+cursor_theme_installed() {
+    local d
+    for d in "$HOME/.local/share/icons" "$HOME/.icons" /usr/share/icons /usr/local/share/icons; do
+        [ -f "$d/$CURSOR_THEME/index.theme" ] && return 0
+    done
+    return 1
+}
+
+install_cursor_theme() {
+    cursor_theme_installed && return 0
+    [ "$UID" -ne 0 ] || return 0
+    step "Cursor theme: fetching $CURSOR_THEME (GPL-3.0)"
+    local tmp dst="$HOME/.local/share/icons/$CURSOR_THEME"
+    tmp="$(mktemp -d)"
+    if curl -sfL -o "$tmp/c.tar.gz" "$CURSOR_URL" \
+       && echo "$CURSOR_SHA256  $tmp/c.tar.gz" | sha256sum -c --status \
+       && tar -xzf "$tmp/c.tar.gz" -C "$tmp" --wildcards '*/dist/*'; then
+        ensure_dir "$dst"
+        cp -a "$tmp"/*/dist/. "$dst/"
+        ensure_dir "$HOME/.local/share/windows-modern/backup"
+        touch "$HOME/.local/share/windows-modern/backup/cursor-theme.ours"
+    else
+        warn "Could not fetch the $CURSOR_THEME cursors; the cursor falls back to the system one."
+    fi
+    rm -rf "$tmp"
+}
+
 # ── Prebuilt C++ plugins ───────────────────────────────────────────
 # Releases carry the System Tray and Icon Tasks plugins built per distro,
 # Plasma and Qt version (scripts/package-plugins.sh, CI). A plugin only

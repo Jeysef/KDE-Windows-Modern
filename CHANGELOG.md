@@ -41,6 +41,12 @@ the `Version` field shared by every component's metadata.
 
 ### Changed
 
+- Taskbar: no speaker badge on the icons of apps playing audio, as on
+  Windows (mute from the tray's volume page). The option stays in the
+  taskbar's settings.
+- Cursor: the Win10OS cursors (GPL-3.0, Windows 10 style), fetched from
+  upstream at a pinned commit by `./install.sh themes` / `lookfeel` when
+  not already installed, replace Breeze Light in both global themes.
 - "Everything" turns off KWin's Show Desktop effect that slides all windows
   to the screen corners (Windows doesn't), unless you set it yourself.
 - Volume, brightness and keyboard-layout pop-ups appear bottom-centre just
@@ -108,8 +114,8 @@ the `Version` field shared by every component's metadata.
   the time is centred over it, and media controls appear again (a wrong
   config name had switched them off for good).
 - Dark theme: the mouse cursor theme it set did not exist, so the cursor
-  fell back (for GTK apps too). Both themes now use Breeze Light, the
-  white Windows-style arrow.
+  fell back (for GTK apps too). Both themes now use an installed cursor
+  theme (now Win10OS, see Changed).
 - `./install.sh themes` run on its own now applies the dark Plasma theme;
   it asked for a theme named `Windows-modern`, which does not exist.
 - Clock: time and date now share the normal UI font size, as on Windows

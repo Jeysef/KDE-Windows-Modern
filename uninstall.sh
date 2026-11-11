@@ -86,6 +86,10 @@ uninstall_component() {
     info "Uninstalling: $name"
     case "$name" in
         themes)
+            if [ -f "$HOME/.local/share/windows-modern/backup/cursor-theme.ours" ]; then
+                rm_path "$HOME/.local/share/icons/Win10OS-cursors"
+                rm -f "$HOME/.local/share/windows-modern/backup/cursor-theme.ours"
+            fi
             # Aurorae packages are lowercase in the current repo
             rm_path "$AURORAE_DIR/windows-modern"*-aurorae
             rm_path "$AURORAE_DIR/Windows-modern"*-aurorae

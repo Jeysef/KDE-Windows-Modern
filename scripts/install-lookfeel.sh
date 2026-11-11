@@ -21,6 +21,10 @@ step "Light theme"
 rm -rf "$LOOKFEEL_DIR/org.kde.windowsmodern.light"
 cp -r "$SRC_DIR/plasma/look-and-feel/org.kde.windowsmodern.light" "$LOOKFEEL_DIR/"
 
+# Both global themes name the Win10OS cursors: make sure they exist, or
+# applying a theme would leave the cursor on a fallback.
+install_cursor_theme
+
 info "Global themes installed."
 
 # ── Batch: files only — parent applies at the end ──────────────────

@@ -48,6 +48,9 @@ ensure_dir "$PLASMA_DIR"
 rm -rf "$PLASMA_DIR/Windows-modern"*
 cp -r "$SRC_DIR/plasma/desktoptheme/"* "$PLASMA_DIR/"
 
+# The global themes name this cursor theme.
+install_cursor_theme
+
 step "Wallpapers"
 ensure_dir "$WALLPAPER_DIR"
 rm -rf "$WALLPAPER_DIR/Windows-modern"*

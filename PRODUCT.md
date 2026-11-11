@@ -98,7 +98,7 @@ Not added, even on request, unless this brief changes:
 | Status | Item | Notes |
 |--------|------|-------|
 | Done | Windows 11 Alt+Tab switcher | `plasma/windowswitcher/`, selected by both global themes. |
-| Done | Windows shortcuts, cursor, everyday apps | `./install.sh shortcuts` / `apps`; Breeze Light cursor. Win+X (power-user menu) is not mapped. |
+| Done | Windows shortcuts, cursor, everyday apps | `./install.sh shortcuts` / `apps`; Win10OS cursors (fetched from upstream, GPL-3.0). Win+X (power-user menu) is not mapped. |
 | Done | OSD position, Cascadia Mono | KWin script for the OSD; Cascadia Mono via `./install.sh apps`. |
 | Done | Dolphin status bar | Patched rpm (`scripts/fix-dolphin-statusbar.sh`); stock fixes itself from Dolphin 26.12. |
 | Done | Window animations | KDE's defaults match Windows 11; "Everything" only turns off the corner-sliding Show Desktop effect, unless the user set it. |
