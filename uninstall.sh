@@ -31,6 +31,29 @@ rm_path() {
     done
 }
 
+# Move a backup made at install time back to its original system location.
+# Used for distro-owned files that a Windows Modern fork had to move aside.
+restore_backup() {
+    local backup="$1" target="$2"
+    [ -e "$backup" ] || return 0
+    if [ -e "$target" ]; then
+        # The package manager already restored the original (e.g. after an
+        # update); the backup is redundant.
+        rm_path "$backup"
+        return 0
+    fi
+    local mover=""
+    if command -v pkexec &>/dev/null; then mover="pkexec"
+    elif command -v sudo &>/dev/null; then mover="sudo"
+    fi
+    if [ -n "$mover" ] && $mover mv -T "$backup" "$target" 2>/dev/null; then
+        step "Restored $target"
+    else
+        warn "Could not restore $target from $backup."
+        warn "Restore it manually, or reinstall your distro's plasma-desktop package."
+    fi
+}
+
 detect_systray_so_dir() {
     local plugin_dir=""
     if command -v pkg-config &>/dev/null; then
@@ -112,12 +135,17 @@ uninstall_component() {
             info "System Tray uninstalled. Restart plasmashell to complete."
             ;;
         icontasks)
+            # The fork reuses the stock plugin ID. Remove our compiled .so and
+            # put the distro's stock KPackage back (dev.sh moved it aside).
+            # Never delete /usr/share/plasma/plasmoids/org.kde.plasma.icontasks
+            # directly: it belongs to the plasma-desktop package.
             rm_path "$(detect_systray_so_dir)/org.kde.plasma.icontasks.so"
-            rm_path "/usr/share/plasma/plasmoids/org.kde.plasma.icontasks"
+            restore_backup "/var/lib/windows-modern/backup/plasmoids/org.kde.plasma.icontasks" \
+                           "/usr/share/plasma/plasmoids/org.kde.plasma.icontasks"
             rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.plasma.icontasks"
             rm_path "$HOME/.local/lib64/qt6/plugins/plasma/applets/org.kde.plasma.icontasks.so"
             rm_path "$HOME/.local/lib/qt6/plugins/plasma/applets/org.kde.plasma.icontasks.so"
-            info "Icon Tasks uninstalled. Restart plasmashell to complete."
+            info "Icon Tasks uninstalled; stock icons-only task manager restored. Restart plasmashell to complete."
             ;;
         digitalclock)
             rm_path "/usr/share/plasma/plasmoids/org.kde.windowsmodern.digitalclock"
