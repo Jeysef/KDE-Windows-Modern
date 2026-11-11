@@ -356,9 +356,10 @@ Item {
 
                 if (entry) {
                     // Resolved: route favorite/model actions through the
-                    // all-apps model so triggerAction() works correctly.
+                    // all-apps model, on the app's real row, so
+                    // triggerAction() works for every action type.
                     ctx.resolvedModel = sortedAppsModel
-                    ctx.resolvedIndex = -1
+                    ctx.resolvedIndex = entry.row
 
                     var appActs = Tools.buildAppActions(i18n, favModel,
                                                         entry.favoriteId,

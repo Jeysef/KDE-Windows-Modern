@@ -40,6 +40,16 @@ import "code/theme.js" as Theme
 Item {
     id: main
 
+    // One row of sortedAppsModel, exposed by name for lookupAppByDisplayName().
+    component AppLookupEntry: Item {
+        required property int index
+        required property var model
+        readonly property string displayName: (model.display !== undefined) ? model.display : ""
+        readonly property string favoriteId: (model.favoriteId !== undefined) ? model.favoriteId : ""
+        readonly property var url: (model.url !== undefined) ? model.url : ""
+        readonly property var actionList: (model.actionList !== undefined) ? model.actionList : null
+    }
+
     onVisibleChanged: {
         root.visible = !root.visible
     }
@@ -499,25 +509,36 @@ Item {
                 }
             }
 
-            // Lookup map for search-result context menus.  Built by the
-            // hidden appLookupMap ListView below as delegates are
-            // instantiated — this is the only reliable way to access model
-            // roles by name in QML (QAbstractItemModel doesn't expose
-            // roleNames() to the QML side).  Keyed by display name.
-            property var _appLookupMap: ({})
-
-            // Rebuild the lookup map when the source model changes.
-            // Returns { favoriteId, url, actionList } or null.
+            // App lookup for search-result context menus: given a display
+            // name, find the matching row in sortedAppsModel so the menu can
+            // offer the same actions (and trigger them on the right row) as
+            // the All Apps list.
+            //
+            // Scans the helper Repeater's live delegates on demand rather than
+            // caching: when the proxy re-sorts it rebinds model data onto the
+            // existing delegates, so any cache keyed at creation time goes
+            // stale. One linear scan per right-click is negligible.
+            // Returns { row, favoriteId, url, actionList } or null.
             function lookupAppByDisplayName(displayName) {
                 if (!displayName) return null;
-                return rootItem._appLookupMap[displayName] || null;
+                for (let i = 0; i < appLookupRepeater.count; ++i) {
+                    const item = appLookupRepeater.itemAt(i) as AppLookupEntry;
+                    if (item && item.displayName === displayName) {
+                        return {
+                            row: item.index,
+                            favoriteId: item.favoriteId,
+                            url: item.url,
+                            actionList: item.actionList
+                        };
+                    }
+                }
+                return null;
             }
 
-            // Lookup map for search-result context menus.  Uses a Repeater
-            // (not ListView) because Repeater creates ALL delegates eagerly —
-            // ListView only creates delegates in/near the visible viewport,
-            // which fails for off-screen helpers.  Each delegate writes its
-            // model roles into the map on creation.
+            // Off-screen helper that exposes sortedAppsModel's roles by name
+            // (QAbstractItemModel roleNames() aren't reachable from QML). A
+            // Repeater, not a ListView: it instantiates ALL delegates, while a
+            // ListView only creates the ones near its viewport.
             Column {
                 x: -9999
                 y: -9999
@@ -526,19 +547,9 @@ Item {
                 visible: true
 
                 Repeater {
+                    id: appLookupRepeater
                     model: sortedAppsModel
-                    delegate: Item {
-                        Component.onCompleted: {
-                            var name = (model.display !== undefined) ? model.display : "";
-                            if (name !== "") {
-                                rootItem._appLookupMap[name] = {
-                                    favoriteId: (model.favoriteId !== undefined) ? model.favoriteId : "",
-                                    url: (model.url !== undefined) ? model.url : "",
-                                    actionList: (model.actionList !== undefined) ? model.actionList : null
-                                };
-                            }
-                        }
-                    }
+                    delegate: AppLookupEntry {}
                 }
             }
 
