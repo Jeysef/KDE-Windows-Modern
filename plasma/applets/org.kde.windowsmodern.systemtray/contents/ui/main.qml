@@ -1,10 +1,10 @@
 /*
-    SPDX-FileCopyrightText: 2011 Marco Martin <mart@kde.org>
-    SPDX-FileCopyrightText: 2020 Konrad Materka <materka@gmail.com>
-    SPDX-FileCopyrightText: 2026 Nathaniel Krebs <areyoufeelingitnowmrkrebs@gmail.com>
-
-    SPDX-License-Identifier: LGPL-2.0-or-later
-*/
+ *    SPDX-FileCopyrightText: 2011 Marco Martin <mart@kde.org>
+ *    SPDX-FileCopyrightText: 2020 Konrad Materka <materka@gmail.com>
+ *    SPDX-FileCopyrightText: 2026 Nathaniel Krebs <areyoufeelingitnowmrkrebs@gmail.com>
+ *
+ *    SPDX-License-Identifier: LGPL-2.0-or-later
+ */
 pragma ComponentBehavior: Bound
 
 import QtQuick
@@ -130,7 +130,7 @@ ContainmentItem {
             preventStealing: true
 
             /** Extracts the name of the system tray applet in the drag data if present
-            * otherwise returns null*/
+             * otherwise returns null*/
             function systemTrayAppletName(event) {
                 if (event.mimeData.formats.indexOf("text/x-plasmoidservicename") < 0) {
                     return null;
@@ -190,16 +190,32 @@ ContainmentItem {
                 verticalLayoutDirection: (root.vertical && root.reverseLayout) ? GridView.BottomToTop : GridView.TopToBottom
 
                 // The icon size to display when not using the auto-scaling setting
-                readonly property int smallIconSize: Kirigami.Units.iconSizes.smallMedium
+                // Determines the base size based on the panelIconSize value in memory (Small if 0, Medium if 1).
+                readonly property int smallIconSize: {
+                    if (Plasmoid.configuration.panelIconSize === 1) {
+                        // Medium option (e.g., we add 6px to the original 22px small Medium value to make it 28px)
+                        return Kirigami.Units.iconSizes.smallMedium + 6;
+                    }
+                    // 0 (Small) or the default original 22px size
+                    return Kirigami.Units.iconSizes.smallMedium;
+                }
 
-                readonly property bool autoSize: Plasmoid.configuration.scaleIconsToFit
+                // If the panelIconSize value is 2, automatic scaling (Scale with Panel height) will be activated.
+                readonly property bool autoSize: Plasmoid.configuration.panelIconSize === 2
 
                 readonly property int gridThickness: root.vertical ? root.width : root.height
                 // Should change to 2 rows/columns on a 56px panel (in standard DPI)
                 readonly property int rowsOrColumns: autoSize ? 1 : Math.max(1, Math.min(count, Math.floor(gridThickness / (smallIconSize + Kirigami.Units.smallSpacing))))
 
                 // Add margins only if the panel is larger than a small icon (to avoid large gaps between tiny icons)
-                readonly property int cellSpacing: Kirigami.Units.smallSpacing * Plasmoid.configuration.iconSpacing
+                readonly property int cellSpacing: {
+                    // If Medium mode is selected, tighten the spacing (e.g., set it to a fixed 2 pixels)
+                    if (Plasmoid.configuration.panelIconSize === 1) {
+                        return 2;
+                    }
+                    // In other modes (Small), the original spacing value from the settings application will apply.
+                    return Kirigami.Units.smallSpacing * Plasmoid.configuration.iconSpacing;
+                }
                 readonly property int smallSizeCellLength: gridThickness < smallIconSize ? smallIconSize : smallIconSize + cellSpacing
 
                 cellHeight: {
@@ -304,8 +320,8 @@ ContainmentItem {
             floating: Plasmoid.location == PlasmaCore.Desktop
 
             removeBorderStrategy: Plasmoid.location === PlasmaCore.Types.Floating
-                ? PlasmaCore.AppletPopup.AtScreenEdges
-                : PlasmaCore.AppletPopup.AtScreenEdges | PlasmaCore.AppletPopup.AtPanelEdges
+            ? PlasmaCore.AppletPopup.AtScreenEdges
+            : PlasmaCore.AppletPopup.AtScreenEdges | PlasmaCore.AppletPopup.AtPanelEdges
 
 
             hideOnWindowDeactivate: !Plasmoid.configuration.pin
@@ -345,7 +361,7 @@ ContainmentItem {
                     id: separator
                     // Only draw for popups of panel applets, not desktop applets
                     visible: [PlasmaCore.Types.TopEdge, PlasmaCore.Types.LeftEdge, PlasmaCore.Types.RightEdge, PlasmaCore.Types.BottomEdge]
-                        .includes(Plasmoid.location) && !dialog.margin
+                    .includes(Plasmoid.location) && !dialog.margin
                     anchors {
                         topMargin: -dialog.topPadding
                         leftMargin: -dialog.leftPadding

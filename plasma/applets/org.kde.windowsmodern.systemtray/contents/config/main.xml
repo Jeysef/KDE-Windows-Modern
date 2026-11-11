@@ -34,8 +34,14 @@
       <default>false</default>
     </entry>
     <entry name="scaleIconsToFit" type="bool">
-      <label>Whether to automatically scale System Tray icons to fix the available thickness of the panel. If false, tray icons will be capped at the smallMedium size (22px) and become a two-row/column layout when the panel is thick.</label>
+      <label>Whether to automatically scale System Tray icons to fix the available thickness of the panel.</label>
       <default>false</default>
+    </entry>
+
+    <!-- Yeni eklediğimiz int değişkeni (Uygula butonunu tetikleyecek olan) -->
+    <entry name="panelIconSize" type="int">
+      <label>Panel icon size style (0: Small, 1: Medium, 2: Scale with panel size)</label>
+      <default>0</default>
     </entry>
     <entry name="iconSpacing" type="int">
       <label>spacing between icons, determined by this number multiplied by Kirigami.Units.smallSpacing</label>
