@@ -6,6 +6,8 @@ icons/** -diff
 # scripts/package.sh): README screenshots and maintainer-only material.
 /View-*.png export-ignore
 /plans export-ignore
+/AGENTS.md export-ignore
+/CLAUDE.md export-ignore
 /tests export-ignore
 /.github export-ignore
 /scripts/release.sh export-ignore
