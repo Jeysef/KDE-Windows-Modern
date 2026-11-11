@@ -40,16 +40,18 @@ Item {
         target: mainStack
     }
 
-    Connections {
-        target: greeterEventFilter
+    // Plasma Login 6.8: the event filter is a QML type (it was a context
+    // property, greeterEventFilter, up to 6.6).
+    PlasmaLogin.GreeterEventFilter {
+        window: root.Window.window
 
-        function onKeyPressed(): void {
+        onKeyPressed: {
             // callLater, as otherwise 'enter' key press would arrive after waking
             // and the uiVisible check would pass and a login attempt would be made
             Qt.callLater(() => PlasmaLogin.GreeterState.activateWindow(loginScreenRoot.Window.window));
         }
 
-        function onEscapeKeyPressed(): void {
+        onEscapeKeyPressed: {
             PlasmaLogin.GreeterState.timeoutWindow(loginScreenRoot.Window.window);
             PlasmaLogin.GreeterState.clearPasswords();
         }
@@ -150,7 +152,7 @@ Item {
                     return parts.join(" \u2022 ");
                 }
 
-                onLoginRequest: (username, password) => root.handleLoginRequest(username, password, sessionButton.currentSessionType, sessionButton.currentSessionFileName)
+                onLoginRequest: (username, password) => root.handleLoginRequest(username, password)
             }
 
             readonly property real zoomFactor: 1.5
@@ -199,7 +201,7 @@ Item {
                     }
                 }
 
-                onLoginRequest: (username, password) => root.handleLoginRequest(username, password, sessionButton.currentSessionType, sessionButton.currentSessionFileName)
+                onLoginRequest: (username, password) => root.handleLoginRequest(username, password)
             }
         }
 
@@ -242,15 +244,24 @@ Item {
 
             Item { Layout.fillWidth: true }
 
-            WinFooterButton {
-                iconName: "network-wireless"
+            // Live network state (was a fixed icon); its own Loader, so a
+            // missing plasma-nm can only hide the icon.
+            Loader { source: "NetworkStatusIcon.qml"; Layout.alignment: Qt.AlignVCenter }
+
+            Loader {
+                id: virtualKeyboardLoader
+                source: "VirtualKeyboardButton.qml"
+                Layout.alignment: Qt.AlignVCenter
+            }
+            Connections {
+                target: virtualKeyboardLoader.item
+                // Keep typing going to the password box, not the button.
+                function onClicked() {
+                    userListComponent.mainPasswordBox.forceActiveFocus();
+                }
             }
 
-            WinFooterButton {
-                iconName: "preferences-desktop-accessibility"
-            }
-
-            BreezeComponents.Battery {}
+            Loader { source: "BatteryStatusIcon.qml"; Layout.alignment: Qt.AlignVCenter }
 
             WinFooterButton {
                 id: powerButton
@@ -266,16 +277,25 @@ Item {
         }
     }
 
-    function handleLoginRequest(username, password, sessionType, sessionFileName) {
+    // The session comes from GreeterState.sessionIndex (set by SessionButton).
+    function handleLoginRequest(username, password) {
         root.notificationMessage = "";
-        PlasmaLogin.GreeterState.handleLoginRequest(username, password, sessionType, sessionFileName);
+        PlasmaLogin.GreeterState.handleLoginRequest(username, password);
     }
 
     Connections {
         target: PlasmaLogin.Authenticator
 
+        // e.g. pam_u2f asking to touch the security key. It stays until the
+        // next attempt; only failures time out.
+        function onInformationMessage(message) {
+            notificationResetTimer.stop();
+            notificationMessage = message;
+        }
+
         function onLoginFailed() {
             notificationMessage = i18nd("plasma_login", "Login Failed");
+            notificationResetTimer.start();
             footer.enabled = true;
             mainStack.enabled = true;
             rejectPasswordAnimation.start();
@@ -284,12 +304,6 @@ Item {
         function onLoginSucceeded() {
             mainStack.opacity = 0;
             footer.opacity = 0;
-        }
-    }
-
-    onNotificationMessageChanged: {
-        if (notificationMessage) {
-            notificationResetTimer.start();
         }
     }
 

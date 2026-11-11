@@ -52,6 +52,14 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Login screen: builds and runs again on Plasma 6.8. Plasma Login Manager
+  is pinned to 6.8.2 (the 6.6 build needed a libPlasmaQuick that Plasma
+  6.8 no longer ships), the patch is rebased, and the theme follows 6.8's
+  greeter interface (event filter, session selection, security-key
+  messages). `--test` now loads your own copy of the theme.
+- Login screen: live network and battery icons (the network icon was
+  fixed), the date in your language, and the inert accessibility button
+  is now an on-screen keyboard toggle, shown when one is available.
 - Greeter uninstall could put back an outdated login greeter: it restored
   the `.orig` backup even when a package update had already replaced the
   patched greeter, and even when the backup needed libraries a Plasma

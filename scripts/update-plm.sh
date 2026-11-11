@@ -8,7 +8,7 @@
 #    3. Reverts the patches again so the submodule stays clean
 #
 #  Usage:
-#    ./scripts/update-plm.sh              # Update to the default branch (Plasma/6.6)
+#    ./scripts/update-plm.sh              # Update to the default branch (Plasma/6.8)
 #    ./scripts/update-plm.sh Plasma/6.7   # Update to a specific release branch
 #    ./scripts/update-plm.sh v6.6.0       # Update to a specific release tag
 #
@@ -23,7 +23,7 @@ set -euo pipefail
 SRC_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 PLM_DIR="${SRC_DIR}/third_party/plasma-login-manager"
 PATCH_DIR="${SRC_DIR}/plasma/look-and-feel/org.kde.windowsmodern.dark/patches"
-TARGET_REF="${1:-Plasma/6.6}"
+TARGET_REF="${1:-Plasma/6.8}"
 PATCHES=(
     "main-cpp.patch"
 )

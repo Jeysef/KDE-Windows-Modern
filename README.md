@@ -399,7 +399,7 @@ sudo bash scripts/install-greeter-live.sh
 
 # Maintainers: move the PLM submodule to a new upstream release
 # (release branches Plasma/6.N or tags vX.Y.Z only), then commit the pointer:
-./scripts/update-plm.sh Plasma/6.7
+./scripts/update-plm.sh Plasma/6.8
 ```
 
 Local edits inside `third_party/plasma-login-manager/` are never discarded:

@@ -7,12 +7,20 @@
 import QtQuick
 import org.kde.kirigami as Kirigami
 
+import "dateformat.js" as DateFormat
+
 Column {
     id: root
 
     property real opacityWhenInactive: 1
     property real opacityWhenActive: 0
     property bool uiVisible: false
+
+    // The locale's long date without the year, as the Windows login screen
+    // shows it. dateformat.js is a copy of the digital clock's.
+    function dateLine(d: date): string {
+        return Qt.locale().toString(d, DateFormat.longDateWithoutYear(Qt.locale().dateFormat(Locale.LongFormat)));
+    }
 
     spacing: Kirigami.Units.smallSpacing / 2
     opacity: uiVisible ? opacityWhenActive : opacityWhenInactive
@@ -37,7 +45,7 @@ Column {
 
     Text {
         id: dateText
-        text: Qt.formatDate(new Date(), "dddd, MMMM d")
+        text: root.dateLine(new Date())
         font.family: WinStyle.fontFamily
         font.pixelSize: WinStyle.clockDatePixelSize
         color: WinStyle.secondaryForegroundColor
@@ -52,7 +60,7 @@ Column {
         onTriggered: {
             const now = new Date();
             timeText.text = Qt.formatTime(now, "HH:mm");
-            dateText.text = Qt.formatDate(now, "dddd, MMMM d");
+            dateText.text = root.dateLine(now);
         }
     }
 }

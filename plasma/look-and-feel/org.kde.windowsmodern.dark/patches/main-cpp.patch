@@ -1,25 +1,32 @@
+diff --git a/src/frontend/greeter/main.cpp b/src/frontend/greeter/main.cpp
+index cbb37eb8..e1f7b6f9 100644
 --- a/src/frontend/greeter/main.cpp
 +++ b/src/frontend/greeter/main.cpp
-@@ -10,6 +10,8 @@
- #include <QObject>
- #include <QQmlContext>
- #include <QScreen>
+@@ -6,6 +6,8 @@
+ 
+ #include <QCommandLineOption>
+ #include <QCommandLineParser>
 +#include <QDir>
 +#include <QFile>
+ #include <QGuiApplication>
+ #include <QObject>
+ #include <QQmlContext>
+@@ -79,7 +81,23 @@ private:
  
- #include <KLocalizedString>
- #include <KWindowSystem>
-@@ -85,7 +87,18 @@
-         window->installEventFilter(greeterEventFilter);
-         window->rootContext()->setContextProperty(QStringLiteral("greeterEventFilter"), greeterEventFilter);
+         window->setResizeMode(QQuickView::SizeRootObjectToView);
  
 -        window->setSource(QUrl("qrc:/qt/qml/org/kde/plasma/login/Main.qml"));
++        // Windows Modern: load the Windows-style login theme when installed,
++        // else the built-in one. A real login uses the system-wide copy; --test
++        // prefers the user's copy, so theme changes can be tried without root.
 +        QString systemThemePath = QStringLiteral("/usr/share/plasma/look-and-feel/org.kde.windowsmodern.dark"
 +                                                  "/contents/lockscreen/Main.qml");
 +        QString userThemePath = QDir::homePath()
 +            + QStringLiteral("/.local/share/plasma/look-and-feel/org.kde.windowsmodern.dark"
 +                             "/contents/lockscreen/Main.qml");
-+        if (QFile::exists(systemThemePath)) {
++        if (s_testMode && QFile::exists(userThemePath)) {
++            window->setSource(QUrl::fromLocalFile(userThemePath));
++        } else if (QFile::exists(systemThemePath)) {
 +            window->setSource(QUrl::fromLocalFile(systemThemePath));
 +        } else if (QFile::exists(userThemePath)) {
 +            window->setSource(QUrl::fromLocalFile(userThemePath));

@@ -165,11 +165,22 @@ fi
 # ── Shared code copies ──────────────────────────────────────────────
 # The lock screen is its own package, so it carries a copy of the clock's
 # date formatting; the two must not drift apart.
-if cmp -s plasma/applets/org.kde.windowsmodern.digitalclock/contents/ui/code/dateformat.js \
-          plasma/shells/org.kde.windowsmodern.lockscreen/contents/lockscreen/dateformat.js; then
-    pass "lock screen dateformat.js matches the clock's"
+SHARED_DRIFT=""
+LOCK=plasma/shells/org.kde.windowsmodern.lockscreen/contents/lockscreen
+LOGIN=plasma/look-and-feel/org.kde.windowsmodern.dark/contents/lockscreen
+for pair in \
+    "plasma/applets/org.kde.windowsmodern.digitalclock/contents/ui/code/dateformat.js $LOCK/dateformat.js" \
+    "$LOCK/dateformat.js $LOGIN/dateformat.js" \
+    "$LOCK/StatusIconButton.qml $LOGIN/StatusIconButton.qml" \
+    "$LOCK/NetworkStatusIcon.qml $LOGIN/NetworkStatusIcon.qml" \
+    "$LOCK/BatteryStatusIcon.qml $LOGIN/BatteryStatusIcon.qml"; do
+    # shellcheck disable=SC2086  # two paths on purpose
+    cmp -s $pair || SHARED_DRIFT="$SHARED_DRIFT ${pair##* }"
+done
+if [ -z "$SHARED_DRIFT" ]; then
+    pass "shared copies (date format, lock/login status icons) are identical"
 else
-    fail "lock screen dateformat.js differs from the clock's — copy it over"
+    fail "copies drifted from their source:$SHARED_DRIFT"
     FAILED=1
 fi
 
