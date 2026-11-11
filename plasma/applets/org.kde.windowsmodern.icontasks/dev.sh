@@ -49,26 +49,9 @@ info "Building..."
 cmake -S "$SRC_DIR" -B "$BUILD_DIR" -DCMAKE_BUILD_TYPE=Release > /dev/null
 cmake --build "$BUILD_DIR" --parallel "$(nproc)" 2>&1 | tail -3
 
-# ── Stop plasmashell ──────────────────────────────────────────────
-info "Stopping plasmashell..."
-systemctl --user stop plasma-plasmashell.service 2>/dev/null || true
-sleep 1
-
-# ── Migrate old plugin-id references in the layout ─────────────────
-# Any panel config that still uses the legacy org.kde.windowsmodern.icontasks
-# ID must be updated, otherwise plasmashell will write plugin=metadata.
-if grep -q "org.kde.windowsmodern.icontasks" "$LAYOUT_FILE" 2>/dev/null; then
-    info "Migrating legacy plugin references in layout..."
-    sed -i "s/org\.kde\.windowsmodern\.icontasks/org.kde.plasma.icontasks/g" "$LAYOUT_FILE"
-fi
-
-# ── Fix layout if corrupted ───────────────────────────────────────
-if grep -q "plugin=metadata" "$LAYOUT_FILE" 2>/dev/null; then
-    info "Fixing corrupted plugin=metadata in layout..."
-    sed -i "/\[Containments\]\[.*\]\[Applets\]/,/\[/s/^plugin=metadata$/plugin=${APP_ID}/" "$LAYOUT_FILE"
-fi
-
 # ── Install .so only (no KPackage) ───────────────────────────────
+# Installed while plasmashell still runs, so a cancelled password prompt
+# leaves the session untouched.
 info "Installing..."
 PLUGIN_SRC="$BUILD_DIR/lib/plasma/applets/${APP_ID}.so"
 detect_paths
@@ -78,7 +61,10 @@ detect_paths
 pkexec bash -s <<INSTALLEOF
 set -e
 mkdir -p "$PLUGIN_DST"
-cp "$PLUGIN_SRC" "$PLUGIN_DST/"
+# install = new inode: a running plasmashell keeps its mapping of the
+# old file instead of crashing on an in-place overwrite.
+install -m 644 "$PLUGIN_SRC" "$PLUGIN_DST/"
+command -v restorecon >/dev/null && restorecon "$PLUGIN_DST/$(basename "$PLUGIN_SRC")" || true
 if [ -d "$KPACKAGE_DIR" ]; then
     if grep -q '"Windows Modern' "$KPACKAGE_DIR/metadata.json" 2>/dev/null; then
         # A stray KPackage copy of this fork (causes the dark-rectangle bug).
@@ -95,6 +81,35 @@ if [ -d "$KPACKAGE_DIR" ]; then
 fi
 echo "Installed."
 INSTALLEOF
+
+# ── Stop plasmashell (layout repairs need it stopped) ───────────
+info "Stopping plasmashell..."
+systemctl --user stop plasma-plasmashell.service 2>/dev/null || true
+# Never leave the session without a shell if a later step fails. (On
+# success the shell is started below, or by the batch driver.)
+start_shell_on_failure() {
+    local rc=$?
+    if [ "$rc" -ne 0 ]; then
+        systemctl --user start plasma-plasmashell.service 2>/dev/null || true
+    fi
+    exit "$rc"
+}
+trap start_shell_on_failure EXIT
+sleep 1
+
+# ── Migrate old plugin-id references in the layout ─────────────────
+# Any panel config that still uses the legacy org.kde.windowsmodern.icontasks
+# ID must be updated, otherwise plasmashell will write plugin=metadata.
+if grep -q "org.kde.windowsmodern.icontasks" "$LAYOUT_FILE" 2>/dev/null; then
+    info "Migrating legacy plugin references in layout..."
+    sed -i "s/org\.kde\.windowsmodern\.icontasks/org.kde.plasma.icontasks/g" "$LAYOUT_FILE"
+fi
+
+# ── Fix layout if corrupted ───────────────────────────────────────
+if grep -q "plugin=metadata" "$LAYOUT_FILE" 2>/dev/null; then
+    info "Fixing corrupted plugin=metadata in layout..."
+    sed -i "/\[Containments\]\[.*\]\[Applets\]/,/\[/s/^plugin=metadata$/plugin=${APP_ID}/" "$LAYOUT_FILE"
+fi
 
 # Also prune local copies (stale .so in ~/.local/lib* takes precedence over /usr)
 rm -rf "$HOME/.local/share/plasma/plasmoids/${APP_ID}" 2>/dev/null || true
