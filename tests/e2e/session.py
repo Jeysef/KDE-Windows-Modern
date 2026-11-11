@@ -1,6 +1,7 @@
 """Live-session helpers: screenshots, KWin D-Bus calls, the user journal."""
 
 import json
+import pathlib
 import subprocess
 import time
 
@@ -24,6 +25,12 @@ def screenshot(path):
     try:
         subprocess.run(["spectacle", "--background", "--nonotify", "--fullscreen", "--output", str(path)],
                        timeout=30, check=True)
+        # spectacle can return before it has saved (it may hand the capture
+        # to a running instance) and writes its config after the file.
+        end = time.time() + 10
+        while time.time() < end and not pathlib.Path(path).exists():
+            time.sleep(0.1)
+        time.sleep(0.5)
     finally:
         _spectacle_last_save(saved)
 
