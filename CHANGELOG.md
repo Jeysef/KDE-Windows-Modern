@@ -8,6 +8,17 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Installing several applets at once (`./install.sh applets` or `all`) no
+  longer leaves the desktop without Plasma Shell: the C++ applet installers
+  stop it, and the final restart now also starts a stopped shell.
+- System tray: the Quick Settings flyout fits its content instead of
+  showing an empty band above the toggles, and the hidden-icon tiles line
+  up with the toggles. The overflow chevron sits left of the tray icons,
+  as in Windows 11.
+- Digital Clock: the flyout's date line uses the locale's own long date
+  without the year ("středa 11. listopadu", not "středa, listopadu 11").
+- Icon Tasks: the window-preview tooltip no longer logs layout warnings
+  every time it opens.
 - KWin settings applied by the installer (Alt+Tab switcher, border size,
   per-monitor Alt+Tab) now take effect immediately. The reload request was
   sent as a D-Bus signal, which KWin ignores, so they only applied after

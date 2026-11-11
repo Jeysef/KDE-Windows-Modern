@@ -38,6 +38,14 @@ loads. Verify in the live session:
   drops when the pointer moves onto a child `MouseArea` stacked above it, so
   anything bound to it flickers. Track hover with a `HoverHandler`, and test
   hover in the live session; QtTest's synthetic hover hides the flicker.
+- **Plasma's scripting API can crash plasmashell**: `evaluateScript`
+  reading panel properties segfaults when a panel has no view (its screen
+  is disconnected). Read `~/.config/plasma-org.kde.plasma.desktop-appletsrc`
+  and `plasmashellrc` instead.
+- **Sizes that follow content must not depend on geometry-driven
+  visibility**: a view whose height tracks its content, with a scrollbar
+  shown "when needed", loops (scrollbar → width → cell size → height).
+  Decide such things from counts.
 - **Headless renders use the software scene graph**: shader effects
   (`MultiEffect`) draw nothing there. Render inside the Wayland session to
   see the GPU path, and give shader-only visuals a software fallback.

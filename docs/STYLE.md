@@ -108,17 +108,19 @@ The `contents/layout.js` creates:
   1. **Left expanding spacer** — `org.kde.plasma.panelspacer`. Pushes
      the Start + tasks group to the horizontal center of the panel,
      matching Win11's centered taskbar.
-  2. **Start** — `org.kde.plasma.kickoff` (icon `start-here`). A custom
-     Windows-logo icon is provided, with both a scalable version and a
-     fixed `48/apps/start-here.svg` that draws the logo at 30px so it
-     matches the app-icon size on a 48px panel.
+  2. **Start** — `org.kde.windowsmodern.startmenu` (falls back to
+     `org.kde.plasma.kickoff`; icon `start-here`). A custom Windows-logo
+     icon is provided, with both a scalable version and a fixed
+     `48/apps/start-here.svg` that draws the logo at 30px so it matches
+     the app-icon size on a 48px panel.
   3. **Icon-only task manager** — `org.kde.plasma.icontasks` (grouped
      by app, sits immediately to the right of Start in the centered
      group)
   4. **Right expanding spacer** — `org.kde.plasma.panelspacer`. Separates
      the centered Start + tasks group from the system tray on the far
      right.
-  5. **System tray** — `org.kde.windowsmodern.systemtray`
+  5. **System tray** — `org.kde.windowsmodern.systemtray`. The overflow
+     chevron (`^`) sits *left* of the tray icons, as in Windows 11.
   6. **Digital clock** — `org.kde.windowsmodern.digitalclock` (with a
       fallback to `org.kde.plasma.digitalclock`). Stacked date below the
       time, no seconds by default, `use24hFormat=1` so it follows the
@@ -257,6 +259,12 @@ automatically. The QML UI is embedded in the compiled `.so`; a separate
 KPackage must not be installed (it causes the dark-rectangle popup bug).
 See `docs/SYSTEMTRAY_ARCHITECTURE.md` and
 `plasma/applets/org.kde.windowsmodern.systemtray/BUILD.md`.
+
+The chevron opens the Quick Settings flyout (a Windows 11/10 hybrid):
+hidden tray icons as a 3-column tile grid, then the toggles and sliders.
+The flyout fits its content (no fixed height). The tile grid shows up to
+three rows, then scrolls; its edges and 6 px gaps match the toggle grid
+exactly (14 px margins at 100% scale).
 
 #### Icon Tasks applet (`plasma/applets/org.kde.windowsmodern.icontasks/`)
 

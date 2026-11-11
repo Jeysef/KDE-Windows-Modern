@@ -46,7 +46,7 @@ The Alt+Tab switcher has its own tests and a preview tool that run without
 KWin (against a mock `org.kde.kwin`):
 
 ```bash
-tests/windowswitcher/run-tests.sh            # layout, keyboard and main.qml wiring tests
+tests/run-qml-tests.sh                       # every headless QML suite (tests/*/tst_*.qml)
 tests/windowswitcher/preview.sh dark 7 x.png # render a screenshot
 tests/windowswitcher/e2e.py --out shots/     # real Alt+Tab inside your running KWin
 tests/windowswitcher/e2e.py --scenario close-buttons --out shots/
