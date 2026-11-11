@@ -216,7 +216,7 @@ FocusScope {
                 readonly property bool isCurrent: index === root.currentIndex
                 readonly property bool showClose: (model.closeable ?? false)
                     && typeof root.tabBox.model.close !== "undefined"
-                    && (cardMouse.containsMouse || isCurrent)
+                    && (cardHover.hovered || isCurrent)
 
                 // Preview width follows the window's aspect ratio, clamped so
                 // very tall or very wide windows stay usable.
@@ -237,7 +237,7 @@ FocusScope {
                     anchors.fill: parent
                     radius: root.cardRadius
                     color: card.isCurrent ? root.selectedFill
-                         : cardMouse.containsMouse ? root.hoverFill : "transparent"
+                         : cardHover.hovered ? root.hoverFill : "transparent"
                 }
 
                 // Focus ring of the selected window.
@@ -250,10 +250,17 @@ FocusScope {
                     visible: card.isCurrent
                 }
 
+                // Hover state for the whole card. A HoverHandler (unlike a
+                // MouseArea) stays hovered while the pointer is over the
+                // card's children, so the close button does not flicker away
+                // when the pointer moves onto it.
+                HoverHandler {
+                    id: cardHover
+                }
+
                 MouseArea {
                     id: cardMouse
                     anchors.fill: parent
-                    hoverEnabled: true
                     acceptedButtons: Qt.LeftButton | Qt.MiddleButton
                     onClicked: mouse => {
                         if (mouse.button === Qt.MiddleButton && card.showClose) {

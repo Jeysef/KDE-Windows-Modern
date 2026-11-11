@@ -52,10 +52,11 @@ Item {
         }
 
         function card(i) {
-            // Cards are the Repeater's delegates inside the Flickable.
-            const flick = view.children[0];
-            const cards = flick.contentItem.children.filter(c => c.isCurrent !== undefined);
-            return cards.find(c => c.index === i);
+            // Ask the Repeater: the Flickable's children can still hold
+            // delegates of a cleared model until deferred deletion runs.
+            const flick = view.children.find(c => c.contentItem !== undefined);
+            const repeater = flick.contentItem.children.find(c => c.itemAt !== undefined);
+            return repeater.itemAt(i);
         }
 
         function test_previewWidthFollowsAspectRatio() {
@@ -105,6 +106,74 @@ Item {
             const c = card(1);
             mouseClick(c, c.width / 2, c.height - 10);
             compare(windowModel.activated, 1);
+        }
+
+        // Finds a card's close button (the Rectangle carrying the close MouseArea).
+        function closeButtonOf(c) {
+            function walk(item) {
+                for (const child of item.children) {
+                    if (child.radius !== undefined && child.width > 0 && child.width === child.height
+                            && child.children.length === 2 && child.children[1].hoverEnabled !== undefined) {
+                        return child;
+                    }
+                    const found = walk(child);
+                    if (found) return found;
+                }
+                return null;
+            }
+            return walk(c);
+        }
+
+        // Scenario: with the switcher open, hover the close button of a card
+        // that is NOT selected and click it. The button must stay visible
+        // while the pointer is on it, and the click must close that window.
+        function test_closeButtonOnUnselectedCard() {
+            fill(4);
+            tabBox.currentIndex = 0;
+            windowModel.closed = -1;
+            const c = card(2);
+            mouseMove(c, c.width / 2, c.height / 2);        // hover the card
+            const button = closeButtonOf(c);
+            verify(button !== null, "card should have a close button");
+            tryVerify(() => button.visible, 1000, "hovering the card shows its close button");
+            const p = button.mapToItem(c, button.width / 2, button.height / 2);
+            let flips = 0;
+            const countFlip = () => { flips++; };
+            button.visibleChanged.connect(countFlip);
+            mouseMove(c, p.x, p.y);                          // onto the X
+            wait(100);
+            button.visibleChanged.disconnect(countFlip);
+            compare(flips, 0, "close button must not flicker while the pointer is on it");
+            verify(button.visible, "close button must stay visible while hovered");
+            mouseClick(c, p.x, p.y);
+            compare(windowModel.closed, 2, "clicking the X closes that window");
+        }
+
+        // Scenario: close one window, then close another one by its X.
+        function test_closeTwoWindowsInARow() {
+            fill(4);
+            tabBox.currentIndex = 0;
+            windowModel.closed = -1;
+            const first = card(1);
+            mouseMove(first, first.width / 2, first.height / 2);
+            let button = closeButtonOf(first);
+            tryVerify(() => button.visible, 1000);
+            let p = button.mapToItem(first, button.width / 2, button.height / 2);
+            mouseMove(first, p.x, p.y);
+            mouseClick(first, p.x, p.y);
+            compare(windowModel.closed, 1);
+            windowModel.remove(1);                           // KWin removes the closed window
+            wait(50);
+            const second = card(2);                           // was index 3
+            mouseMove(second, second.width / 2, second.height / 2);
+            button = closeButtonOf(second);
+            tryVerify(() => button.visible, 1000, "the next card's close button appears on hover");
+            p = button.mapToItem(second, button.width / 2, button.height / 2);
+            mouseMove(second, p.x, p.y);
+            wait(100);
+            verify(button.visible, "and stays visible while hovered");
+            mouseClick(second, p.x, p.y);
+            compare(windowModel.closed, 2);
         }
 
         function test_emptyModel() {
