@@ -16,6 +16,8 @@ import org.kde.plasma.clock as PlasmaClock
 import org.kde.plasma.private.digitalclock as DigitalClockPrivate
 import org.kde.kirigami as Kirigami
 
+import "code/dateformat.js" as DateFormat
+
 MouseArea {
     id: main
     objectName: "windowsmodern-digitalclock-compactrepresentation"
@@ -28,13 +30,14 @@ MouseArea {
 
     required property var plasmoidItem
 
-    // Panel cell dimensions.
     readonly property real panelHeight: parent ? parent.height : height
-    readonly property real padding: Plasmoid.configuration.compactPadding
-    readonly property real maxContentHeight: Math.max(1, panelHeight * (1 - 2 * padding))
 
-    implicitWidth: contentLayout.implicitWidth + Kirigami.Units.largeSpacing
+    // The panel sizes applets from their Layout hints; without them the
+    // clock got a square cell and a full-year date overflowed it.
+    implicitWidth: contentLayout.implicitWidth + 2 * Kirigami.Units.largeSpacing
     implicitHeight: panelHeight
+    Layout.minimumWidth: implicitWidth
+    Layout.preferredWidth: implicitWidth
 
     // Font configured by the user or theme defaults.
     readonly property font baseFont: {
@@ -74,18 +77,29 @@ MouseArea {
     readonly property bool showDate: Plasmoid.configuration.showDate
     readonly property bool showTimezone: timezoneString.length > 0
 
-    // Height ratios for stacked labels. Ratios always sum to 1 when visible.
-    readonly property real timeHeightRatio: {
-        if (showDate && showTimezone) return 0.55;
-        if (showDate || showTimezone) return 0.65;
-        return 1.0;
+    readonly property int lineCount: 1 + (showDate ? 1 : 0) + (showTimezone ? 1 : 0)
+
+    // Like the Windows taskbar clock, every line uses the normal UI font
+    // size (the time is not bigger than the date). The text only shrinks
+    // when the panel is too thin to stack the lines at that size.
+    readonly property int linePixelSize: {
+        const wanted = Plasmoid.configuration.autoFontAndSize
+            ? (baseFont.pixelSize > 0 ? baseFont.pixelSize : pointToPixel(baseFont.pointSize))
+            : pointToPixel(Plasmoid.configuration.fontSize);
+        const minMargin = 2;
+        const fits = Math.floor((panelHeight - 2 * minMargin) / lineCount / lineHeightFactor);
+        return Math.max(6, Math.min(wanted, fits));
     }
-    readonly property real dateHeightRatio: {
-        if (showDate && showTimezone) return 0.30;
-        if (showDate) return 0.35;
-        return 0;
+    // Line height / pixel size of the font, measured once at a large size.
+    readonly property real lineHeightFactor: Math.max(1.1, probeMetrics.height / 100)
+
+    FontMetrics {
+        id: probeMetrics
+        font {
+            family: main.baseFont.family
+            pixelSize: 100
+        }
     }
-    readonly property real tzHeightRatio: showTimezone ? (showDate ? 0.15 : 0.35) : 0
 
     function pointToPixel(pointSize: int): int {
         const pixelsPerInch = Screen.pixelDensity * 25.4;
@@ -101,7 +115,7 @@ MouseArea {
         } else if (format === "longDate") {
             return Qt.formatDate(d, Qt.locale(), Locale.LongFormat);
         } else {
-            return Qt.formatDate(d, Qt.locale(), Locale.ShortFormat);
+            return Qt.locale().toString(d, DateFormat.shortDateFullYear(Qt.locale().dateFormat(Locale.ShortFormat)));
         }
     }
 
@@ -126,14 +140,12 @@ MouseArea {
         id: contentLayout
         anchors.centerIn: parent
         width: parent.width
-        height: main.maxContentHeight
-        spacing: Kirigami.Units.smallSpacing / 2
+        spacing: 0
 
         PlasmaComponents.Label {
             id: timeLabel
 
             Layout.fillWidth: true
-            Layout.preferredHeight: main.maxContentHeight * main.timeHeightRatio
 
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
@@ -146,14 +158,7 @@ MouseArea {
                 weight: main.baseFont.weight
                 italic: main.baseFont.italic
                 styleName: main.baseFont.styleName
-                pixelSize: {
-                    if (Plasmoid.configuration.autoFontAndSize) {
-                        return Math.round(main.maxContentHeight * main.timeHeightRatio);
-                    } else {
-                        return Math.min(main.pointToPixel(Plasmoid.configuration.fontSize),
-                                        main.maxContentHeight * main.timeHeightRatio);
-                    }
-                }
+                pixelSize: main.linePixelSize
                 features: { "tnum": 1 }
             }
         }
@@ -163,7 +168,6 @@ MouseArea {
 
             visible: main.showDate
             Layout.fillWidth: true
-            Layout.preferredHeight: main.maxContentHeight * main.dateHeightRatio
 
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
@@ -176,7 +180,7 @@ MouseArea {
                 weight: main.baseFont.weight
                 italic: main.baseFont.italic
                 styleName: main.baseFont.styleName
-                pixelSize: Math.round(timeLabel.font.pixelSize * 0.65)
+                pixelSize: main.linePixelSize
                 features: { "tnum": 1 }
             }
         }
@@ -186,7 +190,6 @@ MouseArea {
 
             visible: main.showTimezone
             Layout.fillWidth: true
-            Layout.preferredHeight: main.maxContentHeight * main.tzHeightRatio
 
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
@@ -199,7 +202,7 @@ MouseArea {
                 weight: main.baseFont.weight
                 italic: main.baseFont.italic
                 styleName: main.baseFont.styleName
-                pixelSize: Math.round(timeLabel.font.pixelSize * 0.55)
+                pixelSize: main.linePixelSize
                 features: { "tnum": 1 }
             }
         }

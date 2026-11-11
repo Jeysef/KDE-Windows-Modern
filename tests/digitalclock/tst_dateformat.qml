@@ -1,4 +1,5 @@
-// The clock flyout's date line: the locale's long date without the year.
+// The clock's date lines: the flyout's long date without the year, and
+// the panel's short date with a four-digit year.
 
 import QtQuick
 import QtTest
@@ -39,5 +40,24 @@ TestCase {
         verify(line.indexOf("2026") === -1, "output contains the year: " + line);
         verify(line.indexOf("11") !== -1, "output lost the day of the month: " + line);
         verify(!/[,'\s]$/.test(line), "output ends with a dangling separator: " + line);
+    }
+
+    // The panel's date line: the locale's short date with a four-digit year.
+    function test_shortDate_data() {
+        return [
+            { tag: "cs_CZ", locale: "cs_CZ", expected: "11.11.2026" },
+            { tag: "en_US", locale: "en_US", expected: "11/11/2026" },
+            { tag: "de_DE", locale: "de_DE", expected: "11.11.2026" },
+        ];
+    }
+    function test_shortDate(data) {
+        const loc = Qt.locale(data.locale);
+        compare(loc.toString(day, DateFormat.shortDateFullYear(loc.dateFormat(Locale.ShortFormat))), data.expected);
+    }
+
+    function test_shortDateFullYear_patterns() {
+        compare(DateFormat.shortDateFullYear("dd.MM.yy"), "dd.MM.yyyy");
+        compare(DateFormat.shortDateFullYear("yy-MM-dd"), "yyyy-MM-dd");
+        compare(DateFormat.shortDateFullYear("d/M/yyyy"), "d/M/yyyy");
     }
 }

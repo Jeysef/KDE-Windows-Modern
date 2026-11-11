@@ -125,9 +125,8 @@ The `contents/layout.js` creates:
   6. **Digital clock** — `org.kde.windowsmodern.digitalclock` (with a
       fallback to `org.kde.plasma.digitalclock`). Stacked date below the
       time, no seconds by default, `use24hFormat=1` so it follows the
-      user's locale. The compact view uses `compactPadding` (default 0.18)
-      so the text height matches the icon-task icon area instead of
-      spanning the full panel. The expanded popup is a dark rounded
+      user's locale. Time and date use the same, normal UI font size, as on
+      Windows; the text shrinks only if the panel is too thin for it. The expanded popup is a dark rounded
       Windows 11 calendar with month navigation, current-day blue circle,
       hover highlights, and optional KDE calendar event dots.
   7. **Show Desktop** — `org.kde.windowsmodern.showdesktop`, a custom
@@ -217,10 +216,12 @@ numbers, and calendar plugins.
 
 Win11 refinements over upstream:
 
-- **Padded compact clock** — `compactPadding` (default 0.18) caps the
-  text height so the clock visually matches the icon-task icon area
-  instead of spanning the full panel height. Works with both Automatic
-  and Manual text display modes.
+- **Windows-sized compact clock** — every line (time, date, time zone)
+  uses the same font size: the system UI font in Automatic mode, the
+  chosen size in Manual mode. It never grows with the panel; it shrinks
+  only when the lines would not fit (2 px margin). The default date is
+  the locale's short date with a four-digit year (`11.11.2026` in
+  cs_CZ), via `shortDateFullYear` in `code/dateformat.js`.
 - **Theme-aware rounded popup** — the popup fill, border and shadow are
   supplied by the Plasma theme's `dialogs/background.svg`
   (`#2C2C2C`/`#F9F9F9` fill with `#3F3F3F`/`#E5E5E5` border), 8px corner
@@ -247,8 +248,7 @@ Win11 refinements over upstream:
 Removed interactions: pin on middle-click, calendar launch,
 clipboard time copy, and wheel-to-switch-timezone.
 
-Config keys are the same as upstream plus `compactPadding` (double)
-and `expandedWidth` (int). Build and install with
+Config keys are the same as upstream plus `expandedWidth` (int). Build and install with
 `./install.sh digitalclock`.
 
 #### System Tray applet (`plasma/applets/org.kde.windowsmodern.systemtray/`)

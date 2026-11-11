@@ -43,7 +43,6 @@ KCMUtils.SimpleKCM {
     property alias cfg_use24hFormat: use24hFormat.currentIndex
     property alias cfg_dateDisplayFormat: dateDisplayFormat.currentIndex
 
-    property alias cfg_compactPadding: compactPaddingSlider.value
     property alias cfg_expandedWidth: expandedWidthSpinBox.value
 
     property real comboBoxWidth: Math.max(dateDisplayFormat.implicitWidth,
@@ -258,24 +257,6 @@ KCMUtils.SimpleKCM {
 
         Item {
             Kirigami.FormData.isSection: true
-        }
-
-        RowLayout {
-            Kirigami.FormData.label: i18nc("@label:slider", "Compact padding:")
-            spacing: Kirigami.Units.smallSpacing
-
-            QQC2.Slider {
-                id: compactPaddingSlider
-                from: 0.0
-                to: 0.5
-                stepSize: 0.01
-                live: true
-            }
-
-            QQC2.Label {
-                text: Math.round(compactPaddingSlider.value * 100) + "%"
-                textFormat: Text.PlainText
-            }
         }
 
         RowLayout {

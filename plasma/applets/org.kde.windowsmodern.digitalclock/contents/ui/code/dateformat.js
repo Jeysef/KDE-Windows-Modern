@@ -6,6 +6,13 @@
 */
 .pragma library
 
+// The locale's short date format with a four-digit year, as the Windows
+// taskbar clock shows it ("11.11.2026" in cs_CZ, "11/11/2026" in en_US).
+// Qt's short formats often use a two-digit year ("dd.MM.yy").
+function shortDateFullYear(shortFormat) {
+    return shortFormat.replace(/(^|[^y])yy(?!y)/g, "$1yyyy");
+}
+
 // The locale's long date format with the year removed, as the Windows 11
 // clock flyout shows it ("Wednesday, November 11" in en_US, "středa
 // 11. listopadu" in cs_CZ, "11月11日水曜日" in ja_JP). Removing the year from

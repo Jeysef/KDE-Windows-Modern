@@ -70,12 +70,10 @@ var tray = panel.addWidget("org.kde.windowsmodern.systemtray");
 if (!tray) { tray = panel.addWidget("org.kde.plasma.systemtray"); }
 
 // 6. Digital clock — Win11 puts the clock at the far right, with the date
-//    stacked below the time. Use the custom Windows Modern digital clock
-//    so the compact view respects padding and matches the icon-task icon
-//    height. Fall back to the upstream clock if the custom applet is not
-//    installed.
-//    autoFontAndSize = true lets the clock follow the system font while
-//    compactPadding still keeps vertical padding around the text.
+//    stacked below the time, both in the normal UI font size. Use the
+//    custom Windows Modern digital clock; fall back to the upstream clock
+//    if the custom applet is not installed.
+//    autoFontAndSize = true lets the clock follow the system font.
 //    use24hFormat = 1 lets the clock follow the user's locale/region
 //    defaults instead of forcing 12- or 24-hour time.
 //    dateDisplayFormat = 2 forces the date below the time (BelowTime).
@@ -87,7 +85,6 @@ clock.writeConfig("showDate", "true");
 clock.writeConfig("dateDisplayFormat", "2");
 clock.writeConfig("showSeconds", "0");
 clock.writeConfig("use24hFormat", "1");
-clock.writeConfig("compactPadding", "0.18");
 clock.writeConfig("expandedWidth", "320");
 
 // 7. Show Desktop — custom Win11-style thin sliver, or fall back to stock.

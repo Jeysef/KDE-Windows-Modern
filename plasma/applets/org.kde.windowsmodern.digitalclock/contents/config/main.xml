@@ -113,10 +113,6 @@
       <default>2</default>
     </entry>
     <!-- Windows Modern custom keys -->
-    <entry name="compactPadding" type="Double">
-      <label>Vertical padding around the compact clock text as a fraction of panel height.</label>
-      <default>0.18</default>
-    </entry>
     <entry name="expandedWidth" type="Int">
       <label>Width of the expanded clock popup in pixels.</label>
       <default>320</default>
