@@ -22,13 +22,13 @@ fi
 greeter_is_pristine() {
     [ -f "$PLM_BINARY" ] || return 1
     if command -v rpm &>/dev/null && rpm -qf "$PLM_BINARY" &>/dev/null; then
-        if rpm -V "$(rpm -qf "$PLM_BINARY")" 2>/dev/null | grep -q " ${PLM_BINARY}\$"; then
+        if grep -q " ${PLM_BINARY}\$" <<< "$(rpm -V "$(rpm -qf "$PLM_BINARY")" 2>/dev/null)"; then
             return 1
         fi
         return 0
     fi
     if command -v dpkg &>/dev/null && dpkg -S "$PLM_BINARY" &>/dev/null; then
-        if dpkg -V "$(dpkg -S "$PLM_BINARY" | cut -d: -f1)" 2>/dev/null | grep -q " ${PLM_BINARY}\$"; then
+        if grep -q " ${PLM_BINARY}\$" <<< "$(dpkg -V "$(dpkg -S "$PLM_BINARY" | cut -d: -f1)" 2>/dev/null)"; then
             return 1
         fi
         return 0
@@ -39,7 +39,7 @@ greeter_is_pristine() {
 # True when every library a binary needs is installed (an old backup can
 # point at a libPlasmaQuick that a Plasma update removed).
 binary_links() {
-    [ -f "$1" ] && ! ldd "$1" 2>/dev/null | grep -q "not found"
+    [ -f "$1" ] && ! grep -q "not found" <<< "$(ldd "$1" 2>/dev/null)"
 }
 
 echo "Reverting PLM boot greeter to distro default..."

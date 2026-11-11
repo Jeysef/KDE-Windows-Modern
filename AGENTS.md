@@ -68,6 +68,12 @@ loads. Verify in the live session:
 - **dnf cancels a prepared system upgrade**: installing any package
   invalidates a pending `dnf system-upgrade`. Only call
   `install_packages` for packages that are really missing.
+- **`cmd | grep -q` lies under `pipefail`** (all installer scripts set it):
+  grep exits on the first match, a long-writing `cmd` gets SIGPIPE, and
+  the condition comes out false. Use `grep -q pat <<< "$(cmd)"`.
+- **Dolphin rewrites its toolbar file** (`dolphinui.rc`) and drops
+  comments, so a marker comment cannot prove the file is ours. Record
+  ownership in `~/.local/share/windows-modern/backup/`.
 - **Headless renders use the software scene graph**: shader effects
   (`MultiEffect`) draw nothing there. Render inside the Wayland session to
   see the GPU path, and give shader-only visuals a software fallback.

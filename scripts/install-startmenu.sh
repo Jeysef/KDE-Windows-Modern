@@ -12,7 +12,7 @@ info "Installing Start Menu applet..."
 
 # Prefer kpackagetool6 so Plasma registers and can hot-reload the package.
 if command -v kpackagetool6 &>/dev/null; then
-    if kpackagetool6 --list --type Plasma/Applet 2>/dev/null | grep -q "org.kde.windowsmodern.startmenu"; then
+    if grep -q "org.kde.windowsmodern.startmenu" <<< "$(kpackagetool6 --list --type Plasma/Applet 2>/dev/null)"; then
         step "Upgrading existing package"
         kpackagetool6 --upgrade "$src" --type Plasma/Applet
     else

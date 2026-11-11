@@ -22,7 +22,9 @@ if [ ! -d "$ICON_DIR" ]; then
 fi
 
 # Allow git to see changes again (no-op on first run)
-if git ls-files -z "$ICON_DIR" | grep -qz .; then
+# (not "| grep -q": with pipefail, grep quitting early on ~25 000 names
+# fails the pipeline and the check silently comes out false)
+if [ -n "$(git ls-files "$ICON_DIR" | head -c1)" ]; then
     echo "Re-enabling git tracking for $ICON_DIR ..."
     git ls-files -z "$ICON_DIR" | xargs -0 -r git update-index --no-skip-worktree
 fi

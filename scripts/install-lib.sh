@@ -167,7 +167,7 @@ install_packages() {
     local missing=() p
     for p in "$@"; do
         if command -v rpm &>/dev/null && rpm -q "$p" &>/dev/null; then continue; fi
-        if command -v dpkg-query &>/dev/null && dpkg-query -W -f='${Status}' "$p" 2>/dev/null | grep -q "ok installed"; then continue; fi
+        if command -v dpkg-query &>/dev/null && grep -q "ok installed" <<< "$(dpkg-query -W -f='${Status}' "$p" 2>/dev/null)"; then continue; fi
         if command -v pacman &>/dev/null && pacman -Q "$p" &>/dev/null; then continue; fi
         missing+=("$p")
     done
