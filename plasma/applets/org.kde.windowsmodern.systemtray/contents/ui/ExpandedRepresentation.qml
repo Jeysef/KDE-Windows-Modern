@@ -25,15 +25,18 @@ Item {
     Layout.minimumWidth: 360
     Layout.maximumWidth: 360
 
-    // Height: action panel mode is taller (gridUnit*36); flyouts stay at
-    // gridUnit*24. updateMinSize() grows to the minimum, updateMaxSize()
-    // shrinks to the maximum — both bypass the saved-size flag.
+    // Height: applet pages are gridUnit*24. The Quick Settings view (no
+    // active applet) fits its content exactly, like Windows 11, so a few
+    // hidden icons don't leave an empty band above the toggles.
+    // updateMinSize() grows to the minimum, updateMaxSize() shrinks to the
+    // maximum — both bypass the saved-size flag.
+    readonly property int quickSettingsHeight: Math.ceil(actionPanelMode.implicitHeight)
     Layout.minimumHeight: systemTrayState.activeApplet
         ? Kirigami.Units.gridUnit * 24
-        : Kirigami.Units.gridUnit * 36
+        : quickSettingsHeight
     Layout.maximumHeight: systemTrayState.activeApplet
         ? Kirigami.Units.gridUnit * 24
-        : -1 // no cap for action panel
+        : quickSettingsHeight
 
     property alias hiddenLayout: hiddenItemsView.layout
     property alias plasmoidContainer: container
@@ -223,8 +226,15 @@ Item {
             HiddenItemsView {
                 id: hiddenItemsView
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.topMargin: Kirigami.Units.smallSpacing
+                Layout.preferredHeight: hiddenItemsView.contentRowsHeight
+                // Line tiles up with the toggles' 14px margins. Each tile fills its
+                // cell minus cellSpacing on the right/bottom (GridView places
+                // delegates at the cell origin), so the view extends one gap past
+                // the right margin to end the last tile on the toggles' edge.
+                Layout.leftMargin: Math.round(14 * actionPanel.scale)
+                Layout.rightMargin: Math.round(14 * actionPanel.scale) - hiddenItemsView.layout.cellSpacing
+                Layout.topMargin: Math.round(14 * actionPanel.scale)
+                Layout.bottomMargin: Math.round(10 * actionPanel.scale)
                 visible: root.hiddenLayout.itemCount > 0
                 KeyNavigation.up: pinButton
                 onVisibleChanged: {

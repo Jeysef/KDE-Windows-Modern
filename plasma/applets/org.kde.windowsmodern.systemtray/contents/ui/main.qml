@@ -178,8 +178,11 @@ ContainmentItem {
             GridView {
                 id: tasksGrid
 
-                Layout.row: root.vertical && root.reverseLayout ? 1 : 0 // Explicitly define grid coordinates
-                Layout.column: 0                                        // to prevent overlapping
+                // Explicitly define grid coordinates to prevent overlapping.
+                // Horizontal: the expander comes first (column 0), as in
+                // Windows 11, where "^" sits left of the tray icons.
+                Layout.row: root.vertical && root.reverseLayout ? 1 : 0
+                Layout.column: root.vertical ? 0 : 1
 
                 Layout.alignment: Qt.AlignCenter
 
@@ -257,8 +260,8 @@ ContainmentItem {
             ExpanderArrow {
                 id: expander
 
-                Layout.row: root.vertical && !root.reverseLayout ? 1 : 0 // Explicitly define grid coordinates
-                Layout.column: root.vertical ? 0 : 1                     // to prevent overlapping
+                Layout.row: root.vertical && !root.reverseLayout ? 1 : 0
+                Layout.column: 0
 
                 Layout.fillWidth: vertical
                 Layout.fillHeight: !vertical
