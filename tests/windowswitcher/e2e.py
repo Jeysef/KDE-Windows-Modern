@@ -33,22 +33,25 @@ Exit status: 0 when every check passed.
 import argparse
 import json
 import pathlib
-import re
 import shutil
 import subprocess
 import sys
 import tempfile
 import time
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+
 try:
-    from evdev import UInput, ecodes as e
+    from evdev import ecodes as e
 except ImportError:
     sys.exit("python3-evdev is required (Fedora/Debian: python3-evdev)")
+
+from e2e.session import Checks, journal, kwin_reconfigure, screenshot  # noqa: E402
+from e2e.vinput import VirtualInput  # noqa: E402
 
 REPO = pathlib.Path(__file__).resolve().parents[2]
 DEFAULT_PACKAGE = REPO / "plasma/windowswitcher/org.kde.windowsmodern.alttab"
 TABBOX_DIR = pathlib.Path.home() / ".local/share/kwin/tabbox"
-DEVICE_NAME = "windows-modern-e2e"
 
 # ── Instrumentation injected into the installed copy only ──────────────
 GEOMETRY_LOGGER = """
@@ -89,7 +92,7 @@ Window {
 """
 
 
-# ── KWin helpers ───────────────────────────────────────────────────────
+# ── Helpers ────────────────────────────────────────────────────────────
 def kwin_config(key, value=None):
     if value is None:
         return subprocess.run(["kreadconfig6", "--file", "kwinrc", "--group", "TabBox", "--key", key],
@@ -97,20 +100,6 @@ def kwin_config(key, value=None):
     args = ["kwriteconfig6", "--file", "kwinrc", "--group", "TabBox", "--key", key]
     subprocess.run(args + (["--delete"] if value == "" else [value]), check=True)
 
-
-def kwin_call(path, method, *args):
-    return subprocess.run(["dbus-send", "--session", "--print-reply", "--type=method_call",
-                           "--dest=org.kde.KWin", path, method, *args],
-                          capture_output=True, text=True).stdout
-
-
-def kwin_reconfigure():
-    kwin_call("/KWin", "org.kde.KWin.reconfigure")
-
-
-def journal(since):
-    return subprocess.run(["journalctl", "--user", "-b", "--since", since, "--no-pager", "-o", "cat"],
-                          capture_output=True, text=True).stdout.splitlines()
 
 
 def latest_geometry(since):
@@ -132,76 +121,6 @@ def qml_errors(since, layout_id):
     return [line for line in journal(since)
             if (layout_id in line and "WM-E2E-" not in line) or "Could not load window switcher" in line]
 
-
-def screenshot(path):
-    subprocess.run(["spectacle", "--background", "--nonotify", "--fullscreen", "--output", str(path)],
-                   timeout=30, check=True)
-
-
-# ── Virtual input ──────────────────────────────────────────────────────
-class VirtualInput:
-    """A keyboard + relative mouse; the mouse is set to flat acceleration so
-    relative motion maps 1:1 to logical pixels."""
-
-    def __init__(self):
-        caps = {e.EV_KEY: [e.KEY_LEFTALT, e.KEY_TAB, e.KEY_RIGHT, e.BTN_LEFT, e.BTN_RIGHT],
-                e.EV_REL: [e.REL_X, e.REL_Y]}
-        self.ui = UInput(caps, name=DEVICE_NAME)
-        time.sleep(1.5)  # let the compositor pick up the device
-        self._make_mouse_flat()
-
-    def _make_mouse_flat(self):
-        tree = kwin_call("/org/kde/KWin/InputDevice", "org.freedesktop.DBus.Introspectable.Introspect")
-        for node in re.findall(r'node name="([^"]+)"', tree):
-            path = f"/org/kde/KWin/InputDevice/{node}"
-            name = kwin_call(path, "org.freedesktop.DBus.Properties.Get",
-                             "string:org.kde.KWin.InputDevice", "string:name")
-            if DEVICE_NAME in name:
-                kwin_call(path, "org.freedesktop.DBus.Properties.Set", "string:org.kde.KWin.InputDevice",
-                          "string:pointerAccelerationProfileFlat", "variant:boolean:true")
-                kwin_call(path, "org.freedesktop.DBus.Properties.Set", "string:org.kde.KWin.InputDevice",
-                          "string:pointerAcceleration", "variant:double:0")
-
-    def key(self, code, down):
-        self.ui.write(e.EV_KEY, code, 1 if down else 0)
-        self.ui.syn()
-
-    def tap(self, code):
-        self.key(code, True); time.sleep(0.05); self.key(code, False); time.sleep(0.25)
-
-    def _rel(self, dx, dy):
-        self.ui.write(e.EV_REL, e.REL_X, dx)
-        self.ui.write(e.EV_REL, e.REL_Y, dy)
-        self.ui.syn()
-        time.sleep(0.01)
-
-    def move_to(self, x, y, steps=20):
-        """Home to the top-left corner, then glide to (x, y) in small steps
-        (small steps also produce the stream of hover events a real mouse does)."""
-        for _ in range(12):
-            self._rel(-500, -500)
-        done_x = done_y = 0
-        for i in range(1, steps + 1):
-            tx, ty = round(x * i / steps), round(y * i / steps)
-            self._rel(tx - done_x, ty - done_y)
-            done_x, done_y = tx, ty
-        time.sleep(0.15)
-
-    def glide(self, from_xy, to_xy, steps=15):
-        dx_total, dy_total = to_xy[0] - from_xy[0], to_xy[1] - from_xy[1]
-        done_x = done_y = 0
-        for i in range(1, steps + 1):
-            tx, ty = round(dx_total * i / steps), round(dy_total * i / steps)
-            self._rel(tx - done_x, ty - done_y)
-            done_x, done_y = tx, ty
-            time.sleep(0.02)
-        time.sleep(0.15)
-
-    def click(self):
-        self.key(e.BTN_LEFT, True); time.sleep(0.06); self.key(e.BTN_LEFT, False); time.sleep(0.1)
-
-    def close(self):
-        self.ui.close()
 
 
 # ── Install an instrumented one-off copy ────────────────────────────────
@@ -225,16 +144,6 @@ def install_copy(package, layout_id):
 
 
 # ── Scenarios ──────────────────────────────────────────────────────────
-class Checks:
-    def __init__(self):
-        self.failures = []
-
-    def check(self, ok, message):
-        print(("  PASS  " if ok else "  FAIL  ") + message)
-        if not ok:
-            self.failures.append(message)
-
-
 def scenario_open(vi, out, checks, since):
     vi.key(e.KEY_LEFTALT, True); time.sleep(0.15)
     vi.tap(e.KEY_TAB); time.sleep(1.0)
@@ -284,7 +193,7 @@ def scenario_close_buttons(vi, out, checks, since):
             if current not in procs:
                 return
             vi.move_to(*first["centre"])
-            vi.glide(first["centre"], first["close"])
+            vi.move_to(*first["close"])
             screenshot(out / "1-hover-x-on-selected.png")
             vi.click()
             time.sleep(1.0)
@@ -298,10 +207,10 @@ def scenario_close_buttons(vi, out, checks, since):
             checks.check(target is not None, f"{target_name} is still listed after the first close")
             if target is None:
                 return
-            vi.glide(first["close"], target["centre"])
+            vi.move_to(*target["centre"])
             time.sleep(0.3)
             arrived = time.strftime("%Y-%m-%d %H:%M:%S")
-            vi.glide(target["centre"], target["close"])
+            vi.move_to(*target["close"])
             time.sleep(0.8)
             screenshot(out / "2-hover-x-on-unselected.png")
             flips = [ev for ev in showclose_events(arrived) if ev["caption"] == target_name]
@@ -353,6 +262,7 @@ def main():
         time.sleep(0.5)
         vi = VirtualInput()
         try:
+            vi.announce()
             SCENARIOS[args.scenario](vi, args.out, checks, since)
         finally:
             vi.close()
