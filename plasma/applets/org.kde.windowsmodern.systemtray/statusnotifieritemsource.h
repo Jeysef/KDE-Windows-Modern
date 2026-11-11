@@ -86,6 +86,7 @@ private:
     QIcon m_icon;
     QString m_iconName;
     QString m_iconThemePath;
+    QString m_iconThemeAppName;
     QString m_id;
     QString m_processName;
     bool m_itemIsMenu;

@@ -149,6 +149,9 @@ void PlasmoidModel::appendRow(const KPluginMetaData &pluginMetaData) {
 
 void PlasmoidModel::removeRow(const QString &pluginId) {
     int idx = indexOfPluginId(pluginId);
+    if (idx < 0) {
+        return; // not in the model (e.g. unregistered twice)
+    }
     beginRemoveRows(QModelIndex(), idx, idx);
     m_items.removeAt(idx);
     endRemoveRows();
@@ -254,9 +257,12 @@ QHash<int, QByteArray> StatusNotifierModel::roleNames() const {
 }
 
 void StatusNotifierModel::addSource(const QString &source) {
+    StatusNotifierItemSource *sni = m_sniHost->itemForService(source);
+    if (!sni || indexOfSource(source) >= 0) {
+        return; // unknown service, or already listed
+    }
     int count = rowCount();
     beginInsertRows(QModelIndex(), count, count);
-    StatusNotifierItemSource *sni = m_sniHost->itemForService(source);
     connect(sni, &StatusNotifierItemSource::dataUpdated, this, [=, this]() { dataUpdated(source); });
     m_items.append(source);
     endInsertRows();
@@ -469,7 +475,11 @@ BackgroundAppsFilteredModel::BackgroundAppsFilteredModel(BackgroundAppsModel *so
     : QSortFilterProxyModel(parent)
 {
     connect(StatusNotifierItemHost::self(), &StatusNotifierItemHost::itemAdded, this, [this](const QString &item) {
-        if (auto instance = StatusNotifierItemHost::self()->itemForService(item)->flatpakInstance(); !instance.isEmpty()) {
+        auto *sni = StatusNotifierItemHost::self()->itemForService(item);
+        if (!sni) {
+            return;
+        }
+        if (auto instance = sni->flatpakInstance(); !instance.isEmpty()) {
             beginFilterChange();
             m_flatpaksWithSni.push_back({.flatpakInstance = instance, .sniId = item});
             endFilterChange();
@@ -484,7 +494,11 @@ BackgroundAppsFilteredModel::BackgroundAppsFilteredModel(BackgroundAppsModel *so
     });
     const auto registeredSnis = StatusNotifierItemHost::self()->services();
     for (const auto &service : registeredSnis) {
-        if (auto instance = StatusNotifierItemHost::self()->itemForService(service)->flatpakInstance(); !instance.isEmpty()) {
+        auto *sni = StatusNotifierItemHost::self()->itemForService(service);
+        if (!sni) {
+            continue;
+        }
+        if (auto instance = sni->flatpakInstance(); !instance.isEmpty()) {
             m_flatpaksWithSni.push_back({.flatpakInstance = instance, .sniId = service});
         }
     }

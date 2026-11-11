@@ -308,21 +308,26 @@ void StatusNotifierItemSource::refreshCallback(QDBusPendingCallWatcher *call)
         QString path = properties[QStringLiteral("IconThemePath")].toString();
 
         if (!path.isEmpty() && path != m_iconThemePath) {
-            if (!m_customIconLoader) {
-                m_customIconLoader = new KIconLoader(QString(), QStringList(), this);
-            }
             QString appName;
             auto tokens = QStringView(path).split(u'/', Qt::SkipEmptyParts);
             if (tokens.length() >= 3 && tokens.takeLast() == QLatin1String("icons"))
                 appName = tokens.takeLast().toString();
+            m_iconThemeAppName = appName;
+
+            if (!m_customIconLoader) {
+                m_customIconLoader = new KIconLoader(QString(), QStringList(), this);
+                // Connect exactly once, and read the *current* theme path from
+                // members: connecting on every path change would stack up
+                // lambdas holding stale paths.
+                connect(m_customIconLoader, &KIconLoader::iconChanged, this, [this] {
+                    m_customIconLoader->reconfigure(m_iconThemeAppName, QStringList(m_iconThemePath));
+                    m_customIconLoader->addAppDir(m_iconThemeAppName.size() ? m_iconThemeAppName : QStringLiteral("unused"),
+                                                  m_iconThemePath);
+                });
+            }
 
             m_customIconLoader->reconfigure(appName, QStringList(path));
             m_customIconLoader->addAppDir(appName.size() ? appName : QStringLiteral("unused"), path);
-
-            connect(m_customIconLoader, &KIconLoader::iconChanged, this, [=, this] {
-                m_customIconLoader->reconfigure(appName, QStringList(path));
-                m_customIconLoader->addAppDir(appName.size() ? appName : QStringLiteral("unused"), path);
-            });
         }
         m_iconThemePath = path;
 

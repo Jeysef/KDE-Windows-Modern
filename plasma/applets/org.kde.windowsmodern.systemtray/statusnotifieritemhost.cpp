@@ -163,6 +163,12 @@ void StatusNotifierItemHost::removeAllSNIServices()
 
 void StatusNotifierItemHost::addSNIService(const QString &service)
 {
+    // The watcher can report the same service twice (re-sync after an owner
+    // change). Re-adding would leak the existing source and make every model
+    // listening to itemAdded append a duplicate row.
+    if (m_sniServices.contains(service)) {
+        return;
+    }
     auto *item = new StatusNotifierItemSource(service, this);
     m_sniServices.insert(service, item);
     Q_EMIT itemAdded(service);

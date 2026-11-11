@@ -20,6 +20,7 @@
 #include <QMenu>
 #include <QMetaMethod>
 #include <QMetaObject>
+#include <QPointer>
 #include <QQueue>
 #include <QQuickItem>
 #include <QQuickWindow>
@@ -392,13 +393,16 @@ void SystemTray::activate(const QString &service, QPoint pos, QQuickItem *status
         return;
     }
 
+    // activate() is a D-Bus round trip; the tray delegate can be destroyed
+    // (layout change, item hidden) before the reply arrives. Guard it.
+    QPointer<QQuickItem> iconGuard(statusNotifierIcon);
     connect(
         source,
         &StatusNotifierItemSource::activateResult,
         this,
-        [this, service, pos, statusNotifierIcon](bool res) {
+        [this, service, pos, iconGuard](bool res) {
             if (!res) {
-                openContextMenu(service, pos, statusNotifierIcon);
+                openContextMenu(service, pos, iconGuard.data());
             }
         },
         Qt::SingleShotConnection);
@@ -427,20 +431,28 @@ void SystemTray::openContextMenu(const QString &service, QPoint pos, QQuickItem 
         return;
     }
 
+    QPointer<QQuickItem> iconGuard(statusNotifierIcon);
     connect(
         source,
         &StatusNotifierItemSource::contextMenuReady,
         this,
-        [this, statusNotifierIcon, pos](QMenu *menu) {
+        [this, iconGuard, pos](QMenu *menu) {
             if (menu && !menu->isEmpty()) {
                 KAcceleratorManager::manage(menu);
 
+                // The icon may have been destroyed while the menu was fetched
+                // over D-Bus; still show the menu, just without a parent.
+                QQuickWindow *iconWindow = iconGuard ? iconGuard->window() : nullptr;
                 menu->winId();
-                menu->windowHandle()->setTransientParent(statusNotifierIcon->window());
+                if (iconWindow) {
+                    menu->windowHandle()->setTransientParent(iconWindow);
+                }
                 menu->popup(pos);
 
-                if (auto item = statusNotifierIcon->window()->mouseGrabberItem()) {
-                    item->ungrabMouse();
+                if (iconWindow) {
+                    if (auto item = iconWindow->mouseGrabberItem()) {
+                        item->ungrabMouse();
+                    }
                 }
             }
         },
