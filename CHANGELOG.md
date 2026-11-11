@@ -55,6 +55,8 @@ the `Version` field shared by every component's metadata.
 
 - The Icon Tasks applet is no longer packaged for the KDE Store; like the
   System Tray it is a compiled plugin and ships only in the GitHub bundle.
+- The global themes no longer reference Plasma 5's Breeze window and desktop
+  switchers, which Plasma 6 no longer ships.
 - `verify-all.sh` checks both theme variants, all five applets, layout drift,
   metadata, and shell scripts. `--installed` adds checks of the installed C++
   plugins; Icon Tasks has a new `verify.sh`.
@@ -62,6 +64,12 @@ the `Version` field shared by every component's metadata.
 
 ### Added
 
+- **Windows 11-style Alt+Tab switcher** (`./install.sh alttab`, included in
+  `all`): aspect-correct previews in centered rows, icon + title headers,
+  close on hover, rounded focus ring, keyboard navigation across rows. Both
+  global themes select it. Comes with a mock-KWin preview tool and QML tests.
+- `PRODUCT.md`: the product brief — vision, scope, and what is deliberately
+  left out.
 - CI (GitHub Actions): the repository health check plus a build-and-link check
   of both C++ applets against Fedora's Plasma.
 - `scripts/ci-build.sh`, `CONTRIBUTING.md`, `.editorconfig`, `.shellcheckrc`.

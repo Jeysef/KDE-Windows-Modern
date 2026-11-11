@@ -578,6 +578,9 @@ Theme=windows-modern
 
 [kdeglobals][General]
 ColorScheme=WindowsModern{Dark,Light}
+
+[kwinrc][WindowSwitcher]
+LayoutName=org.kde.windowsmodern.alttab
 ```
 
 Each package also contains
@@ -588,6 +591,29 @@ desktop layout, this script first removes any existing panels and then
 creates the Windows Modern Panel (see the Panel layout template section
 above) with the Win11-style centered taskbar, start menu, system tray,
 clock, and show-desktop sliver.
+
+### Alt+Tab window switcher
+
+Location: `plasma/windowswitcher/org.kde.windowsmodern.alttab/` — a KWin
+TabBox layout (`KPackageStructure: KWin/WindowSwitcher`), installed to
+`~/.local/share/kwin/tabbox/` and selected via `kwinrc [TabBox] LayoutName`.
+`main.qml` only hosts the popup; all visuals live in `SwitcherView.qml`.
+
+| Element | Spec (at 100% scale) |
+|---------|----------------------|
+| Container | Theme dialog background, 12 px padding, centered on the active screen |
+| Preview height | 17% of screen height, clamped to 110–220 px |
+| Preview width | Window aspect ratio × height, ratio clamped to 0.75–2.2 |
+| Card | 6 px padding, 8 px radius, 4 px gap; rows wrap at 90% screen width and are centered |
+| Header | 30 px: 16 px app icon, 8 px gap, title (elided), close button on the right |
+| Preview corners | 4 px radius (square on the software renderer, where the shader mask cannot run) |
+| Selected | 3 px ring in the text colour (white on dark, near-black on light) + 9% text-colour fill |
+| Hover | 6% text-colour fill; close button turns `#C42B1C` on hover |
+
+Keyboard: Tab / Shift+Tab are handled by KWin; Left/Right move by one and
+wrap; Up/Down move to the nearest card in the neighbouring row and wrap.
+Middle-click closes a window. Colours come from `Kirigami.Theme`, so one
+package serves both variants.
 
 ### Session Lock Screen (Meta+L)
 

@@ -16,6 +16,8 @@ checks every change must pass, and the conventions the project follows.
 | `plasma/applets/` | Applets. `startmenu`, `showdesktop`, `digitalclock` are pure QML; `systemtray` and `icontasks` are C++ forks of upstream Plasma applets. |
 | `plasma/look-and-feel/`, `plasma/desktoptheme/`, `aurorae/`, `Kvantum/`, `color-schemes/` | Theme assets, always in **dark and light** variants. |
 | `plasma/layout-templates/` | The "Add Panel → Windows Modern Panel" template. |
+| `plasma/windowswitcher/` | The Alt+Tab switcher (a KWin window-switcher layout). |
+| `tests/` | Automated tests and preview tools that run without a Plasma session. |
 | `plasma/shells/` | Session lock screen (installed as a shell overlay). |
 | `third_party/plasma-login-manager/` | Git submodule for the boot greeter (pinned). |
 | `docs/` | Style spec, architecture notes, decision records, release runbook. |
@@ -39,6 +41,14 @@ enforced in CI.
 
 On a machine with the applets installed, `./verify-all.sh --installed`
 additionally inspects the installed System Tray and Icon Tasks plugins.
+
+The Alt+Tab switcher has its own tests and a preview tool that run without
+KWin (against a mock `org.kde.kwin`):
+
+```bash
+tests/windowswitcher/run-tests.sh            # layout + keyboard tests
+tests/windowswitcher/preview.sh dark 7 x.png # render a screenshot
+```
 
 For QML changes, also run `qmllint` (`/usr/lib64/qt6/bin/qmllint` on Fedora)
 on the files you touched and don't add new warnings.

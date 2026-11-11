@@ -85,7 +85,7 @@ Not added, even on request, unless this brief changes:
 
 | Status | Item | Notes |
 |--------|------|-------|
-| In progress | Windows 11 Alt+Tab switcher | KWin window-switcher layout shipped with both global themes. Currently both use the Breeze switcher. |
+| Done | Windows 11 Alt+Tab switcher | `plasma/windowswitcher/`, selected by both global themes. |
 | Next | Muscle-memory batch | Windows shortcuts; a cursor theme that actually exists (the dark defaults point at a missing theme); Segoe UI when installed, Selawik otherwise; toast position and OSD; window animations. |
 | Next | Snap Layouts | Investigate first: a KWin script plus a Windows 11-style picker on top of KWin's built-in tiling. |
 | Later | Light lock and login screen | The lock screen is dark-only today. |

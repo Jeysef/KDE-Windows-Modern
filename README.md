@@ -39,6 +39,7 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 | **Global themes** | `plasma/look-and-feel/` | `org.kde.windowsmodern.dark` and `org.kde.windowsmodern.light`. |
 | **Panel layout template** | `plasma/layout-templates/` | A Win11-style bottom panel layout you can add from the desktop context menu. |
 | **Custom applets** | `plasma/applets/` | Show Desktop, Start Menu, Digital Clock, C++ System Tray, and C++ Icon Tasks (icons-only taskbar). |
+| **Alt+Tab switcher** | `plasma/windowswitcher/` | Windows 11-style window switcher: aspect-correct previews in centered rows, follows the dark/light colour scheme. |
 | **Session lock screen** | `plasma/shells/org.kde.windowsmodern.lockscreen/` | Win11-style lock screen for Meta+L (kscreenlocker). Installed as a complete overlay of the default desktop shell. |
 | **Boot greeter** | `plasma/look-and-feel/.../contents/lockscreen/` + `third_party/plasma-login-manager/` | Patched Plasma Login Manager build that loads a Win11 login screen. Opt-in (system install needs root). |
 | **Icon pack** | `icons/windows-modern/` | Curated Windows-11-style icon theme (~25,000 SVGs). |
@@ -106,6 +107,7 @@ needed (Plasma Shell restarts automatically where required).
 ./install.sh digitalclock # Digital Clock (+ restarts shell)
 ./install.sh applets      # All five applets (single restart)
 ./install.sh sessionlock  # Session lock screen (Meta+L)
+./install.sh alttab       # Windows 11-style Alt+Tab switcher
 ./install.sh greeter      # Boot greeter (PLM build + system install)
 ```
 
@@ -272,6 +274,25 @@ Detailed build instructions: [`plasma/applets/org.kde.windowsmodern.icontasks/BU
 
 ---
 
+## Alt+Tab
+
+A Windows 11-style window switcher for KWin. Every preview has the same
+height and keeps its window's shape, cards wrap into centered rows, and the
+selected window gets a rounded focus ring. Hover a card for its close button;
+click to switch; arrow keys move across and between rows. It follows the
+active colour scheme, so it works in both variants.
+
+```bash
+./install.sh alttab       # install + select (included in 'all')
+./uninstall.sh alttab     # back to KWin's default switcher
+```
+
+Source: `plasma/windowswitcher/org.kde.windowsmodern.alttab/`. Preview and
+test it without KWin: `tests/windowswitcher/preview.sh` and
+`tests/windowswitcher/run-tests.sh`.
+
+---
+
 ## Lock screen and boot greeter
 
 Two separate components cover the two places a Windows-style lock/login look
@@ -367,6 +388,7 @@ Full instructions: [`app-decorations/firefox/README.md`](app-decorations/firefox
 ./uninstall.sh icontasks     # Remove Icon Tasks, restore the stock icons-only task manager
 ./uninstall.sh digitalclock  # Remove Digital Clock applet
 ./uninstall.sh sessionlock   # Restore Breeze lock screen (Meta+L)
+./uninstall.sh alttab        # Restore KWin's default Alt+Tab switcher
 ./uninstall.sh greeter       # Remove user greeter theme + revert patches
 ./uninstall.sh greetersystem # Restore system greeter binary (needs sudo)
 ```
