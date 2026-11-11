@@ -19,19 +19,25 @@ rm -rf "${TABBOX_DIR:?}/${ALT_TAB_LAYOUT:?}"
 cp -r "$src" "$TABBOX_DIR/"
 step "Installed to $TABBOX_DIR/$ALT_TAB_LAYOUT"
 
+
 # Remove leftover copies from tests/windowswitcher/e2e.py that are not in use.
-current="$(kreadconfig6 --file kwinrc --group TabBox --key LayoutName 2>/dev/null || true)"
-for stale in "$TABBOX_DIR/$ALT_TAB_LAYOUT".e2e*; do
-    [ -d "$stale" ] || continue
-    [ "$(basename "$stale")" = "$current" ] && continue
-    rm -rf "$stale"
-done
+remove_unused_test_copies() {
+    local current stale
+    current="$(kreadconfig6 --file kwinrc --group TabBox --key LayoutName 2>/dev/null || true)"
+    for stale in "$TABBOX_DIR/$ALT_TAB_LAYOUT".e2e*; do
+        [ -d "$stale" ] || continue
+        [ "$(basename "$stale")" = "$current" ] && continue
+        rm -rf "$stale"
+    done
+}
 
 # In batch mode the 'all' driver selects it once at the end.
 if is_batch; then
+    remove_unused_test_copies
     exit 0
 fi
 post_kwin_alt_tab_switcher
+remove_unused_test_copies
 info "Done. Press Alt+Tab to try it."
 if [ "$updating" = true ]; then
     # KWin caches the compiled QML of a switcher it has already shown, keyed
