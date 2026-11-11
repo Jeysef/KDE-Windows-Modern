@@ -11,6 +11,8 @@ import org.kde.plasma.private.sessions
 import org.kde.plasma.private.keyboardindicator as KeyboardIndicator
 import org.kde.breeze.components
 
+import "dateformat.js" as DateFormat
+
 Item {
     id: lockScreenUi
 
@@ -104,6 +106,13 @@ Item {
         property bool uiVisible: false
         property bool blockUI: containsMouse && (mainStack.depth > 1 || mainBlock.mainPasswordBox.text.length > 0)
         property bool loginUiActive: uiVisible || mainBlock.mainPasswordBox.text.length > 0 || graceLockTimer.running
+
+        // The locale's long date without the year ("Wednesday, November 11",
+        // "středa 11. listopadu"), as the Windows lock screen and the panel
+        // clock show it. dateformat.js is a copy of the digital clock's.
+        function dateLine(d: date): string {
+            return Qt.locale().toString(d, DateFormat.longDateWithoutYear(Qt.locale().dateFormat(Locale.LongFormat)));
+        }
         cursorShape: Qt.ArrowCursor
         drag.filterChildren: true
 
@@ -223,16 +232,18 @@ Item {
                     font.weight: Font.DemiBold
                     font.pixelSize: 96
                     color: "#FFFFFF"
+                    anchors.horizontalCenter: parent.horizontalCenter
                     horizontalAlignment: Text.AlignHCenter
                     antialiasing: true
                 }
                 Text {
                     id: dateText
-                    text: Qt.formatDate(new Date(), "dddd, MMMM d")
+                    text: lockScreenRoot.dateLine(new Date())
                     font.family: "Segoe UI"
                     font.weight: Font.Normal
                     font.pixelSize: 24
                     color: "#E0E0E0"
+                    anchors.horizontalCenter: parent.horizontalCenter
                     horizontalAlignment: Text.AlignHCenter
                     antialiasing: true
                 }
@@ -246,7 +257,7 @@ Item {
             anchors.topMargin: Kirigami.Units.largeSpacing * 2
             anchors.horizontalCenter: parent.horizontalCenter
             source: "MediaControls.qml"
-            active: cfg_showMediaControls
+            active: config.showMediaControls
             visible: !lockScreenRoot.loginUiActive
         }
 
@@ -259,39 +270,8 @@ Item {
             spacing: Kirigami.Units.mediumSpacing
             visible: !lockScreenRoot.loginUiActive
 
-            PlasmaComponents3.ToolButton {
-                width: 32
-                height: 32
-                icon.name: "network-wireless"
-                icon.color: "#FFFFFF"
-                display: AbstractButton.IconOnly
-                flat: true
-                Kirigami.Theme.inherit: false
-                Kirigami.Theme.colorSet: Kirigami.Theme.Complementary
-            }
-
-            // Volume Icon
-            PlasmaComponents3.ToolButton {
-                width: 32
-                height: 32
-                icon.name: "audio-volume-high"
-                icon.color: "#FFFFFF"
-                display: AbstractButton.IconOnly
-                flat: true
-                Kirigami.Theme.inherit: false
-                Kirigami.Theme.colorSet: Kirigami.Theme.Complementary
-            }
-
-            PlasmaComponents3.ToolButton {
-                width: 32
-                height: 32
-                icon.name: "battery-full"
-                icon.color: "#FFFFFF"
-                display: AbstractButton.IconOnly
-                flat: true
-                Kirigami.Theme.inherit: false
-                Kirigami.Theme.colorSet: Kirigami.Theme.Complementary
-            }
+            // Live network, volume and battery (they used to be fixed icons).
+            StatusIcons {}
         }
 
         // ── Main unlock UI ──
@@ -428,35 +408,8 @@ Item {
                 Layout.fillHeight: true
             }
             Item { Layout.fillWidth: true }
-            PlasmaComponents3.ToolButton {
-                width: 32
-                height: 32
-                icon.name: "network-wireless"
-                icon.color: "#FFFFFF"
-                display: AbstractButton.IconOnly
-                flat: true
-                Kirigami.Theme.inherit: false
-                Kirigami.Theme.colorSet: Kirigami.Theme.Complementary
-            }
-            PlasmaComponents3.ToolButton {
-                width: 32
-                height: 32
-                icon.name: "audio-volume-high"
-                icon.color: "#FFFFFF"
-                display: AbstractButton.IconOnly
-                flat: true
-                Kirigami.Theme.inherit: false
-                Kirigami.Theme.colorSet: Kirigami.Theme.Complementary
-            }
-            PlasmaComponents3.ToolButton {
-                width: 32
-                height: 32
-                icon.name: "battery-full"
-                icon.color: "#FFFFFF"
-                display: AbstractButton.IconOnly
-                flat: true
-                Kirigami.Theme.inherit: false
-                Kirigami.Theme.colorSet: Kirigami.Theme.Complementary
+            StatusIcons {
+                Layout.alignment: Qt.AlignVCenter
             }
             Menu {
                 id: powerMenu
@@ -539,7 +492,7 @@ Item {
         onTriggered: {
             var d = new Date();
             timeText.text = Qt.formatTime(d, "HH:mm");
-            dateText.text = Qt.formatDate(d, "dddd, MMMM d");
+            dateText.text = lockScreenRoot.dateLine(d);
         }
     }
 }

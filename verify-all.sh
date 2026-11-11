@@ -162,6 +162,17 @@ else
     warn "qmltestrunner not installed — skipped (CI runs it)"
 fi
 
+# ── Shared code copies ──────────────────────────────────────────────
+# The lock screen is its own package, so it carries a copy of the clock's
+# date formatting; the two must not drift apart.
+if cmp -s plasma/applets/org.kde.windowsmodern.digitalclock/contents/ui/code/dateformat.js \
+          plasma/shells/org.kde.windowsmodern.lockscreen/contents/lockscreen/dateformat.js; then
+    pass "lock screen dateformat.js matches the clock's"
+else
+    fail "lock screen dateformat.js differs from the clock's — copy it over"
+    FAILED=1
+fi
+
 # ── Theme renders ───────────────────────────────────────────────────
 echo ""
 echo " Theme renders:"

@@ -52,6 +52,12 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Lock screen: the network, volume and battery icons show the real state
+  (signal strength, mute and level, charge and charging) instead of fixed
+  "full" icons; the battery icon hides on machines without one.
+- Lock screen: the date follows your language ("středa 11. listopadu"),
+  the time is centred over it, and media controls appear again (a wrong
+  config name had switched them off for good).
 - Dark theme: the mouse cursor theme it set did not exist, so the cursor
   fell back (for GTK apps too). Both themes now use Breeze Light, the
   white Windows-style arrow.
