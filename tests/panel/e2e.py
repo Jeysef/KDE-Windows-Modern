@@ -297,6 +297,8 @@ def flyout_scroll(p, c):
     p.click("Show hidden icons")
     card = wait_for(lambda: visible("Brightness & Color", exclude_window=panel_window), timeout=6)
     if card is None:
+        # Hidden by default (Quick Settings has the slider); the check runs
+        # when the user brings the card back ("Always hidden" in the tray).
         print("        (no Brightness & Color card in the flyout — skipped)")
         p.close_popups()
         return

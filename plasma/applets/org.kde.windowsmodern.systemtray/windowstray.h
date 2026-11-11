@@ -58,6 +58,25 @@ inline bool alwaysShown(const QString &itemId)
         || itemId == QLatin1String("org.kde.plasma.volume");
 }
 
+// Not in the tray nor behind the chevron unless pinned, set to "Always
+// hidden" (which puts them behind the chevron) or needing attention:
+// - Bluetooth and Brightness & Color: Quick Settings below the chevron's
+//   grid already has their toggle/slider, and its ">" opens their page.
+// - Weather (a widget), Vaults and the X11 video bridge: KDE plumbing that
+//   Windows has no tray icon for.
+// Keeps the grid to three rows, so the flyout does not scroll.
+inline bool hiddenByDefault(const QString &itemId)
+{
+    static const QList<QString> ids = {
+        QStringLiteral("org.kde.plasma.bluetooth"),
+        QStringLiteral("org.kde.plasma.brightness"),
+        QStringLiteral("org.kde.plasma.weather"),
+        QStringLiteral("org.kde.plasma.vault"),
+        QStringLiteral("Xwayland Video Bridge"), // xwaylandvideobridge's StatusNotifierItem
+    };
+    return ids.contains(itemId);
+}
+
 // Icons that appear in the tray without being pinned. As on Windows 11,
 // every other icon (apps, Bluetooth, clipboard, brightness...) waits behind
 // the chevron until it needs attention or the user pins it ("Always shown").

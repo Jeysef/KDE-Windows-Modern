@@ -41,6 +41,10 @@ the `Version` field shared by every component's metadata.
 
 ### Changed
 
+- Tray flyout: Bluetooth and Brightness & Color (already in Quick
+  Settings below), Weather, Vaults and the X11 video bridge no longer sit
+  behind the chevron. Pin one, set it to "Always hidden", or let it need
+  attention and it shows again. The card grid fits without scrolling.
 - Taskbar: no speaker badge on the icons of apps playing audio, as on
   Windows (mute from the tray's volume page). The option stays in the
   taskbar's settings.

@@ -74,8 +74,9 @@ Plasma::Types::ItemStatus BaseModel::calculateEffectiveStatus(bool canRender, Pl
         || WindowsTray::alwaysShown(itemId); // Hidden (e.g. no battery) returned above
     if (forcedShown || (!forcedHidden && wantsTray))
         return Plasma::Types::ItemStatus::ActiveStatus;
-    else
-        return Plasma::Types::ItemStatus::PassiveStatus;
+    if (!forcedHidden && !needsUser && WindowsTray::hiddenByDefault(itemId))
+        return Plasma::Types::ItemStatus::HiddenStatus;
+    return Plasma::Types::ItemStatus::PassiveStatus;
 }
 
 static QString plasmoidCategoryForMetadata(const KPluginMetaData &metadata) {
