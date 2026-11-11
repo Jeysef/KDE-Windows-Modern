@@ -162,6 +162,17 @@ else
     warn "qmltestrunner not installed — skipped (CI runs it)"
 fi
 
+# ── Theme renders ───────────────────────────────────────────────────
+echo ""
+echo " Theme renders:"
+set +e; SWITCH_OUT=$(tests/theme/check-switch.py 2>&1); SWITCH_RC=$?; set -e
+case "$SWITCH_RC" in
+    0)  pass "switch.svg: no outline around the on-pill (dark + light)" ;;
+    77) warn "switch render skipped: ${SWITCH_OUT##*$'\n'}" ;;
+    *)  fail "switch.svg render check failed — run: tests/theme/check-switch.py"
+        FAILED=1 ;;
+esac
+
 # ── Installed C++ applets (opt-in) ──────────────────────────────────
 if [ "$CHECK_INSTALLED" -eq 1 ]; then
     for applet in systemtray icontasks; do

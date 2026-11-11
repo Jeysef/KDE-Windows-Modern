@@ -360,31 +360,26 @@ inherits the themed look.
 
 #### Switch / toggle (`widgets/switch.svg`)
 
-Renders the on/off toggle switches used in Plasma applet popups
-(e.g. network, Bluetooth, do-not-disturb). The original asset made
-the off-state track and thumb the same color as the popup
-background, so the switch was invisible against popups.
+The on/off switches in Plasma popups (Wi-Fi, Bluetooth, airplane mode…),
+styled like Windows 11. Both themes' files are **generated** by
+`scripts/gen-switch-svg.py`; edit the script, then run
+`tests/theme/check-switch.py`, which renders the real Plasma switch and
+fails if anything but accent shows around the on-pill.
 
-| Element | Class | Notes |
+| State | Track | Knob |
 |---|---|---|
-| Off track fill | none (transparent) | Pill outline only |
-| Off track border | `ColorScheme-Text` | 1 px stroked outline, `stroke-linecap=round` for seamless joints |
-| On track fill | `ColorScheme-Highlight` | Solid accent from the color scheme |
-| On track border | none | Filled pill, no visible stroke |
-| Knob (both states) | `ColorScheme-Text` | Same color as text — visible on both transparent off-track and accent on-track |
-| Knob border | none | Flat, borderless |
-| Focus/hover ring | `ColorScheme-Highlight` | 12 px accent ring around the 10 px knob |
+| Off | 1 px outline, `ColorScheme-Text` at 55 % (dark) / 45 % (light) | 10 px, `ColorScheme-Text` at 79 % / 62 % |
+| On | Solid `ColorScheme-Highlight` pill | 10 px, `ColorScheme-Background` |
+| Hover / pressed | unchanged | 11 px accent ring around a 9 px `ColorScheme-Background` dot |
 
-- Both states share the same outer track size (38 × 16 px hint) and knob.
-- The off track is a **transparent pill outline** stroked in
-  `ColorScheme-Text` — no fill, so the popup background shows through.
-  `stroke-linecap=round` ensures the 9-patch arc/line joints are seamless.
-- The on track is a **solid accent pill** with no border.
-- The knob uses `ColorScheme-Text` so it is always visible: white in
-  dark mode (on blue track) and dark in light mode (hole effect on
-  blue track).
-- The knob is 10 px inside a 16 px handle bounding box, giving 3 px
-  transparent padding on all sides so it never touches the track edge.
+Geometry follows Plasma's `SwitchIndicator.qml`, which draws the on-pill
+1 px further right than the off-outline. The on-pill (caps radius 9) is
+therefore centred on the knob, and the off-outline (outer radius 8) sits
+entirely inside it. If the outline is as large as the pill, it shows as
+a white (dark) or black (light) rim on the left of every switched-on
+switch. Hover and pressed use one element for both states, so the accent
+ring merges into the on-pill and only highlights the off knob. There is
+no knob shadow.
 
 #### Taskbar (`widgets/tasks.svg`)
 
