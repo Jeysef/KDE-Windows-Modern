@@ -70,7 +70,8 @@ Plasma::Types::ItemStatus BaseModel::calculateEffectiveStatus(bool canRender, Pl
         || status == Plasma::Types::ItemStatus::AcceptingInputStatus;
     const bool active = status == Plasma::Types::ItemStatus::ActiveStatus
         || status == Plasma::Types::ItemStatus::UnknownStatus;
-    const bool wantsTray = needsUser || (active && WindowsTray::shownByDefault(itemId));
+    const bool wantsTray = needsUser || (active && WindowsTray::shownByDefault(itemId))
+        || WindowsTray::alwaysShown(itemId); // Hidden (e.g. no battery) returned above
     if (forcedShown || (!forcedHidden && wantsTray))
         return Plasma::Types::ItemStatus::ActiveStatus;
     else

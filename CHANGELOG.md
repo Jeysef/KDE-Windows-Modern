@@ -52,6 +52,9 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- System tray: network, volume and (on laptops) battery always show, as on
+  Windows. The battery disappeared behind the chevron when the laptop was
+  full and on the charger, because Plasma marks it passive then.
 - Login screen: builds and runs again on Plasma 6.8. Plasma Login Manager
   is pinned to 6.8.2 (the 6.6 build needed a libPlasmaQuick that Plasma
   6.8 no longer ships), the patch is rebased, and the theme follows 6.8's

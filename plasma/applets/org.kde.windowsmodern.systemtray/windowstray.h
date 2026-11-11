@@ -6,6 +6,8 @@
 */
 #pragma once
 
+#include <QDir>
+#include <QFile>
 #include <QList>
 #include <QString>
 
@@ -22,6 +24,38 @@ inline const QList<QString> &tail()
         QStringLiteral("org.kde.plasma.battery"),
     };
     return ids;
+}
+
+// True on laptops: the kernel lists a system battery (not a mouse's or a
+// headset's, whose scope is "Device").
+inline bool hasSystemBattery()
+{
+    static const bool found = [] {
+        const QDir supplies(QStringLiteral("/sys/class/power_supply"));
+        for (const QString &name : supplies.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+            QFile type(supplies.filePath(name + QStringLiteral("/type")));
+            QFile scope(supplies.filePath(name + QStringLiteral("/scope")));
+            const bool isBattery = type.open(QIODevice::ReadOnly) && type.readAll().trimmed() == "Battery";
+            const bool isPeripheral = scope.open(QIODevice::ReadOnly) && scope.readAll().trimmed() == "Device";
+            if (isBattery && !isPeripheral) {
+                return true;
+            }
+        }
+        return false;
+    }();
+    return found;
+}
+
+// Always in the tray on Windows while they exist, even when Plasma marks
+// them passive (the battery does when full and on the charger). The input
+// language is left out: Windows hides it too when there is only one.
+inline bool alwaysShown(const QString &itemId)
+{
+    if (itemId == QLatin1String("org.kde.plasma.battery")) {
+        return hasSystemBattery();
+    }
+    return itemId == QLatin1String("org.kde.plasma.networkmanagement")
+        || itemId == QLatin1String("org.kde.plasma.volume");
 }
 
 // Icons that appear in the tray without being pinned. As on Windows 11,
