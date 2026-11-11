@@ -98,11 +98,38 @@ if command -v getcap &>/dev/null && [ -f "$PLM_BINARY" ] && [ -n "$(getcap "$PLM
     exit 1
 fi
 
-# ── Step 2: Backup pristine binary (once) ──
+# True when the installed greeter is exactly the distro package's file (a
+# package update replaces our patched copy). Unknown package manager: false.
+greeter_is_pristine() {
+    [ -f "$PLM_BINARY" ] || return 1
+    if command -v rpm &>/dev/null && rpm -qf "$PLM_BINARY" &>/dev/null; then
+        if rpm -V "$(rpm -qf "$PLM_BINARY")" 2>/dev/null | grep -q " ${PLM_BINARY}\$"; then
+            return 1
+        fi
+        return 0
+    fi
+    if command -v dpkg &>/dev/null && dpkg -S "$PLM_BINARY" &>/dev/null; then
+        if dpkg -V "$(dpkg -S "$PLM_BINARY" | cut -d: -f1)" 2>/dev/null | grep -q " ${PLM_BINARY}\$"; then
+            return 1
+        fi
+        return 0
+    fi
+    return 1
+}
+
+# True when every library a binary needs is installed (an old backup can
+# point at a libPlasmaQuick that a Plasma update removed).
+binary_links() {
+    [ -f "$1" ] && ! ldd "$1" 2>/dev/null | grep -q "not found"
+}
+
+# ── Step 2: Backup pristine binary ──
+# Refreshed whenever the installed greeter is the distro's own file, so the
+# backup never lags behind a package update.
 if [ ! -f "$PLM_BINARY" ]; then
     echo "Step 2 / 4: No system greeter at ${PLM_BINARY} — nothing to back up."
     echo "           (Revert will need your package manager: see uninstall-greeter-system.sh)"
-elif [ ! -f "${PLM_BINARY}.orig" ]; then
+elif [ ! -f "${PLM_BINARY}.orig" ] || greeter_is_pristine; then
     echo "Step 2 / 4: Saving pristine backup → ${PLM_BINARY}.orig"
     cp -p "$PLM_BINARY" "${PLM_BINARY}.orig"
 else

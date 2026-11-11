@@ -2,8 +2,10 @@
 # ───────────────────────────────────────────────────────────────────
 #  uninstall-greeter-system.sh — Revert PLM boot greeter to distro default
 #
-#  Fast path: restores from pristine .orig backup (no package manager).
-#  Fallback: reinstalls the distro package.
+#  Nothing to do if the greeter is already the distro's own file (a package
+#  update replaced ours); a stale backup is then removed.
+#  Fast path: restores the .orig backup, if it still runs with the
+#  installed libraries. Fallback: reinstalls the distro package.
 # ───────────────────────────────────────────────────────────────────
 set -euo pipefail
 
@@ -15,9 +17,52 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
+# True when the installed greeter is exactly the distro package's file (a
+# package update replaces our patched copy). Unknown package manager: false.
+greeter_is_pristine() {
+    [ -f "$PLM_BINARY" ] || return 1
+    if command -v rpm &>/dev/null && rpm -qf "$PLM_BINARY" &>/dev/null; then
+        if rpm -V "$(rpm -qf "$PLM_BINARY")" 2>/dev/null | grep -q " ${PLM_BINARY}\$"; then
+            return 1
+        fi
+        return 0
+    fi
+    if command -v dpkg &>/dev/null && dpkg -S "$PLM_BINARY" &>/dev/null; then
+        if dpkg -V "$(dpkg -S "$PLM_BINARY" | cut -d: -f1)" 2>/dev/null | grep -q " ${PLM_BINARY}\$"; then
+            return 1
+        fi
+        return 0
+    fi
+    return 1
+}
+
+# True when every library a binary needs is installed (an old backup can
+# point at a libPlasmaQuick that a Plasma update removed).
+binary_links() {
+    [ -f "$1" ] && ! ldd "$1" 2>/dev/null | grep -q "not found"
+}
+
 echo "Reverting PLM boot greeter to distro default..."
 
-# ── Fast revert from pristine backup ──
+# ── Already the distro's greeter: nothing to revert ──
+if greeter_is_pristine; then
+    echo "  ${PLM_BINARY} is already the distro package's own file"
+    echo "  (a package update replaced the patched greeter)."
+    if [ -f "${PLM_BINARY}.orig" ]; then
+        rm -f "${PLM_BINARY}.orig"
+        echo "  Removed the old backup ${PLM_BINARY}.orig."
+    fi
+    echo "  Done — nothing else to revert."
+    exit 0
+fi
+
+# ── Fast revert from pristine backup (only if it still links) ──
+if [ -f "${PLM_BINARY}.orig" ] && ! binary_links "${PLM_BINARY}.orig"; then
+    echo "  The backup ${PLM_BINARY}.orig needs libraries that are no longer"
+    echo "  installed (Plasma was updated since). Not restoring it; reinstalling"
+    echo "  the package instead."
+    rm -f "${PLM_BINARY}.orig"
+fi
 if [ -f "${PLM_BINARY}.orig" ]; then
     echo "  Fast revert from ${PLM_BINARY}.orig"
     echo "  (backup taken $(stat -c %y "${PLM_BINARY}.orig" | cut -d. -f1))"

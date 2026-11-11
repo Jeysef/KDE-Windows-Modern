@@ -52,6 +52,12 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Greeter uninstall could put back an outdated login greeter: it restored
+  the `.orig` backup even when a package update had already replaced the
+  patched greeter, and even when the backup needed libraries a Plasma
+  update had removed (it would no longer start). It now does nothing when
+  the greeter is the distro's own file, never restores a backup that
+  doesn't link, and the installer refreshes the backup after updates.
 - Lock screen: the network, volume and battery icons show the real state
   (signal strength, mute and level, charge and charging) instead of fixed
   "full" icons; the battery icon hides on machines without one.
