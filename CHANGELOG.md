@@ -71,7 +71,8 @@ the `Version` field shared by every component's metadata.
 - **Windows 11-style Alt+Tab switcher** (`./install.sh alttab`, included in
   `all`): aspect-correct previews in centered rows, icon + title headers,
   close on hover, rounded focus ring, keyboard navigation across rows. Both
-  global themes select it. Comes with a mock-KWin preview tool and QML tests.
+  global themes select it. Comes with a mock-KWin preview tool, QML tests,
+  and an end-to-end test that drives a real Alt+Tab in the running KWin.
 - `PRODUCT.md`: the product brief — vision, scope, and what is deliberately
   left out.
 - CI (GitHub Actions): the repository health check plus a build-and-link check

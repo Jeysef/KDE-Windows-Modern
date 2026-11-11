@@ -19,3 +19,6 @@ plasma/applets/org.kde.windowsmodern.icontasks/build/
 /add.txt
 # Release build artifacts
 /dist/
+
+# Python bytecode
+__pycache__/

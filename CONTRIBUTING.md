@@ -46,9 +46,17 @@ The Alt+Tab switcher has its own tests and a preview tool that run without
 KWin (against a mock `org.kde.kwin`):
 
 ```bash
-tests/windowswitcher/run-tests.sh            # layout + keyboard tests
+tests/windowswitcher/run-tests.sh            # layout, keyboard and main.qml wiring tests
 tests/windowswitcher/preview.sh dark 7 x.png # render a screenshot
+tests/windowswitcher/e2e.py shot.png         # real Alt+Tab inside your running KWin
 ```
+
+KWin caches the compiled QML of a switcher it has already shown for the
+whole session, so reinstalling the switcher does not change what Alt+Tab
+shows until you log out. `e2e.py` installs the current code under a one-off
+ID (a fresh compile), presses Alt+Tab through a virtual keyboard, saves a
+screenshot, fails on any QML error KWin logs, and restores your setting.
+It needs `python3-evdev` and access to `/dev/uinput`.
 
 For QML changes, also run `qmllint` (`/usr/lib64/qt6/bin/qmllint` on Fedora)
 on the files you touched and don't add new warnings.

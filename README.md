@@ -287,9 +287,13 @@ active colour scheme, so it works in both variants.
 ./uninstall.sh alttab     # back to KWin's default switcher
 ```
 
+KWin caches the switcher once it has been shown, so after **updating** it,
+log out and back in to see the new version.
+
 Source: `plasma/windowswitcher/org.kde.windowsmodern.alttab/`. Preview and
 test it without KWin: `tests/windowswitcher/preview.sh` and
-`tests/windowswitcher/run-tests.sh`.
+`tests/windowswitcher/run-tests.sh`; test it inside your running KWin with
+`tests/windowswitcher/e2e.py`.
 
 ---
 
