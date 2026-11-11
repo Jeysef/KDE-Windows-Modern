@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  health-check:
+    name: Repository health check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+      # Same gate scripts/release.sh enforces: required files, light/dark
+      # parity, layout drift, metadata, bash -n and shellcheck.
+      - name: verify-all.sh
+        run: ./verify-all.sh
+
+  build-applets:
+    name: Build C++ applets (Fedora ${{ matrix.fedora }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Fedora releases track Plasma closely; bump when a new one ships.
+        fedora: ["44"]
+    container: fedora:${{ matrix.fedora }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build dependencies
+        run: |
+          dnf install -y --setopt=install_weak_deps=False \
+            gcc-c++ cmake extra-cmake-modules findutils \
+            qt6-qtbase-devel qt6-qtbase-private-devel qt6-qtdeclarative-devel \
+            kf6-kpackage-devel kf6-kconfig-devel kf6-ki18n-devel kf6-kcoreaddons-devel \
+            kf6-kwindowsystem-devel kf6-kio-devel kf6-kiconthemes-devel \
+            kf6-kitemmodels-devel kf6-kservice-devel kf6-kxmlgui-devel \
+            kf6-kjobwidgets-devel kf6-kcmutils-devel kf6-knotifications-devel \
+            plasma-activities-devel plasma-activities-stats-devel \
+            libplasma-devel plasma-workspace-devel libksysguard-devel
+      - name: Build and link-check both applets
+        run: ./scripts/ci-build.sh "$RUNNER_TEMP/build"
