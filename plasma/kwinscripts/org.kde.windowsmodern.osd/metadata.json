@@ -1,0 +1,23 @@
+{
+    "KPackageStructure": "KWin/Script",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "jeysef@users.noreply.github.com",
+                "Name": "Jeysef"
+            }
+        ],
+        "BugReportUrl": "https://github.com/Jeysef/KDE-Windows-Modern/issues",
+        "Category": "Window Management",
+        "Description": "Shows the volume, brightness and other on-screen displays bottom-centre, just above the taskbar, as on Windows 11.",
+        "EnabledByDefault": false,
+        "Icon": "preferences-desktop-notification",
+        "Id": "org.kde.windowsmodern.osd",
+        "License": "GPL-3.0-or-later",
+        "Name": "Windows Modern: OSD above the taskbar",
+        "Version": "1.0.0",
+        "Website": "https://github.com/Jeysef/KDE-Windows-Modern"
+    },
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js"
+}

@@ -1,11 +1,13 @@
 #!/bin/bash
 # ───────────────────────────────────────────────────────────────────
-#  install-shortcuts.sh — Windows keyboard shortcuts
+#  install-shortcuts.sh — Windows keyboard shortcuts and window behaviour
 #
 #  Win+Up/Down (maximize, restore, minimize, quarter snap), Win+Tab Task
 #  View, Win+R Run, Win+M / Win+Home minimize, Win+A Quick Settings,
 #  Win+N notifications, Win+PrtSc / Alt+PrtSc screenshots. The previous
 #  keys are backed up; ./uninstall.sh shortcuts restores them.
+#  Also installs the KWin scripts in plasma/kwinscripts/ (Win+Up/Down;
+#  volume/brightness pop-ups above the taskbar).
 # ───────────────────────────────────────────────────────────────────
 # shellcheck source=scripts/install-lib.sh
 source "$(dirname "$0")/install-lib.sh"
@@ -21,12 +23,14 @@ fi
 
 info "Installing Windows keyboard shortcuts..."
 
-# 1. KWin script for Win+Up / Win+Down, and KWin's own "Minimize all".
-step "KWin script: Win+Up / Win+Down"
-pkg="$SRC_DIR/plasma/kwinscripts/org.kde.windowsmodern.snapkeys"
-kpackagetool6 --type KWin/Script --upgrade "$pkg" &>/dev/null \
-    || kpackagetool6 --type KWin/Script --install "$pkg" >/dev/null
-kwriteconfig6 --file kwinrc --group Plugins --key org.kde.windowsmodern.snapkeysEnabled true
+# 1. Our KWin scripts (Win+Up/Down, OSD position) and KWin's "Minimize all".
+for pkg in "$SRC_DIR"/plasma/kwinscripts/*/; do
+    id="$(basename "$pkg")"
+    step "KWin script: $id"
+    kpackagetool6 --type KWin/Script --upgrade "$pkg" &>/dev/null \
+        || kpackagetool6 --type KWin/Script --install "$pkg" >/dev/null
+    kwriteconfig6 --file kwinrc --group Plugins --key "${id}Enabled" true
+done
 kwriteconfig6 --file kwinrc --group Plugins --key minimizeallEnabled true
 kwin_reconfigure
 sleep 2 # the scripts register their shortcut actions

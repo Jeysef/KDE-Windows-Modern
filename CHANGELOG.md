@@ -26,6 +26,11 @@ the `Version` field shared by every component's metadata.
 
 ### Changed
 
+- Volume, brightness and keyboard-layout pop-ups appear bottom-centre just
+  above the taskbar, as on Windows 11, instead of two-thirds down the
+  screen (KWin script, installed with `./install.sh shortcuts`).
+- Tooltips wait half a second before appearing, like Windows, instead of
+  flashing up under every button the pointer crosses.
 - Dark theme: selected items in file lists and sidebars (Dolphin, System
   Settings, file dialogs) are a light accent tint with white text, as in
   Windows 11 Explorer, instead of a solid light-blue bar whose white text

@@ -216,9 +216,12 @@ uninstall_component() {
             else
                 warn "No Plasma session — log in and run ./uninstall.sh shortcuts to restore the keys."
             fi
-            kwriteconfig6 --file kwinrc --group Plugins --key org.kde.windowsmodern.snapkeysEnabled --delete
+            for pkg in "$SRC_DIR"/plasma/kwinscripts/*/; do
+                id="$(basename "$pkg")"
+                kwriteconfig6 --file kwinrc --group Plugins --key "${id}Enabled" --delete
+                kpackagetool6 --type KWin/Script --remove "$id" &>/dev/null || true
+            done
             kwriteconfig6 --file kwinrc --group Plugins --key minimizeallEnabled --delete
-            kpackagetool6 --type KWin/Script --remove org.kde.windowsmodern.snapkeys &>/dev/null || true
             kwin_reconfigure
             rm_path "$HOME/.local/share/applications/windowsmodern-screenshot.desktop"
             info "Windows shortcuts removed; your previous keys are back."

@@ -73,6 +73,7 @@ Not added, even on request, unless this brief changes:
 - Copilot or any AI/assistant entry point.
 - Ads, tips, "get started", promoted apps, suggestions.
 - Windows 10 live tiles.
+- A Recycle Bin icon on the desktop (the Trash is in Explorer's sidebar).
 
 ## Settled
 
@@ -82,6 +83,9 @@ Not added, even on request, unless this brief changes:
   not wanted.
 - **Tray overflow chevron:** stays right of the tray icons, next to the
   clock. Windows 11 puts it on the left; the right side was preferred.
+- **Window decoration:** the Aurorae decoration is a deliberate blend of
+  Windows 11 and Windows 10 with **sharp corners**. Rounded corners and
+  window shadows were considered and not wanted.
 - **Start menu:** feature-complete as far as the product is concerned.
   Changes are bug fixes and polish only. The Phase 2 ideas in
   `docs/STARTMENU_PLAN.md` (folders, launch tracking, command palette) are
@@ -93,7 +97,7 @@ Not added, even on request, unless this brief changes:
 |--------|------|-------|
 | Done | Windows 11 Alt+Tab switcher | `plasma/windowswitcher/`, selected by both global themes. |
 | Done | Windows shortcuts, cursor, everyday apps | `./install.sh shortcuts` / `apps`; Breeze Light cursor. Win+X (power-user menu) is not mapped. |
-| Next | Muscle-memory batch, rest | Segoe UI when installed, Selawik otherwise; toast position and OSD; window animations. |
+| Next | Muscle-memory batch, rest | Segoe UI when installed, Selawik otherwise; OSD position; Cascadia Mono as the monospace font (needs a dnf install: wait until no system upgrade is pending). |
 | Next | Snap Layouts | Investigate first: a KWin script plus a Windows 11-style picker on top of KWin's built-in tiling. |
 | Later | Light lock and login screen | The lock screen is dark-only today. |
 | Later | Prebuilt C++ plugins | So installing the tray and taskbar doesn't need a compiler. CI already builds them against Fedora. |

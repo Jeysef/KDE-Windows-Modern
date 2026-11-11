@@ -159,6 +159,9 @@ Win+Space and Win+1…9; these are changed:
 | Win+PrtSc · Alt+PrtSc | Save a full screenshot silently · capture the active window | Active window · – |
 | Ctrl+Shift+Esc | Mission Center (with `apps`) | System Monitor (if set) |
 
+The same component moves the volume/brightness pop-up to just above the
+taskbar, where Windows 11 shows it.
+
 Your previous keys are backed up to
 `~/.local/share/windows-modern/backup/` and `./uninstall.sh shortcuts`
 puts them back. Win+Up/Down come from a small KWin script
