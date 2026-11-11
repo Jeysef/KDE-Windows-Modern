@@ -22,6 +22,13 @@ command -v kbuildsycoca6 &>/dev/null && kbuildsycoca6 2>/dev/null || true
 
 info "Panel layout installed."
 
+# Label keyboard layouts by language ("ENG", "CES") as the Windows tray
+# does. Per-user setting; your own labels are kept.
+if [ "$UID" -ne 0 ] && command -v kwriteconfig6 &>/dev/null; then
+    info "Keyboard layout labels:"
+    python3 "$SRC_DIR/scripts/keyboard-labels.py" || warn "Could not set keyboard layout labels."
+fi
+
 # Layout templates cannot replace the panel by themselves — that requires
 # the global theme's --resetLayout (handled by install-lookfeel.sh / 'all').
 if is_batch; then

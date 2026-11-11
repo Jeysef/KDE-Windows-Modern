@@ -8,6 +8,10 @@ the `Version` field shared by every component's metadata.
 
 ### Changed
 
+- Keyboard layouts are labelled by language in the tray, as on Windows
+  (`ENG`, `CES`, `DEU` instead of `us`, `cz`, `de`), from XKB's own data so
+  every language works. `./install.sh layout` sets it; your own labels are
+  kept, and two layouts of one language keep their codes.
 - System tray: the last icons before the clock are always input language,
   network, volume, battery, in that order, as on Windows 11. Other icons
   (apps, Bluetooth, clipboard...) come before them.

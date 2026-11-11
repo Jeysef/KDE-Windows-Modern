@@ -173,6 +173,14 @@ case "$SWITCH_RC" in
         FAILED=1 ;;
 esac
 
+set +e; KBD_OUT=$(python3 scripts/keyboard-labels.py --self-test 2>&1); KBD_RC=$?; set -e
+case "$KBD_RC" in
+    0)  pass "keyboard labels: XKB languages map to Windows-style codes" ;;
+    77) warn "keyboard label check skipped: $KBD_OUT" ;;
+    *)  fail "keyboard-labels.py --self-test failed"; echo "$KBD_OUT"
+        FAILED=1 ;;
+esac
+
 # ── Installed C++ applets (opt-in) ──────────────────────────────────
 if [ "$CHECK_INSTALLED" -eq 1 ]; then
     for applet in systemtray icontasks; do
