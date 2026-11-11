@@ -32,7 +32,7 @@ get_version() {
         python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['KPlugin'].get('Version',''))" "$meta" 2>/dev/null \
             || echo ""
     else
-        grep -E '^Version=' "$meta" 2>/dev/null | head -1 | cut -d= -f2 || echo ""
+        grep -E '^(X-KDE-PluginInfo-)?Version=' "$meta" 2>/dev/null | head -1 | cut -d= -f2 || echo ""
     fi
 }
 
@@ -173,8 +173,8 @@ for c in "${COMPONENTS[@]}"; do
     [[ "$meta" == "index.theme" || "$meta" == "colorschemes" ]] && continue
     [[ -f "$dir/$meta" ]] || continue
     v="$(get_version "$dir/$meta")"
-    if [[ -n "$v" && "$v" != "$FULL_VER" ]]; then
-        err "Version mismatch: $name is $v, release is $FULL_VER ($dir/$meta)"
+    if [[ "$v" != "$FULL_VER" ]]; then
+        err "Version mismatch: $name is ${v:-<none>}, release is $FULL_VER ($dir/$meta)"
         VERSION_MISMATCH=1
     fi
 done

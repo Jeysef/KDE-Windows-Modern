@@ -12,6 +12,7 @@
         ],
         "Id": "Windows-modern",
         "License": "Pexels License",
-        "Name": "Windows-modern"
+        "Name": "Windows-modern",
+        "Version": "1.1.0"
     }
 }
