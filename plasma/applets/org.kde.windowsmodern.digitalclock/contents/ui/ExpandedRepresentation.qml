@@ -13,6 +13,8 @@ import org.kde.plasma.plasmoid
 import org.kde.plasma.components as PlasmaComponents
 import org.kde.kirigami as Kirigami
 
+import "code/dateformat.js" as DateFormat
+
 Item {
     id: expandedRoot
 
@@ -97,8 +99,9 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 textFormat: Text.PlainText
-                // Windows 11 omits the year from the date line.
-                text: Qt.locale().toString(root.currentTime, "dddd, MMMM d")
+                // Windows 11 shows the locale's long date without the year.
+                text: Qt.locale().toString(root.currentTime,
+                                           DateFormat.longDateWithoutYear(Qt.locale().dateFormat(Locale.LongFormat)))
                 color: palette.textSecondary
                 font {
                     family: Kirigami.Theme.defaultFont.family
