@@ -75,6 +75,7 @@ install_everything() {
     # ── Phase C: apply once ──
     info "[3/3] Applying theme (${variant})..."
     post_kwin_borders
+    post_kwin_effects
     post_kwin_per_monitor_alt_tab
     post_kwin_alt_tab_switcher
     apply_lookandfeel "$theme" reset

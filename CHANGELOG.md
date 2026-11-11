@@ -33,6 +33,8 @@ the `Version` field shared by every component's metadata.
 
 ### Changed
 
+- "Everything" turns off KWin's Show Desktop effect that slides all windows
+  to the screen corners (Windows doesn't), unless you set it yourself.
 - Volume, brightness and keyboard-layout pop-ups appear bottom-centre just
   above the taskbar, as on Windows 11, instead of two-thirds down the
   screen (KWin script, installed with `./install.sh shortcuts`).

@@ -100,7 +100,8 @@ Not added, even on request, unless this brief changes:
 | Done | Windows 11 Alt+Tab switcher | `plasma/windowswitcher/`, selected by both global themes. |
 | Done | Windows shortcuts, cursor, everyday apps | `./install.sh shortcuts` / `apps`; Breeze Light cursor. Win+X (power-user menu) is not mapped. |
 | Done | OSD position, Cascadia Mono | KWin script for the OSD; Cascadia Mono via `./install.sh apps`. |
-| Next | Muscle-memory batch, rest | Selawik when Segoe UI is not installed; window animations. |
+| Done | Window animations | KDE's defaults match Windows 11; "Everything" only turns off the corner-sliding Show Desktop effect, unless the user set it. |
+| Next | Fonts without Segoe UI | Selawik (open, Segoe-metric) when Segoe UI is not installed. |
 | Done | Snap Layouts | Drag-to-top layout bar (`plasma/kwinscripts/org.kde.windowsmodern.snaplayouts`). The maximize-button hover flyout is not possible with an Aurorae decoration. |
 | Later | Prebuilt C++ plugins | So installing the tray and taskbar doesn't need a compiler. CI already builds them against Fedora. |
 
