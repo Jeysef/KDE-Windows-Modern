@@ -25,6 +25,10 @@ the `Version` field shared by every component's metadata.
 
 ### Changed
 
+- Dark theme: selected items in file lists and sidebars (Dolphin, System
+  Settings, file dialogs) are a light accent tint with white text, as in
+  Windows 11 Explorer, instead of a solid light-blue bar whose white text
+  was hard to read.
 - Keyboard layouts are labelled by language in the tray, as on Windows
   (`ENG`, `CES`, `DEU` instead of `us`, `cz`, `de`), from XKB's own data so
   every language works. `./install.sh layout` sets it; your own labels are

@@ -1282,24 +1282,24 @@
  <use id="common-focused-topright" transform="matrix(-1,0,0,1,530,1.9934e-5)" width="100%" height="100%" xlink:href="#common-focused-topleft"/>
  <use id="common-focused-bottomleft" transform="matrix(1 0 0 -1 -4.74e-7 1920)" width="100%" height="100%" xlink:href="#common-focused-topleft"/>
  <use id="common-focused-bottomright" transform="rotate(180 265 960)" width="100%" height="100%" xlink:href="#common-focused-topleft"/>
- <rect id="itemview-pressed-top" x="105.57" y="959.59" width="8" height="4" fill="#4CC2FF"/>
- <rect id="itemview-pressed-bottom" x="105.57" y="971.59" width="8" height="4" fill="#4CC2FF"/>
- <path id="itemview-pressed" d="m105.57 963.59h8v8h-8z" fill="#4CC2FF"/>
- <path id="itemview-pressed-topright" d="m113.57 959.59c4 0 4 4 4 4h-4z" fill="#4CC2FF"/>
- <path id="itemview-pressed-bottomright" d="m113.57 971.59h4s0 4-4 4z" fill="#4CC2FF"/>
- <rect id="itemview-pressed-right" x="113.57" y="963.59" width="4" height="8" fill="#4CC2FF"/>
- <rect id="itemview-pressed-left" x="101.57" y="963.59" width="4" height="8" fill="#4CC2FF"/>
- <path id="itemview-pressed-topleft" d="m105.57 959.59v4h-4s0-4 4-4z" fill="#4CC2FF"/>
- <path id="itemview-pressed-bottomleft" d="m101.57 971.59h4v4c-4 0-4-4-4-4z" fill="#4CC2FF"/>
- <rect id="itemview-toggled-top" x="124.57" y="959.59" width="8" height="4" fill="#4CC2FF" opacity=".9"/>
- <rect id="itemview-toggled-bottom" x="124.57" y="971.59" width="8" height="4" fill="#4CC2FF" opacity=".9"/>
- <path id="itemview-toggled" d="m124.57 963.59h8v8h-8z" fill="#4CC2FF" opacity=".9"/>
- <rect id="itemview-toggled-right" x="132.57" y="963.59" width="4" height="8" fill="#4CC2FF" opacity=".9"/>
- <path id="itemview-toggled-topright" d="m132.57 959.59c4 0 4 4 4 4h-4z" fill="#4CC2FF" opacity=".9"/>
- <path id="itemview-toggled-bottomright" d="m132.57 971.59h4s0 4-4 4z" fill="#4CC2FF" opacity=".9"/>
- <rect id="itemview-toggled-left" x="120.57" y="963.59" width="4" height="8" fill="#4CC2FF" opacity=".9"/>
- <path id="itemview-toggled-topleft" d="m124.57 959.59v4h-4s0-4 4-4z" fill="#4CC2FF" opacity=".9"/>
- <path id="itemview-toggled-bottomleft" d="m120.57 971.59h4v4c-4 0-4-4-4-4z" fill="#4CC2FF" opacity=".9"/>
+ <rect id="itemview-pressed-top" x="105.57" y="959.59" width="8" height="4" fill="#4CC2FF" opacity=".32"/>
+ <rect id="itemview-pressed-bottom" x="105.57" y="971.59" width="8" height="4" fill="#4CC2FF" opacity=".32"/>
+ <path id="itemview-pressed" d="m105.57 963.59h8v8h-8z" fill="#4CC2FF" opacity=".32"/>
+ <path id="itemview-pressed-topright" d="m113.57 959.59c4 0 4 4 4 4h-4z" fill="#4CC2FF" opacity=".32"/>
+ <path id="itemview-pressed-bottomright" d="m113.57 971.59h4s0 4-4 4z" fill="#4CC2FF" opacity=".32"/>
+ <rect id="itemview-pressed-right" x="113.57" y="963.59" width="4" height="8" fill="#4CC2FF" opacity=".32"/>
+ <rect id="itemview-pressed-left" x="101.57" y="963.59" width="4" height="8" fill="#4CC2FF" opacity=".32"/>
+ <path id="itemview-pressed-topleft" d="m105.57 959.59v4h-4s0-4 4-4z" fill="#4CC2FF" opacity=".32"/>
+ <path id="itemview-pressed-bottomleft" d="m101.57 971.59h4v4c-4 0-4-4-4-4z" fill="#4CC2FF" opacity=".32"/>
+ <rect id="itemview-toggled-top" x="124.57" y="959.59" width="8" height="4" fill="#4CC2FF" opacity=".24"/>
+ <rect id="itemview-toggled-bottom" x="124.57" y="971.59" width="8" height="4" fill="#4CC2FF" opacity=".24"/>
+ <path id="itemview-toggled" d="m124.57 963.59h8v8h-8z" fill="#4CC2FF" opacity=".24"/>
+ <rect id="itemview-toggled-right" x="132.57" y="963.59" width="4" height="8" fill="#4CC2FF" opacity=".24"/>
+ <path id="itemview-toggled-topright" d="m132.57 959.59c4 0 4 4 4 4h-4z" fill="#4CC2FF" opacity=".24"/>
+ <path id="itemview-toggled-bottomright" d="m132.57 971.59h4s0 4-4 4z" fill="#4CC2FF" opacity=".24"/>
+ <rect id="itemview-toggled-left" x="120.57" y="963.59" width="4" height="8" fill="#4CC2FF" opacity=".24"/>
+ <path id="itemview-toggled-topleft" d="m124.57 959.59v4h-4s0-4 4-4z" fill="#4CC2FF" opacity=".24"/>
+ <path id="itemview-toggled-bottomleft" d="m120.57 971.59h4v4c-4 0-4-4-4-4z" fill="#4CC2FF" opacity=".24"/>
  <rect id="itemview-focused-top" x="86.568" y="959.59" width="8" height="4" fill="#ffffff" opacity=".1"/>
  <rect id="itemview-focused-bottom" x="86.568" y="971.59" width="8" height="4" fill="#ffffff" opacity=".1"/>
  <path id="itemview-focused" d="m86.568 963.59h8v8h-8z" fill="#ffffff" opacity=".1"/>

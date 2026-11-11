@@ -476,6 +476,17 @@ proportions (`check_size=20`, `progressbar_thickness=10`,
 cleaner SVG element set (`flatbutton`, `tbutton`, proper inactive
 text colors, fuller frame definitions).
 
+#### List and file selection
+
+Windows 11 Explorer marks selected items with a light accent tint and
+keeps the normal text colour. The dark variant does the same: the
+`itemview-pressed` / `-toggled` elements are the accent at 32 % / 24 %
+over the background (a blue-grey), with white text. The light variant
+still uses the solid accent with white text: Dolphin draws a selected
+file's name in the palette's highlighted-text colour, which is also the
+colour of selected text in editors, so a light tint with dark text needs
+a palette-level change first.
+
 #### Compositing model
 
 Both variants use the **translucent model** — `composite=true`,
