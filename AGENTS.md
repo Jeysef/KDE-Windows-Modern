@@ -60,6 +60,14 @@ loads. Verify in the live session:
 - **`spectacle --output` rewrites the user's settings**: Spectacle stores
   every output path as its "last save location". Capture through
   `tests/e2e/session.py:screenshot`, which puts the old value back.
+- **Shortcuts registered at runtime don't fire until marked present**:
+  kglobalaccel's `setForeignShortcutKeys` stores keys for a new launcher
+  (`app.desktop` / `_launch`) but the key does nothing until next login.
+  Use `setShortcutKeys` with the SetPresent flag
+  (`scripts/windows-shortcuts.py`).
+- **dnf cancels a prepared system upgrade**: installing any package
+  invalidates a pending `dnf system-upgrade`. Only call
+  `install_packages` for packages that are really missing.
 - **Headless renders use the software scene graph**: shader effects
   (`MultiEffect`) draw nothing there. Render inside the Wayland session to
   see the GPU path, and give shader-only visuals a software fallback.

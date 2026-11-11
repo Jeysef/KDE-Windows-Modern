@@ -6,6 +6,23 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+### Added
+
+- `./install.sh shortcuts`: Windows keyboard shortcuts. Win+Up/Down
+  maximize, restore, minimize and snap to quarters as on Windows 11 (new
+  KWin script), Win+Tab opens Task View, Win+R Run, Win+A Quick Settings,
+  Win+N notifications, Win+M / Win+Home minimize all / others, Win+PrtSc
+  saves a full screenshot silently, Alt+PrtSc captures the active window.
+  Previous keys are backed up; `./uninstall.sh shortcuts` restores them.
+- `./install.sh apps`: Haruna (default video player), KWrite, Mission
+  Center (Flathub, per user) on Ctrl+Shift+Esc, and Snipping Tool
+  behaviour for Spectacle (capture on release, copy, save).
+- `./install.sh deps`: Kvantum, Flatpak and the C++ applets' build
+  dependencies, so "Everything" works on a fresh machine.
+- "Everything" now also installs dependencies, shortcuts and apps.
+- `tests/shortcuts/e2e.py` presses every new shortcut in the live session
+  and checks the result.
+
 ### Changed
 
 - Keyboard layouts are labelled by language in the tray, as on Windows
@@ -25,6 +42,9 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Dark theme: the mouse cursor theme it set did not exist, so the cursor
+  fell back (for GTK apps too). Both themes now use Breeze Light, the
+  white Windows-style arrow.
 - `./install.sh themes` run on its own now applies the dark Plasma theme;
   it asked for a theme named `Windows-modern`, which does not exist.
 - Clock: time and date now share the normal UI font size, as on Windows

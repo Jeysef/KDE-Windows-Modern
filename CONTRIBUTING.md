@@ -49,6 +49,7 @@ KWin (against a mock `org.kde.kwin`):
 tests/run-qml-tests.sh                       # every headless QML suite (tests/*/tst_*.qml)
 tests/windowswitcher/preview.sh dark 7 x.png # render a screenshot
 tests/panel/e2e.py --out shots/              # the panel in your running session
+tests/shortcuts/e2e.py --out shots/          # Windows shortcuts in your running session
 tests/windowswitcher/e2e.py --out shots/     # real Alt+Tab inside your running KWin
 tests/windowswitcher/e2e.py --scenario close-buttons --out shots/
 ```

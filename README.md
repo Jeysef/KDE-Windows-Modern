@@ -62,16 +62,28 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 
 ## Installation
 
-### Quick start
+### Quick start (also: setting up a new machine)
 
 ```bash
+git clone https://github.com/Jeysef/KDE-Windows-Modern && cd KDE-Windows-Modern
 ./install.sh
 ```
 
 Opens a menu (default choice = **Everything**). Pick **1** and you'll be
-asked only one question: **Light or Dark?** Everything else — themes,
-icons, applets, layout, KWin borders, per-monitor Alt+Tab, Application
-Style, wallpaper, panel layout reset — is applied automatically.
+asked only one question: **Light or Dark?** Everything else is set up
+for you, in this order:
+
+1. **Dependencies:** Kvantum, Flatpak, and the build tools for the two
+   C++ applets (only what's missing; one password prompt).
+2. **Look:** themes, icons, applets, layout, KWin borders, per-monitor
+   Alt+Tab, Application Style, wallpaper, panel layout reset.
+3. **Behaviour:** Windows keyboard shortcuts, and the everyday apps
+   (Haruna, KWrite, Mission Center) with Snipping Tool–style screenshots.
+
+On a fresh Plasma install this one run is all you need. Run it from
+your normal account (it asks for the password itself when needed) and
+inside a Plasma session, since shortcuts are applied to the running
+session.
 
 ### Install everything non-interactively
 
@@ -81,10 +93,11 @@ Style, wallpaper, panel layout reset — is applied automatically.
 ./install.sh all --light      # no prompts, Light
 ```
 
-`all` installs in three phases: **atomic pieces** (themes, icons,
-applets, session lock) → **compose** (layout template, look-and-feel)
-→ **apply once** (KWin tweaks, global theme with layout reset, Kvantum
-engine, single Plasma Shell restart).
+`all` installs in four phases: **atomic pieces** (dependencies, themes,
+icons, applets, session lock) → **compose** (layout template,
+look-and-feel) → **apply once** (KWin tweaks, global theme with layout
+reset, Kvantum engine, single Plasma Shell restart) → **behaviour**
+(shortcuts, apps).
 
 > `all` includes the session lock screen (Meta+L). The boot greeter is
 > **opt-in** (it replaces the system login manager) — use
@@ -108,6 +121,9 @@ needed (Plasma Shell restarts automatically where required).
 ./install.sh applets      # All five applets (single restart)
 ./install.sh sessionlock  # Session lock screen (Meta+L)
 ./install.sh alttab       # Windows 11-style Alt+Tab switcher
+./install.sh shortcuts    # Windows keyboard shortcuts (see below)
+./install.sh apps         # Haruna, KWrite, Mission Center, Snipping Tool behaviour
+./install.sh deps         # Dependencies only
 ./install.sh greeter      # Boot greeter (PLM build + system install)
 ```
 
@@ -125,6 +141,42 @@ That's it — global theme, colors, icons, Application Style (Kvantum),
 wallpaper, and panel layout are all applied for you.
 
 ---
+
+## Windows keyboard shortcuts
+
+`./install.sh shortcuts` makes the Windows keys do what your hands
+expect. KDE already matches Windows for Win+E, Win+I, Win+L, Win+D,
+Win+V, Win+., Win+P, Win+Shift+S, Win+Left/Right, Win+Ctrl+Left/Right,
+Win+Space and Win+1…9; these are changed:
+
+| Keys | Now does (as on Windows) | KDE's default was |
+|---|---|---|
+| Win+Up / Win+Down | Maximize · restore · minimize; on a snapped window, quarter snap | Snap to top/bottom half |
+| Win+Tab | Task View (Overview) | Cycle windows |
+| Win+R | Run (KRunner) | Record screen region |
+| Win+A / Win+N | Quick Settings / notifications | Next Activity / – |
+| Win+M · Win+Home | Minimize all (again: restore) · minimize all others | – |
+| Win+PrtSc · Alt+PrtSc | Save a full screenshot silently · capture the active window | Active window · – |
+| Ctrl+Shift+Esc | Mission Center (with `apps`) | System Monitor (if set) |
+
+Your previous keys are backed up to
+`~/.local/share/windows-modern/backup/` and `./uninstall.sh shortcuts`
+puts them back. Win+Up/Down come from a small KWin script
+(`plasma/kwinscripts/org.kde.windowsmodern.snapkeys`).
+
+## Apps
+
+`./install.sh apps` sets up the everyday tools a Windows user reaches for:
+
+| Windows | Here | Notes |
+|---|---|---|
+| Media Player | **Haruna** | Default for video files; Qt, so it follows the theme. |
+| Notepad | **KWrite** | Installed; your default text editor is left alone. |
+| Task Manager | **Mission Center** | From Flathub (per user), on Ctrl+Shift+Esc. GNOME-styled. |
+| Snipping Tool | **Spectacle** | PrtSc / Win+Shift+S: select a region; on release it is copied and saved to Pictures/Screenshots. |
+
+`./uninstall.sh apps` restores your previous defaults; the apps stay
+installed.
 
 ## Applets
 
@@ -393,6 +445,8 @@ Full instructions: [`app-decorations/firefox/README.md`](app-decorations/firefox
 ./uninstall.sh digitalclock  # Remove Digital Clock applet
 ./uninstall.sh sessionlock   # Restore Breeze lock screen (Meta+L)
 ./uninstall.sh alttab        # Restore KWin's default Alt+Tab switcher
+./uninstall.sh shortcuts     # Put your previous keyboard shortcuts back
+./uninstall.sh apps          # Restore previous app defaults (apps stay installed)
 ./uninstall.sh greeter       # Remove user greeter theme + revert patches
 ./uninstall.sh greetersystem # Restore system greeter binary (needs sudo)
 ```

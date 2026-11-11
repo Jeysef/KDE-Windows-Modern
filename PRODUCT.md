@@ -92,7 +92,8 @@ Not added, even on request, unless this brief changes:
 | Status | Item | Notes |
 |--------|------|-------|
 | Done | Windows 11 Alt+Tab switcher | `plasma/windowswitcher/`, selected by both global themes. |
-| Next | Muscle-memory batch | Windows shortcuts; a cursor theme that actually exists (the dark defaults point at a missing theme); Segoe UI when installed, Selawik otherwise; toast position and OSD; window animations. |
+| Done | Windows shortcuts, cursor, everyday apps | `./install.sh shortcuts` / `apps`; Breeze Light cursor. Win+X (power-user menu) is not mapped. |
+| Next | Muscle-memory batch, rest | Segoe UI when installed, Selawik otherwise; toast position and OSD; window animations. |
 | Next | Snap Layouts | Investigate first: a KWin script plus a Windows 11-style picker on top of KWin's built-in tiling. |
 | Later | Light lock and login screen | The lock screen is dark-only today. |
 | Later | Prebuilt C++ plugins | So installing the tray and taskbar doesn't need a compiler. CI already builds them against Fedora. |
