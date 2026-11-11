@@ -168,6 +168,19 @@ def tray_pages(p, c):
 
 # Windows 11 ends the tray with these, left to right, before the clock.
 TRAY_TAIL = ["Keyboard Layout", "Networks", "Audio Volume", "Power & Battery"]
+# Not Windows tray icons: they wait behind the chevron unless pinned.
+OVERFLOW_BY_DEFAULT = {"Clipboard": "org.kde.plasma.clipboard", "Bluetooth": "org.kde.plasma.bluetooth",
+                       "Brightness & Color": "org.kde.plasma.brightness", "KDE Connect": "org.kde.kdeconnect"}
+
+
+def pinned_tray_items():
+    """Item ids the user pinned ("Always shown") in any tray."""
+    rc = pathlib.Path.home() / ".config/plasma-org.kde.plasma.desktop-appletsrc"
+    ids = set()
+    for line in rc.read_text(errors="replace").splitlines() if rc.exists() else []:
+        if line.startswith("shownItems="):
+            ids.update(x for x in line.split("=", 1)[1].split(",") if x)
+    return ids
 
 
 def tray_order(p, c):
@@ -186,6 +199,9 @@ def tray_order(p, c):
     c.check(sorted(tail, key=xs.get) == tail, f"{' → '.join(tail)} in Windows order")
     others = [n for n, x in xs.items() if n not in TRAY_TAIL and tail and xs[tail[0]] < x < xs[tail[-1]]]
     c.check(not others, f"nothing sits between them (found {others})")
+    pinned = pinned_tray_items()
+    stray = [n for n, i in OVERFLOW_BY_DEFAULT.items() if n in xs and i not in pinned]
+    c.check(not stray, f"non-Windows icons wait behind the chevron unless pinned (in the row: {stray})")
     if tail and "Clock" in xs:
         between = [n for n, x in xs.items() if xs[tail[-1]] < x < xs["Clock"] and n != "Show hidden icons"]
         c.check(not between, f"only the chevron between {tail[-1]!r} and the clock (found {between})")

@@ -15,6 +15,11 @@ the `Version` field shared by every component's metadata.
 - System tray: the last icons before the clock are always input language,
   network, volume, battery, in that order, as on Windows 11. Other icons
   (apps, Bluetooth, clipboard...) come before them.
+- System tray: like Windows 11, only input language, network, volume,
+  battery, notifications and the camera-in-use indicator show by default.
+  Everything else (apps, Bluetooth, clipboard, brightness...) waits behind
+  the chevron until it needs attention or you pin it ("Always shown" in
+  the tray settings).
 
 ### Fixed
 

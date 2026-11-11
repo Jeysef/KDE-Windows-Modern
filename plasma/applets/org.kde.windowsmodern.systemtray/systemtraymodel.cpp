@@ -4,6 +4,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "systemtraymodel.h"
+#include "windowstray.h"
 #include "debug.h"
 #include "dbusproperties.h"
 #include "plasmoidregistry.h"
@@ -61,7 +62,16 @@ Plasma::Types::ItemStatus BaseModel::calculateEffectiveStatus(bool canRender, Pl
     bool isDisabledSni = m_settings->isDisabledStatusNotifier(itemId);
     if (!forcedShown && (status == Plasma::Types::ItemStatus::HiddenStatus || isDisabledSni))
         return Plasma::Types::ItemStatus::HiddenStatus;
-    else if (forcedShown || (!forcedHidden && status != Plasma::Types::ItemStatus::PassiveStatus))
+    // Windows 11: an unpinned icon shows only if it is one of the defaults,
+    // or while it needs attention (or has its popup open).
+    // (Unknown is what applets report when they never set a status.)
+    const bool needsUser = status == Plasma::Types::ItemStatus::NeedsAttentionStatus
+        || status == Plasma::Types::ItemStatus::RequiresAttentionStatus
+        || status == Plasma::Types::ItemStatus::AcceptingInputStatus;
+    const bool active = status == Plasma::Types::ItemStatus::ActiveStatus
+        || status == Plasma::Types::ItemStatus::UnknownStatus;
+    const bool wantsTray = needsUser || (active && WindowsTray::shownByDefault(itemId));
+    if (forcedShown || (!forcedHidden && wantsTray))
         return Plasma::Types::ItemStatus::ActiveStatus;
     else
         return Plasma::Types::ItemStatus::PassiveStatus;
