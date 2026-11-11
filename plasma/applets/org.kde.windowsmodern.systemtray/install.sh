@@ -92,9 +92,7 @@ do_deps() {
     fi
 
     info "Installing build dependencies:${MISSING}"
-    $PKEXEC sh -c "$PKG_CMD $MISSING"
-
-    if [ $? -ne 0 ]; then
+    if ! $PKEXEC sh -c "$PKG_CMD $MISSING"; then
         die "Failed to install dependencies. Check your connection and try again."
     fi
 
@@ -172,12 +170,10 @@ do_install() {
     info "Installing compiled plugin via pkexec..."
     info "  Plugin: $PLUGIN_INSTALL_DIR/$(basename "$PLUGIN_SO")"
 
-    # Write a temporary install script for pkexec
-    TMP_INSTALL=$(mktemp /tmp/windowsmodern-systray-install.XXXXXX)
-    chmod +x "$TMP_INSTALL"
-
-    cat > "$TMP_INSTALL" << SCRIPTEOF
-#!/bin/bash
+    # Run the privileged part from stdin (no temp file in /tmp that the user
+    # could modify while root executes it, and nothing left behind if pkexec
+    # is cancelled).
+    $PKEXEC bash -s << SCRIPTEOF
 set -e
 
 PLUGIN_SRC="$PLUGIN_SO"
@@ -196,9 +192,6 @@ rm -rf "\$KPACKAGE_DIR"
 
 echo "Installation complete."
 SCRIPTEOF
-
-    $PKEXEC bash "$TMP_INSTALL"
-    rm -f "$TMP_INSTALL"
 
     # Prune stale local copies that take precedence over the system plugin
     rm -rf "$HOME/.local/share/plasma/plasmoids/$APP_ID" 2>/dev/null || true
@@ -255,18 +248,13 @@ case "${1:-build-install}" in
     uninstall)
         detect_paths
         info "Uninstalling via pkexec..."
-        TMP_UNINSTALL=$(mktemp /tmp/windowsmodern-systray-uninstall.XXXXXX)
-        chmod +x "$TMP_UNINSTALL"
-        cat > "$TMP_UNINSTALL" << SCRIPTEOF
-#!/bin/bash
+        $PKEXEC bash -s << SCRIPTEOF
 set -e
 rm -f "$PLUGIN_INSTALL_DIR/$APP_ID.so"
 rm -rf "/usr/share/plasma/plasmoids/$APP_ID"
 rm -rf "$DATA_INSTALL_DIR/$APP_ID"
 echo "Uninstall complete."
 SCRIPTEOF
-        $PKEXEC bash "$TMP_UNINSTALL"
-        rm -f "$TMP_UNINSTALL"
         info "Uninstalled. Restart plasmashell to remove the applet."
         ;;
     *)
