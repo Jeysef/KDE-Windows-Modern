@@ -7,6 +7,7 @@
 #  In batch mode (WM_BATCH=1): installs files only — the parent 'all'
 #  driver performs the single apply at the end.
 # ───────────────────────────────────────────────────────────────────
+# shellcheck source=scripts/install-lib.sh
 source "$(dirname "$0")/install-lib.sh"
 
 info "Installing global themes (look-and-feel)..."

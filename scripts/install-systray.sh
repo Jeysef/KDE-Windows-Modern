@@ -2,6 +2,7 @@
 # ───────────────────────────────────────────────────────────────────
 #  install-systray.sh — System Tray (C++ Plasma::Containment)
 # ───────────────────────────────────────────────────────────────────
+# shellcheck source=scripts/install-lib.sh
 source "$(dirname "$0")/install-lib.sh"
 
 dir="$SRC_DIR/plasma/applets/org.kde.windowsmodern.systemtray"

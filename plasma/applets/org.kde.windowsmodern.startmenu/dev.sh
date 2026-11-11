@@ -21,7 +21,7 @@ err()   { echo -e "${RED}==>${RESET} $*"; }
 # ── Install ───────────────────────────────────────────────────────
 info "Installing $APP_ID..."
 mkdir -p "$APPLETS_DIR"
-rm -rf "$APPLETS_DIR/$APP_ID"
+rm -rf "${APPLETS_DIR:?}/${APP_ID:?}"
 cp -r "$SRC_DIR" "$APPLETS_DIR/"
 info "Installed."
 

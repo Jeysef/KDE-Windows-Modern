@@ -2,6 +2,7 @@
 # ───────────────────────────────────────────────────────────────────
 #  install-startmenu.sh — Start Menu applet (pure QML)
 # ───────────────────────────────────────────────────────────────────
+# shellcheck source=scripts/install-lib.sh
 source "$(dirname "$0")/install-lib.sh"
 
 src="$SRC_DIR/plasma/applets/org.kde.windowsmodern.startmenu"

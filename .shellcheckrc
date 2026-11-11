@@ -1,0 +1,5 @@
+# shellcheck configuration — run: shellcheck -x $(git ls-files '*.sh')
+# `# shellcheck source=` directives are relative to the repository root.
+source-path=SCRIPTDIR/..
+source-path=.
+external-sources=true

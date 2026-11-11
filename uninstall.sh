@@ -8,6 +8,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# shellcheck source=scripts/install-lib.sh
 source "$SCRIPT_DIR/scripts/install-lib.sh"
 
 # Remove one or more paths. User-local paths are deleted directly; system
@@ -179,6 +180,7 @@ uninstall_component() {
             PLM_DIR="$SRC_DIR/third_party/plasma-login-manager"
             PATCH_DIR="$SRC_DIR/plasma/look-and-feel/org.kde.windowsmodern.dark/patches"
             if [ -d "${PLM_DIR}" ]; then
+                # shellcheck disable=SC2043  # one patch today; the list may grow
                 for p in main-cpp.patch; do
                     if [ -f "${PATCH_DIR}/${p}" ]; then
                         patch -d "${PLM_DIR}" -p1 -R --dry-run -s -f < "${PATCH_DIR}/${p}" 2>/dev/null \

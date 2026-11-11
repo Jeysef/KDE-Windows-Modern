@@ -1,4 +1,7 @@
 #!/bin/bash
+# This is a library: its colors and *_DIR paths are used by the scripts that
+# source it, so "assigned but unused" does not apply.
+# shellcheck disable=SC2034
 # ───────────────────────────────────────────────────────────────────
 #  Shared library — sourced by all install-*.sh scripts
 #

@@ -2,6 +2,7 @@
 # ───────────────────────────────────────────────────────────────────
 #  install-icons.sh — Windows Modern icon pack
 # ───────────────────────────────────────────────────────────────────
+# shellcheck source=scripts/install-lib.sh
 source "$(dirname "$0")/install-lib.sh"
 
 THEME_NAME="windows-modern"

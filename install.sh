@@ -14,6 +14,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# shellcheck source=scripts/install-lib.sh
 source "$SCRIPT_DIR/scripts/install-lib.sh"
 
 # ── Install component by name (non-fatal on failure) ────────────────

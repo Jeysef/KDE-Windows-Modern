@@ -5,6 +5,7 @@ icons-old/
 icons_v2/
 untracked/
 /~/
+/CMakeFiles/
 plasma/applets/org.kde.windowsmodern.systemtray/build/
 /plasma/applets/org.kde.windowsmodern.systemtray/CMakeFiles/
 plasma/applets/org.kde.windowsmodern.icontasks/build/

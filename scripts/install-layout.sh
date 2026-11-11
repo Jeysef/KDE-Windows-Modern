@@ -2,6 +2,7 @@
 # ───────────────────────────────────────────────────────────────────
 #  install-layout.sh — Panel layout template
 # ───────────────────────────────────────────────────────────────────
+# shellcheck source=scripts/install-lib.sh
 source "$(dirname "$0")/install-lib.sh"
 
 src="$SRC_DIR/plasma/layout-templates/org.kde.windowsmodern.panel"

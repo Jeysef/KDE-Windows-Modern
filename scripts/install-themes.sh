@@ -2,6 +2,7 @@
 # ───────────────────────────────────────────────────────────────────
 #  install-themes.sh — Aurorae, color-schemes, Kvantum, Plasma, wallpapers
 # ───────────────────────────────────────────────────────────────────
+# shellcheck source=scripts/install-lib.sh
 source "$(dirname "$0")/install-lib.sh"
 
 info "Installing themes..."
