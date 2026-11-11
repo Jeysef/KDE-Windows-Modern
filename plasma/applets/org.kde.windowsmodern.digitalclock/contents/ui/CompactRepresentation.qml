@@ -33,7 +33,12 @@ MouseArea {
     readonly property real padding: Plasmoid.configuration.compactPadding
     readonly property real maxContentHeight: Math.max(1, panelHeight * (1 - 2 * padding))
 
-    implicitWidth: contentLayout.implicitWidth + Kirigami.Units.largeSpacing
+    // Reserve the full text width plus breathing room on both sides, and tell the
+    // panel about it explicitly; otherwise long times/dates are clipped and the
+    // clock crowds the system tray.
+    implicitWidth: contentLayout.implicitWidth + Kirigami.Units.largeSpacing * 2
+    Layout.minimumWidth: implicitWidth
+    Layout.preferredWidth: implicitWidth
     implicitHeight: panelHeight
 
     // Font configured by the user or theme defaults.
@@ -125,7 +130,7 @@ MouseArea {
     ColumnLayout {
         id: contentLayout
         anchors.centerIn: parent
-        width: parent.width
+        width: implicitWidth
         height: main.maxContentHeight
         spacing: Kirigami.Units.smallSpacing / 2
 
