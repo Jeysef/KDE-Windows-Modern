@@ -165,6 +165,14 @@ uninstall_component() {
             command -v kbuildsycoca6 &>/dev/null && kbuildsycoca6 2>/dev/null || true
             rm -rf ~/.cache/qmlcache ~/.cache/QtProject/qmlcache 2>/dev/null || true
             info "Session lock screen uninstalled. Breeze restored for Meta+L."
+            # install-sessionlock.sh keeps up to two backups of the overlay it
+            # replaced. They are never deleted automatically: the oldest may be
+            # a custom overlay that existed before Windows Modern.
+            local shells_dir="$HOME/.local/share/plasma/shells"
+            if compgen -G "$shells_dir/org.kde.plasma.desktop.bak.*" >/dev/null; then
+                step "Previous overlay backups kept in $shells_dir (org.kde.plasma.desktop.bak.*)."
+                step "Delete them if you don't need them, or rename one back to restore it."
+            fi
             ;;
         greeter)
             # Revert any applied PLM patches and remove the user-level theme.
