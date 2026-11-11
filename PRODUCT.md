@@ -86,6 +86,8 @@ Not added, even on request, unless this brief changes:
 - **Window decoration:** the Aurorae decoration is a deliberate blend of
   Windows 11 and Windows 10 with **sharp corners**. Rounded corners and
   window shadows were considered and not wanted.
+- **Lock and login screens look the same in light and dark mode,** as on
+  Windows (white text over the wallpaper); there is no light variant.
 - **Start menu:** feature-complete as far as the product is concerned.
   Changes are bug fixes and polish only. The Phase 2 ideas in
   `docs/STARTMENU_PLAN.md` (folders, launch tracking, command palette) are
@@ -99,8 +101,7 @@ Not added, even on request, unless this brief changes:
 | Done | Windows shortcuts, cursor, everyday apps | `./install.sh shortcuts` / `apps`; Breeze Light cursor. Win+X (power-user menu) is not mapped. |
 | Done | OSD position, Cascadia Mono | KWin script for the OSD; Cascadia Mono via `./install.sh apps`. |
 | Next | Muscle-memory batch, rest | Selawik when Segoe UI is not installed; window animations. |
-| Next | Snap Layouts | Investigate first: a KWin script plus a Windows 11-style picker on top of KWin's built-in tiling. |
-| Later | Light lock and login screen | The lock screen is dark-only today. |
+| Done | Snap Layouts | Drag-to-top layout bar (`plasma/kwinscripts/org.kde.windowsmodern.snaplayouts`). The maximize-button hover flyout is not possible with an Aurorae decoration. |
 | Later | Prebuilt C++ plugins | So installing the tray and taskbar doesn't need a compiler. CI already builds them against Fedora. |
 
 ## How to judge a new idea

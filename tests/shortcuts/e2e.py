@@ -23,13 +23,9 @@ scenario is retried once. Nothing is clicked.
 Usage: tests/shortcuts/e2e.py [--out DIR] [SCENARIO ...]   (default: all)
 """
 import argparse
-import json
-import os
 import pathlib
 import subprocess
 import sys
-import tempfile
-import threading
 import time
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
@@ -38,57 +34,10 @@ from evdev import ecodes as e  # noqa: E402
 
 from e2e import a11y  # noqa: E402
 from e2e.session import Checks, kwin_call, screenshot  # noqa: E402
+from e2e.testwindow import TestWindow  # noqa: E402
 from e2e.vinput import VirtualInput  # noqa: E402
 
-QML_TOOL = next((t for t in ("/usr/lib64/qt6/bin/qml", "/usr/lib/qt6/bin/qml") if pathlib.Path(t).exists()), "qml")
 SCREENSHOTS = pathlib.Path.home() / "Pictures/Screenshots"
-
-TEST_WINDOW_QML = """
-import QtQuick
-import QtQuick.Window
-Window {
-    id: w
-    title: "WM-SHORTCUTS-E2E"
-    width: 640; height: 400; visible: true
-    color: "#2d5f8a"
-    Text { anchors.centerIn: parent; text: "Windows Modern shortcut test"; color: "white"; font.pixelSize: 24 }
-    function report() { console.warn("WM-STATE " + JSON.stringify({ w: width, h: height, active: active })) }
-    onWidthChanged: report()
-    onHeightChanged: report()
-    onActiveChanged: report()
-    Component.onCompleted: report()
-}
-"""
-
-
-class TestWindow:
-    """A window that prints its size and focus; .state is the latest."""
-
-    def __init__(self):
-        path = pathlib.Path(tempfile.mkdtemp()) / "TestWindow.qml"
-        path.write_text(TEST_WINDOW_QML)
-        self.proc = subprocess.Popen([QML_TOOL, str(path)], stderr=subprocess.PIPE, text=True,
-                                     env={**os.environ, "QT_FORCE_STDERR_LOGGING": "1"})
-        self.state = {}
-        threading.Thread(target=self._read, daemon=True).start()
-
-    def _read(self):
-        for line in self.proc.stderr:
-            if "WM-STATE " in line:
-                self.state = json.loads(line.split("WM-STATE ", 1)[1])
-
-    def wait(self, predicate, timeout=3.0):
-        end = time.time() + timeout
-        while time.time() < end:
-            if self.state and predicate(self.state):
-                return True
-            time.sleep(0.1)
-        return False
-
-    def close(self):
-        self.proc.terminate()
-        self.proc.wait(timeout=5)
-
 
 def press(vi, *codes):
     """A key combination: press in order, release in reverse."""

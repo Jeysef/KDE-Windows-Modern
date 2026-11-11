@@ -159,8 +159,10 @@ Win+Space and Win+1…9; these are changed:
 | Win+PrtSc · Alt+PrtSc | Save a full screenshot silently · capture the active window | Active window · – |
 | Ctrl+Shift+Esc | Mission Center (with `apps`) | System Monitor (if set) |
 
-The same component moves the volume/brightness pop-up to just above the
-taskbar, where Windows 11 shows it.
+The same component adds **Snap Layouts**: drag a window towards the top
+edge and a bar of layouts (halves, thirds, quarters…) appears at the top
+centre; drop the window on a cell to snap it there. It also moves the
+volume/brightness pop-up to just above the taskbar, where Windows 11 shows it.
 
 Your previous keys are backed up to
 `~/.local/share/windows-modern/backup/` and `./uninstall.sh shortcuts`

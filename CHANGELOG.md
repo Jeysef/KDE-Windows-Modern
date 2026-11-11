@@ -8,6 +8,11 @@ the `Version` field shared by every component's metadata.
 
 ### Added
 
+- Snap Layouts, as in Windows 11: drag a window towards the top edge, and
+  a bar with six layouts (50/50, 66/33, thirds, half + quarters, four
+  quarters, 25/50/25) appears at the top centre; hovering a cell outlines
+  the target area, dropping snaps the window there (KWin script, with
+  `./install.sh shortcuts`).
 - `./install.sh shortcuts`: Windows keyboard shortcuts. Win+Up/Down
   maximize, restore, minimize and snap to quarters as on Windows 11 (new
   KWin script), Win+Tab opens Task View, Win+R Run, Win+A Quick Settings,

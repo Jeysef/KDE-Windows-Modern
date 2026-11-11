@@ -1,0 +1,23 @@
+{
+    "KPackageStructure": "KWin/Script",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "jeysef@users.noreply.github.com",
+                "Name": "Jeysef"
+            }
+        ],
+        "BugReportUrl": "https://github.com/Jeysef/KDE-Windows-Modern/issues",
+        "Category": "Window Management",
+        "Description": "Windows 11 Snap Layouts: drag a window to the top edge and drop it on a layout cell.",
+        "EnabledByDefault": false,
+        "Icon": "view-split-left-right",
+        "Id": "org.kde.windowsmodern.snaplayouts",
+        "License": "GPL-3.0-or-later",
+        "Name": "Windows Modern: Snap Layouts",
+        "Version": "1.0.0",
+        "Website": "https://github.com/Jeysef/KDE-Windows-Modern"
+    },
+    "X-Plasma-API": "declarativescript",
+    "X-Plasma-MainScript": "ui/main.qml"
+}

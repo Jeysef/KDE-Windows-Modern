@@ -74,6 +74,13 @@ loads. Verify in the live session:
 - **Dolphin rewrites its toolbar file** (`dolphinui.rc`) and drops
   comments, so a marker comment cannot prove the file is ours. Record
   ownership in `~/.local/share/windows-modern/backup/`.
+- **A plain QtQuick `Window` in a KWin script breaks scripting**: it never
+  shows, and other scripts loaded afterwards silently do nothing. Use
+  `PlasmaCore.Window` (it always draws the theme's popup frame: don't add
+  a second one).
+- **Removing a KWin script's package does not unload it**: call
+  `org.kde.kwin.Scripting.unloadScript` too, or old and new copies run
+  side by side. While iterating on QML scripts, install under fresh ids.
 - **Headless renders use the software scene graph**: shader effects
   (`MultiEffect`) draw nothing there. Render inside the Wayland session to
   see the GPU path, and give shader-only visuals a software fallback.
