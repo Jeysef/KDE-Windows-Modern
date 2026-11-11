@@ -12,6 +12,8 @@ the `Version` field shared by every component's metadata.
   (`ENG`, `CES`, `DEU` instead of `us`, `cz`, `de`), from XKB's own data so
   every language works. `./install.sh layout` sets it; your own labels are
   kept, and two layouts of one language keep their codes.
+  The label uses the clock's text size (the stock widget scaled it to
+  the icon cell, larger than the clock on a 48 px panel).
 - System tray: the last icons before the clock are always input language,
   network, volume, battery, in that order, as on Windows 11. Other icons
   (apps, Bluetooth, clipboard...) come before them.

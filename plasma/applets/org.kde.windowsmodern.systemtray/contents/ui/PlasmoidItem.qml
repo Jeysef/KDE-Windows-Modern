@@ -128,6 +128,7 @@ AbstractItem {
 
             preloadFullRepresentationItem(applet.fullRepresentationItem)
         }
+        Qt.callLater(fitLanguageLabel)
     }
 
     Connections {
@@ -173,6 +174,48 @@ AbstractItem {
             if (expanded) {
                 plasmoidContainer.effectivePressed = false;
             }
+        }
+    }
+
+    // Windows draws the input language ("ENG") at the clock's text size. The
+    // stock keyboard-layout widget fits its label to the whole icon cell,
+    // which on a tall panel makes it larger than the clock. Give that label
+    // the normal UI font size instead. If a future Plasma changes the
+    // widget's label, nothing is found and the stock size stays.
+    function findFitLabel(item: Item): Item {
+        if (!item) {
+            return null;
+        }
+        if (item.fontSizeMode === Text.Fit && item.text !== undefined) {
+            return item;
+        }
+        for (let i = 0; i < item.children.length; ++i) {
+            const found = findFitLabel(item.children[i]);
+            if (found) {
+                return found;
+            }
+        }
+        return null;
+    }
+    function fitLanguageLabel(): void {
+        if (itemId !== "org.kde.plasma.keyboardlayout") {
+            return;
+        }
+        // The widget shows its full representation in the panel directly.
+        const label = findFitLabel(applet?.compactRepresentationItem ?? applet?.fullRepresentationItem ?? null);
+        if (label) {
+            label.fontSizeMode = Text.FixedSize;
+            label.font.pointSize = Qt.binding(() => Kirigami.Theme.defaultFont.pointSize);
+        }
+    }
+    Component.onCompleted: Qt.callLater(fitLanguageLabel)
+    Connections {
+        target: plasmoidContainer.applet
+        function onCompactRepresentationItemChanged() {
+            Qt.callLater(plasmoidContainer.fitLanguageLabel);
+        }
+        function onFullRepresentationItemChanged() {
+            Qt.callLater(plasmoidContainer.fitLanguageLabel);
         }
     }
 
