@@ -1,3 +1,13 @@
 # Treat the icon pack as binary-ish: do not produce text diffs.
 # This keeps `git diff` and status operations fast.
 icons/** -diff
+
+# Left out of `git archive` (the GitHub release bundle built by
+# scripts/package.sh): README screenshots and maintainer-only material.
+/View-*.png export-ignore
+/plans export-ignore
+/.github export-ignore
+/scripts/release.sh export-ignore
+/scripts/commit-icons.sh export-ignore
+/scripts/capture-screenshots.sh export-ignore
+/scripts/update-previews.sh export-ignore

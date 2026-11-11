@@ -7,13 +7,17 @@
 #    ./scripts/package.sh <name>...   # build specific components
 #    ./scripts/package.sh --list      # list available components
 #
-#  Output: dist/<Component>-<Version>.zip
+#  Output: dist/WindowsModern-<component>-<version>.zip  (KDE Store items)
+#          dist/KDE-Windows-Modern-<version>.zip         (full GitHub bundle)
+#          dist/.manifest  — exact list of artifacts built by this run;
+#                            scripts/release.sh uploads only these.
 # ───────────────────────────────────────────────────────────────────
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SRC_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 DIST_DIR="$SRC_DIR/dist"
+MANIFEST="$DIST_DIR/.manifest"
 
 BOLD="\033[1m"; GREEN="\033[32m"; YELLOW="\033[33m"; RED="\033[31m"; CYAN="\033[36m"; RESET="\033[0m"
 info()  { echo -e "${GREEN}==>${RESET} ${BOLD}$*${RESET}"; }
@@ -35,6 +39,11 @@ get_version() {
 # ── Component registry ─────────────────────────────────────────────
 # name|source-dir|metadata-file|kde-store-category
 # (category blank = GitHub-only)
+#
+# The C++ applets (systemtray, icontasks) are deliberately absent: they are
+# compiled .so plugins, and installing them as a KPackage from the store
+# produces the broken "dark rectangle" applet. They ship only in the full
+# GitHub bundle, built on the user's machine by install.sh.
 COMPONENTS=(
     "color-schemes|$SRC_DIR/color-schemes|colorschemes|Color Schemes"
     "icons|$SRC_DIR/icons/windows-modern|index.theme|Icons"
@@ -45,7 +54,6 @@ COMPONENTS=(
     "wallpaper|$SRC_DIR/wallpaper/Windows-modern|metadata.json|Wallpapers"
     "applet-showdesktop|$SRC_DIR/plasma/applets/org.kde.windowsmodern.showdesktop|metadata.json|Plasma 6 Applets"
     "applet-startmenu|$SRC_DIR/plasma/applets/org.kde.windowsmodern.startmenu|metadata.json|Plasma 6 Applets"
-    "applet-icontasks|$SRC_DIR/plasma/applets/org.kde.windowsmodern.icontasks|metadata.json|Plasma 6 Applets"
     "applet-digitalclock|$SRC_DIR/plasma/applets/org.kde.windowsmodern.digitalclock|metadata.json|Plasma 6 Applets"
     "layout-panel|$SRC_DIR/plasma/layout-templates/org.kde.windowsmodern.panel|metadata.json|Plasma 6 Layout Templates"
     "lookfeel-dark|$SRC_DIR/plasma/look-and-feel/org.kde.windowsmodern.dark|metadata.json|Global Themes (Plasma 6)"
@@ -86,20 +94,24 @@ build_one() {
     local outpath="$DIST_DIR/$outname"
 
     rm -f "$outpath"
-    (cd "$(dirname "$dir")" && zip -qr "$outpath" "$(basename "$dir")")
+    (cd "$(dirname "$dir")" && zip -qr "$outpath" "$(basename "$dir")" \
+        -x '*/build/*' '*/build-*/*' '*/CMakeFiles/*' '*/dev.sh' '*/BUILD.md' '*.orig' '*.rej')
     step "built $outname  <-  $(basename "$dir")"
-    echo "$outpath"
+    echo "$outpath" >> "$MANIFEST"
 }
 
 # ── Main ────────────────────────────────────────────────────────────
-mkdir -p "$DIST_DIR"
-
 if [[ "${1:-}" == "--list" ]]; then
     list_components
     exit 0
 fi
 
+mkdir -p "$DIST_DIR"
+: > "$MANIFEST"
+
+FULL_BUILD=1
 if [[ $# -gt 0 ]]; then
+    FULL_BUILD=0
     info "Building selected components..."
     for want in "$@"; do
         found=""
@@ -120,18 +132,56 @@ else
     done
 fi
 
-# GitHub release bundle: full theme tree minus dev/build cruft.
+# ── GitHub release bundle ──────────────────────────────────────────
+# Built with `git archive` so the bundle contains exactly the committed
+# tree — never untracked local files or build directories. Paths marked
+# export-ignore in .gitattributes (screenshots, plans) are left out.
 info "Building full GitHub release bundle..."
 FULL_VER="$(get_version "$SRC_DIR/plasma/look-and-feel/org.kde.windowsmodern.dark/metadata.json")"
 [[ -z "$FULL_VER" ]] && FULL_VER="1.0.0"
 FULL_OUT="$DIST_DIR/KDE-Windows-Modern-${FULL_VER}.zip"
+if [[ -n "$(git -C "$SRC_DIR" status --porcelain --untracked-files=no)" ]]; then
+    warn "Working tree has uncommitted changes — the full bundle is built from HEAD and will not include them."
+fi
 rm -f "$FULL_OUT"
-(cd "$SRC_DIR" && zip -qr "$FULL_OUT" \
-    aurorae color-schemes icons Kvantum plasma wallpaper \
-    install.sh uninstall.sh verify-all.sh README.md LICENSE AUTHORS ATTRIBUTION.md \
-    -x '*/build/*' '*/CMakeFiles/*' '*/.git/*')
-step "built KDE-Windows-Modern-${FULL_VER}.zip  (full bundle)"
+git -C "$SRC_DIR" archive --format=zip --prefix="KDE-Windows-Modern-${FULL_VER}/" \
+    -o "$FULL_OUT" HEAD
+echo "$FULL_OUT" >> "$MANIFEST"
+step "built KDE-Windows-Modern-${FULL_VER}.zip  (full bundle from $(git -C "$SRC_DIR" rev-parse --short HEAD))"
+
+# ── Prune stale artifacts ──────────────────────────────────────────
+# Anything in dist/ a full run did not build (renamed/removed components,
+# older versions) must not be published under a new tag. Partial runs
+# leave other artifacts alone.
+if [[ "$FULL_BUILD" -eq 1 ]]; then
+    for stale in "$DIST_DIR"/*.zip; do
+        [[ -e "$stale" ]] || continue
+        if ! grep -qxF "$stale" "$MANIFEST"; then
+            warn "Removing stale artifact: $(basename "$stale")"
+            rm -f "$stale"
+        fi
+    done
+fi
+
+# ── Version consistency ────────────────────────────────────────────
+# The release tag comes from the dark look-and-feel metadata; every
+# component shipped under that tag must carry the same version.
+VERSION_MISMATCH=0
+for c in "${COMPONENTS[@]}"; do
+    IFS='|' read -r name dir meta _ <<< "$c"
+    [[ "$meta" == "index.theme" || "$meta" == "colorschemes" ]] && continue
+    [[ -f "$dir/$meta" ]] || continue
+    v="$(get_version "$dir/$meta")"
+    if [[ -n "$v" && "$v" != "$FULL_VER" ]]; then
+        err "Version mismatch: $name is $v, release is $FULL_VER ($dir/$meta)"
+        VERSION_MISMATCH=1
+    fi
+done
+if [[ "$VERSION_MISMATCH" -ne 0 ]]; then
+    err "Bump the component metadata (or the look-and-feel Version) so they agree, then re-run."
+    exit 1
+fi
 
 echo ""
 info "Done. Artifacts in ${DIST_DIR}:"
-ls -1 "$DIST_DIR" | sed 's/^/    /'
+sed "s|^$DIST_DIR/|    |" "$MANIFEST"

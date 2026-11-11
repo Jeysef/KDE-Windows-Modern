@@ -19,8 +19,9 @@ Everything below marked **[manual]** must be done by a human.
 
 Before tagging, confirm:
 
-- `./verify-all.sh` passes.
-- All `metadata.json` / `metadata.desktop` share the same `Version`.
+- `./verify-all.sh` passes (it is also enforced by `release.sh`).
+- All `metadata.json` / `metadata.desktop` share the same `Version`
+  (`package.sh` refuses to build if any component disagrees).
 - `Website` / `BugReportUrl` point at `https://github.com/Jeysef/KDE-Windows-Modern`.
 - Screenshots are up to date (run `./scripts/capture-screenshots.sh` if not).
 - Working tree is clean on `main`.
@@ -47,7 +48,7 @@ gh repo create Jeysef/KDE-Windows-Modern --public --source=. --remote=origin --p
 # Commit all changes first, then:
 ./scripts/release.sh             # auto-detects version from metadata
 # or
-./scripts/release.sh 1.0.0       # explicit version
+./scripts/release.sh 1.0.0       # explicit version (must match the metadata)
 
 # To verify packaging without tagging/pushing:
 ./scripts/release.sh --dry-run
@@ -55,9 +56,13 @@ gh repo create Jeysef/KDE-Windows-Modern --public --source=. --remote=origin --p
 
 `release.sh` will:
 1. Verify a clean `main` and run `verify-all.sh`.
-2. Build all artifacts into `dist/` via `package.sh`.
+2. Build all artifacts into `dist/` via `package.sh`. The full bundle is made
+   with `git archive`, so it contains exactly the committed tree (minus the
+   `export-ignore` paths in `.gitattributes`). Stale zips from earlier runs are
+   pruned, and every component version is checked against the release version.
 3. Create an annotated tag `v<version>` and push it.
-4. Create a GitHub release and upload every `dist/*.zip`.
+4. Create a GitHub release and upload exactly the artifacts listed in
+   `dist/.manifest` (the ones built in step 2).
 
 ---
 
@@ -89,9 +94,8 @@ wired up later (see step 3c).
 | 7 | Windows Modern — Wallpaper | Wallpapers | `WindowsModern-wallpaper-*.zip` |
 | 8 | Windows Modern — Show Desktop applet | Plasma 6 Applets | `WindowsModern-applet-showdesktop-*.zip` |
 | 9 | Windows Modern — Start Menu applet | Plasma 6 Applets | `WindowsModern-applet-startmenu-*.zip` |
-| 10 | Windows Modern — Icon Tasks applet | Plasma 6 Applets | `WindowsModern-applet-icontasks-*.zip` |
-| 11 | Windows Modern — Digital Clock applet | Plasma 6 Applets | `WindowsModern-applet-digitalclock-*.zip` |
-| 12 | Windows Modern — Panel Layout | Plasma 6 Layout Templates | `WindowsModern-layout-panel-*.zip` |
+| 10 | Windows Modern — Digital Clock applet | Plasma 6 Applets | `WindowsModern-applet-digitalclock-*.zip` |
+| 11 | Windows Modern — Panel Layout | Plasma 6 Layout Templates | `WindowsModern-layout-panel-*.zip` |
 | 12 | Windows Modern — Global Theme Dark | Global Themes (Plasma 6) | `WindowsModern-lookfeel-dark-*.zip` |
 | 13 | Windows Modern — Global Theme Light | Global Themes (Plasma 6) | `WindowsModern-lookfeel-light-*.zip` |
 
@@ -109,12 +113,13 @@ wired up later (see step 3c).
 
 ### 3c. Wire up Global Theme dependencies **[manual]**
 
-The Global Themes (items 13–14) can auto-install their color scheme, Plasma
+The Global Themes (items 12–13) can auto-install their color scheme, Plasma
 theme, Aurorae, and icon dependencies via `X-KPackage-Dependencies`.
 These dependency lines were **emptied** for the initial release because the
 new KDE Store product IDs were not yet known.
 
-After publishing products 1–6 and 11, collect their product IDs and rebuild the
+After publishing products 1–6 (color schemes, icons, Aurorae, Plasma themes),
+collect their product IDs and rebuild the
 dependency entries in:
 
 ```
@@ -141,7 +146,7 @@ Format (one per dependency, example):
 X-KPackage-Dependencies=kns://colorschemes.knsrc/api.kde-look.org/<NEW_ID>,kns://plasma-themes.knsrc/api.kde-look.org/<NEW_ID>,...
 ```
 
-Then re-package and re-upload the Global Themes (items 13–14) with the updated
+Then re-package and re-upload the Global Themes (items 12–13) with the updated
 dependencies, and bump the version (e.g. `1.0.1`).
 
 ### 3d. Components NOT published to the KDE Store
@@ -150,8 +155,11 @@ dependencies, and bump the version (e.g. `1.0.1`).
 |-----------|--------|--------------|
 | **Kvantum** (`Kvantum/`) | 3rd-party engine, no KDE Store category. | GitHub release bundle only. |
 | **C++ System Tray** (`plasma/applets/org.kde.windowsmodern.systemtray`) | Compiled `.so` plugin, not an installable KPackage. | GitHub release bundle only. See `BUILD.md`. |
+| **C++ Icon Tasks** (`plasma/applets/org.kde.windowsmodern.icontasks`) | Compiled `.so` plugin; installing it as a KPackage produces a broken applet. | GitHub release bundle only. See `BUILD.md`. |
 
-Optional future: package the System Tray as distro packages (COPR for Fedora,
+`scripts/package.sh` deliberately has no registry entry for either C++ applet.
+
+Optional future: package the C++ applets as distro packages (COPR for Fedora,
 AUR for Arch).
 
 ---
