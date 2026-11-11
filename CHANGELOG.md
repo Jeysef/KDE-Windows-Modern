@@ -17,7 +17,9 @@ the `Version` field shared by every component's metadata.
 - `./install.sh apps`: Haruna (default video player), KWrite, Mission
   Center (Flathub, per user) on Ctrl+Shift+Esc, and Snipping Tool
   behaviour for Spectacle (capture on release, copy, save), and an Up
-  button in Dolphin's toolbar as in File Explorer.
+  button in Dolphin's toolbar as in File Explorer, and Cascadia Mono
+  (Windows 11's monospace font) as the fixed-width font unless you chose
+  your own.
 - `./install.sh deps`: Kvantum, Flatpak and the C++ applets' build
   dependencies, so "Everything" works on a fresh machine.
 - "Everything" now also installs dependencies, shortcuts and apps.
@@ -52,6 +54,9 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Installer conditions written as `cmd | grep -q` could come out false
+  under `pipefail` when `cmd` printed a lot (`commit-icons.sh` skipped
+  re-enabling tracking of the icon pack); all now read the output first.
 - System tray: network, volume and (on laptops) battery always show, as on
   Windows. The battery disappeared behind the chevron when the laptop was
   full and on the charger, because Plasma marks it passive then.

@@ -97,7 +97,8 @@ Not added, even on request, unless this brief changes:
 |--------|------|-------|
 | Done | Windows 11 Alt+Tab switcher | `plasma/windowswitcher/`, selected by both global themes. |
 | Done | Windows shortcuts, cursor, everyday apps | `./install.sh shortcuts` / `apps`; Breeze Light cursor. Win+X (power-user menu) is not mapped. |
-| Next | Muscle-memory batch, rest | Segoe UI when installed, Selawik otherwise; OSD position; Cascadia Mono as the monospace font (needs a dnf install: wait until no system upgrade is pending). |
+| Done | OSD position, Cascadia Mono | KWin script for the OSD; Cascadia Mono via `./install.sh apps`. |
+| Next | Muscle-memory batch, rest | Selawik when Segoe UI is not installed; window animations. |
 | Next | Snap Layouts | Investigate first: a KWin script plus a Windows 11-style picker on top of KWin's built-in tiling. |
 | Later | Light lock and login screen | The lock screen is dark-only today. |
 | Later | Prebuilt C++ plugins | So installing the tray and taskbar doesn't need a compiler. CI already builds them against Fedora. |

@@ -8,6 +8,8 @@
 #    Snipping Tool  Spectacle: PrtSc / Win+Shift+S select a region; on
 #                   release it is copied and saved to Pictures/Screenshots
 #    Explorer       Dolphin gets an Up button next to Back/Forward
+#    Fonts          Cascadia Mono, Windows 11's monospace font (OFL), as the
+#                   fixed-width font unless you picked your own
 #
 #  Previous defaults are backed up; ./uninstall.sh apps restores them
 #  (the apps themselves stay installed).
@@ -26,7 +28,11 @@ ensure_dir "$BACKUP_DIR"
 info "Setting up apps..."
 
 # 1. Distro packages (one password prompt if anything is missing).
-install_packages haruna kwrite || warn "Haruna/KWrite not installed."
+if command -v dnf &>/dev/null; then cascadia="cascadia-mono-fonts"
+elif command -v apt-get &>/dev/null; then cascadia="fonts-cascadia-code"
+elif command -v pacman &>/dev/null; then cascadia="ttf-cascadia-code"
+else cascadia=""; fi
+install_packages haruna kwrite ${cascadia:+"$cascadia"} || warn "Some apps were not installed."
 
 # 2. Mission Center from Flathub, per user (no password).
 if command -v flatpak &>/dev/null; then
@@ -63,18 +69,38 @@ kwriteconfig6 --file spectaclerc --group General --key useReleaseToCapture true
 kwriteconfig6 --file spectaclerc --group General --key autoSaveImage true
 kwriteconfig6 --file spectaclerc --group General --key clipboardGroup PostScreenshotCopyImage
 
-# 5. Explorer (Dolphin): an Up button next to Back/Forward. Only if you have
-#    no toolbar layout of your own (or the one there is ours).
+# 5. Explorer (Dolphin): an Up button next to Back/Forward, only if there is
+#    no toolbar layout yet. Dolphin rewrites the file (dropping comments), so
+#    a note in the backup folder records that it is ours, for uninstall.
 ui="$HOME/.local/share/kxmlgui5/dolphin/dolphinui.rc"
-if [ ! -f "$ui" ] || grep -q "Windows Modern:" "$ui"; then
+if [ ! -f "$ui" ]; then
     step "Explorer: Up button in the toolbar"
     ensure_dir "$(dirname "$ui")"
     cp "$SRC_DIR/config/kxmlgui5/dolphin/dolphinui.rc" "$ui"
+    touch "$BACKUP_DIR/dolphinui.rc.ours"
+elif [ -f "$BACKUP_DIR/dolphinui.rc.ours" ]; then
+    step "Explorer: toolbar layout already set up (kept as it is)"
 else
     step "Explorer: keeping your own toolbar layout"
 fi
 
-# 6. Ctrl+Shift+Esc opens Mission Center.
+# 6. Cascadia Mono as the fixed-width font, unless you chose your own.
+fixed="$(kreadconfig6 --group General --key fixed)"
+fc-cache &>/dev/null || true # a font installed a moment ago may not be listed yet
+# (no "| grep -q": with pipefail, grep quitting early fails the pipeline)
+if [ -n "$(fc-list "Cascadia Mono" family)" ]; then
+    case "${fixed%%,*}" in
+        ""|"Noto Sans Mono"|"Hack"|"DejaVu Sans Mono"|"Monospace"|"Liberation Mono")
+            step "Monospace font: Cascadia Mono"
+            [ -f "$BACKUP_DIR/kdeglobals.fixed" ] || echo "$fixed" > "$BACKUP_DIR/kdeglobals.fixed"
+            kwriteconfig6 --notify --group General --key fixed "Cascadia Mono,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+            ;;
+        "Cascadia Mono") ;;
+        *) step "Monospace font: keeping your ${fixed%%,*}" ;;
+    esac
+fi
+
+# 7. Ctrl+Shift+Esc opens Mission Center.
 if busctl --user status org.kde.kglobalaccel &>/dev/null; then
     step "Ctrl+Shift+Esc: Mission Center"
     python3 "$SRC_DIR/scripts/windows-shortcuts.py" apply --group apps || warn "Ctrl+Shift+Esc not set."
