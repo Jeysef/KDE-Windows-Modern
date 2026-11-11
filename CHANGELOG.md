@@ -63,6 +63,12 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Dolphin's status bar: the capacity bar and the "228 GiB free" text were
+  squashed to a sliver with our Kvantum style (upstream bug 483172 —
+  negative margins in `StatusBarSpaceInfo`). Fedora's dolphin is now
+  locally rebuilt with the upstream fix (`scripts/fix-dolphin-statusbar.sh`,
+  release tag `.wm1`); the next `dnf upgrade` replaces it — from Dolphin
+  26.12 the stock package contains the fix, so nothing needs re-running.
 - Installer conditions written as `cmd | grep -q` could come out false
   under `pipefail` when `cmd` printed a lot (`commit-icons.sh` skipped
   re-enabling tracking of the icon pack); all now read the output first.

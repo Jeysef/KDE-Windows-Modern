@@ -81,6 +81,14 @@ loads. Verify in the live session:
 - **Removing a KWin script's package does not unload it**: call
   `org.kde.kwin.Scripting.unloadScript` too, or old and new copies run
   side by side. While iterating on QML scripts, install under fresh ids.
+- **Dolphin is a locally patched rpm** (release `.wm1`, status-bar fix):
+  `dnf upgrade` silently replaces it with stock — the squashed status bar
+  returns until `scripts/fix-dolphin-statusbar.sh` is re-run (or Dolphin
+  26.12 arrives, which has the fix). The rpms are kept in
+  `~/.local/share/windows-modern/backup/dolphin-rpm/`.
+- **`dnf autoremove` removes the user's own leftovers** (wine, mercurial,
+  f44-backgrounds…): never run it after installing build deps; the dolphin
+  build's `-devel` packages are meant to stay.
 - **Headless renders use the software scene graph**: shader effects
   (`MultiEffect`) draw nothing there. Render inside the Wayland session to
   see the GPU path, and give shader-only visuals a software fallback.
