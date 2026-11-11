@@ -66,7 +66,8 @@ RowLayout {
             Behavior on border.color { ColorAnimation { duration: 100 } }
         }
 
-        onTextChanged: bottomBar.searchTextChanged(text)
+        // No onTextChanged here: searchText aliases this text, so QML already
+        // emits searchTextChanged. Emitting it again ran every search twice.
         Keys.onPressed: event => {
             if (event.key === Qt.Key_Escape) {
                 event.accepted = true;
