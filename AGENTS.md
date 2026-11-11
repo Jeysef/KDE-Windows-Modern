@@ -57,6 +57,9 @@ loads. Verify in the live session:
   click the left part in a test.
 - **Native Qt menus close instantly under uinput input** (e.g. the
   taskbar's right-click menu); a real mouse works. Check those by hand.
+- **`spectacle --output` rewrites the user's settings**: Spectacle stores
+  every output path as its "last save location". Capture through
+  `tests/e2e/session.py:screenshot`, which puts the old value back.
 - **Headless renders use the software scene graph**: shader effects
   (`MultiEffect`) draw nothing there. Render inside the Wayland session to
   see the GPU path, and give shader-only visuals a software fallback.

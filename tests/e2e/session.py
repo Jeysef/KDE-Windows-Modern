@@ -5,9 +5,27 @@ import subprocess
 import time
 
 
+def _spectacle_last_save(value=None):
+    """Read, or with value write back, Spectacle's remembered save location."""
+    args = ["--file", "spectaclerc", "--group", "ImageSave", "--key", "lastImageSaveLocation"]
+    if value is None:
+        return subprocess.run(["kreadconfig6", *args], capture_output=True, text=True).stdout.strip()
+    if value:
+        subprocess.run(["kwriteconfig6", *args, value], check=False)
+    else:
+        subprocess.run(["kwriteconfig6", *args, "--delete"], check=False)
+    return value
+
+
 def screenshot(path):
-    subprocess.run(["spectacle", "--background", "--nonotify", "--fullscreen", "--output", str(path)],
-                   timeout=30, check=True)
+    # Spectacle remembers every --output path as the user's last save
+    # location ("Save As" then opens in our temp folder). Put it back.
+    saved = _spectacle_last_save()
+    try:
+        subprocess.run(["spectacle", "--background", "--nonotify", "--fullscreen", "--output", str(path)],
+                       timeout=30, check=True)
+    finally:
+        _spectacle_last_save(saved)
 
 
 def kwin_call(path, method, *args):
