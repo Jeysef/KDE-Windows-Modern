@@ -23,6 +23,12 @@ for (var screenId = 0; screenId < screenCount; screenId++) {
     createWindowsModernPanel(screenId);
 }
 
+// addWidget() returns an error applet (not null) when a plugin is missing, so the
+// old `if (!x)` fallbacks never fired. Choose an installed plugin up front.
+function pick(preferred, fallback) {
+    return knownWidgetTypes.indexOf(preferred) >= 0 ? preferred : fallback;
+}
+
 function createWindowsModernPanel(screenId) {
     var panel = new Panel;
 
@@ -61,8 +67,7 @@ function createWindowsModernPanel(screenId) {
     var spacerLeft = panel.addWidget("org.kde.plasma.panelspacer");
 
     // 2. Start button — custom Win11 start menu, or fall back to Kickoff.
-    var start = panel.addWidget("org.kde.windowsmodern.startmenu");
-    if (!start) { start = panel.addWidget("org.kde.plasma.kickoff"); }
+    var start = panel.addWidget(pick("org.kde.windowsmodern.startmenu", "org.kde.plasma.kickoff"));
     start.currentConfigGroup = new Array("General");
     start.writeConfig("icon", "start-here");
 
@@ -81,8 +86,7 @@ function createWindowsModernPanel(screenId) {
     var spacerRight = panel.addWidget("org.kde.plasma.panelspacer");
 
     // 5. System tray — custom Win11/10 hybrid tray, or fall back to stock.
-    var tray = panel.addWidget("org.kde.windowsmodern.systemtray");
-    if (!tray) { tray = panel.addWidget("org.kde.plasma.systemtray"); }
+    var tray = panel.addWidget(pick("org.kde.windowsmodern.systemtray", "org.kde.plasma.systemtray"));
 
     // 6. Digital clock — Win11 puts the clock at the far right, with the date
     //    stacked below the time. Use the custom Windows Modern digital clock
@@ -94,8 +98,7 @@ function createWindowsModernPanel(screenId) {
     //    use24hFormat = 1 lets the clock follow the user's locale/region
     //    defaults instead of forcing 12- or 24-hour time.
     //    dateDisplayFormat = 2 forces the date below the time (BelowTime).
-    var clock = panel.addWidget("org.kde.windowsmodern.digitalclock");
-    if (!clock) { clock = panel.addWidget("org.kde.plasma.digitalclock"); }
+    var clock = panel.addWidget(pick("org.kde.windowsmodern.digitalclock", "org.kde.plasma.digitalclock"));
     clock.currentConfigGroup = new Array("Appearance");
     clock.writeConfig("autoFontAndSize", "true");
     clock.writeConfig("showDate", "true");
@@ -106,8 +109,7 @@ function createWindowsModernPanel(screenId) {
     clock.writeConfig("expandedWidth", "320");
 
     // 7. Show Desktop — custom Win11-style thin sliver, or fall back to stock.
-    var peek = panel.addWidget("org.kde.windowsmodern.showdesktop");
-    if (!peek) { peek = panel.addWidget("org.kde.plasma.showdesktop"); }
+    var peek = panel.addWidget(pick("org.kde.windowsmodern.showdesktop", "org.kde.plasma.showdesktop"));
     peek.currentConfigGroup = new Array("General");
     peek.writeConfig("size", "6");
 
