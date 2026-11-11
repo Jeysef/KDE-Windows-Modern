@@ -15,4 +15,4 @@ done
 [ -n "$RUNNER" ] || { echo "qmltestrunner (Qt 6) not found." >&2; exit 1; }
 
 QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-offscreen}" QT_FORCE_STDERR_LOGGING=1 \
-    "$RUNNER" -import "$HERE/mock" -input "$HERE/tst_switcherview.qml"
+    "$RUNNER" -import "$HERE/mock" -input "$HERE"

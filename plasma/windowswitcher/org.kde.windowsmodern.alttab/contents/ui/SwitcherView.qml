@@ -116,8 +116,16 @@ FocusScope {
         ensureCurrentVisible();
     }
 
+    // Coalesces relayout requests. A Timer (unlike Qt.callLater) is destroyed
+    // with the view, so a pending relayout never runs after KWin closes it.
+    Timer {
+        id: relayoutTimer
+        interval: 0
+        onTriggered: root.relayout()
+    }
+
     function scheduleRelayout() {
-        Qt.callLater(relayout);
+        relayoutTimer.restart();
     }
 
     function ensureCurrentVisible() {
