@@ -8,6 +8,10 @@ the `Version` field shared by every component's metadata.
 
 ### Added
 
+- Quick Settings footer, as in Windows 11: battery level on the left
+  (laptops; opens the battery page) and a Settings gear on the right
+  (right-click for display, sound, network, power and notification
+  settings).
 - Prebuilt System Tray and Icon Tasks plugins: CI builds them for each
   supported Fedora and attaches them to releases, keyed by distro, Plasma
   and Qt version. Installing from a release checkout downloads the

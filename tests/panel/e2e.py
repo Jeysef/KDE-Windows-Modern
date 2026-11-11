@@ -279,6 +279,12 @@ def quick_settings(p, c):
     tile = wait_for(lambda: visible("Wi-Fi", exclude_window=panel_window))
     p.shot("quick-settings")
     c.check(tile is not None, "chevron opens Quick Settings (Wi-Fi tile visible)")
+    gear = visible("All settings", exclude_window=panel_window)
+    c.check(gear is not None, "Quick Settings has the Settings gear in its footer")
+    if pathlib.Path("/sys/class/power_supply/BAT0").exists() or pathlib.Path("/sys/class/power_supply/BAT1").exists():
+        battery = next((n for n in a11y.nodes(APP) if n.showing and n.window != panel_window
+                        and n.name.startswith("Battery ") and n.name.endswith("%")), None)
+        c.check(battery is not None, f"the footer shows the battery level ({battery.name if battery else None})")
     p.close_popups()
 
 

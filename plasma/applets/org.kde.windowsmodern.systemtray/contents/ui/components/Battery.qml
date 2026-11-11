@@ -36,8 +36,8 @@ Item {
             visible: root.hasBattery
             text: batteryControl.percent + "%"
             color: Kirigami.Theme.textColor
-            opacity: 0.8
-            font.pixelSize: 10
+            opacity: 0.9
+            font.pointSize: Kirigami.Theme.defaultFont.pointSize - 1
             anchors.verticalCenter: parent.verticalCenter
         }
     }

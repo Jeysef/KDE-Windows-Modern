@@ -97,4 +97,11 @@ ColumnLayout {
             onArrowClicked: actionPanel.requestPage("volume")
         }
     }
+
+    Components.Footer {
+        Layout.fillWidth: true
+        Layout.topMargin: -6 * actionPanel.scale
+        uiScale: actionPanel.scale
+        onBatteryClicked: actionPanel.requestPage("battery")
+    }
 }
