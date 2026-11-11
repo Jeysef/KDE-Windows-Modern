@@ -78,8 +78,12 @@ PlasmoidItem {
             return "";
         }
 
-        const hourOffset = Math.abs(Math.floor(offset / 60));
-        const minuteOffset = offset % 60;
+        // Math.floor rounds negative values away from zero (-7.5 → -8), so
+        // take the absolute value first.
+        const hourOffset = Math.floor(Math.abs(offset) / 60);
+        // % keeps the sign of the dividend; the sign is already expressed by
+        // "later"/"earlier", so render "7:30 earlier", not "7:-30 earlier".
+        const minuteOffset = Math.abs(offset % 60);
 
         if (offset > 0) {
             if (minuteOffset === 0) {
