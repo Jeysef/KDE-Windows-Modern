@@ -36,5 +36,11 @@ else
     exit 0
 fi
 
-info "Dependencies (Kvantum, Flatpak, C++ applet build tools)..."
-install_packages "${pkgs[@]}" || warn "Some dependencies are missing; the C++ applets may not build."
+if prebuilt_available; then
+    # This release has the C++ plugins prebuilt for this system: no compiler.
+    info "Dependencies (Kvantum, Flatpak; prebuilt plugins, no build tools)..."
+    install_packages "${pkgs[@]:0:2}" || warn "Some dependencies are missing."
+else
+    info "Dependencies (Kvantum, Flatpak, C++ applet build tools)..."
+    install_packages "${pkgs[@]}" || warn "Some dependencies are missing; the C++ applets may not build."
+fi

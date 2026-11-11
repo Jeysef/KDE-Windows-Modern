@@ -8,6 +8,12 @@ the `Version` field shared by every component's metadata.
 
 ### Added
 
+- Prebuilt System Tray and Icon Tasks plugins: CI builds them for each
+  supported Fedora and attaches them to releases, keyed by distro, Plasma
+  and Qt version. Installing from a release checkout downloads the
+  matching build (checksum-verified) and skips the compiler and -devel
+  packages; any other checkout, or a system without a match, builds from
+  source as before.
 - Snap Layouts, as in Windows 11: drag a window towards the top edge, and
   a bar with six layouts (50/50, 66/33, thirds, half + quarters, four
   quarters, 25/50/25) appears at the top centre; hovering a cell outlines

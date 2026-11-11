@@ -150,6 +150,84 @@ restart_plasmashell() {
     sleep 1
 }
 
+# ── Prebuilt C++ plugins ───────────────────────────────────────────
+# Releases carry the System Tray and Icon Tasks plugins built per distro,
+# Plasma and Qt version (scripts/package-plugins.sh, CI). A plugin only
+# works with the exact versions it was built against, and only matches the
+# source when this checkout *is* that release, so both are checked; in any
+# other case the applets are built from source.
+#
+# Testing: WM_PREBUILT_URL=<URL of a folder with the assets, file:// works>
+# uses those assets whatever the checkout is.
+PREBUILT_REPO_URL="https://github.com/Jeysef/KDE-Windows-Modern/releases/download"
+
+# e.g. fedora45-plasma6.8.2-qt6.11.2-x86_64; empty when unknown.
+plugin_platform_key() {
+    command -v rpm &>/dev/null || return 0
+    local id ver plasma qt
+    id="$(. /etc/os-release && echo "${ID:-}")"; ver="$(. /etc/os-release && echo "${VERSION_ID:-}")"
+    plasma="$(rpm -q --qf '%{VERSION}' plasma-workspace-libs 2>/dev/null)" || return 0
+    qt="$(rpm -q --qf '%{VERSION}' qt6-qtbase 2>/dev/null)" || return 0
+    [ -n "$id" ] && [ -n "$ver" ] && echo "${id}${ver}-plasma${plasma}-qt${qt}-$(uname -m)"
+}
+
+# The release tag this checkout is exactly (vX.Y.Z), or empty.
+release_tag() {
+    if [ -d "$SRC_DIR/.git" ]; then
+        git -C "$SRC_DIR" describe --exact-match --tags HEAD 2>/dev/null || true
+    elif command -v python3 &>/dev/null; then
+        # A release tarball (no git): its version is the applets' Version.
+        python3 -c 'import json,sys; print("v" + json.load(open(sys.argv[1]))["KPlugin"]["Version"])' \
+            "$SRC_DIR/plasma/applets/org.kde.windowsmodern.systemtray/metadata.json" 2>/dev/null || true
+    fi
+}
+
+# True when this checkout's release has plugins for this system.
+prebuilt_available() {
+    local key tag base
+    key="$(plugin_platform_key)"; [ -n "$key" ] || return 1
+    if [ -n "${WM_PREBUILT_URL:-}" ]; then
+        base="$WM_PREBUILT_URL"
+    else
+        tag="$(release_tag)"; [ -n "$tag" ] || return 1
+        base="$PREBUILT_REPO_URL/$tag"
+    fi
+    curl -sfIL -o /dev/null "$base/windows-modern-plugins-${key}.tar.gz" 2>/dev/null \
+        || [ -f "${base#file://}/windows-modern-plugins-${key}.tar.gz" ]
+}
+
+# fetch_prebuilt_plugin <applet-id> <dest.so>: download this platform's
+# build, check it against the release's SHA256SUMS and extract <applet-id>.so.
+# Returns non-zero (quietly) when there is no usable prebuilt plugin.
+fetch_prebuilt_plugin() {
+    local applet="$1" dest="$2" key tag base file tmp
+    key="$(plugin_platform_key)"; [ -n "$key" ] || return 1
+    if [ -n "${WM_PREBUILT_URL:-}" ]; then
+        base="$WM_PREBUILT_URL"
+    else
+        tag="$(release_tag)"
+        [ -n "$tag" ] || return 1
+        base="$PREBUILT_REPO_URL/$tag"
+    fi
+    file="windows-modern-plugins-${key}.tar.gz"
+    tmp="$(mktemp -d)"
+    if ! curl -sfL -o "$tmp/$file" "$base/$file" || ! curl -sfL -o "$tmp/SHA256SUMS" "$base/SHA256SUMS"; then
+        rm -rf "$tmp"; return 1
+    fi
+    if ! (cd "$tmp" && grep -F " $file" SHA256SUMS | sha256sum -c --status); then
+        warn "Prebuilt $file does not match its checksum — building from source instead."
+        rm -rf "$tmp"; return 1
+    fi
+    if ! tar -xzf "$tmp/$file" -C "$tmp" "$applet.so" 2>/dev/null \
+       && ! tar -xzf "$tmp/$file" -C "$tmp" "./$applet.so" 2>/dev/null; then
+        rm -rf "$tmp"; return 1
+    fi
+    mkdir -p "$(dirname "$dest")"
+    mv "$tmp/$applet.so" "$dest"
+    rm -rf "$tmp"
+    step "Using the prebuilt plugin for $key"
+}
+
 # Stop Plasma Shell (for config it rewrites on exit). restart_plasmashell
 # starts it again.
 stop_plasmashell() {

@@ -10,6 +10,13 @@ dir="$SRC_DIR/plasma/applets/org.kde.windowsmodern.icontasks"
 
 info "Installing Icon Tasks (C++)..."
 
+# A release checkout uses the release's prebuilt plugin when it matches
+# this system exactly (no compiler needed); otherwise dev.sh builds it.
+prebuilt="$(mktemp -d)/org.kde.plasma.icontasks.so"
+if fetch_prebuilt_plugin org.kde.plasma.icontasks "$prebuilt"; then
+    export WM_PREBUILT_SO="$prebuilt"
+fi
+
 if [ -x "$dir/dev.sh" ]; then
     if ! ( cd "$dir" && bash dev.sh ); then
         err "Icon Tasks build failed — missing build dependencies or compiler."

@@ -52,6 +52,9 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 
 - **KDE Plasma 6**
 - **Kvantum** engine installed (`kvantum` package on most distros)
+- For the **System Tray and Icon Tasks applets**: nothing extra when you
+  install from a release on a supported Fedora (prebuilt plugins are
+  downloaded); otherwise
 - For the **System Tray applet**: a C++ compiler and KDE/Plasma development packages (see [System Tray](#system-tray) below)
 - For the **Icon Tasks applet**: a C++ compiler and a slightly different KDE/Plasma dev set (see [Icon Tasks](#icon-tasks) below)
 - For the **Digital Clock applet**: no extra deps (pure QML).

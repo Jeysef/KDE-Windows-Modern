@@ -45,15 +45,21 @@ detect_paths() {
 }
 
 # ── Build ─────────────────────────────────────────────────────────
-info "Building..."
-cmake -S "$SRC_DIR" -B "$BUILD_DIR" -DCMAKE_BUILD_TYPE=Release > /dev/null
-cmake --build "$BUILD_DIR" --parallel "$(nproc)" 2>&1 | tail -3
+# WM_PREBUILT_SO: a prebuilt plugin (from a release) to install instead
+# of building; set by scripts/install-*.sh when one matches this system.
+if [ -n "${WM_PREBUILT_SO:-}" ]; then
+    info "Using prebuilt plugin (no build needed)."
+else
+    info "Building..."
+    cmake -S "$SRC_DIR" -B "$BUILD_DIR" -DCMAKE_BUILD_TYPE=Release > /dev/null
+    cmake --build "$BUILD_DIR" --parallel "$(nproc)" 2>&1 | tail -3
+fi
 
 # ── Install .so only (no KPackage) ───────────────────────────────
 # Installed while plasmashell still runs, so a cancelled password prompt
 # leaves the session untouched.
 info "Installing..."
-PLUGIN_SRC="$BUILD_DIR/lib/plasma/applets/${APP_ID}.so"
+PLUGIN_SRC="${WM_PREBUILT_SO:-$BUILD_DIR/lib/plasma/applets/${APP_ID}.so}"
 detect_paths
 
 [ -f "$PLUGIN_SRC" ] || { err "Build output not found: $PLUGIN_SRC"; exit 1; }
