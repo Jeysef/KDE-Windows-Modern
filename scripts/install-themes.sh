@@ -61,6 +61,6 @@ info "Themes installed."
 if ! is_batch && [ "$UID" -ne 0 ]; then
     step "Applying Kvantum engine & desktop theme"
     apply_kvantum_engine dark
-    command -v plasma-apply-desktoptheme &>/dev/null && plasma-apply-desktoptheme Windows-modern 2>/dev/null || true
+    command -v plasma-apply-desktoptheme &>/dev/null && plasma-apply-desktoptheme Windows-modern-dark 2>/dev/null || true
     bash "$SRC_DIR/scripts/set-wallpaper.sh" || true
 fi

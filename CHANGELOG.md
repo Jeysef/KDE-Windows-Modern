@@ -8,6 +8,8 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- `./install.sh themes` run on its own now applies the dark Plasma theme;
+  it asked for a theme named `Windows-modern`, which does not exist.
 - Clock: time and date now share the normal UI font size, as on Windows
   (the time used to grow with the panel and the date was shrunk to 65 %),
   and the date shows the full year (`11.11.2026`). The clock cell now
