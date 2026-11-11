@@ -85,14 +85,23 @@ _kstart_cmd() {
 
 # Restart Plasma Shell for the running user session (no-op if not running).
 restart_plasmashell() {
-    if ! pgrep -x plasmashell >/dev/null 2>&1; then
-        return 0
-    fi
-    info "Restarting Plasma Shell..."
-    if command -v systemctl &>/dev/null && systemctl --user is-active --quiet plasma-plasmashell.service 2>/dev/null; then
+    # Only when running inside a graphical session (never from a TTY or root).
+    [ -n "${WAYLAND_DISPLAY:-}${DISPLAY:-}" ] || return 0
+    if command -v systemctl &>/dev/null && systemctl --user cat plasma-plasmashell.service &>/dev/null; then
+        # restart also *starts* the shell when it is stopped — the C++ applet
+        # installers stop it in batch mode and leave the start to us.
+        info "Restarting Plasma Shell..."
         systemctl --user restart plasma-plasmashell.service
         return 0
     fi
+    if ! pgrep -x plasmashell >/dev/null 2>&1; then
+        info "Starting Plasma Shell..."
+        local kstart
+        kstart="$(_kstart_cmd)"
+        if [ -n "$kstart" ]; then $kstart plasmashell >/dev/null 2>&1; else (setsid plasmashell >/dev/null 2>&1 &); fi
+        return 0
+    fi
+    info "Restarting Plasma Shell..."
 
     # Graceful quit first, fall back to killall.
     if command -v kquitapp6 &>/dev/null; then
