@@ -8,16 +8,13 @@
 
 #include <PlasmaQuick/PopupPlasmaWindow>
 
+#include <QPointer>
 #include <QQuickWindow>
 #include <QTimer>
 #include <QVariant>
 
+class QQmlEngine;
 class QQuickItem;
-
-namespace PlasmaQuick
-{
-class SharedQmlEngine;
-}
 
 class FloatingToolTipDialog : public PlasmaQuick::PopupPlasmaWindow
 {
@@ -27,7 +24,9 @@ public:
     explicit FloatingToolTipDialog();
     ~FloatingToolTipDialog() override;
 
-    QQuickItem *loadDefaultItem();
+    // Returns the stock DefaultToolTip item, creating it on first use in the
+    // given engine (the engine of the applet that requested the tooltip).
+    QQuickItem *loadDefaultItem(QQmlEngine *engine);
 
     void dismiss();
     void keepalive();
@@ -53,7 +52,7 @@ private:
     void updateSize();
 
     QPointer<QQuickItem> m_lastMainItem;
-    PlasmaQuick::SharedQmlEngine *m_qmlObject;
+    QPointer<QQuickItem> m_defaultItem;
     QTimer m_hideTimer;
     int m_hideTimeout;
     bool m_interactive;

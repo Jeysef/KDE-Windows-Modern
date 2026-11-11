@@ -81,6 +81,10 @@ QQuickItem *FloatingToolTipArea::mainItem() const
     return m_mainItem.data();
 }
 
+// Creates the shared dialog on first use and registers this area as a user.
+// Paths that only hide/dismiss/query the dialog must use s_dialog directly
+// (null-checked) instead, so they never spin up a window and QML engine
+// just to close it.
 FloatingToolTipDialog *FloatingToolTipArea::tooltipDialogInstance()
 {
     if (!s_dialog) {
@@ -118,7 +122,7 @@ void FloatingToolTipArea::showToolTip()
     FloatingToolTipDialog *dlg = tooltipDialogInstance();
 
     if (!mainItem()) {
-        setMainItem(dlg->loadDefaultItem());
+        setMainItem(dlg->loadDefaultItem(qmlEngine(this)));
     }
 
     dlg->setMainItem(nullptr);
@@ -249,8 +253,8 @@ void FloatingToolTipArea::setActive(bool active)
         return;
     }
     m_active = active;
-    if (!active) {
-        tooltipDialogInstance()->dismiss();
+    if (!active && s_dialog) {
+        s_dialog->dismiss();
     }
     Q_EMIT activeChanged();
 }
@@ -286,13 +290,17 @@ void FloatingToolTipArea::setMargin(int margin)
 void FloatingToolTipArea::hideToolTip()
 {
     m_showTimer.stop();
-    tooltipDialogInstance()->dismiss();
+    if (s_dialog) {
+        s_dialog->dismiss();
+    }
 }
 
 void FloatingToolTipArea::hideImmediately()
 {
     m_showTimer.stop();
-    tooltipDialogInstance()->setVisible(false);
+    if (s_dialog) {
+        s_dialog->setVisible(false);
+    }
 }
 
 QVariant FloatingToolTipArea::icon() const
@@ -340,8 +348,8 @@ void FloatingToolTipArea::setContainsMouse(bool contains)
         m_containsMouse = contains;
         Q_EMIT containsMouseChanged();
     }
-    if (!contains && tooltipDialogInstance()->owner() == this) {
-        tooltipDialogInstance()->dismiss();
+    if (!contains && s_dialog && s_dialog->owner() == this) {
+        s_dialog->dismiss();
     }
 }
 
@@ -358,9 +366,9 @@ void FloatingToolTipArea::hoverEnterEvent(QHoverEvent *event)
         return;
     }
 
-    if (tooltipDialogInstance()->isVisible()) {
+    if (s_dialog && s_dialog->isVisible()) {
         if (m_active) {
-            tooltipDialogInstance()->keepalive();
+            s_dialog->keepalive();
             showToolTip();
         }
     } else {
