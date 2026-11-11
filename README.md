@@ -420,6 +420,7 @@ Walks you through each desktop state (dark/light overview, start menu, system tr
 
 | Document | Description |
 |----------|-------------|
+| [`PRODUCT.md`](PRODUCT.md) | What the project is for, what's in scope, what's deliberately left out, and the roadmap. |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Development workflow, checks, and commit conventions. |
 | [`CHANGELOG.md`](CHANGELOG.md) | Notable changes per release. |
 | [`docs/STYLE.md`](docs/STYLE.md) | Complete visual style specification: palette, desktop theme, panel layout, applet specs, and repository structure. |

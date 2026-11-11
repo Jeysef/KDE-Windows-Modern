@@ -1,6 +1,10 @@
 # Contributing to Windows Modern
 
-Thanks for helping. This document covers how the repository is laid out, the
+Thanks for helping. Before proposing a feature, read
+[`PRODUCT.md`](PRODUCT.md): it says what belongs in the project and what is
+deliberately left out.
+
+This document covers how the repository is laid out, the
 checks every change must pass, and the conventions the project follows.
 
 ## Repository layout
