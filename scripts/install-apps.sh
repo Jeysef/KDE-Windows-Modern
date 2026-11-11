@@ -35,7 +35,7 @@ if command -v flatpak &>/dev/null; then
     flatpak install --user --noninteractive flathub io.missioncenter.MissionCenter \
         || warn "Mission Center could not be installed."
     # Let KDE's service index see the new launcher (for Ctrl+Shift+Esc).
-    command -v kbuildsycoca6 &>/dev/null && kbuildsycoca6 &>/dev/null || true
+    if command -v kbuildsycoca6 &>/dev/null; then kbuildsycoca6 &>/dev/null || true; fi
 else
     warn "flatpak not found — Mission Center skipped."
 fi

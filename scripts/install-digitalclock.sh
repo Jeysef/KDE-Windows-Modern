@@ -21,7 +21,7 @@ if is_batch; then
     exit 0
 fi
 
-command -v kbuildsycoca6 &>/dev/null && kbuildsycoca6 2>/dev/null || true
+if command -v kbuildsycoca6 &>/dev/null; then kbuildsycoca6 2>/dev/null || true; fi
 if pgrep -x plasmashell >/dev/null 2>&1; then
     restart_plasmashell
 else

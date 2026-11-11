@@ -155,7 +155,7 @@ echo "Step 4 / 4: Installing patched binary..."
 cp "$BUILT_BINARY" "$PLM_BINARY"
 chown root:root "$PLM_BINARY"
 chmod 755 "$PLM_BINARY"
-command -v restorecon &>/dev/null && restorecon "$PLM_BINARY" 2>/dev/null || true
+if command -v restorecon &>/dev/null; then restorecon "$PLM_BINARY" 2>/dev/null || true; fi
 
 echo "           Installing theme to ${SYSTEM_LOOKFEEL}..."
 rm -rf "${SYSTEM_LOOKFEEL}/contents/lockscreen"

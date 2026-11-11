@@ -32,6 +32,10 @@ jobs:
         fedora: ["44", "45"]
     container: fedora:${{ matrix.fedora }}
     steps:
+      # git first: without it actions/checkout downloads GitHub's tarball,
+      # which honours .gitattributes export-ignore and so has no tests/.
+      - name: Install git
+        run: dnf install -y --setopt=install_weak_deps=False git-core
       - uses: actions/checkout@v4
       - name: Install build dependencies
         run: |

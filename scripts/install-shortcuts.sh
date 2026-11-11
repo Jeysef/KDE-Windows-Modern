@@ -38,7 +38,7 @@ sleep 2 # the scripts register their shortcut actions
 # 2. Launcher for Win+PrtSc (full screen, saved without opening Spectacle).
 ensure_dir "$HOME/.local/share/applications"
 cp "$SRC_DIR/config/applications/windowsmodern-screenshot.desktop" "$HOME/.local/share/applications/"
-command -v kbuildsycoca6 &>/dev/null && kbuildsycoca6 &>/dev/null || true
+if command -v kbuildsycoca6 &>/dev/null; then kbuildsycoca6 &>/dev/null || true; fi
 
 # 3. Global shortcuts.
 step "Global shortcuts"

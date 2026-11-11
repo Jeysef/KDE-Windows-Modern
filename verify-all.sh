@@ -143,6 +143,7 @@ if command -v shellcheck &>/dev/null; then
         pass "shellcheck clean"
     else
         fail "shellcheck reported problems — run: shellcheck -x \$(git ls-files '*.sh')"
+        shellcheck -x "${SCRIPTS[@]}" 2>&1 | head -40 || true
     fi
 else
     warn "shellcheck not installed — skipped (CI runs it)"

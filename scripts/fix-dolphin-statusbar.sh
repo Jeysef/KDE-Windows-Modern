@@ -39,11 +39,12 @@ rpm -q dolphin-libs &>/dev/null || die "dolphin-libs is not installed."
 step "Downloading the dolphin source rpm"
 dnf download --enablerepo='*source*' --source dolphin &>/dev/null \
     || die "Could not download the source rpm (is the fedora-source repo around?)."
-SRPM="$(ls dolphin-*.src.rpm | head -1)"
+srpms=(dolphin-*.src.rpm)
+SRPM="${srpms[0]}"
 
 # 3. Still buggy upstream? Extract the file and look for the negative margins.
 rpm2cpio "$SRPM" | cpio -idm --quiet
-TARBALL="$(ls dolphin-*.tar.xz dolphin-*.tar.bz2 2>/dev/null | head -1)"
+TARBALL="$(find . -maxdepth 1 \( -name 'dolphin-*.tar.xz' -o -name 'dolphin-*.tar.bz2' \) -print -quit)"
 [ -n "$TARBALL" ] || die "No source tarball in the source rpm."
 mkdir src
 tar -xf "$TARBALL" -C src --strip-components=1

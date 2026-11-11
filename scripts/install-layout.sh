@@ -18,7 +18,7 @@ rm -rf "$LAYOUT_DIR/org.kde.windowsmodern.panel"
 cp -r "$src" "$LAYOUT_DIR/"
 
 # Refresh sycoca so the template is discoverable in "Add Panel".
-command -v kbuildsycoca6 &>/dev/null && kbuildsycoca6 2>/dev/null || true
+if command -v kbuildsycoca6 &>/dev/null; then kbuildsycoca6 2>/dev/null || true; fi
 
 info "Panel layout installed."
 

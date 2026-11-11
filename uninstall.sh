@@ -167,7 +167,7 @@ uninstall_component() {
             if command -v kwriteconfig6 &>/dev/null; then
                 kwriteconfig6 --file kscreenlockerrc --group Greeter --key Theme --delete 2>/dev/null || true
             fi
-            command -v kbuildsycoca6 &>/dev/null && kbuildsycoca6 2>/dev/null || true
+            if command -v kbuildsycoca6 &>/dev/null; then kbuildsycoca6 2>/dev/null || true; fi
             rm -rf ~/.cache/qmlcache ~/.cache/QtProject/qmlcache 2>/dev/null || true
             info "Session lock screen uninstalled. Breeze restored for Meta+L."
             # install-sessionlock.sh keeps up to two backups of the overlay it
@@ -199,8 +199,9 @@ uninstall_component() {
                 # shellcheck disable=SC2043  # one patch today; the list may grow
                 for p in main-cpp.patch; do
                     if [ -f "${PATCH_DIR}/${p}" ]; then
-                        patch -d "${PLM_DIR}" -p1 -R --dry-run -s -f < "${PATCH_DIR}/${p}" 2>/dev/null \
-                            && patch -d "${PLM_DIR}" -p1 -R < "${PATCH_DIR}/${p}" 2>/dev/null || true
+                        if patch -d "${PLM_DIR}" -p1 -R --dry-run -s -f < "${PATCH_DIR}/${p}" 2>/dev/null; then
+                            patch -d "${PLM_DIR}" -p1 -R < "${PATCH_DIR}/${p}" 2>/dev/null || true
+                        fi
                     fi
                 done
             fi
@@ -269,8 +270,9 @@ uninstall_component() {
                 rm_path "$ui"
                 rm -f "$backup_dir/dolphinui.rc.ours"
             fi
-            busctl --user status org.kde.kglobalaccel &>/dev/null \
-                && python3 "$SRC_DIR/scripts/windows-shortcuts.py" restore --group apps || true
+            if busctl --user status org.kde.kglobalaccel &>/dev/null; then
+                python3 "$SRC_DIR/scripts/windows-shortcuts.py" restore --group apps || true
+            fi
             info "App defaults restored. Haruna, KWrite and Mission Center stay installed;"
             info "remove them with your package manager / flatpak if you want."
             ;;
