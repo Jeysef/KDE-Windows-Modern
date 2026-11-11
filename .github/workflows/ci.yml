@@ -42,6 +42,9 @@ jobs:
             kf6-kitemmodels-devel kf6-kservice-devel kf6-kxmlgui-devel \
             kf6-kjobwidgets-devel kf6-kcmutils-devel kf6-knotifications-devel \
             plasma-activities-devel plasma-activities-stats-devel \
-            libplasma-devel plasma-workspace-devel libksysguard-devel
+            libplasma-devel plasma-workspace-devel libksysguard-devel \
+            kf6-kirigami
       - name: Build and link-check both applets
         run: ./scripts/ci-build.sh "$RUNNER_TEMP/build"
+      - name: QML tests (Alt+Tab switcher)
+        run: QT_QPA_PLATFORM=offscreen tests/windowswitcher/run-tests.sh

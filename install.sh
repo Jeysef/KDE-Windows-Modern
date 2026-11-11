@@ -62,6 +62,7 @@ install_everything() {
     install_component icontasks
     install_component digitalclock
     install_component sessionlock
+    install_component alttab
 
     # ── Phase B: compose (layout references applets; lookfeel references everything) ──
     info "[2/3] Composing layout and global themes..."
@@ -74,6 +75,7 @@ install_everything() {
     info "[3/3] Applying theme (${variant})..."
     post_kwin_borders
     post_kwin_per_monitor_alt_tab
+    post_kwin_alt_tab_switcher
     apply_lookandfeel "$theme" reset
     apply_kvantum_engine "$variant"
     # Let the layout script finish writing panels before restarting Plasma.
@@ -127,6 +129,7 @@ menu() {
     echo -e "  ${BOLD}Session${RESET}"
     echo -e "    ${BOLD}12${RESET}) Session lock screen (Meta+L)"
     echo -e "    ${BOLD}13${RESET}) Boot greeter / login screen (PLM — C++ build + system install)"
+    echo -e "    ${BOLD}14${RESET}) Alt+Tab window switcher (Windows 11 style)"
     echo ""
     echo -e "    ${BOLD}0${RESET})  Quit"
     echo ""
@@ -153,6 +156,7 @@ menu() {
             echo ""
             echo "Now installing system-wide (needs sudo)..."
             sudo bash "$SCRIPT_DIR/scripts/install-greeter-live.sh" || err "System greeter install failed or was cancelled." ;;
+        14) install_component alttab ;;
         0)  echo "Nothing installed."; exit 0 ;;
         *)  err "Invalid choice."; exit 1 ;;
     esac
@@ -192,9 +196,10 @@ case "${1:-menu}" in
         echo "    digitalclock   Digital Clock (QML)"
         echo "    applets        All five applets"
         echo "    sessionlock    Session lock screen (Meta+L)"
+        echo "    alttab         Windows 11-style Alt+Tab window switcher"
         echo "    greeter        Boot greeter / login screen (PLM build, user test)"
         echo ""
-        echo "  Note: 'all' includes the session lock screen. The boot greeter is"
+        echo "  Note: 'all' includes the session lock screen and Alt+Tab switcher. The boot greeter is"
         echo "  opt-in (it replaces the system login manager) — use 'greeter'."
         echo ""
         exit 0

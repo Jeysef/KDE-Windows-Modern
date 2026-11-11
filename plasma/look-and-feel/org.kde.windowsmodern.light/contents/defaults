@@ -22,3 +22,6 @@ cursorTheme=breeze_cursors
 
 [ksplashrc][KSplash]
 Theme=none
+
+[kwinrc][WindowSwitcher]
+LayoutName=org.kde.windowsmodern.alttab

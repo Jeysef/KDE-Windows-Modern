@@ -35,6 +35,7 @@ if [ "$UID" -eq 0 ]; then
     WALLPAPER_DIR="/usr/share/wallpapers"
     ICONS_DIR="/usr/share/icons"
     APPLETS_DIR="/usr/share/plasma/plasmoids"
+    TABBOX_DIR="/usr/share/kwin/tabbox"
 else
     AURORAE_DIR="$HOME/.local/share/aurorae/themes"
     SCHEMES_DIR="$HOME/.local/share/color-schemes"
@@ -45,6 +46,7 @@ else
     WALLPAPER_DIR="$HOME/.local/share/wallpapers"
     ICONS_DIR="$HOME/.local/share/icons"
     APPLETS_DIR="$HOME/.local/share/plasma/plasmoids"
+    TABBOX_DIR="$HOME/.local/share/kwin/tabbox"
 fi
 
 ensure_dir() {
@@ -186,6 +188,16 @@ post_kwin_per_monitor_alt_tab() {
     command -v kwriteconfig6 &>/dev/null || return 0
     step "KWin Alt+Tab → per-monitor"
     kwriteconfig6 --file kwinrc --group "TabBox" --key "MultiScreenMode" "1"
+    dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null || true
+}
+
+# KWin Alt+Tab: use the Windows Modern window switcher.
+ALT_TAB_LAYOUT="org.kde.windowsmodern.alttab"
+post_kwin_alt_tab_switcher() {
+    command -v kwriteconfig6 &>/dev/null || return 0
+    [ -d "$TABBOX_DIR/$ALT_TAB_LAYOUT" ] || return 0
+    step "KWin Alt+Tab → Windows Modern switcher"
+    kwriteconfig6 --file kwinrc --group "TabBox" --key "LayoutName" "$ALT_TAB_LAYOUT"
     dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null || true
 }
 

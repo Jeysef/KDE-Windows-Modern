@@ -10,11 +10,8 @@ Theme=windows-modern
 [kdeglobals][KDE]
 widgetStyle=kvantum-dark
 
-[kwinrc][DesktopSwitcher]
-LayoutName=org.kde.breeze.desktop
-
 [kwinrc][WindowSwitcher]
-LayoutName=org.kde.breeze.desktop
+LayoutName=org.kde.windowsmodern.alttab
 
 [kwinrc][org.kde.kdecoration2]
 library=org.kde.kwin.aurorae

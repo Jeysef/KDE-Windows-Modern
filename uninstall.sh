@@ -175,6 +175,18 @@ uninstall_component() {
                 step "Delete them if you don't need them, or rename one back to restore it."
             fi
             ;;
+        alttab)
+            rm_path "$TABBOX_DIR/$ALT_TAB_LAYOUT"
+            rm_path "/usr/share/kwin/tabbox/$ALT_TAB_LAYOUT"
+            # Only reset the switcher if it is still ours; leave a layout the
+            # user picked themselves alone.
+            if command -v kreadconfig6 &>/dev/null && \
+               [ "$(kreadconfig6 --file kwinrc --group TabBox --key LayoutName)" = "$ALT_TAB_LAYOUT" ]; then
+                kwriteconfig6 --file kwinrc --group TabBox --key LayoutName --delete
+                dbus-send --session --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null || true
+            fi
+            info "Alt+Tab switcher uninstalled. KWin's default switcher restored."
+            ;;
         greeter)
             # Revert any applied PLM patches and remove the user-level theme.
             PLM_DIR="$SRC_DIR/third_party/plasma-login-manager"
@@ -196,14 +208,14 @@ uninstall_component() {
             bash "$SRC_DIR/scripts/uninstall-greeter-system.sh"
             ;;
         all)
-            for c in themes icons lookfeel layout showdesk startmenu systray icontasks digitalclock sessionlock greeter; do
+            for c in themes icons lookfeel layout showdesk startmenu systray icontasks digitalclock sessionlock alttab greeter; do
                 uninstall_component "$c"
             done
             reset_kwin_borders
             ;;
         *)
             err "Unknown component: $name"
-            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, icontasks, digitalclock, sessionlock, greeter, greetersystem, all"
+            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, icontasks, digitalclock, sessionlock, alttab, greeter, greetersystem, all"
             exit 1
             ;;
     esac
@@ -224,6 +236,7 @@ case "${1:-}" in
     echo "  icontasks  Icon Tasks taskbar"
     echo "  digitalclock Digital Clock"
     echo "  sessionlock Session lock screen (Meta+L)"
+    echo "  alttab     Alt+Tab window switcher"
     echo "  greeter    Boot greeter (user theme + revert patches)"
     echo "  greetersystem Restore system greeter binary (needs sudo)"
     echo "  all        Uninstall everything"

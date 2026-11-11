@@ -46,6 +46,7 @@ done
 check_dir  "Kvantum/Windows-modern"                         "Kvantum theme"
 check_dir  "wallpaper/Windows-modern"                       "Wallpaper"
 check_file "icons/windows-modern/index.theme"               "Icon pack"
+check_file "plasma/windowswitcher/org.kde.windowsmodern.alttab/contents/ui/main.qml" "Alt+Tab switcher"
 
 # ── Layout ──────────────────────────────────────────────────────────
 echo ""
@@ -139,6 +140,20 @@ if command -v shellcheck &>/dev/null; then
     fi
 else
     warn "shellcheck not installed — skipped (CI runs it)"
+fi
+
+# ── QML tests ───────────────────────────────────────────────────────
+echo ""
+echo " QML tests:"
+if command -v qmltestrunner6 &>/dev/null || command -v qmltestrunner &>/dev/null \
+   || [ -x /usr/lib64/qt6/bin/qmltestrunner ] || [ -x /usr/lib/qt6/bin/qmltestrunner ]; then
+    if QT_QPA_PLATFORM=offscreen tests/windowswitcher/run-tests.sh >/dev/null 2>&1; then
+        pass "Alt+Tab switcher tests"
+    else
+        fail "Alt+Tab switcher tests — run: tests/windowswitcher/run-tests.sh"
+    fi
+else
+    warn "qmltestrunner not installed — skipped (CI runs it)"
 fi
 
 # ── Installed C++ applets (opt-in) ──────────────────────────────────
