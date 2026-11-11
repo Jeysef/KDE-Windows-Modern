@@ -8,6 +8,21 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Show Desktop: the second click restores the windows again. It now uses
+  KWin's show-desktop mode (the same state as Win+D) instead of minimizing
+  windows one by one, which lost track of them mid-way.
+- Start menu: each keystroke in the search field ran the search twice (a
+  duplicate change signal) and logged a warning.
+- Start menu: the Start button is exposed to screen readers and other
+  accessibility tools (it was missing from the accessibility tree).
+- Installing a C++ applet no longer stops Plasma Shell before asking for
+  the password; cancelling the prompt used to leave the desktop without a
+  shell. The plugin is installed as a new file, so the running shell is not
+  disturbed, and any later failure restarts the shell.
+- The C++ applets no longer set `KPlugin.Id` in their embedded metadata
+  (KF6 derives it from the file name and warns about an explicit one).
+- Icon Tasks: the task right-click handler matches upstream Plasma 6.8
+  (no exclusive-grab gesture policy).
 - Installing several applets at once (`./install.sh applets` or `all`) no
   longer leaves the desktop without Plasma Shell: the C++ applet installers
   stop it, and the final restart now also starts a stopped shell.

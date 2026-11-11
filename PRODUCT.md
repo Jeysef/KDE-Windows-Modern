@@ -76,6 +76,10 @@ Not added, even on request, unless this brief changes:
 
 ## Settled
 
+- **Tray icons stay separate (Windows 10 style):** network, volume,
+  battery and the rest are individual icons, each opening its own page.
+  Windows 11's single grouped Quick Settings button was considered and
+  not wanted.
 - **Tray overflow chevron:** stays right of the tray icons, next to the
   clock. Windows 11 puts it on the left; the right side was preferred.
 - **Start menu:** feature-complete as far as the product is concerned.
