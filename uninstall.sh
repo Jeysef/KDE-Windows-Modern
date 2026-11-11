@@ -112,11 +112,24 @@ uninstall_component() {
             info "System Tray uninstalled. Restart plasmashell to complete."
             ;;
         icontasks)
-            rm_path "$(detect_systray_so_dir)/org.kde.plasma.icontasks.so"
-            rm_path "/usr/share/plasma/plasmoids/org.kde.plasma.icontasks"
-            rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.plasma.icontasks"
+            # This applet ships under the stock KDE plugin id
+            # (org.kde.plasma.icontasks) because libkicker only offers
+            # "Pin to Taskbar" for ids it knows. It is therefore installed
+            # under the user prefix ONLY — never /usr. Removing our user-level
+            # copy makes the distro's stock applet visible again.
+            #
+            # Do NOT add /usr paths here: under this id they belong to
+            # plasma-desktop, and deleting them would take the user's stock
+            # task manager with the theme.
             rm_path "$HOME/.local/lib64/qt6/plugins/plasma/applets/org.kde.plasma.icontasks.so"
             rm_path "$HOME/.local/lib/qt6/plugins/plasma/applets/org.kde.plasma.icontasks.so"
+            rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.plasma.icontasks"
+            # Leftovers from the older vendor-namespaced id, which the theme owned outright.
+            rm_path "$(detect_systray_so_dir)/org.kde.windowsmodern.icontasks.so"
+            rm_path "/usr/share/plasma/plasmoids/org.kde.windowsmodern.icontasks"
+            rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.icontasks"
+            rm_path "$HOME/.local/lib64/qt6/plugins/plasma/applets/org.kde.windowsmodern.icontasks.so"
+            rm_path "$HOME/.local/lib/qt6/plugins/plasma/applets/org.kde.windowsmodern.icontasks.so"
             info "Icon Tasks uninstalled. Restart plasmashell to complete."
             ;;
         digitalclock)

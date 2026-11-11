@@ -36,6 +36,20 @@ echo "╚═══════════════════════�
 echo ""
 
 # ── Step 1: Build patched PLM (fresh build every time) ──
+# install-greeter.sh skips the build when build-user/.source_commit matches the
+# submodule HEAD. That cache is fine for the unprivileged dev loop, but it must
+# not be trusted here: whatever sits in build-user/bin is about to be copied to
+# /usr/libexec and handed the login credentials of every user on this machine.
+# Anyone who can write the checkout could otherwise plant an ELF plus a matching
+# .source_commit and have us install it as root.
+#
+# Clearing the stamp alone is not enough — a planted binary with a fresh mtime
+# would still survive an incremental build, and so would planted object files.
+# Discard the whole build tree so the greeter is always relinked from the
+# pinned, verified source. Costs a full rebuild, which is the right trade for a
+# deliberate, root-only, once-per-install operation.
+rm -rf "${PLM_BUILD}"
+
 echo "Step 1 / 4: Building patched PLM..."
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 bash "${SRC_DIR}/scripts/install-greeter.sh"

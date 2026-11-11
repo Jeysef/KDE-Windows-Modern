@@ -172,33 +172,24 @@ do_install() {
     info "Installing compiled plugin via pkexec..."
     info "  Plugin: $PLUGIN_INSTALL_DIR/$(basename "$PLUGIN_SO")"
 
-    # Write a temporary install script for pkexec
-    TMP_INSTALL=$(mktemp /tmp/windowsmodern-systray-install.XXXXXX)
-    chmod +x "$TMP_INSTALL"
+    case "$PLUGIN_INSTALL_DIR" in /usr/*) ;; *) die "Refusing root install to unexpected path: $PLUGIN_INSTALL_DIR" ;; esac
+    [ -f "$PLUGIN_SO" ] || die "Built plugin missing: $PLUGIN_SO"
 
-    cat > "$TMP_INSTALL" << SCRIPTEOF
-#!/bin/bash
+    # Pass paths as positional args and read them inside a quoted heredoc, so a
+    # shell-metacharacter in a pkg-config-derived path cannot be parsed as a
+    # command running as root.
+    $PKEXEC bash -s -- "$PLUGIN_SO" "$PLUGIN_INSTALL_DIR" "$APP_ID" <<'SCRIPTEOF'
 set -e
+plugin_src=$1; plugin_dst=$2; app_id=$3
+mkdir -p "$plugin_dst"
+cp "$plugin_src" "$plugin_dst/"
 
-PLUGIN_SRC="$PLUGIN_SO"
-PLUGIN_DST="$PLUGIN_INSTALL_DIR"
-APP_ID="$APP_ID"
-KPACKAGE_DIR="/usr/share/plasma/plasmoids/\$APP_ID"
-
-# Install compiled plugin
-mkdir -p "\$PLUGIN_DST"
-cp "\$PLUGIN_SRC" "\$PLUGIN_DST/"
-
-# Ensure no stale KPackage copy exists: the compiled .so already embeds
-# QML/config via ecm_target_qml_sources. A KPackage at the same plugin id
-# causes the dark-rectangle popup bug.
-rm -rf "\$KPACKAGE_DIR"
+# The compiled .so already embeds QML/config via ecm_target_qml_sources; a
+# stale KPackage at the same plugin id causes the dark-rectangle popup bug.
+rm -rf "/usr/share/plasma/plasmoids/$app_id"
 
 echo "Installation complete."
 SCRIPTEOF
-
-    $PKEXEC bash "$TMP_INSTALL"
-    rm -f "$TMP_INSTALL"
 
     # Prune stale local copies that take precedence over the system plugin
     rm -rf "$HOME/.local/share/plasma/plasmoids/$APP_ID" 2>/dev/null || true
@@ -255,18 +246,19 @@ case "${1:-build-install}" in
     uninstall)
         detect_paths
         info "Uninstalling via pkexec..."
-        TMP_UNINSTALL=$(mktemp /tmp/windowsmodern-systray-uninstall.XXXXXX)
-        chmod +x "$TMP_UNINSTALL"
-        cat > "$TMP_UNINSTALL" << SCRIPTEOF
-#!/bin/bash
+        # Guard the destructive root rm against a hostile pkg-config/kf6-config
+        # path, and pass values as positional args to a quoted heredoc so they
+        # can't be parsed as root commands.
+        case "$PLUGIN_INSTALL_DIR" in /usr/*) ;; *) die "Refusing root uninstall from unexpected path: $PLUGIN_INSTALL_DIR" ;; esac
+        case "$DATA_INSTALL_DIR" in /usr/*|"$HOME"/*) ;; *) die "Refusing root uninstall from unexpected path: $DATA_INSTALL_DIR" ;; esac
+        $PKEXEC bash -s -- "$PLUGIN_INSTALL_DIR" "$APP_ID" "$DATA_INSTALL_DIR" <<'SCRIPTEOF'
 set -e
-rm -f "$PLUGIN_INSTALL_DIR/$APP_ID.so"
-rm -rf "/usr/share/plasma/plasmoids/$APP_ID"
-rm -rf "$DATA_INSTALL_DIR/$APP_ID"
+plugin_dst=$1; app_id=$2; data_dst=$3
+rm -f "$plugin_dst/$app_id.so"
+rm -rf "/usr/share/plasma/plasmoids/$app_id"
+rm -rf "$data_dst/$app_id"
 echo "Uninstall complete."
 SCRIPTEOF
-        $PKEXEC bash "$TMP_UNINSTALL"
-        rm -f "$TMP_UNINSTALL"
         info "Uninstalled. Restart plasmashell to remove the applet."
         ;;
     *)

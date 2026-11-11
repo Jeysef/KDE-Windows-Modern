@@ -59,11 +59,19 @@ info "Installing..."
 PLUGIN_SRC="$BUILD_DIR/lib/plasma/applets/${APP_ID}.so"
 detect_paths
 
-pkexec bash -s <<INSTALLEOF
+# Pass paths as positional args and read them inside a quoted heredoc, so a
+# shell-metacharacter in a malicious pkg-config plugindir value cannot be
+# parsed as a command running as root. The /usr/ guard keeps a hostile value
+# from redirecting the root install somewhere else.
+case "$PLUGIN_DST" in /usr/*) ;; *) err "Refusing root install to unexpected path: $PLUGIN_DST"; exit 1 ;; esac
+[ -f "$PLUGIN_SRC" ] || { err "Built plugin missing: $PLUGIN_SRC"; exit 1; }
+
+pkexec bash -s -- "$PLUGIN_DST" "$PLUGIN_SRC" "$KPACKAGE_DIR" <<'INSTALLEOF'
 set -e
-mkdir -p "$PLUGIN_DST"
-cp "$PLUGIN_SRC" "$PLUGIN_DST/"
-rm -rf "$KPACKAGE_DIR"
+plugin_dst=$1; plugin_src=$2; kpackage_dir=$3
+mkdir -p "$plugin_dst"
+cp "$plugin_src" "$plugin_dst/"
+rm -rf "$kpackage_dir"
 echo "Installed."
 INSTALLEOF
 
