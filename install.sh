@@ -88,6 +88,7 @@ install_everything() {
     info "Windows shortcuts and apps..."
     install_component shortcuts
     install_component apps
+    install_component fonts
 
     echo ""
     info "Done! For the authentic Win11 look, enable floating:"
@@ -142,6 +143,7 @@ menu() {
     echo -e "    ${BOLD}15${RESET}) Windows keyboard shortcuts (Win+Up/Down, Win+Tab, Win+R, Win+A...)"
     echo -e "    ${BOLD}16${RESET}) Apps: Haruna, KWrite, Mission Center, Snipping Tool behaviour"
     echo -e "    ${BOLD}17${RESET}) Dependencies only (Kvantum, Flatpak, C++ build tools)"
+    echo -e "    ${BOLD}18${RESET}) Fonts: Segoe UI or Selawik, Cascadia Mono"
     echo ""
     echo -e "    ${BOLD}0${RESET})  Quit"
     echo ""
@@ -172,6 +174,7 @@ menu() {
         15) install_component shortcuts ;;
         16) install_component apps ;;
         17) install_component deps ;;
+        18) install_component fonts ;;
         0)  echo "Nothing installed."; exit 0 ;;
         *)  err "Invalid choice."; exit 1 ;;
     esac
@@ -215,6 +218,7 @@ case "${1:-menu}" in
         echo "    shortcuts      Windows keyboard shortcuts (backs up and replaces some KDE keys)"
         echo "    apps           Haruna, KWrite, Mission Center; video default; Snipping Tool behaviour"
         echo "    deps           Kvantum, Flatpak and the C++ applets' build dependencies"
+        echo "    fonts          Segoe UI (or open Selawik if missing) and Cascadia Mono"
         echo "    greeter        Boot greeter / login screen (PLM build, user test)"
         echo ""
         echo "  Note: 'all' includes the session lock screen, Alt+Tab switcher, shortcuts and apps. The boot greeter is"

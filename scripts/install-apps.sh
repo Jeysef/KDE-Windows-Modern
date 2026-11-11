@@ -8,8 +8,6 @@
 #    Snipping Tool  Spectacle: PrtSc / Win+Shift+S select a region; on
 #                   release it is copied and saved to Pictures/Screenshots
 #    Explorer       Dolphin gets an Up button next to Back/Forward
-#    Fonts          Cascadia Mono, Windows 11's monospace font (OFL), as the
-#                   fixed-width font unless you picked your own
 #
 #  Previous defaults are backed up; ./uninstall.sh apps restores them
 #  (the apps themselves stay installed).
@@ -28,11 +26,7 @@ ensure_dir "$BACKUP_DIR"
 info "Setting up apps..."
 
 # 1. Distro packages (one password prompt if anything is missing).
-if command -v dnf &>/dev/null; then cascadia="cascadia-mono-fonts"
-elif command -v apt-get &>/dev/null; then cascadia="fonts-cascadia-code"
-elif command -v pacman &>/dev/null; then cascadia="ttf-cascadia-code"
-else cascadia=""; fi
-install_packages haruna kwrite ${cascadia:+"$cascadia"} || warn "Some apps were not installed."
+install_packages haruna kwrite || warn "Haruna/KWrite not installed."
 
 # 2. Mission Center from Flathub, per user (no password).
 if command -v flatpak &>/dev/null; then
@@ -84,23 +78,7 @@ else
     step "Explorer: keeping your own toolbar layout"
 fi
 
-# 6. Cascadia Mono as the fixed-width font, unless you chose your own.
-fixed="$(kreadconfig6 --group General --key fixed)"
-fc-cache &>/dev/null || true # a font installed a moment ago may not be listed yet
-# (no "| grep -q": with pipefail, grep quitting early fails the pipeline)
-if [ -n "$(fc-list "Cascadia Mono" family)" ]; then
-    case "${fixed%%,*}" in
-        ""|"Noto Sans Mono"|"Hack"|"DejaVu Sans Mono"|"Monospace"|"Liberation Mono")
-            step "Monospace font: Cascadia Mono"
-            [ -f "$BACKUP_DIR/kdeglobals.fixed" ] || echo "$fixed" > "$BACKUP_DIR/kdeglobals.fixed"
-            kwriteconfig6 --notify --group General --key fixed "Cascadia Mono,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
-            ;;
-        "Cascadia Mono") ;;
-        *) step "Monospace font: keeping your ${fixed%%,*}" ;;
-    esac
-fi
-
-# 7. Ctrl+Shift+Esc opens Mission Center.
+# 6. Ctrl+Shift+Esc opens Mission Center.
 if busctl --user status org.kde.kglobalaccel &>/dev/null; then
     step "Ctrl+Shift+Esc: Mission Center"
     python3 "$SRC_DIR/scripts/windows-shortcuts.py" apply --group apps || warn "Ctrl+Shift+Esc not set."

@@ -226,6 +226,23 @@ uninstall_component() {
             rm_path "$HOME/.local/share/applications/windowsmodern-screenshot.desktop"
             info "Windows shortcuts removed; your previous keys are back."
             ;;
+        fonts)
+            backup_dir="$HOME/.local/share/windows-modern/backup"
+            for key in font fixed; do
+                [ -f "$backup_dir/kdeglobals.$key" ] || continue
+                old="$(cat "$backup_dir/kdeglobals.$key")"
+                if [ -n "$old" ]; then
+                    kwriteconfig6 --notify --group General --key "$key" "$old"
+                else
+                    kwriteconfig6 --notify --group General --key "$key" --delete
+                fi
+                rm -f "$backup_dir/kdeglobals.$key"
+            done
+            rm_path "$HOME/.config/fontconfig/conf.d/60-windows-modern-segoe.conf"
+            rm_path "$HOME/.local/share/fonts/selawik"
+            fc-cache &>/dev/null || true
+            info "Fonts restored. Cascadia Mono stays installed (remove it with your package manager)."
+            ;;
         apps)
             backup_dir="$HOME/.local/share/windows-modern/backup"
             if [ -f "$backup_dir/spectaclerc.General" ]; then
@@ -243,15 +260,6 @@ uninstall_component() {
             elif [ -f "$backup_dir/mimeapps.list.none" ]; then
                 rm -f "$HOME/.config/mimeapps.list" "$backup_dir/mimeapps.list.none"
             fi
-            if [ -f "$backup_dir/kdeglobals.fixed" ]; then
-                old_fixed="$(cat "$backup_dir/kdeglobals.fixed")"
-                if [ -n "$old_fixed" ]; then
-                    kwriteconfig6 --notify --group General --key fixed "$old_fixed"
-                else
-                    kwriteconfig6 --notify --group General --key fixed --delete
-                fi
-                rm -f "$backup_dir/kdeglobals.fixed"
-            fi
             ui="$HOME/.local/share/kxmlgui5/dolphin/dolphinui.rc"
             if [ -f "$backup_dir/dolphinui.rc.ours" ]; then
                 rm_path "$ui"
@@ -263,14 +271,14 @@ uninstall_component() {
             info "remove them with your package manager / flatpak if you want."
             ;;
         all)
-            for c in shortcuts apps themes icons lookfeel layout showdesk startmenu systray icontasks digitalclock sessionlock alttab greeter; do
+            for c in shortcuts apps fonts themes icons lookfeel layout showdesk startmenu systray icontasks digitalclock sessionlock alttab greeter; do
                 uninstall_component "$c"
             done
             reset_kwin_borders
             ;;
         *)
             err "Unknown component: $name"
-            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, icontasks, digitalclock, sessionlock, alttab, shortcuts, apps, greeter, greetersystem, all"
+            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, icontasks, digitalclock, sessionlock, alttab, shortcuts, apps, fonts, greeter, greetersystem, all"
             exit 1
             ;;
     esac
@@ -294,6 +302,7 @@ case "${1:-}" in
     echo "  alttab     Alt+Tab window switcher"
     echo "  shortcuts  Windows keyboard shortcuts (previous keys restored)"
     echo "  apps       App defaults (video player, Snipping Tool, Ctrl+Shift+Esc)"
+    echo "  fonts      Previous UI and monospace fonts back"
     echo "  greeter    Boot greeter (user theme + revert patches)"
     echo "  greetersystem Restore system greeter binary (needs sudo)"
     echo "  all        Uninstall everything"

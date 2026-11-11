@@ -77,8 +77,9 @@ for you, in this order:
    C++ applets (only what's missing; one password prompt).
 2. **Look:** themes, icons, applets, layout, KWin borders, per-monitor
    Alt+Tab, Application Style, wallpaper, panel layout reset.
-3. **Behaviour:** Windows keyboard shortcuts, and the everyday apps
-   (Haruna, KWrite, Mission Center) with Snipping Tool–style screenshots.
+3. **Behaviour:** Windows keyboard shortcuts, Snap Layouts, the everyday
+   apps (Haruna, KWrite, Mission Center) with Snipping Tool–style
+   screenshots, and Windows fonts (Segoe UI or Selawik, Cascadia Mono).
 
 On a fresh Plasma install this one run is all you need. Run it from
 your normal account (it asks for the password itself when needed) and
@@ -123,6 +124,7 @@ needed (Plasma Shell restarts automatically where required).
 ./install.sh alttab       # Windows 11-style Alt+Tab switcher
 ./install.sh shortcuts    # Windows keyboard shortcuts (see below)
 ./install.sh apps         # Haruna, KWrite, Mission Center, Snipping Tool behaviour
+./install.sh fonts        # Segoe UI or Selawik, Cascadia Mono
 ./install.sh deps         # Dependencies only
 ./install.sh greeter      # Boot greeter (PLM build + system install)
 ```
@@ -179,11 +181,22 @@ puts them back. Win+Up/Down come from a small KWin script
 | Notepad | **KWrite** | Installed; your default text editor is left alone. |
 | Task Manager | **Mission Center** | From Flathub (per user), on Ctrl+Shift+Esc. GNOME-styled. |
 | Snipping Tool | **Spectacle** | PrtSc / Win+Shift+S: select a region; on release it is copied and saved to Pictures/Screenshots. |
-| Terminal & code font | **Cascadia Mono** | Windows 11's monospace font (open licence, from your distro). Set as the fixed-width font only if you hadn't picked your own. |
 | File Explorer | **Dolphin** | Up button next to Back/Forward (only if you have no toolbar layout of your own). Win+E opens it. |
 
 `./uninstall.sh apps` restores your previous defaults; the apps stay
 installed.
+
+## Fonts
+
+`./install.sh fonts` uses Windows 11's fonts where it can:
+
+- **UI:** Segoe UI if you have it (it can't be shipped). Otherwise
+  Microsoft's open **Selawik** (same metrics) is downloaded and used
+  wherever "Segoe UI" is asked for.
+- **Monospace:** **Cascadia Mono**, from your distro.
+
+Your fonts change only if they are still distro defaults;
+`./uninstall.sh fonts` puts the previous ones back.
 
 ## Applets
 
@@ -454,6 +467,7 @@ Full instructions: [`app-decorations/firefox/README.md`](app-decorations/firefox
 ./uninstall.sh alttab        # Restore KWin's default Alt+Tab switcher
 ./uninstall.sh shortcuts     # Put your previous keyboard shortcuts back
 ./uninstall.sh apps          # Restore previous app defaults (apps stay installed)
+./uninstall.sh fonts         # Restore previous UI and monospace fonts
 ./uninstall.sh greeter       # Remove user greeter theme + revert patches
 ./uninstall.sh greetersystem # Restore system greeter binary (needs sudo)
 ```

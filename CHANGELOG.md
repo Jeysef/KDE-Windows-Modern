@@ -22,9 +22,11 @@ the `Version` field shared by every component's metadata.
 - `./install.sh apps`: Haruna (default video player), KWrite, Mission
   Center (Flathub, per user) on Ctrl+Shift+Esc, and Snipping Tool
   behaviour for Spectacle (capture on release, copy, save), and an Up
-  button in Dolphin's toolbar as in File Explorer, and Cascadia Mono
-  (Windows 11's monospace font) as the fixed-width font unless you chose
-  your own.
+  button in Dolphin's toolbar as in File Explorer.
+- `./install.sh fonts`: Cascadia Mono (Windows 11's monospace font) as the
+  fixed-width font, and, when Segoe UI is not installed, Microsoft's open
+  Selawik standing in for it (downloaded, checksum-pinned, aliased so
+  "Segoe UI" resolves to it). Fonts change only if still distro defaults.
 - `./install.sh deps`: Kvantum, Flatpak and the C++ applets' build
   dependencies, so "Everything" works on a fresh machine.
 - "Everything" now also installs dependencies, shortcuts and apps.
