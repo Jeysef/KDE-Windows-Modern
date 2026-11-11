@@ -120,7 +120,8 @@
     </entry>
     <entry name="indicateAudioStreams" type="Bool">
       <label>Whether to indicate applications that are playing audio.</label>
-      <default>true</default>
+      <!-- Off, as on Windows: no speaker badge on task icons. -->
+      <default>false</default>
     </entry>
     <entry name="interactiveMute" type="Bool">
       <label>Whether to mute applications that are playing audio using audio indicators.</label>
