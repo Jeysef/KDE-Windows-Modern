@@ -1,4 +1,9 @@
 // Windows Modern Panel — Win11-style centered taskbar layout for Plasma 6
+// Used by "Add Panel → Windows Modern Panel". Adds ONE panel to the screen
+// the user picked and leaves existing panels alone. The global themes'
+// layout scripts (plasma/look-and-feel/*/contents/layouts/) instead replace
+// all panels with one per screen. The widget section below is shared with
+// them and must stay identical — verify-all.sh checks this.
 // Creates a bottom panel with:
 //   [...........] [Start] [icon-only tasks] [...........] [system tray] [clock] [show desktop]
 //
@@ -45,9 +50,10 @@ if (!start) { start = panel.addWidget("org.kde.plasma.kickoff"); }
 start.currentConfigGroup = new Array("General");
 start.writeConfig("icon", "start-here");
 
-// 3. Icon-only task manager — custom Win11 style, or fall back to stock.
+// 3. Icon-only task manager. The Windows Modern fork deliberately reuses
+//    the stock plugin ID, so this loads the fork when it is installed and
+//    the stock icons-only task manager otherwise — no separate fallback.
 var tasks = panel.addWidget("org.kde.plasma.icontasks");
-if (!tasks) { tasks = panel.addWidget("org.kde.plasma.icontasks"); }
 tasks.currentConfigGroup = new Array("General");
 tasks.writeConfig("launchers", "");
 tasks.writeConfig("showOnlyCurrentScreen", "false");

@@ -23,6 +23,9 @@ for (var screenId = 0; screenId < screenCount; screenId++) {
     createWindowsModernPanel(screenId);
 }
 
+// The widget section of this function is shared with the "Add Panel"
+// template (plasma/layout-templates/org.kde.windowsmodern.panel) and must
+// stay identical — verify-all.sh checks this.
 function createWindowsModernPanel(screenId) {
     var panel = new Panel;
 
@@ -66,9 +69,10 @@ function createWindowsModernPanel(screenId) {
     start.currentConfigGroup = new Array("General");
     start.writeConfig("icon", "start-here");
 
-    // 3. Icon-only task manager — custom Win11 style, or fall back to stock.
+    // 3. Icon-only task manager. The Windows Modern fork deliberately reuses
+    //    the stock plugin ID, so this loads the fork when it is installed and
+    //    the stock icons-only task manager otherwise — no separate fallback.
     var tasks = panel.addWidget("org.kde.plasma.icontasks");
-    if (!tasks) { tasks = panel.addWidget("org.kde.plasma.icontasks"); }
     tasks.currentConfigGroup = new Array("General");
     tasks.writeConfig("launchers", "");
     tasks.writeConfig("showOnlyCurrentScreen", "false");
