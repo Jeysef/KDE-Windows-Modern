@@ -204,7 +204,7 @@ Detailed build instructions: [`plasma/applets/org.kde.windowsmodern.systemtray/B
 
 ### Icon Tasks
 
-A C++ fork of the upstream icons-only task manager (`org.kde.plasma.taskmanager` from plasma-desktop), rebranded as `org.kde.windowsmodern.icontasks` and restyled with Windows 11 tooltip visuals. The C++ backend is preserved unchanged (jump lists, places, recent docs, app categories, smart launcher badges, audio stream matching); only the QML UI is restyled. This is the taskbar used by the Windows Modern panel layout template.
+A C++ fork of the upstream icons-only task manager (`org.kde.plasma.taskmanager` from plasma-desktop), restyled with Windows 11 tooltip visuals. It registers under the stock plugin ID `org.kde.plasma.icontasks`, so it replaces the icons-only task manager transparently; uninstalling restores the stock one. The C++ backend is preserved unchanged (jump lists, places, recent docs, app categories, smart launcher badges, audio stream matching); only the QML UI is restyled. This is the taskbar used by the Windows Modern panel layout template.
 
 Win11 refinements over upstream:
 
@@ -311,12 +311,19 @@ included in `install.sh all`**.
 ./install.sh greeter
 third_party/plasma-login-manager/build-user/bin/plasma-login-greeter --test
 
-# 2. Install as your actual boot greeter (needs root, typed confirmation):
+# 2. Install as your actual boot greeter (needs root, typed confirmation).
+#    Run it with sudo from your normal account: the build runs as you, and
+#    only the final copy into /usr runs as root.
 sudo bash scripts/install-greeter-live.sh
 
-# Update the PLM submodule to a new upstream version:
+# Maintainers: move the PLM submodule to a new upstream release
+# (release branches Plasma/6.N or tags vX.Y.Z only), then commit the pointer:
 ./scripts/update-plm.sh Plasma/6.7
 ```
+
+Local edits inside `third_party/plasma-login-manager/` are never discarded:
+the build stashes them (`git -C third_party/plasma-login-manager stash pop`
+restores them).
 
 Keep a TTY (Ctrl+Alt+F3) open before the live install. Revert:
 
@@ -352,22 +359,36 @@ Full instructions: [`app-decorations/firefox/README.md`](app-decorations/firefox
 ./uninstall.sh all           # Remove everything
 ./uninstall.sh themes        # Remove theme components only
 ./uninstall.sh icons         # Remove icon pack
+./uninstall.sh lookfeel      # Remove global themes
+./uninstall.sh layout        # Remove panel layout template
+./uninstall.sh showdesk      # Remove Show Desktop applet
+./uninstall.sh startmenu     # Remove Start Menu applet
 ./uninstall.sh systray       # Remove system tray plugin
+./uninstall.sh icontasks     # Remove Icon Tasks, restore the stock icons-only task manager
 ./uninstall.sh digitalclock  # Remove Digital Clock applet
 ./uninstall.sh sessionlock   # Restore Breeze lock screen (Meta+L)
 ./uninstall.sh greeter       # Remove user greeter theme + revert patches
 ./uninstall.sh greetersystem # Restore system greeter binary (needs sudo)
 ```
 
-Run a project health check:
+Run a health check:
 
 ```bash
-./verify-all.sh
+./verify-all.sh              # Repository checks (also the release gate and CI)
+./verify-all.sh --installed  # ...plus the installed System Tray and Icon Tasks plugins
 ```
 
 ---
 
 ## Development and contributing
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the development workflow,
+the checks CI runs, and commit conventions. In short:
+
+```bash
+./verify-all.sh            # repository health check (what CI and release.sh run)
+./scripts/ci-build.sh      # compile both C++ applets and check they link
+```
 
 ### Committing icon pack changes
 
@@ -399,6 +420,8 @@ Walks you through each desktop state (dark/light overview, start menu, system tr
 
 | Document | Description |
 |----------|-------------|
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Development workflow, checks, and commit conventions. |
+| [`CHANGELOG.md`](CHANGELOG.md) | Notable changes per release. |
 | [`docs/STYLE.md`](docs/STYLE.md) | Complete visual style specification: palette, desktop theme, panel layout, applet specs, and repository structure. |
 | [`docs/STARTMENU_PLAN.md`](docs/STARTMENU_PLAN.md) | Implementation plan for the Start Menu applet. |
 | [`docs/SYSTEMTRAY_ARCHITECTURE.md`](docs/SYSTEMTRAY_ARCHITECTURE.md) | Architecture and history of the custom system tray. |
@@ -428,12 +451,19 @@ A stale local copy in `~/.local/lib64/qt6/plugins/plasma/applets/` or `~/.local/
 
 ### Icon Tasks taskbar is unstyled or thumbnails don't render
 
-Same root causes as the System Tray: a conflicting KPackage was installed instead of the compiled `.so`, or a stale local `.so` (`org.kde.windowsmodern.icontasks.so`) is shadowing the system plugin. Re-run the installer, which prunes both:
+Same root causes as the System Tray: a conflicting KPackage was installed instead of the compiled `.so`, or a stale local `.so` (`org.kde.plasma.icontasks.so`, or the legacy `org.kde.windowsmodern.icontasks.so`) is shadowing the system plugin. Re-run the installer, which prunes both:
 
 ```bash
 ./install.sh icontasks
 systemctl --user restart plasma-plasmashell.service
+bash plasma/applets/org.kde.windowsmodern.icontasks/verify.sh   # diagnose
 ```
+
+After a Plasma upgrade the plugin must be rebuilt (it links against
+Plasma's libraries); re-running `./install.sh icontasks` does that. A distro
+update of `plasma-desktop` can also put the stock task manager package back
+next to the fork — `verify.sh` reports this, and re-running the installer
+fixes it.
 
 ### Window borders look wrong after install
 

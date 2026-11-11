@@ -1,8 +1,14 @@
 # Windows 11 Start Menu — Implementation Plan
 
-Port the reference plasmoid `com.jeysef.windowsmodernstartmenu` (at
-`/home/jeysef/Coding/kde/Windows_modern/plasmoids/startmenu/`) into this theme
-as **`org.kde.windowsmodern.startmenu`**, in two phases.
+> **Status: Phase 1 shipped; Phase 2 not implemented.** The applet lives in
+> `plasma/applets/org.kde.windowsmodern.startmenu/`. The file tree that
+> actually shipped differs from the original target below — see
+> [What shipped](#what-shipped). Phase 2 (folders, launch tracking, command
+> palette) has no code yet; treat its section as a design proposal.
+
+Port the reference plasmoid `com.jeysef.windowsmodernstartmenu` (an earlier
+standalone project by the same author, not part of this repository) into this
+theme as **`org.kde.windowsmodern.startmenu`**, in two phases.
 
 - **Phase 1** — clean foundation: layouts, animations, navigation, structure.
   No folders, no launch-tracking, no command palette.
@@ -20,7 +26,7 @@ WeatherCard.qml 119 (DROP), tools.js 181, UpdateChecker.js 147 (DROP).
 
 ---
 
-## Target file tree
+## Target file tree (original plan)
 
 ```
 plasma/applets/org.kde.windowsmodern.startmenu/
@@ -51,6 +57,21 @@ plasma/applets/org.kde.windowsmodern.startmenu/
             └── tools.js
 ```
 
+### What shipped
+
+```
+contents/ui/
+├── main.qml, CompactRepresentation.qml, MenuRepresentation.qml, ConfigGeneral.qml
+├── pages/       PinnedPage.qml, AllAppsPage.qml, SearchPage.qml
+├── components/  AToolButton.qml, BottomBar.qml, ContextMenu.qml,
+│                ListItemDelegate.qml, PowerOption.qml, ShutdownMenu.qml,
+│                SystemLocationsColumn.qml
+└── code/        tools.js, theme.js
+```
+
+The grid views were replaced by list delegates, the search field and footer
+became `BottomBar.qml`, and `ActionMenu.qml` became `ContextMenu.qml`.
+
 **Key structural improvement:** split the monolithic 3307-line
 `MenuRepresentation.qml` into a shell + `pages/` + `components/`. The shell
 owns dialog positioning, search field hosting, SwipeView, footer, reset,
@@ -61,10 +82,12 @@ search-state. Each page is self-contained.
 ## Conventions (from this repo)
 
 - **KPlugin.Id**: `org.kde.windowsmodern.startmenu` (matches siblings).
-- **KPackageStructure**: `"Plasma/Applet"`. **Version**: `"1.0"`.
+- **KPackageStructure**: `"Plasma/Applet"`. **Version**: same as every other
+  component (currently `"1.0.0"`; `scripts/package.sh` enforces this).
 - **License**: `GPL-3.0-or-later`.
-- **Author**: `Name: "Jeysef"`, `Email: ""`.
-- **Website / BugReportUrl**: `https://github.com/yeyushengfan258/Win11OS-kde`.
+- **Author**: `Name: "Jeysef"`, `Email: "jeysef@users.noreply.github.com"`.
+- **Website**: `https://github.com/Jeysef/KDE-Windows-Modern`;
+  **BugReportUrl**: `https://github.com/Jeysef/KDE-Windows-Modern/issues`.
 - **X-Plasma-API-Minimum-Version**: `6.0`, `EnabledByDefault: true`,
   `FormFactors: ["desktop"]`.
 - **X-Plasma-Provides**: `["org.kde.plasma.launchermenu"]` (replaces Kickoff).

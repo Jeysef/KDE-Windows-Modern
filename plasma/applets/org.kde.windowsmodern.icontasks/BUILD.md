@@ -76,8 +76,9 @@ systemctl --user restart plasma-plasmashell.service
 ## Local plugin shadowing
 
 If you have an old copy of the plugin at
-`~/.local/lib64/qt6/plugins/plasma/applets/org.kde.windowsmodern.icontasks.so`
-(or `~/.local/lib/qt6/plugins/...`), Qt will load that local copy instead of
+`~/.local/lib64/qt6/plugins/plasma/applets/org.kde.plasma.icontasks.so`
+(or `~/.local/lib/qt6/plugins/...`, or a copy under the legacy name
+`org.kde.windowsmodern.icontasks.so`), Qt will load that local copy instead of
 the system one, and your changes will appear to have no effect. The install
 scripts above remove these stale copies automatically.
 
@@ -86,13 +87,31 @@ scripts above remove these stale copies automatically.
 After building, the only runtime artifact is:
 
 ```
-/usr/lib64/qt6/plugins/plasma/applets/org.kde.windowsmodern.icontasks.so
+/usr/lib64/qt6/plugins/plasma/applets/org.kde.plasma.icontasks.so
 ```
 
+(`/usr/lib/qt6/plugins/...` on distros without `lib64`.)
+
 The QML and config files are compiled into the `.so` via
-`ecm_target_qml_sources`. A separate KPackage directory at
-`/usr/share/plasma/plasmoids/org.kde.windowsmodern.icontasks/` must
-**not** be installed — it causes rendering bugs.
+`ecm_target_qml_sources`. A KPackage directory at
+`/usr/share/plasma/plasmoids/org.kde.plasma.icontasks/` must **not** be
+present — it shadows the `.so` and causes rendering bugs.
+
+That directory is normally the distro's own stock icons-only task manager
+(owned by `plasma-desktop`). `dev.sh` therefore moves it to
+`/var/lib/windows-modern/backup/plasmoids/org.kde.plasma.icontasks` instead of
+deleting it, and `./uninstall.sh icontasks` moves it back. A distro update can
+restore it while the fork is installed; `./verify.sh` reports that, and
+re-running `./install.sh icontasks` moves it aside again.
+
+## Plugin ID
+
+The source directory is `plasma/applets/org.kde.windowsmodern.icontasks/`, but
+the plugin registers as **`org.kde.plasma.icontasks`** — the stock
+icons-only task manager ID, reused on purpose so existing panels and the
+layout scripts pick up the fork transparently. (Before commit `7ef6bfe` it
+registered as `org.kde.windowsmodern.icontasks`; `dev.sh` migrates old panel
+configs.)
 
 For distribution, bundle the `.so` with an install script that copies it to
 the distro-specific Qt plugin directory. Users do not need a C++ compiler —

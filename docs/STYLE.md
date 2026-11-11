@@ -261,8 +261,7 @@ See `docs/SYSTEMTRAY_ARCHITECTURE.md` and
 #### Icon Tasks applet (`plasma/applets/org.kde.windowsmodern.icontasks/`)
 
 A C++ fork of the upstream `org.kde.plasma.taskmanager` (from
-plasma-desktop), rebranded as `org.kde.windowsmodern.icontasks` and
-restyled with Windows 11 tooltip visuals. The C++ backend is preserved
+plasma-desktop), restyled with Windows 11 tooltip visuals. The C++ backend is preserved
 unchanged (jump lists, places, recent docs, app categories, smart
 launcher badges, audio stream matching). The QML UI is forked from
 upstream with minimal Win11 refinements:
@@ -286,8 +285,13 @@ not be installed. Build and install with `./dev.sh` or
 `./install.sh icontasks`. See
 `plasma/applets/org.kde.windowsmodern.icontasks/BUILD.md`.
 
-The panel layout template and look-and-feel layout scripts use
-`org.kde.windowsmodern.icontasks` instead of `org.kde.plasma.icontasks`.
+The fork registers under the stock plugin ID `org.kde.plasma.icontasks`
+(the source directory is still `org.kde.windowsmodern.icontasks/`). The
+panel layout template and look-and-feel layout scripts therefore add
+`org.kde.plasma.icontasks`, which loads the fork when it is installed and the
+stock icons-only task manager otherwise. Because that ID belongs to a
+distro-owned package, `dev.sh` moves the stock KPackage aside to
+`/var/lib/windows-modern/backup/` and `uninstall.sh` restores it.
 
 #### Popups / tooltips
 
