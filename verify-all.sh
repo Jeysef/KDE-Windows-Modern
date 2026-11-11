@@ -104,7 +104,13 @@ for p in sorted(pathlib.Path(".").rglob("metadata.json")):
         continue
     if p.parts[:2] == ("plasma", "applets"):
         plugin = data.get("KPlugin", {})
-        for key in ("Id", "Name", "Version", "License"):
+        compiled = (p.parent / "CMakeLists.txt").exists()
+        if compiled and plugin.get("Id"):
+            # KF6: a compiled plugin's id comes from its file name; an explicit
+            # Id in the embedded metadata only triggers a runtime warning.
+            errors.append(f"{p}: compiled plugin must not set KPlugin.Id")
+        required = ("Name", "Version", "License") if compiled else ("Id", "Name", "Version", "License")
+        for key in required:
             if not plugin.get(key):
                 errors.append(f"{p}: KPlugin.{key} is missing")
 print(f"ok {count}")
@@ -115,7 +121,7 @@ PY
 META_COUNT="$(head -1 <<< "$META_ERRORS" | cut -d' ' -f2)"
 META_PROBLEMS="$(tail -n +2 <<< "$META_ERRORS")"
 if [ -z "$META_PROBLEMS" ]; then
-    pass "$META_COUNT metadata.json files parse; applets declare Id/Name/Version/License"
+    pass "$META_COUNT metadata.json files parse; applet metadata complete (Id only for QML applets)"
 else
     while IFS= read -r line; do fail "$line"; done <<< "$META_PROBLEMS"
 fi
