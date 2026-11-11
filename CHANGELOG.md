@@ -75,6 +75,10 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Start menu search: results appearing under a resting pointer took the
+  selection, so Enter ran whatever was under the mouse instead of the best
+  match. The pointer now selects a result only once it actually moves.
+  Result rows are also exposed to screen readers (name, selected).
 - Quick Settings flyout: scrolling over the overflow cards (e.g. with a
   touchpad over "Brightness & Color") changed the brightness or volume.
   The wheel now scrolls the card grid and never reaches the applet's icon.

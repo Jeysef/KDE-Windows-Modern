@@ -64,6 +64,13 @@ class Node:
         except Exception:
             return False
 
+    @property
+    def selected(self):
+        try:
+            return self.acc.get_state_set().contains(Atspi.StateType.SELECTED)
+        except Exception:
+            return False
+
     def text(self):
         try:
             return Atspi.Text.get_text(self.acc, 0, Atspi.Text.get_character_count(self.acc))

@@ -14,7 +14,7 @@ Nothing here changes system state: no toggles are switched, the keyboard
 layout and power buttons are not pressed.
 
 Usage: tests/panel/e2e.py [--out DIR] [SCENARIO ...]
-Scenarios: show-desktop start-meta start-click tray-order tray-pages
+Scenarios: show-desktop start-meta start-click start-hover tray-order tray-pages
            clock quick-settings flyout-scroll  (default: all)
 
 Not covered: the taskbar's right-click menu. It is a native Qt menu, and
@@ -135,6 +135,57 @@ def _start_typing(p, c, how):
 
 def start_meta(p, c):
     _start_typing(p, c, "meta")
+
+
+def _results():
+    """Search result rows on screen, top to bottom."""
+    rows = [n for n in a11y.nodes(APP) if n.showing and n.role == "list item" and n.visible
+            and n.rect[2] > 200]
+    return sorted(rows, key=lambda n: n.rect[1])
+
+
+def start_hover(p, c):
+    """Results appearing under a resting pointer must not take the
+    selection (Enter runs the best match); moving the pointer does."""
+    query = "settings"
+    p.vi.tap(e.KEY_LEFTMETA)
+    c.check(wait_for(lambda: visible("Pinned")) is not None, "Start menu opens")
+    time.sleep(0.4)
+    p.vi.type_text(query)
+    rows = wait_for(lambda: len(_results()) >= 3 and _results(), timeout=5)
+    c.check(bool(rows), "search shows at least 3 results")
+    if not rows:
+        p.close_popups(); return
+    resting = rows[2].centre
+    p.close_popups()
+    wait_for(lambda: visible("Pinned") is None)
+
+    p.vi.move_to(*resting)          # the pointer rests where the third result will be
+    time.sleep(0.5)
+    p.vi.tap(e.KEY_LEFTMETA)
+    wait_for(lambda: visible("Pinned"))
+    time.sleep(0.4)
+    p.vi.type_text(query)
+    rows = wait_for(lambda: len(_results()) >= 3 and _results(), timeout=5)
+    time.sleep(0.8)
+    rows = _results()
+    p.shot("start-hover-resting")
+    selected = [r.name for r in rows if r.selected]
+    c.check(rows and selected == [rows[0].name],
+            f"with the pointer resting, the top result stays selected (selected: {selected})")
+
+    # Results stream in and reorder, so which row ends up under the pointer
+    # is not known in advance: the check is that the selection left the
+    # top result for the row the pointer moved onto.
+    target = (resting[0], resting[1] + rows[1].rect[3])
+    p.vi.move_to(*target, steps=8)
+    time.sleep(0.5)
+    rows = _results()
+    selected = [r for r in rows if r.selected]
+    p.shot("start-hover-moved")
+    c.check(len(selected) == 1 and selected[0].name != rows[0].name,
+            f"moving the pointer selects the row under it ({[r.name for r in selected]})")
+    p.close_popups()
 
 
 def start_click(p, c):
@@ -269,6 +320,7 @@ def flyout_scroll(p, c):
 
 
 SCENARIOS = {"show-desktop": show_desktop, "start-meta": start_meta, "start-click": start_click,
+             "start-hover": start_hover,
              "tray-order": tray_order, "tray-pages": tray_pages, "clock": clock,
              "quick-settings": quick_settings, "flyout-scroll": flyout_scroll}
 

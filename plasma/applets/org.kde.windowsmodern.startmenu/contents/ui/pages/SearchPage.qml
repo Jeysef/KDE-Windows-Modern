@@ -38,6 +38,29 @@ Item {
     // key changes).
     property string collapsedCategories: ""
 
+    // The pointer selects a result only once it really moves, as on
+    // Windows: results that appear under a resting pointer (you opened
+    // Start with the mouse over it and typed) must not steal the
+    // selection from the best match that Enter runs. Qt sends hover
+    // events when content moves under a still pointer, so movement is
+    // judged by screen position. Reset whenever the query changes.
+    property point lastPointer: Qt.point(-1, -1)
+    property bool pointerMoved: false
+
+    function trackPointer(item, x, y) {
+        const p = item.mapToGlobal(x, y);
+        if (lastPointer.x >= 0 && (Math.abs(p.x - lastPointer.x) > 1 || Math.abs(p.y - lastPointer.y) > 1)) {
+            pointerMoved = true;
+        }
+        lastPointer = p;
+        return pointerMoved;
+    }
+
+    Connections {
+        target: resultsView
+        function onQueryStringChanged() { searchPage.pointerMoved = false; }
+    }
+
     function isCollapsed(cat) {
         if (!cat) return false
         var parts = collapsedCategories.split(",")
@@ -250,6 +273,10 @@ Item {
 
             readonly property bool isCurrent: ListView.isCurrentItem
 
+            Accessible.role: Accessible.ListItem
+            Accessible.name: resultDelegate.model.display || ""
+            Accessible.selected: isCurrent
+
             // Hover/selection highlight — matches ListItemDelegate style
             Rectangle {
                 anchors.fill: parent
@@ -257,7 +284,7 @@ Item {
                 radius: Kirigami.Units.smallSpacing
                 color: Kirigami.Theme.hoverColor
                 opacity: {
-                    if (resultMouse.containsMouse) return 1.0
+                    if (resultMouse.containsMouse && searchPage.pointerMoved) return 1.0
                     if (resultDelegate.isCurrent) return 0.5
                     return 0.0
                 }
@@ -317,7 +344,16 @@ Item {
                     }
                     resultsView.runCurrentIndex()
                 }
-                onEntered: resultsView.currentIndex = resultDelegate.index
+                onEntered: {
+                    if (searchPage.trackPointer(resultMouse, mouseX, mouseY)) {
+                        resultsView.currentIndex = resultDelegate.index
+                    }
+                }
+                onPositionChanged: mouse => {
+                    if (searchPage.trackPointer(resultMouse, mouse.x, mouse.y)) {
+                        resultsView.currentIndex = resultDelegate.index
+                    }
+                }
             }
 
             function openResultContextMenu(localX, localY) {
