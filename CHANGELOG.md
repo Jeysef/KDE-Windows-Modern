@@ -75,6 +75,9 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Quick Settings flyout: scrolling over the overflow cards (e.g. with a
+  touchpad over "Brightness & Color") changed the brightness or volume.
+  The wheel now scrolls the card grid and never reaches the applet's icon.
 - "Recent Files" in Dolphin's Places panel drew a dark-gray line-art
   document that clashed with the yellow folder icons around it. The pack's
   `document-open-recent` is now a full-colour white document with a blue

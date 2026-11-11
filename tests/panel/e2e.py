@@ -15,7 +15,7 @@ layout and power buttons are not pressed.
 
 Usage: tests/panel/e2e.py [--out DIR] [SCENARIO ...]
 Scenarios: show-desktop start-meta start-click tray-order tray-pages
-           clock quick-settings  (default: all)
+           clock quick-settings flyout-scroll  (default: all)
 
 Not covered: the taskbar's right-click menu. It is a native Qt menu, and
 under uinput input it closes the instant it opens (a real mouse works), so
@@ -25,6 +25,7 @@ Exit status: 0 when every check passed.
 
 import argparse
 import pathlib
+import subprocess
 import sys
 import time
 
@@ -230,9 +231,46 @@ def quick_settings(p, c):
     p.close_popups()
 
 
+def brightness():
+    out = subprocess.run(["busctl", "--user", "get-property", "org.kde.ScreenBrightness",
+                          "/org/kde/ScreenBrightness/display0", "org.kde.ScreenBrightness.Display",
+                          "Brightness"], capture_output=True, text=True).stdout.split()
+    return int(out[1]) if len(out) == 2 else None
+
+
+def flyout_scroll(p, c):
+    """Scrolling over the flyout's cards must not act on them (it moved the
+    brightness). The wheel goes up then down, so even a failure ends where
+    it started."""
+    panel_window = p.item("Show desktop").window
+    p.click("Show hidden icons")
+    card = wait_for(lambda: visible("Brightness & Color", exclude_window=panel_window), timeout=6)
+    if card is None:
+        print("        (no Brightness & Color card in the flyout — skipped)")
+        p.close_popups()
+        return
+    time.sleep(1)  # the flyout settles (cards shift as sections fill in)
+    card = visible("Brightness & Color", exclude_window=panel_window)
+    before = brightness()
+    p.vi.move_to(*card.centre)
+    p.shot("flyout-scroll-at")
+    print(f"        scrolling at {card.centre}")
+    p.vi.scroll(-3)
+    after = brightness()
+    p.shot("flyout-scroll")
+    moved = visible("Brightness & Color", exclude_window=panel_window)
+    print(f"        the card moved {card.rect[1]} → {moved.rect[1] if moved else '(scrolled out)'}"
+          " (the grid scrolls when it has more than 3 rows)")
+    p.vi.scroll(3)
+    after = after if after != before else brightness()
+    c.check(before is not None and after == before,
+            f"scrolling over the Brightness card leaves brightness alone ({before} → {after})")
+    p.close_popups()
+
+
 SCENARIOS = {"show-desktop": show_desktop, "start-meta": start_meta, "start-click": start_click,
              "tray-order": tray_order, "tray-pages": tray_pages, "clock": clock,
-             "quick-settings": quick_settings}
+             "quick-settings": quick_settings, "flyout-scroll": flyout_scroll}
 
 
 def main():

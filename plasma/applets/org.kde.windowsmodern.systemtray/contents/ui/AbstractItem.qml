@@ -91,6 +91,21 @@ PlasmaCore.ToolTipArea {
             }
         }
         onWheel: wheel => {
+            // Only icons in the panel act on the wheel (scrolling over volume
+            // or brightness adjusts it). In the flyout the cards are just
+            // content: a touchpad scroll over "Brightness & Color" must not
+            // change the brightness. Passing the event on would hand it to
+            // the applet's own icon underneath (which does), so it is taken
+            // here and scrolls the grid instead.
+            if (abstractItem.inHiddenLayout) {
+                const view = root.hiddenLayout;
+                const dy = wheel.pixelDelta.y !== 0 ? wheel.pixelDelta.y
+                                                    : wheel.angleDelta.y / 120 * view.cellHeight / 2;
+                const bottom = view.originY + view.contentHeight - view.height;
+                view.contentY = Math.max(view.originY, Math.min(view.contentY - dy, bottom));
+                wheel.accepted = true;
+                return;
+            }
             abstractItem.wheel(wheel);
             //Don't accept the event in order to make the scrolling by mouse wheel working
             //for the parent scrollview this icon is in.

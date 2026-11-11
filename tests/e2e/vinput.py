@@ -22,7 +22,7 @@ KEYS = [e.KEY_LEFTALT, e.KEY_LEFTMETA, e.KEY_TAB, e.KEY_ESC, e.KEY_ENTER, e.KEY_
 
 class VirtualInput:
     def __init__(self):
-        caps = {e.EV_KEY: KEYS + [e.BTN_LEFT, e.BTN_RIGHT, e.BTN_MIDDLE], e.EV_REL: [e.REL_X, e.REL_Y]}
+        caps = {e.EV_KEY: KEYS + [e.BTN_LEFT, e.BTN_RIGHT, e.BTN_MIDDLE], e.EV_REL: [e.REL_X, e.REL_Y, e.REL_WHEEL]}
         self.ui = UInput(caps, name=DEVICE_NAME)
         self.pos = None
         time.sleep(1.5)  # let the compositor pick up the device
@@ -91,6 +91,15 @@ class VirtualInput:
 
     def click(self, button=e.BTN_LEFT):
         self.key(button, True); time.sleep(0.06); self.key(button, False); time.sleep(0.1)
+
+    def scroll(self, notches):
+        """Wheel notches at the pointer: positive scrolls up."""
+        step = 1 if notches > 0 else -1
+        for _ in range(abs(notches)):
+            self.ui.write(e.EV_REL, e.REL_WHEEL, step)
+            self.ui.syn()
+            time.sleep(0.08)
+        time.sleep(0.3)
 
     def right_click(self):
         self.click(e.BTN_RIGHT)
