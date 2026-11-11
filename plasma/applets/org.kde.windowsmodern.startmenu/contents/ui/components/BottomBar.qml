@@ -66,7 +66,9 @@ RowLayout {
             Behavior on border.color { ColorAnimation { duration: 100 } }
         }
 
-        onTextChanged: bottomBar.searchTextChanged(text)
+        // searchText is an alias of this field's text, so QML already emits
+        // searchTextChanged() on every edit; re-emitting it here (with an argument the
+        // signal does not take) fired the handler twice and logged "Too many arguments".
         Keys.onPressed: event => {
             if (event.key === Qt.Key_Escape) {
                 event.accepted = true;
