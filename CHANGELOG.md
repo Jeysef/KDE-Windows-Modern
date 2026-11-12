@@ -6,6 +6,8 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+## [1.1.2] - 2026-11-12
+
 ### Changed
 
 - Tray flyout: the hidden tray icons above Quick Settings are drawn as
@@ -14,6 +16,8 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- No splash screen at login, as the global themes intend: they set the
+  splash theme to "none", which Plasma does not know; it is "None".
 - Tray flyout: two-line names (e.g. "Display Configuration") spilled
   below the card's hover background; icon size and margins now fit two
   lines. The pages' Back button has an accessible name.

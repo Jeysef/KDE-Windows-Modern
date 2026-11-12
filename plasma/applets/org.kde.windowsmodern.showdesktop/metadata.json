@@ -22,7 +22,7 @@
         "Id": "org.kde.windowsmodern.showdesktop",
         "License": "GPL-2.0-or-later",
         "Name": "Show Desktop (Windows Modern)",
-        "Version": "1.1.1",
+        "Version": "1.1.2",
         "Website": "https://github.com/Jeysef/KDE-Windows-Modern"
     },
     "X-Plasma-API-Minimum-Version": "6.0",

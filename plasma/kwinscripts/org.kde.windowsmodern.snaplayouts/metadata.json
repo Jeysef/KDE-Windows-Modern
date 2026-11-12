@@ -15,7 +15,7 @@
         "Id": "org.kde.windowsmodern.snaplayouts",
         "License": "GPL-3.0-or-later",
         "Name": "Windows Modern: Snap Layouts",
-        "Version": "1.1.1",
+        "Version": "1.1.2",
         "Website": "https://github.com/Jeysef/KDE-Windows-Modern"
     },
     "X-Plasma-API": "declarativescript",
