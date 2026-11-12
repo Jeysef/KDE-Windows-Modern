@@ -105,6 +105,9 @@ Not added, even on request, unless this brief changes:
 | Done | Fonts | `./install.sh fonts`: Segoe UI or Selawik, Cascadia Mono. |
 | Done | Snap Layouts | Drag-to-top layout bar (`plasma/kwinscripts/org.kde.windowsmodern.snaplayouts`). The maximize-button hover flyout is not possible with an Aurorae decoration. |
 | Done | Prebuilt C++ plugins | Releases carry the tray and taskbar plugins per Fedora/Plasma/Qt version; a release checkout installs them without a compiler, anything else builds from source. |
+| Done | KDE Store | Every component is its own store item; the global themes depend on them, so a Discover install brings the look. Published with `scripts/store/`. |
+| Done | Quick Settings | Hidden icons as launchers, toggles below, Windows 11 footer (battery, settings). |
+| Later | Notifications in the clock flyout | Windows 11 stacks notifications above the calendar. Needs the notification server's history model (the tray's page only sees notifications since it started); the bell next to the clock covers it meanwhile. |
 
 ## How to judge a new idea
 
