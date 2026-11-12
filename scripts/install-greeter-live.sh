@@ -173,6 +173,17 @@ fi
 # greeter's icon theme.
 SYSTEM_ICONS="/usr/share/icons/windows-modern"
 GREETER_HOME="$(getent passwd plasmalogin | cut -d: -f6 || true)"
+# The greeter user's kdeglobals as it was before we changed it (icons and
+# colors below), kept once for uninstall.
+GREETER_BACKUP="/var/lib/windows-modern/backup/greeter-kdeglobals"
+if [ -n "${GREETER_HOME}" ] && [ ! -e "$GREETER_BACKUP" ] && [ ! -e "$GREETER_BACKUP.none" ]; then
+    mkdir -p "$(dirname "$GREETER_BACKUP")"
+    if [ -f "${GREETER_HOME}/.config/kdeglobals" ]; then
+        cp -p "${GREETER_HOME}/.config/kdeglobals" "$GREETER_BACKUP"
+    else
+        : > "$GREETER_BACKUP.none"
+    fi
+fi
 if [ -d "${SRC_DIR}/icons/windows-modern" ]; then
     if [ ! -d "${SYSTEM_ICONS}" ] || [ -f "${SYSTEM_ICONS}/.windows-modern-greeter" ]; then
         echo "           Installing the icon pack to ${SYSTEM_ICONS}..."
@@ -188,6 +199,20 @@ if [ -d "${SRC_DIR}/icons/windows-modern" ]; then
             --group Icons --key Theme windows-modern
         echo "           Greeter icon theme: windows-modern"
     fi
+fi
+
+# The greeter user also has Plasma's default light colors, so the wallpaper
+# showed its light picture under a dark desktop. The lock and login screens
+# are always dark: give the greeter the Windows Modern Dark colors. Its
+# original kdeglobals is kept once for uninstall.
+GREETER_KDEGLOBALS="${GREETER_HOME}/.config/kdeglobals"
+if [ -n "${GREETER_HOME}" ] && [ -d "${GREETER_HOME}/.config" ]; then
+    python3 -I "${SRC_DIR}/scripts/greeter-colors.py" \
+        "${SRC_DIR}/color-schemes/WindowsModernDark.colors" "$GREETER_KDEGLOBALS"
+    chown plasmalogin:plasmalogin "$GREETER_KDEGLOBALS"
+    chmod 600 "$GREETER_KDEGLOBALS"
+    if command -v restorecon &>/dev/null; then restorecon "$GREETER_KDEGLOBALS" 2>/dev/null || true; fi
+    echo "           Greeter colors: Windows Modern Dark"
 fi
 
 echo ""

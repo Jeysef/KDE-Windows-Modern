@@ -21,6 +21,17 @@ fi
 #    the icon pack, and the greeter user's icon theme setting ──
 SYSTEM_ICONS="/usr/share/icons/windows-modern"
 GREETER_HOME="$(getent passwd plasmalogin | cut -d: -f6 || true)"
+# Greeter colors (install-greeter-live.sh): put its original kdeglobals back.
+GREETER_BACKUP="/var/lib/windows-modern/backup/greeter-kdeglobals"
+if [ -n "${GREETER_HOME}" ] && [ -f "$GREETER_BACKUP" ]; then
+    cp -p "$GREETER_BACKUP" "${GREETER_HOME}/.config/kdeglobals"
+    rm -f "$GREETER_BACKUP"
+    echo "  Greeter colors restored"
+elif [ -n "${GREETER_HOME}" ] && [ -f "$GREETER_BACKUP.none" ]; then
+    rm -f "${GREETER_HOME}/.config/kdeglobals" "$GREETER_BACKUP.none"
+    echo "  Greeter colors restored (it had none)"
+fi
+
 if [ -f "${SYSTEM_ICONS}/.windows-modern-greeter" ]; then
     rm -rf "${SYSTEM_ICONS}"
     echo "  Removed ${SYSTEM_ICONS}"

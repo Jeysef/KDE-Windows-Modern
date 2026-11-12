@@ -24,7 +24,10 @@ the `Version` field shared by every component's metadata.
 - Login screen: showed Breeze icons, as the greeter's user cannot read the
   icon pack in your home. `install-greeter-live.sh` now installs the pack
   to `/usr/share/icons` and sets it as the greeter's icon theme; the
-  greeter uninstall removes both. Neither script stops `plasmalogin` any
+  greeter uninstall removes both. It also gives the greeter the Windows
+  Modern Dark colors (it had Plasma's light default, so the wallpaper
+  showed its light picture under a dark desktop); uninstall puts the
+  greeter's original settings back. Neither script stops `plasmalogin` any
   more (that would end the running session).
 
 ## [1.1.1] - 2026-11-12
