@@ -136,7 +136,12 @@ PlasmaCore.ToolTipArea {
 
     ColumnLayout {
         anchors.fill: abstractItem
-        anchors.margins: abstractItem.inHiddenLayout ? 10 : 0
+        // A flyout cell is ~75 px tall: 6 + 28 (icon) + 4 + 2 lines of name
+        // (26) + 6 fits; larger margins or icon push two-line names out.
+        anchors.leftMargin: abstractItem.inHiddenLayout ? 8 : 0
+        anchors.rightMargin: abstractItem.inHiddenLayout ? 8 : 0
+        anchors.topMargin: abstractItem.inHiddenLayout ? 6 : 0
+        anchors.bottomMargin: abstractItem.inHiddenLayout ? 6 : 0
         spacing: 0
 
         Item { // centers icon and name in a flyout cell
@@ -179,7 +184,7 @@ PlasmaCore.ToolTipArea {
 
             property alias container: abstractItem
             property alias inVisibleLayout: abstractItem.inVisibleLayout
-            readonly property int size: abstractItem.inVisibleLayout ? root.itemSize : Kirigami.Units.iconSizes.medium
+            readonly property int size: abstractItem.inVisibleLayout ? root.itemSize : 28
 
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             implicitWidth: root.vertical && abstractItem.inVisibleLayout ? abstractItem.width : size
@@ -187,7 +192,7 @@ PlasmaCore.ToolTipArea {
         }
 
         Item {
-            Layout.preferredHeight: 6
+            Layout.preferredHeight: 4
             visible: abstractItem.inHiddenLayout
         }
 

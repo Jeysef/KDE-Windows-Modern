@@ -12,6 +12,12 @@ the `Version` field shared by every component's metadata.
   plain launchers (centered icon over its name, a background only on
   hover), so they no longer look like the Quick Settings toggles below.
 
+### Fixed
+
+- Tray flyout: two-line names (e.g. "Display Configuration") spilled
+  below the card's hover background; icon size and margins now fit two
+  lines. The pages' Back button has an accessible name.
+
 ## [1.1.1] - 2026-11-12
 
 ### Added

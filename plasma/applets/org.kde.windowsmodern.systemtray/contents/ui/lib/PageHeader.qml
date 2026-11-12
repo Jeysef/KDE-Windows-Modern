@@ -24,6 +24,9 @@ RowLayout {
         width: 20
         height: 20
         Layout.alignment: Qt.AlignVCenter
+        Accessible.role: Accessible.Button
+        Accessible.name: qsTr("Back")
+        Accessible.onPressAction: header.back()
 
         Kirigami.Icon {
             anchors.centerIn: parent

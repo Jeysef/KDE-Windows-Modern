@@ -15,7 +15,7 @@ layout and power buttons are not pressed.
 
 Usage: tests/panel/e2e.py [--out DIR] [SCENARIO ...]
 Scenarios: show-desktop start-meta start-click start-hover tray-order tray-pages
-           clock quick-settings flyout-scroll  (default: all)
+           clock quick-settings flyout-scroll flyout-hover  (default: all)
 
 Not covered: the taskbar's right-click menu. It is a native Qt menu, and
 under uinput input it closes the instant it opens (a real mouse works), so
@@ -288,6 +288,98 @@ def quick_settings(p, c):
     p.close_popups()
 
 
+def _cards(panel_window):
+    """The hidden-icon cards in the flyout (above the Quick Settings tiles)."""
+    wifi = visible("Wi-Fi", exclude_window=panel_window)
+    return sorted((n for n in a11y.nodes(APP) if n.showing and n.role == "list item" and n.visible
+                   and n.window != panel_window and wifi and n.rect[1] < wifi.rect[1]),
+                  key=lambda n: (n.rect[1], n.rect[0]))
+
+
+def _patch(img, x, y, size=5):
+    """Mean colour of a small square."""
+    px = [img.getpixel((x + i, y + j)) for i in range(size) for j in range(size)]
+    return tuple(sum(c[k] for c in px) / len(px) for k in range(3))
+
+
+def _differs(a, b, threshold=4):
+    return max(abs(a[k] - b[k]) for k in range(3)) > threshold
+
+
+def flyout_hover(p, c):
+    """A card shows a background only while the pointer is on it: none is
+    left behind on a card the pointer has left (the grid's keyboard
+    highlight used to follow the pointer and stay)."""
+    from PIL import Image
+    panel_window = p.item("Show desktop").window
+    p.click("Show hidden icons")
+    c.check(wait_for(lambda: visible("Wi-Fi", exclude_window=panel_window)) is not None, "Quick Settings opens")
+    time.sleep(0.8)
+    cards = _cards(panel_window)
+    if len(cards) < 2:
+        print(f"        (only {len(cards)} hidden-icon cards: skipped)")
+        p.close_popups()
+        return
+    # Every card's name fits inside the card (two-line names used to spill
+    # past its bottom edge, visible on hover).
+    labels = [n for n in a11y.nodes(APP) if n.showing and n.role == "label" and n.window != panel_window
+              and n.visible]
+    spill = []
+    for card in cards:
+        x, y, w, h = card.rect
+        for lab in labels:
+            lx, ly, lw, lh = lab.rect
+            if x <= lx + lw // 2 <= x + w and y <= ly < y + h and ly + lh > y + h:
+                spill.append(f"{lab.name!r} ({ly + lh - (y + h)} px)")
+    c.check(not spill, f"every card's name fits inside the card (spilling: {spill})")
+
+    a, b = cards[0], cards[1]
+    corner = lambda n: (n.rect[0] + 4, n.rect[1] + 4)  # noqa: E731
+    gap = (a.rect[0] - 4, a.rect[1] + a.rect[3] // 2)  # flyout background left of card A
+
+    def look(name):
+        p.shot(name)
+        img = Image.open(p.out / f"{name}.png").convert("RGB")
+        return _patch(img, *gap), _patch(img, *corner(a)), _patch(img, *corner(b))
+
+    p.vi.move_to(a.rect[0] + a.rect[2] // 2, a.rect[1] + a.rect[3] - 8)
+    time.sleep(0.6)
+    bg, ca, cb = look("hover-a")
+    c.check(_differs(ca, bg), f"hovering {a.name!r} shows its background")
+    p.vi.move_to(b.rect[0] + b.rect[2] // 2, b.rect[1] + b.rect[3] - 8)
+    time.sleep(0.6)
+    bg, ca, cb = look("hover-b")
+    c.check(not _differs(ca, bg), f"{a.name!r} goes back to plain when the pointer moves on")
+    c.check(_differs(cb, bg), f"{b.name!r} shows the hover")
+    p.vi.move_to(gap[0] - 60, gap[1])  # off the cards, left of the flyout
+    time.sleep(0.6)
+    bg, ca, cb = look("hover-none")
+    c.check(not _differs(ca, bg) and not _differs(cb, bg), "no card keeps a background once the pointer left")
+    # Open B's page and come back: the grid gets focus again when shown.
+    p.vi.move_to(b.rect[0] + b.rect[2] // 2, b.rect[1] + b.rect[3] - 8)
+    time.sleep(0.3)
+    p.vi.click()
+    back = wait_for(lambda: visible("Back", exclude_window=panel_window)
+                    or visible("Go Back", exclude_window=panel_window))  # ours / stock pages
+    c.check(back is not None, f"{b.name!r} opens its page")
+    if back:
+        p.vi.move_to(*back.centre)
+        time.sleep(0.3)
+        p.vi.click()
+        wait_for(lambda: len(_cards(panel_window)) >= 2)
+        p.vi.move_to(gap[0] - 60, gap[1])
+        time.sleep(0.8)
+        cards = _cards(panel_window)
+        p.shot("after-back")
+        img = Image.open(p.out / "after-back.png").convert("RGB")
+        bg = _patch(img, *gap)
+        lit = [n.name or f"card {i + 1}" for i, n in enumerate(cards) if _differs(_patch(img, *corner(n)), bg)]
+        c.check(not lit, f"after Back, no card looks selected (lit: {lit})")
+        # Not checked: keyboard navigation of the cards. After Back the arrow
+        # keys do not reach the card grid (a limitation older than this test).
+    p.close_popups()
+
+
 def brightness():
     out = subprocess.run(["busctl", "--user", "get-property", "org.kde.ScreenBrightness",
                           "/org/kde/ScreenBrightness/display0", "org.kde.ScreenBrightness.Display",
@@ -330,7 +422,8 @@ def flyout_scroll(p, c):
 SCENARIOS = {"show-desktop": show_desktop, "start-meta": start_meta, "start-click": start_click,
              "start-hover": start_hover,
              "tray-order": tray_order, "tray-pages": tray_pages, "clock": clock,
-             "quick-settings": quick_settings, "flyout-scroll": flyout_scroll}
+             "quick-settings": quick_settings, "flyout-scroll": flyout_scroll,
+             "flyout-hover": flyout_hover}
 
 
 def main():
