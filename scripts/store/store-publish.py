@@ -73,7 +73,7 @@ def launch(_args):
 
 
 def close(_args):
-    subprocess.run(["pkill", "-f", f"--profile {PROFILE}"])
+    subprocess.run(["pkill", "-f", "--", f"--profile {PROFILE}"])
 
 
 def edit_page(b, pid, step=None):
