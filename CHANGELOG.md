@@ -6,6 +6,12 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+### Changed
+
+- Tray flyout: the hidden tray icons above Quick Settings are drawn as
+  plain launchers (centered icon over its name, a background only on
+  hover), so they no longer look like the Quick Settings toggles below.
+
 ## [1.1.1] - 2026-11-12
 
 ### Added
