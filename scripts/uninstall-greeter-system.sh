@@ -69,10 +69,11 @@ if [ -f "${PLM_BINARY}.orig" ]; then
     echo "  Note: if your distro updated plasma-login-manager after that date, the"
     echo "  backup is older than the packaged binary — prefer the package reinstall"
     echo "  shown below once you have rebooted."
-    cp "${PLM_BINARY}.orig" "$PLM_BINARY"
-    # Do NOT restart plasmalogin here: restarting the display manager while a
-    # graphical session is active spawns a greeter overlay on the running desktop.
-    systemctl stop plasmalogin.service || true
+    cp "${PLM_BINARY}.orig" "${PLM_BINARY}.new" && mv -f "${PLM_BINARY}.new" "$PLM_BINARY"
+    if command -v restorecon &>/dev/null; then restorecon "$PLM_BINARY" 2>/dev/null || true; fi
+    # Neither stop nor restart plasmalogin: it is the parent of the running
+    # desktop session (stopping it logs the user out), and restarting it
+    # spawns a greeter overlay. The restored binary is used from next boot.
     echo "  Done."
     echo ""
     echo "Reboot to finish reverting to the original greeter:"
@@ -98,9 +99,8 @@ else
     echo "  Reinstall plasma-login-manager with your distro's package manager."
     exit 1
 fi
-# Do NOT restart plasmalogin here: restarting the display manager while a
-# graphical session is active spawns a greeter overlay on the running desktop.
-systemctl stop plasmalogin.service || true
+# Neither stop nor restart plasmalogin (see above): the package's binary
+# is used from next boot.
 
 echo ""
 echo "PLM boot greeter reverted to distro default."

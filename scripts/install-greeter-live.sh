@@ -136,25 +136,22 @@ else
     echo "Step 2 / 4: Pristine backup already exists at ${PLM_BINARY}.orig"
 fi
 
-# ── Step 3: Stop plasmalogin so we can overwrite the running binary ──
-# We do NOT restart the service here: starting plasmalogin while a user is
-# already logged into a graphical session spawns a greeter overlay on top of
-# the running desktop. The new binary will be used automatically on reboot.
-if systemctl is-active --quiet plasmalogin.service; then
-    echo "Step 3 / 4: Stopping plasmalogin.service..."
-    systemctl stop plasmalogin.service
-    echo "           Service stopped."
-else
-    echo "Step 3 / 4: plasmalogin.service not running — nothing to stop."
-fi
+# ── Step 3: Leave plasmalogin running ──
+# Never stop plasmalogin.service here: it is the parent of the running
+# desktop session (plasmalogin-helper --start startplasma-wayland), so
+# stopping it logs the user out. It does not need to stop either: the
+# greeter binary only runs while the login screen is shown, and the new
+# binary goes in by rename (below), which is safe even if it were running.
+echo "Step 3 / 4: plasmalogin.service stays running (your session runs under it)."
 
 # ── Step 4: Install patched binary, theme, and wallpaper system-wide ──
 echo "Step 4 / 4: Installing patched binary..."
-# cp onto the existing file keeps its inode, ownership and SELinux label;
-# restorecon re-applies the policy label in case the file was newly created.
-cp "$BUILT_BINARY" "$PLM_BINARY"
-chown root:root "$PLM_BINARY"
-chmod 755 "$PLM_BINARY"
+# Copy next to it, then rename over it: atomic, and fine even if the old
+# binary is executing. restorecon below gives the new file its label.
+cp "$BUILT_BINARY" "${PLM_BINARY}.new"
+chown root:root "${PLM_BINARY}.new"
+chmod 755 "${PLM_BINARY}.new"
+mv -f "${PLM_BINARY}.new" "$PLM_BINARY"
 if command -v restorecon &>/dev/null; then restorecon "$PLM_BINARY" 2>/dev/null || true; fi
 
 echo "           Installing theme to ${SYSTEM_LOOKFEEL}..."
