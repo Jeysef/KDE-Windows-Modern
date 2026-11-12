@@ -49,13 +49,20 @@ mkdir -p "$STAGING_SHELL/contents"
 # Copy metadata so KPackage sees this as a valid shell package
 cp "$SYSTEM_SHELL/metadata.json" "$STAGING_SHELL/"
 
-# Symlink every directory/file under contents EXCEPT lockscreen
+# Symlink every directory/file under contents EXCEPT lockscreen, which is
+# ours, and logout, which is copied: the logout screen
+# (ksmserver-logout-greeter) resolves symlinks and refuses files outside the
+# package folder ("Path traversal attempt detected"), so with a symlink
+# Log out did nothing. A copy can go stale when Plasma updates its logout
+# screen: verify-all.sh --installed compares it with the system's, and
+# re-running this installer refreshes it.
 for item in "$SYSTEM_SHELL/contents/"*; do
     base=$(basename "$item")
-    if [ "$base" = "lockscreen" ]; then
-        continue
-    fi
-    ln -s "$item" "$STAGING_SHELL/contents/$base"
+    case "$base" in
+        lockscreen) continue ;;
+        logout) cp -r "$item" "$STAGING_SHELL/contents/$base" ;;
+        *) ln -s "$item" "$STAGING_SHELL/contents/$base" ;;
+    esac
 done
 
 # ── 3. Copy our custom lockscreen files into the overlay ──

@@ -206,6 +206,18 @@ esac
 
 # ── Installed C++ applets (opt-in) ──────────────────────────────────
 if [ "$CHECK_INSTALLED" -eq 1 ]; then
+    # The lock screen overlay's copy of the logout screen (see
+    # install-sessionlock.sh) must match the system's after Plasma updates.
+    overlay="$HOME/.local/share/plasma/shells/org.kde.plasma.desktop/contents/logout"
+    if [ -e "$overlay" ]; then
+        if [ -L "$overlay" ]; then
+            fail "lock screen overlay symlinks logout/ (Log out does nothing) — run: ./install.sh sessionlock"
+        elif diff -rq "$overlay" /usr/share/plasma/shells/org.kde.plasma.desktop/contents/logout >/dev/null 2>&1; then
+            pass "lock screen overlay: logout screen matches Plasma's"
+        else
+            fail "lock screen overlay: logout screen is out of date — run: ./install.sh sessionlock"
+        fi
+    fi
     for applet in systemtray icontasks; do
         if ! bash "plasma/applets/org.kde.windowsmodern.$applet/verify.sh"; then
             FAILED=1

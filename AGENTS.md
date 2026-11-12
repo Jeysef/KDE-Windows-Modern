@@ -92,6 +92,11 @@ loads. Verify in the live session:
 - **Headless renders use the software scene graph**: shader effects
   (`MultiEffect`) draw nothing there. Render inside the Wayland session to
   see the GPU path, and give shader-only visuals a software fallback.
+- **The lock screen's shell overlay must not symlink `logout/`**: the logout
+  screen resolves symlinks and refuses files outside the package ("Path
+  traversal attempt detected"), so Log out silently does nothing.
+  `install-sessionlock.sh` copies it; `verify-all.sh --installed` flags a
+  copy that a Plasma update left stale.
 - **Forks that reuse a stock plugin ID** (Icon Tasks) replace files owned by
   distro packages: move them to `/var/lib/windows-modern/backup/` and
   restore them on uninstall.
