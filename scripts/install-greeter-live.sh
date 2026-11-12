@@ -167,6 +167,29 @@ else
     echo "           Wallpaper already present at ${SYSTEM_WALLPAPER}"
 fi
 
+# The greeter runs as the 'plasmalogin' user, who cannot read the icon pack
+# in the user's home, so it fell back to Breeze. Install the pack system-wide
+# (marked as ours, so uninstall removes only our copy) and set it as the
+# greeter's icon theme.
+SYSTEM_ICONS="/usr/share/icons/windows-modern"
+GREETER_HOME="$(getent passwd plasmalogin | cut -d: -f6 || true)"
+if [ -d "${SRC_DIR}/icons/windows-modern" ]; then
+    if [ ! -d "${SYSTEM_ICONS}" ] || [ -f "${SYSTEM_ICONS}/.windows-modern-greeter" ]; then
+        echo "           Installing the icon pack to ${SYSTEM_ICONS}..."
+        rm -rf "${SYSTEM_ICONS}"
+        cp -r "${SRC_DIR}/icons/windows-modern" "${SYSTEM_ICONS}"
+        touch "${SYSTEM_ICONS}/.windows-modern-greeter"
+        if command -v restorecon &>/dev/null; then restorecon -R "${SYSTEM_ICONS}" 2>/dev/null || true; fi
+    else
+        echo "           ${SYSTEM_ICONS} exists and is not ours: left as it is."
+    fi
+    if [ -n "${GREETER_HOME}" ] && [ -d "${GREETER_HOME}/.config" ]; then
+        runuser -u plasmalogin -- kwriteconfig6 --file "${GREETER_HOME}/.config/kdeglobals" \
+            --group Icons --key Theme windows-modern
+        echo "           Greeter icon theme: windows-modern"
+    fi
+fi
+
 echo ""
 echo "╔══════════════════════════════════════════════════════════════════╗"
 echo "║                     INSTALL COMPLETE                             ║"

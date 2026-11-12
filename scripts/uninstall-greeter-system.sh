@@ -17,6 +17,20 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
+# ── The greeter's icons (install-greeter-live.sh): our system-wide copy of
+#    the icon pack, and the greeter user's icon theme setting ──
+SYSTEM_ICONS="/usr/share/icons/windows-modern"
+GREETER_HOME="$(getent passwd plasmalogin | cut -d: -f6 || true)"
+if [ -f "${SYSTEM_ICONS}/.windows-modern-greeter" ]; then
+    rm -rf "${SYSTEM_ICONS}"
+    echo "  Removed ${SYSTEM_ICONS}"
+fi
+if [ -n "${GREETER_HOME}" ] && [ -f "${GREETER_HOME}/.config/kdeglobals" ] \
+   && [ "$(runuser -u plasmalogin -- kreadconfig6 --file "${GREETER_HOME}/.config/kdeglobals" --group Icons --key Theme)" = "windows-modern" ]; then
+    runuser -u plasmalogin -- kwriteconfig6 --file "${GREETER_HOME}/.config/kdeglobals" --group Icons --key Theme --delete
+    echo "  Greeter icon theme reset"
+fi
+
 # True when the installed greeter is exactly the distro package's file (a
 # package update replaces our patched copy). Unknown package manager: false.
 greeter_is_pristine() {

@@ -17,6 +17,11 @@ the `Version` field shared by every component's metadata.
 - Tray flyout: two-line names (e.g. "Display Configuration") spilled
   below the card's hover background; icon size and margins now fit two
   lines. The pages' Back button has an accessible name.
+- Login screen: showed Breeze icons, as the greeter's user cannot read the
+  icon pack in your home. `install-greeter-live.sh` now installs the pack
+  to `/usr/share/icons` and sets it as the greeter's icon theme; the
+  greeter uninstall removes both. Neither script stops `plasmalogin` any
+  more (that would end the running session).
 
 ## [1.1.1] - 2026-11-12
 
