@@ -218,6 +218,16 @@ if [ "$CHECK_INSTALLED" -eq 1 ]; then
             fail "lock screen overlay: logout screen is out of date — run: ./install.sh sessionlock"
         fi
     fi
+    # Our Alt+Tab switcher installed but not the one KWin uses (e.g. an
+    # interrupted tests/windowswitcher/e2e.py left a test copy selected).
+    if [ -d "$HOME/.local/share/kwin/tabbox/org.kde.windowsmodern.alttab" ]; then
+        layout="$(kreadconfig6 --file kwinrc --group TabBox --key LayoutName 2>/dev/null || true)"
+        if [ "$layout" = "org.kde.windowsmodern.alttab" ]; then
+            pass "Alt+Tab uses the Windows Modern switcher"
+        else
+            warn "Alt+Tab uses '${layout:-the default}', not the installed Windows Modern switcher — run: ./install.sh alttab"
+        fi
+    fi
     for applet in systemtray icontasks; do
         if ! bash "plasma/applets/org.kde.windowsmodern.$applet/verify.sh"; then
             FAILED=1

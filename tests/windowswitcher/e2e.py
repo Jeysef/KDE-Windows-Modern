@@ -252,6 +252,10 @@ def main():
 
     layout_id = f"org.kde.windowsmodern.alttab.e2e{int(time.time())}"
     previous = kwin_config("LayoutName")
+    if previous.startswith("org.kde.windowsmodern.alttab.e2e"):
+        # Left selected by an interrupted run (its cleanup never ran): put the
+        # real switcher back at the end, not a test copy that is about to go.
+        previous = "org.kde.windowsmodern.alttab"
     copy = install_copy(args.package.resolve(), layout_id)
     since = time.strftime("%Y-%m-%d %H:%M:%S")
     checks = Checks()

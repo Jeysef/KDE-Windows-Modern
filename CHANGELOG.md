@@ -6,6 +6,14 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+### Fixed
+
+- After a restart, Alt+Tab could fall back to Breeze: an interrupted
+  `tests/windowswitcher/e2e.py` left a test copy of the switcher selected,
+  and its cleanup removed the copy. The test now restores the real
+  switcher in that case, and `verify-all.sh --installed` warns when the
+  installed Windows Modern switcher is not the one KWin uses.
+
 ## [1.1.2] - 2026-11-12
 
 ### Changed
