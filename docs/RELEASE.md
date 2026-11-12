@@ -66,104 +66,65 @@ gh repo create Jeysef/KDE-Windows-Modern --public --source=. --remote=origin --p
 
 ---
 
-## 3. KDE Store (store.kde.org) — manual publishing
+## 3. KDE Store (store.kde.org)
 
-The KDE Store publishes **each component as a separate product**. Build the
-ZIPs with `./scripts/package.sh`, then upload each one.
+The store has no upload API and sits behind an anti-bot check, so
+`scripts/store/store-publish.py` drives a real Firefox with its own profile
+(`~/.local/share/windows-modern/store-firefox`, nothing shared with your
+browser). The products, their categories and texts live in
+`scripts/store/products.json` and `scripts/store/descriptions/`.
 
-### 3a. Build the artifacts
+### 3a. Publish a new version
 
 ```bash
-./scripts/package.sh
-ls dist/
+./scripts/package.sh                          # zips into dist/
+scripts/store/store-publish.py launch         # sign in once if asked (lasts ~a month)
+scripts/store/store-publish.py update all --changelog notes.md
+scripts/store/store-publish.py status         # every product: version and its one file
+scripts/store/store-publish.py close
 ```
 
-### 3b. Upload order (dependencies first)
+`update` uploads each product's zip for this version, labels it, archives
+the previous zip (the store keeps its download count), sets the version and
+description, and adds a "Version X" changelog entry. It verifies each step
+and stops with an error otherwise; rerunning it is safe.
 
-Publish in this order so that downstream `X-KPackage-Dependencies` can be
-wired up later (see step 3c).
+### 3b. Products
 
-| # | Product name (suggested) | Category | ZIP file |
-|---|--------------------------|----------|----------|
-| 1 | Windows Modern — Color Schemes | Color Schemes | `WindowsModern-color-schemes-*.zip` |
-| 2 | Windows Modern — Icons | Icons | `WindowsModern-icons-*.zip` |
-| 3 | Windows Modern — Aurorae Dark | Aurorae Themes | `WindowsModern-aurorae-dark-*.zip` |
-| 4 | Windows Modern — Aurorae Light | Aurorae Themes | `WindowsModern-aurorae-light-*.zip` |
-| 5 | Windows Modern — Plasma Theme Dark | Plasma 6 Themes | `WindowsModern-desktoptheme-dark-*.zip` |
-| 6 | Windows Modern — Plasma Theme Light | Plasma 6 Themes | `WindowsModern-desktoptheme-light-*.zip` |
-| 7 | Windows Modern — Wallpaper | Wallpapers | `WindowsModern-wallpaper-*.zip` |
-| 8 | Windows Modern — Show Desktop applet | Plasma 6 Applets | `WindowsModern-applet-showdesktop-*.zip` |
-| 9 | Windows Modern — Start Menu applet | Plasma 6 Applets | `WindowsModern-applet-startmenu-*.zip` |
-| 10 | Windows Modern — Digital Clock applet | Plasma 6 Applets | `WindowsModern-applet-digitalclock-*.zip` |
-| 11 | Windows Modern — Alt+Tab switcher | KWin Switching Layouts | `WindowsModern-windowswitcher-*.zip` |
-| 12 | Windows Modern — Panel Layout | Plasma 6 Layout Templates | `WindowsModern-layout-panel-*.zip` |
-| 13 | Windows Modern — Global Theme Dark | Global Themes (Plasma 6) | `WindowsModern-lookfeel-dark-*.zip` |
-| 14 | Windows Modern — Global Theme Light | Global Themes (Plasma 6) | `WindowsModern-lookfeel-light-*.zip` |
+| Product | Category (what Discover queries) | Store id |
+|---------|----------------------------------|----------|
+| Color schemes | KDE Color Scheme KDE4 (112) | `products.json` |
+| Icons | KDE Icon Theme (132) | |
+| Window decoration dark / light | Window Decoration Aurorae (114) | |
+| Plasma style dark / light | Plasma Theme (104) | |
+| Clock | Plasma 6 Clocks (708) | |
+| Show desktop | Plasma 6 Applets (706; the store rejects the parent 705) | |
+| Alt-Tab (the store rejects "+" in titles) | Kwin Switching Layouts Plasma 6 (721) | |
+| Start menu | Plasma 6 Menus (709) | |
+| Global theme dark / light | Global Themes (Plasma 6) (722) | |
 
-**[manual]** For each product:
-1. Go to <https://store.kde.org/browse> and click **Add Content** (or edit an
-   existing product for a new version).
-2. Pick the category from the table above.
-3. Upload the corresponding ZIP.
-4. Add a **screenshot** (use the project `View-*.png` images, or a screenshot
-   of the specific component).
-5. Fill the description, license (GPL-3.0), and a link to
-   `https://github.com/Jeysef/KDE-Windows-Modern`.
-6. Note the **product ID** (the number in the product's `api.kde-look.org`
-   URL) — you'll need these in step 3c.
+Not published: the **wallpaper** (its photos are under the Pexels License,
+which forbids redistribution on wallpaper platforms), **Kvantum** (no store
+category Discover installs from), and the **C++ System Tray and Icon
+Tasks** (compiled plugins; GitHub releases carry them prebuilt for Fedora).
 
-### 3c. Wire up Global Theme dependencies **[manual]**
+A new product: add it to `products.json` and `descriptions/`, then
+`store-publish.py create NAME --images DIR` (logo first, then up to five
+gallery pictures). Take pictures with `scripts/store/capture.py DIR`: it
+uses a temporary virtual desktop with neutral windows, so nothing personal
+is shown, and switches to light and back for the light shots.
 
-The Global Themes (items 13–14) can auto-install their color scheme, Plasma
-theme, Aurorae, and icon dependencies via `X-KPackage-Dependencies`.
-These dependency lines were **emptied** for the initial release because the
-new KDE Store product IDs were not yet known.
+### 3c. Global theme dependencies
 
-After publishing products 1–6 (color schemes, icons, Aurorae, Plasma themes),
-collect their product IDs and rebuild the
-dependency entries in:
+The global themes list the store items above in `X-KPackage-Dependencies`
+(plus the Win10OS cursors, store item 1383064), so a store install brings
+the whole look. `scripts/store/set-dependencies.py` writes them from
+`products.json`. One failing dependency aborts the theme install, so before
+a release test it in a throwaway home:
 
+```bash
+HOME=$(mktemp -d) kpackagetool6 -t Plasma/LookAndFeel -i dist/WindowsModern-lookfeel-dark-*.zip
 ```
-plasma/look-and-feel/org.kde.windowsmodern.dark/metadata.json
-plasma/look-and-feel/org.kde.windowsmodern.dark/metadata.desktop
-plasma/look-and-feel/org.kde.windowsmodern.light/metadata.json
-plasma/look-and-feel/org.kde.windowsmodern.light/metadata.desktop
-```
-
-Format (one per dependency, example):
-
-**metadata.json:**
-```json
-"X-KPackage-Dependencies": [
-    "kns://colorschemes.knsrc/api.kde-look.org/<NEW_ID>",
-    "kns://plasma-themes.knsrc/api.kde-look.org/<NEW_ID>",
-    "kns://aurorae.knsrc/api.kde-look.org/<NEW_ID>",
-    "kns://icons.knsrc/api.kde-look.org/<NEW_ID>"
-]
-```
-
-**metadata.desktop:**
-```ini
-X-KPackage-Dependencies=kns://colorschemes.knsrc/api.kde-look.org/<NEW_ID>,kns://plasma-themes.knsrc/api.kde-look.org/<NEW_ID>,...
-```
-
-Then re-package and re-upload the Global Themes (items 13–14) with the updated
-dependencies, and bump the version (e.g. `1.0.1`).
-
-### 3d. Components NOT published to the KDE Store
-
-| Component | Reason | Distribution |
-|-----------|--------|--------------|
-| **Kvantum** (`Kvantum/`) | 3rd-party engine, no KDE Store category. | GitHub release bundle only. |
-| **C++ System Tray** (`plasma/applets/org.kde.windowsmodern.systemtray`) | Compiled `.so` plugin, not an installable KPackage. | GitHub release bundle only. See `BUILD.md`. |
-| **C++ Icon Tasks** (`plasma/applets/org.kde.windowsmodern.icontasks`) | Compiled `.so` plugin; installing it as a KPackage produces a broken applet. | GitHub release bundle only. See `BUILD.md`. |
-
-`scripts/package.sh` deliberately has no registry entry for either C++ applet.
-
-Optional future: package the C++ applets as distro packages (COPR for Fedora,
-AUR for Arch).
-
----
 
 ## 4. Updating a release
 
@@ -173,4 +134,5 @@ For a subsequent release (e.g. `1.1.0`):
    `./scripts/package.sh --list` for the full set).
 2. Commit on `main`.
 3. `./scripts/release.sh 1.1.0`
-4. Re-upload new-version ZIPs to each existing KDE Store product.
+4. Update the KDE Store: `scripts/store/store-publish.py update all`
+   (section 3a).

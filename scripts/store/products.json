@@ -1,0 +1,190 @@
+{
+  "_comment": "KDE Store products. id is filled in by store-publish.py create. category: the store category id that Discover's knsrc queries. description: descriptions/<file> with {VARIANT}/{OTHER} filled in. images: logo first, then gallery, from the capture directory. The wallpaper is not published: its photos are under the Pexels License, which forbids redistribution on wallpaper platforms.",
+  "color-schemes": {
+    "id": 2381661,
+    "title": "Windows Modern Color Schemes",
+    "category": 112,
+    "zip": "WindowsModern-color-schemes-{v}.zip",
+    "description": "color-schemes.md",
+    "license": 349,
+    "original": 2,
+    "file_desc": "Dark and light color schemes",
+    "images": [
+      "color-schemes-logo.png",
+      "color-schemes-1.jpg",
+      "color-schemes-2.jpg"
+    ]
+  },
+  "icons": {
+    "id": 2381662,
+    "title": "Windows Modern Icons",
+    "category": 132,
+    "zip": "WindowsModern-icons-{v}.zip",
+    "description": "icons.md",
+    "license": 349,
+    "original": 2,
+    "file_desc": "Icon theme",
+    "images": [
+      "icons-logo.png",
+      "icons-1.jpg"
+    ]
+  },
+  "aurorae-dark": {
+    "id": 2381664,
+    "title": "Windows Modern Window Decoration Dark",
+    "category": 114,
+    "zip": "WindowsModern-aurorae-dark-{v}.zip",
+    "description": "aurorae.md",
+    "variant": [
+      "dark",
+      "light"
+    ],
+    "license": 349,
+    "original": 2,
+    "file_desc": "Aurorae window decoration",
+    "images": [
+      "aurorae-dark-logo.png",
+      "aurorae-dark-1.jpg",
+      "aurorae-dark-2.jpg"
+    ]
+  },
+  "aurorae-light": {
+    "id": 2381665,
+    "title": "Windows Modern Window Decoration Light",
+    "category": 114,
+    "zip": "WindowsModern-aurorae-light-{v}.zip",
+    "description": "aurorae.md",
+    "variant": [
+      "light",
+      "dark"
+    ],
+    "license": 349,
+    "original": 2,
+    "file_desc": "Aurorae window decoration",
+    "images": [
+      "aurorae-light-logo.png",
+      "aurorae-light-1.jpg",
+      "aurorae-light-2.jpg"
+    ]
+  },
+  "desktoptheme-dark": {
+    "id": 2381667,
+    "title": "Windows Modern Plasma Style Dark",
+    "category": 104,
+    "zip": "WindowsModern-desktoptheme-dark-{v}.zip",
+    "description": "desktoptheme.md",
+    "variant": [
+      "dark",
+      "light"
+    ],
+    "license": 349,
+    "original": 2,
+    "file_desc": "Plasma style",
+    "images": [
+      "desktoptheme-dark-logo.png",
+      "desktoptheme-dark-1.jpg",
+      "desktoptheme-dark-2.jpg"
+    ]
+  },
+  "desktoptheme-light": {
+    "id": 2381668,
+    "title": "Windows Modern Plasma Style Light",
+    "category": 104,
+    "zip": "WindowsModern-desktoptheme-light-{v}.zip",
+    "description": "desktoptheme.md",
+    "variant": [
+      "light",
+      "dark"
+    ],
+    "license": 349,
+    "original": 2,
+    "file_desc": "Plasma style",
+    "images": [
+      "desktoptheme-light-logo.png",
+      "desktoptheme-light-1.jpg",
+      "desktoptheme-light-2.jpg"
+    ]
+  },
+  "digitalclock": {
+    "id": 2381670,
+    "title": "Windows Modern Clock",
+    "category": 708,
+    "zip": "WindowsModern-applet-digitalclock-{v}.zip",
+    "description": "digitalclock.md",
+    "license": 349,
+    "original": 1,
+    "file_desc": "Clock widget",
+    "images": [
+      "digitalclock-logo.png",
+      "digitalclock-1.jpg",
+      "digitalclock-2.jpg"
+    ]
+  },
+  "showdesktop": {
+    "id": 2381674,
+    "title": "Windows Modern Show Desktop",
+    "category": 706,
+    "zip": "WindowsModern-applet-showdesktop-{v}.zip",
+    "description": "showdesktop.md",
+    "license": 349,
+    "original": 1,
+    "file_desc": "Show desktop widget",
+    "images": [
+      "showdesktop-logo.png",
+      "showdesktop-1.jpg"
+    ]
+  },
+  "windowswitcher": {
+    "id": 2381675,
+    "title": "Windows Modern Alt-Tab",
+    "category": 721,
+    "zip": "WindowsModern-windowswitcher-{v}.zip",
+    "description": "windowswitcher.md",
+    "license": 349,
+    "original": 1,
+    "file_desc": "Task switcher",
+    "images": [
+      "windowswitcher-logo.png",
+      "windowswitcher-dark.jpg",
+      "windowswitcher-light.jpg"
+    ]
+  },
+  "startmenu": {
+    "id": 2365743,
+    "title": "Windows Modern Start Menu applet",
+    "category": 709,
+    "zip": "WindowsModern-applet-startmenu-{v}.zip",
+    "description": "startmenu.md",
+    "license": 349,
+    "original": 2,
+    "file_desc": "Start menu applet"
+  },
+  "lookfeel-dark": {
+    "id": 2365741,
+    "title": "Windows Modern Global Theme Dark",
+    "category": 722,
+    "zip": "WindowsModern-lookfeel-dark-{v}.zip",
+    "description": "lookfeel.md",
+    "variant": [
+      "dark",
+      "light"
+    ],
+    "license": 349,
+    "original": 2,
+    "file_desc": "Global theme"
+  },
+  "lookfeel-light": {
+    "id": 2365742,
+    "title": "Windows Modern Global Theme Light",
+    "category": 722,
+    "zip": "WindowsModern-lookfeel-light-{v}.zip",
+    "description": "lookfeel.md",
+    "variant": [
+      "light",
+      "dark"
+    ],
+    "license": 349,
+    "original": 2,
+    "file_desc": "Global theme"
+  }
+}

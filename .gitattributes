@@ -14,3 +14,4 @@ icons/** -diff
 /scripts/commit-icons.sh export-ignore
 /scripts/capture-screenshots.sh export-ignore
 /scripts/update-previews.sh export-ignore
+/scripts/store export-ignore

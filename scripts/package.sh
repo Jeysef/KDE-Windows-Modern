@@ -95,8 +95,14 @@ build_one() {
     local outpath="$DIST_DIR/$outname"
 
     rm -f "$outpath"
-    (cd "$(dirname "$dir")" && zip -qr "$outpath" "$(basename "$dir")" \
-        -x '*/build/*' '*/build-*/*' '*/CMakeFiles/*' '*/dev.sh' '*/BUILD.md' '*.orig' '*.rej')
+    if [[ "$meta" == "colorschemes" ]]; then
+        # Discover unpacks color schemes straight into color-schemes/, so the
+        # .colors files must sit at the top of the zip, not in a folder.
+        (cd "$dir" && zip -q "$outpath" ./*.colors)
+    else
+        (cd "$(dirname "$dir")" && zip -qr "$outpath" "$(basename "$dir")" \
+            -x '*/build/*' '*/build-*/*' '*/CMakeFiles/*' '*/dev.sh' '*/BUILD.md' '*.orig' '*.rej')
+    fi
     step "built $outname  <-  $(basename "$dir")"
     echo "$outpath" >> "$MANIFEST"
 }

@@ -6,6 +6,26 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+### Added
+
+- KDE Store: the color schemes, icons, window decorations and Plasma styles
+  (dark and light), the clock, Show desktop and Alt+Tab are now their own
+  store items, and the global themes depend on them. Installing a global
+  theme from Discover now also installs its look, the Win10OS cursors and
+  the Start menu, clock, Show desktop and Alt+Tab widgets (the tray,
+  taskbar and the rest still come from `./install.sh`).
+- `scripts/store/`: publishing to the KDE Store from the command line
+  (`store-publish.py`, driving a Firefox with its own profile, since the
+  store has no upload API), clean listing screenshots taken on a temporary
+  virtual desktop (`capture.py`), and the global themes' dependencies
+  written from the product list (`set-dependencies.py`).
+
+### Fixed
+
+- The color schemes zip unpacked into `color-schemes/color-schemes/` when
+  installed from the store, where Plasma does not look: its `.colors` files
+  now sit at the top of the zip.
+
 ## [1.1.0] - 2026-11-11
 
 ### Added
