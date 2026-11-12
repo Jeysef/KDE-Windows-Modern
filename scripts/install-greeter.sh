@@ -84,7 +84,12 @@ fi
 revert_patches() {
     for patch_name in "${PATCHES[@]}"; do
         patch_path="${PATCH_DIR}/${patch_name}"
-        patch --batch -d "${PLM_DIR}" -R -p1 < "${patch_path}" 2>/dev/null || true
+        # Only when it is applied: on clean source, `patch -R --batch` takes
+        # the patch for "previously applied" and applies it FORWARD,
+        # leaving the submodule dirty (and release.sh refusing to run).
+        if patch -d "${PLM_DIR}" -R -p1 --dry-run -s -f < "${patch_path}" &>/dev/null; then
+            patch -d "${PLM_DIR}" -R -p1 -s -f --no-backup-if-mismatch < "${patch_path}" || true
+        fi
     done
 }
 trap revert_patches EXIT
