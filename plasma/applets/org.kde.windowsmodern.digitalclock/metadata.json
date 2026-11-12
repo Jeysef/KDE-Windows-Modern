@@ -18,7 +18,7 @@
         "Id": "org.kde.windowsmodern.digitalclock",
         "License": "GPL-2.0-or-later",
         "Name": "Digital Clock (Windows Modern)",
-        "Version": "1.1.0",
+        "Version": "1.1.1",
         "Website": "https://github.com/Jeysef/KDE-Windows-Modern"
     },
     "X-Plasma-API-Minimum-Version": "6.0",

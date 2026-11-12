@@ -6,6 +6,8 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-11-12
+
 ### Added
 
 - KDE Store: the color schemes, icons, window decorations and Plasma styles

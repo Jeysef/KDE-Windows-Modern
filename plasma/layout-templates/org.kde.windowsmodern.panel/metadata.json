@@ -13,7 +13,7 @@
         "Id": "org.kde.windowsmodern.panel",
         "License": "GPL-3.0-or-later",
         "Name": "Windows Modern Panel",
-        "Version": "1.1.0",
+        "Version": "1.1.1",
         "Website": "https://github.com/Jeysef/KDE-Windows-Modern"
     },
     "X-Plasma-ContainmentCategories": [
