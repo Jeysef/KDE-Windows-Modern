@@ -6,6 +6,15 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+### Added
+
+- Optional Search and Task View taskbar buttons, as on Windows 11
+  (`org.kde.windowsmodern.search`, `org.kde.windowsmodern.taskview`).
+  Search opens the Start menu ready to type, like the Windows key; Task
+  View opens KWin's Overview, like Win+Tab. They are installed with the
+  other applets (`./install.sh taskbarbuttons`) but not put on the panel:
+  add them from Add Widgets.
+
 ### Fixed
 
 - Boot greeter: `./install.sh greeter` failed with a CMake error after a

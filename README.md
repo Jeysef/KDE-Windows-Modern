@@ -38,7 +38,7 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 | **Plasma desktop themes** | `plasma/desktoptheme/` | Full SVG theme sets for panels, widgets, tooltips, dialogs, switches, and tasks. |
 | **Global themes** | `plasma/look-and-feel/` | `org.kde.windowsmodern.dark` and `org.kde.windowsmodern.light`. |
 | **Panel layout template** | `plasma/layout-templates/` | A Win11-style bottom panel layout you can add from the desktop context menu. |
-| **Custom applets** | `plasma/applets/` | Show Desktop, Start Menu, Digital Clock, C++ System Tray, and C++ Icon Tasks (icons-only taskbar). |
+| **Custom applets** | `plasma/applets/` | Show Desktop, Start Menu, Digital Clock, C++ System Tray, and C++ Icon Tasks (icons-only taskbar); optional Search and Task View taskbar buttons. |
 | **Alt+Tab switcher** | `plasma/windowswitcher/` | Windows 11-style window switcher: aspect-correct previews in centered rows, follows the dark/light colour scheme. |
 | **Session lock screen** | `plasma/shells/org.kde.windowsmodern.lockscreen/` | Win11-style lock screen for Meta+L (kscreenlocker). Installed as a complete overlay of the default desktop shell. |
 | **Boot greeter** | `plasma/look-and-feel/.../contents/lockscreen/` + `third_party/plasma-login-manager/` | Patched Plasma Login Manager build that loads a Win11 login screen. Opt-in (system install needs root). |
@@ -122,7 +122,8 @@ needed (Plasma Shell restarts automatically where required).
 ./install.sh systray      # System Tray (C++ — see below)
 ./install.sh icontasks    # Icon Tasks taskbar (C++ — see below)
 ./install.sh digitalclock # Digital Clock (+ restarts shell)
-./install.sh applets      # All five applets (single restart)
+./install.sh taskbarbuttons # Optional Search and Task View buttons (Add Widgets)
+./install.sh applets      # All applets (single restart)
 ./install.sh sessionlock  # Session lock screen (Meta+L)
 ./install.sh alttab       # Windows 11-style Alt+Tab switcher
 ./install.sh shortcuts    # Windows keyboard shortcuts (see below)
@@ -221,6 +222,23 @@ A pure-QML digital clock with a Windows 11 styled compact panel view and expande
 
 - Install: `./install.sh digitalclock`
 - The Windows Modern panel layout uses it automatically; it falls back to the upstream `org.kde.plasma.digitalclock` if the custom applet is not installed.
+
+### Search and Task View buttons (optional)
+
+Windows 11's Search and Task View taskbar buttons, for those who want
+them. They are **not on the Windows Modern panel**: `./install.sh all`
+(or `applets`, or `taskbarbuttons`) only makes them available. Add them
+from the panel's **Add Widgets** (search for "Windows Modern") and drag
+them next to Start.
+
+- **Search** opens the Start menu with its search field focused, the same
+  as pressing the Windows key, so you can type straight away. It works
+  with Kickoff too.
+- **Task View** opens KWin's Overview, the same as Win+Tab.
+
+Both are square cells with the task buttons' hover background, and
+follow the dark or light colour scheme. Remove them with
+`./uninstall.sh taskbarbuttons`.
 
 ### System Tray
 
@@ -466,6 +484,7 @@ Full instructions: [`app-decorations/firefox/README.md`](app-decorations/firefox
 ./uninstall.sh systray       # Remove system tray plugin
 ./uninstall.sh icontasks     # Remove Icon Tasks, restore the stock icons-only task manager
 ./uninstall.sh digitalclock  # Remove Digital Clock applet
+./uninstall.sh taskbarbuttons # Remove the Search and Task View buttons
 ./uninstall.sh sessionlock   # Restore Breeze lock screen (Meta+L)
 ./uninstall.sh alttab        # Restore KWin's default Alt+Tab switcher
 ./uninstall.sh shortcuts     # Put your previous keyboard shortcuts back

@@ -62,6 +62,7 @@ install_everything() {
     install_component systray
     install_component icontasks
     install_component digitalclock
+    install_component taskbarbuttons   # Add Widgets only, not on the panel
     install_component sessionlock
     install_component alttab
 
@@ -108,6 +109,7 @@ install_all_applets() {
     install_component systray
     install_component icontasks
     install_component digitalclock
+    install_component taskbarbuttons
     unset WM_BATCH
     restart_plasmashell
 }
@@ -133,17 +135,18 @@ menu() {
     echo -e "    ${BOLD}9${RESET})  System Tray (C++ — requires compiler)"
     echo -e "    ${BOLD}10${RESET}) Icon Tasks taskbar (C++ — requires compiler)"
     echo -e "    ${BOLD}11${RESET}) Digital Clock (QML)"
+    echo -e "    ${BOLD}12${RESET}) Search and Task View buttons (optional: added from Add Widgets)"
     echo ""
     echo -e "  ${BOLD}Session${RESET}"
-    echo -e "    ${BOLD}12${RESET}) Session lock screen (Meta+L)"
-    echo -e "    ${BOLD}13${RESET}) Boot greeter / login screen (PLM — C++ build + system install)"
-    echo -e "    ${BOLD}14${RESET}) Alt+Tab window switcher (Windows 11 style)"
+    echo -e "    ${BOLD}13${RESET}) Session lock screen (Meta+L)"
+    echo -e "    ${BOLD}14${RESET}) Boot greeter / login screen (PLM — C++ build + system install)"
+    echo -e "    ${BOLD}15${RESET}) Alt+Tab window switcher (Windows 11 style)"
     echo ""
     echo -e "  ${BOLD}Behaviour & setup${RESET}"
-    echo -e "    ${BOLD}15${RESET}) Windows keyboard shortcuts (Win+Up/Down, Win+Tab, Win+R, Win+A...)"
-    echo -e "    ${BOLD}16${RESET}) Apps: Haruna, KWrite, Mission Center, Snipping Tool behaviour"
-    echo -e "    ${BOLD}17${RESET}) Dependencies only (Kvantum, Flatpak, C++ build tools)"
-    echo -e "    ${BOLD}18${RESET}) Fonts: Segoe UI or Selawik, Cascadia Mono"
+    echo -e "    ${BOLD}16${RESET}) Windows keyboard shortcuts (Win+Up/Down, Win+Tab, Win+R, Win+A...)"
+    echo -e "    ${BOLD}17${RESET}) Apps: Haruna, KWrite, Mission Center, Snipping Tool behaviour"
+    echo -e "    ${BOLD}18${RESET}) Dependencies only (Kvantum, Flatpak, C++ build tools)"
+    echo -e "    ${BOLD}19${RESET}) Fonts: Segoe UI or Selawik, Cascadia Mono"
     echo ""
     echo -e "    ${BOLD}0${RESET})  Quit"
     echo ""
@@ -163,18 +166,19 @@ menu() {
         9)  install_component systray ;;
         10) install_component icontasks ;;
         11) install_component digitalclock ;;
-        12) install_component sessionlock ;;
-        13) echo "Boot greeter install requires root for the system-wide step."
+        12) install_component taskbarbuttons ;;
+        13) install_component sessionlock ;;
+        14) echo "Boot greeter install requires root for the system-wide step."
             echo "Building patched PLM first (user)..."
             install_component greeter
             echo ""
             echo "Now installing system-wide (needs sudo)..."
             sudo bash "$SCRIPT_DIR/scripts/install-greeter-live.sh" || err "System greeter install failed or was cancelled." ;;
-        14) install_component alttab ;;
-        15) install_component shortcuts ;;
-        16) install_component apps ;;
-        17) install_component deps ;;
-        18) install_component fonts ;;
+        15) install_component alttab ;;
+        16) install_component shortcuts ;;
+        17) install_component apps ;;
+        18) install_component deps ;;
+        19) install_component fonts ;;
         0)  echo "Nothing installed."; exit 0 ;;
         *)  err "Invalid choice."; exit 1 ;;
     esac
@@ -212,7 +216,8 @@ case "${1:-menu}" in
         echo "    systray        System Tray (C++ — needs compiler)"
         echo "    icontasks      Icon Tasks taskbar (C++ — needs compiler)"
         echo "    digitalclock   Digital Clock (QML)"
-        echo "    applets        All five applets"
+        echo "    taskbarbuttons Search and Task View buttons (optional; add them from Add Widgets)"
+        echo "    applets        All applets (the taskbar buttons are installed, not placed)"
         echo "    sessionlock    Session lock screen (Meta+L)"
         echo "    alttab         Windows 11-style Alt+Tab window switcher"
         echo "    shortcuts      Windows keyboard shortcuts (backs up and replaces some KDE keys)"

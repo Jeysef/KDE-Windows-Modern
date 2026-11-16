@@ -13,7 +13,7 @@ checks every change must pass, and the conventions the project follows.
 |------|------------------|
 | `install.sh`, `uninstall.sh` | Entry points. Each component has its own `scripts/install-<name>.sh`. |
 | `scripts/install-lib.sh` | Shared helpers (paths, logging, apply/restart). Every installer sources it. |
-| `plasma/applets/` | Applets. `startmenu`, `showdesktop`, `digitalclock` are pure QML; `systemtray` and `icontasks` are C++ forks of upstream Plasma applets. |
+| `plasma/applets/` | Applets. `startmenu`, `showdesktop`, `digitalclock` and the optional `search` / `taskview` buttons are pure QML; `systemtray` and `icontasks` are C++ forks of upstream Plasma applets. |
 | `plasma/look-and-feel/`, `plasma/desktoptheme/`, `aurorae/`, `Kvantum/`, `color-schemes/` | Theme assets, always in **dark and light** variants. |
 | `plasma/layout-templates/` | The "Add Panel → Windows Modern Panel" template. |
 | `plasma/windowswitcher/` | The Alt+Tab switcher (a KWin window-switcher layout). |

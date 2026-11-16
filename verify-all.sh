@@ -72,7 +72,7 @@ fi
 # ── Applets ─────────────────────────────────────────────────────────
 echo ""
 echo " Applets:"
-for applet in showdesktop startmenu digitalclock systemtray icontasks; do
+for applet in showdesktop startmenu digitalclock search taskview systemtray icontasks; do
     d="plasma/applets/org.kde.windowsmodern.$applet"
     check_file "$d/metadata.json" "$applet"
 done
@@ -165,7 +165,8 @@ fi
 
 # ── Shared code copies ──────────────────────────────────────────────
 # The lock screen is its own package, so it carries a copy of the clock's
-# date formatting; the two must not drift apart.
+# date formatting; the two must not drift apart. Likewise the Search and
+# Task View applets each carry the shared taskbar button.
 SHARED_DRIFT=""
 LOCK=plasma/shells/org.kde.windowsmodern.lockscreen/contents/lockscreen
 LOGIN=plasma/look-and-feel/org.kde.windowsmodern.dark/contents/lockscreen
@@ -174,12 +175,13 @@ for pair in \
     "$LOCK/dateformat.js $LOGIN/dateformat.js" \
     "$LOCK/StatusIconButton.qml $LOGIN/StatusIconButton.qml" \
     "$LOCK/NetworkStatusIcon.qml $LOGIN/NetworkStatusIcon.qml" \
-    "$LOCK/BatteryStatusIcon.qml $LOGIN/BatteryStatusIcon.qml"; do
+    "$LOCK/BatteryStatusIcon.qml $LOGIN/BatteryStatusIcon.qml" \
+    "plasma/applets/org.kde.windowsmodern.search/contents/ui/TaskbarButton.qml plasma/applets/org.kde.windowsmodern.taskview/contents/ui/TaskbarButton.qml"; do
     # shellcheck disable=SC2086  # two paths on purpose
     cmp -s $pair || SHARED_DRIFT="$SHARED_DRIFT ${pair##* }"
 done
 if [ -z "$SHARED_DRIFT" ]; then
-    pass "shared copies (date format, lock/login status icons) are identical"
+    pass "shared copies (date format, lock/login status icons, taskbar button) are identical"
 else
     fail "copies drifted from their source:$SHARED_DRIFT"
     FAILED=1

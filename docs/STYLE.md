@@ -177,6 +177,30 @@ Config keys (`contents/config/main.xml`): `size` (int, default 6),
 line). Installed to `~/.local/share/plasma/plasmoids/` (or
 `/usr/share/plasma/plasmoids/` as root) by `install.sh`.
 
+#### Search and Task View buttons (`org.kde.windowsmodern.search`, `org.kde.windowsmodern.taskview`)
+
+Optional pure-QML applets for Windows 11's Search and Task View taskbar
+buttons. They are **not** in the panel layout; users add them from Add
+Widgets. Each applet is a thin `main.qml` around `TaskbarButton.qml`, which
+both packages carry as identical copies (`verify-all.sh` checks).
+
+- **Cell** — square: as wide as a horizontal panel is thick, as tall as
+  a vertical panel is wide.
+- **Hover** — 4 px rounded tile, text colour at 6 % (dark) / 3.5 %
+  (light) with a 3 % border: the `widgets/tasks.svg` hover values. The
+  SVG itself is not used because its hover tile carries the running-app
+  indicator bar.
+- **Pressed** — WinUI's tertiary subtle fill (4.2 % / 2.4 %) and the
+  glyph scaled to 90 %.
+- **Glyph** — `edit-find` (magnifier) and `window-duplicate` (overlapping
+  windows), monochrome `ColorScheme-Text` icons from the pack's
+  `actions/`, at two thirds of the cell, capped at 30 px. The cap matters:
+  `apps/` (32 px and up) has a full-colour `window-duplicate`.
+- **Search** calls `org.kde.PlasmaShell.activateLauncherMenu` (what the
+  Meta key does): the Start menu opens with its search field focused.
+- **Task View** invokes the `kwin` global shortcut action `Overview`
+  (Win+Tab) through `org.kde.kglobalaccel`.
+
 #### Start Menu applet (`plasma/applets/org.kde.windowsmodern.startmenu/`)
 
 A Win11-style start menu ported from the reference plasmoid

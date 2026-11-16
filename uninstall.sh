@@ -157,6 +157,13 @@ uninstall_component() {
             rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.digitalclock"
             info "Digital Clock uninstalled. Restart plasmashell to complete."
             ;;
+        taskbarbuttons)
+            rm_path "/usr/share/plasma/plasmoids/org.kde.windowsmodern.search"
+            rm_path "/usr/share/plasma/plasmoids/org.kde.windowsmodern.taskview"
+            rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.search"
+            rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.taskview"
+            info "Search and Task View buttons uninstalled. Restart plasmashell to remove any from your panel."
+            ;;
         sessionlock)
             # kscreenlocker uses the current desktop shell's lockscreen. We
             # themed Meta+L by creating a complete user-level overlay of
@@ -277,14 +284,14 @@ uninstall_component() {
             info "remove them with your package manager / flatpak if you want."
             ;;
         all)
-            for c in shortcuts apps fonts themes icons lookfeel layout showdesk startmenu systray icontasks digitalclock sessionlock alttab greeter; do
+            for c in shortcuts apps fonts themes icons lookfeel layout showdesk startmenu systray icontasks digitalclock taskbarbuttons sessionlock alttab greeter; do
                 uninstall_component "$c"
             done
             reset_kwin_borders
             ;;
         *)
             err "Unknown component: $name"
-            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, icontasks, digitalclock, sessionlock, alttab, shortcuts, apps, fonts, greeter, greetersystem, all"
+            echo "Available: themes, icons, lookfeel, layout, showdesk, startmenu, systray, icontasks, digitalclock, taskbarbuttons, sessionlock, alttab, shortcuts, apps, fonts, greeter, greetersystem, all"
             exit 1
             ;;
     esac
@@ -304,6 +311,7 @@ case "${1:-}" in
     echo "  systray    System Tray"
     echo "  icontasks  Icon Tasks taskbar"
     echo "  digitalclock Digital Clock"
+    echo "  taskbarbuttons Search and Task View buttons"
     echo "  sessionlock Session lock screen (Meta+L)"
     echo "  alttab     Alt+Tab window switcher"
     echo "  shortcuts  Windows keyboard shortcuts (previous keys restored)"
