@@ -7,7 +7,9 @@
 #include "backend.h"
 
 #include "log_settings.h"
+#include <KActionCollection>
 #include <KConfigGroup>
+#include <KGlobalAccel>
 #include <KDesktopFile>
 #include <KFileItem>
 #include <KFilePlacesModel>
@@ -33,6 +35,8 @@
 #include <QTimer>
 #include <QVersionNumber>
 
+#include <mutex>
+
 #include <PlasmaActivities/Consumer>
 #include <PlasmaActivities/Stats/Cleaning>
 #include <PlasmaActivities/Stats/ResultSet>
@@ -48,6 +52,8 @@ using namespace KAStats::Terms;
 
 static constexpr int NoApplications = 2; // kactivitymanager StatsPlugin WhatToRemember.
 
+QVector<Backend *> Backend::s_instances;
+
 Backend::Backend(QObject *parent)
     : QObject(parent)
     , m_actionGroup(new QActionGroup(this))
@@ -62,11 +68,55 @@ Backend::Backend(QObject *parent)
                     m_activityManagerPluginsSettings.load();
                 }
             });
+
+    s_instances.append(this);
+    setupShortcuts();
 }
 
 Backend::~Backend()
 {
+    s_instances.removeAll(this);
 }
+
+int Backend::screen() const
+{
+    return m_screen;
+}
+
+void Backend::setScreen(int screen)
+{
+    if (m_screen != screen) {
+        m_screen = screen;
+        Q_EMIT screenChanged();
+    }
+}
+
+bool Backend::hasActiveTask() const
+{
+    return m_hasActiveTask;
+}
+
+void Backend::setHasActiveTask(bool active)
+{
+    if (m_hasActiveTask != active) {
+        m_hasActiveTask = active;
+        Q_EMIT hasActiveTaskChanged();
+    }
+}
+
+bool Backend::showsOnlyCurrentScreen() const
+{
+    return m_showsOnlyCurrentScreen;
+}
+
+void Backend::setShowsOnlyCurrentScreen(bool shows)
+{
+    if (m_showsOnlyCurrentScreen != shows) {
+        m_showsOnlyCurrentScreen = shows;
+        Q_EMIT showsOnlyCurrentScreenChanged();
+    }
+}
+
 
 QUrl Backend::tryDecodeApplicationsUrl(const QUrl &launcherUrl)
 {
@@ -516,6 +566,138 @@ qint64 Backend::parentPid(qint64 pid) const
     }
 
     return -1;
+}
+
+void Backend::setupShortcuts()
+{
+    static std::once_flag once;
+    std::call_once(once, [] {
+        auto *collection = new KActionCollection(QCoreApplication::instance());
+
+        auto *activatePreviousTaskAction = collection->addAction(QStringLiteral("activate previous task manager entry"));
+        QObject::connect(activatePreviousTaskAction, &QAction::triggered, collection, [](bool) {
+            dispatchActivatePreviousTask();
+        });
+        activatePreviousTaskAction->setText(i18n("Activate Previous Task Manager Entry"));
+        KGlobalAccel::self()->setGlobalShortcut(activatePreviousTaskAction, QList<QKeySequence>() << QKeySequence(Qt::META | Qt::CTRL | Qt::Key_PageUp));
+
+        auto *activateNextTaskAction = collection->addAction(QStringLiteral("activate next task manager entry"));
+        QObject::connect(activateNextTaskAction, &QAction::triggered, collection, [](bool) {
+            dispatchActivateNextTask();
+        });
+        activateNextTaskAction->setText(i18n("Activate Next Task Manager Entry"));
+        KGlobalAccel::self()->setGlobalShortcut(activateNextTaskAction, QList<QKeySequence>() << QKeySequence(Qt::META | Qt::CTRL | Qt::Key_PageDown));
+
+        auto *moveTaskBackwardAction = collection->addAction(QStringLiteral("move active task to left"));
+        QObject::connect(moveTaskBackwardAction, &QAction::triggered, collection, [](bool) {
+            dispatchMoveActiveTaskBackward();
+        });
+        moveTaskBackwardAction->setText(i18n("Move Active Task Manager Entry Backward"));
+        KGlobalAccel::self()->setGlobalShortcut(moveTaskBackwardAction,
+                                                QList<QKeySequence>() << QKeySequence(Qt::META | Qt::CTRL | Qt::SHIFT | Qt::Key_PageUp));
+
+        auto *moveTaskForwardAction = collection->addAction(QStringLiteral("move active task to right"));
+        QObject::connect(moveTaskForwardAction, &QAction::triggered, collection, [](bool) {
+            dispatchMoveActiveTaskForward();
+        });
+        moveTaskForwardAction->setText(i18n("Move Active Task Manager Entry Forward"));
+        KGlobalAccel::self()->setGlobalShortcut(moveTaskForwardAction,
+                                                QList<QKeySequence>() << QKeySequence(Qt::META | Qt::CTRL | Qt::SHIFT | Qt::Key_PageDown));
+
+        for (int i = 0; i < 10; ++i) {
+            const int entryNumber = i + 1;
+            const auto key = static_cast<Qt::Key>(Qt::Key_0 + (entryNumber % 10));
+
+            QAction *action = collection->addAction(QStringLiteral("activate task manager entry %1").arg(QString::number(entryNumber)));
+            action->setText(i18n("Activate Task Manager Entry %1", entryNumber));
+            KGlobalAccel::setGlobalShortcut(action, entryNumber < 10 ? QKeySequence(Qt::META | key) : QKeySequence());
+            QObject::connect(action, &QAction::triggered, collection, [i](bool) {
+                dispatchActivateTaskAtIndex(i);
+            });
+        }
+    });
+}
+
+Backend *Backend::findTargetBackend()
+{
+    // Prefer a bar that shows tasks from all screens so that cycling
+    // shortcuts can see the full task list.  Screen-filtered bars are
+    // only used as fallback when no full-view bar has the active task.
+    // This avoids trapping shortcuts on a screen-filtered bar that may
+    // only have a single task to cycle through (e.g. when a grouped app
+    // has its only visible child on that screen).
+
+    Backend *fallback = nullptr;
+
+    for (auto *instance : std::as_const(s_instances)) {
+        if (!instance->m_hasActiveTask) {
+            continue;
+        }
+        if (!instance->m_showsOnlyCurrentScreen) {
+            return instance;
+        }
+        if (!fallback) {
+            fallback = instance;
+        }
+    }
+
+    return fallback;
+}
+
+void Backend::dispatchActivateTaskAtIndex(int index)
+{
+    // Prefer the same priority order as the other task shortcuts:
+    // 1. Non-screen-filtered taskbar with the active task
+    // 2. Screen-filtered taskbar with the active task
+    if (auto *target = findTargetBackend()) {
+        Q_EMIT target->activateTaskAtIndexRequested(index);
+        return;
+    }
+
+    // If no task is active on any taskmanager (e.g. the user wants to
+    // launch a pinned app), fallback: prefer a non-screen-filtered
+    // instance, then the first available instance.
+    Backend *fallback = nullptr;
+    for (auto *instance : std::as_const(s_instances)) {
+        if (!instance->m_showsOnlyCurrentScreen) {
+            Q_EMIT instance->activateTaskAtIndexRequested(index);
+            return;
+        }
+        if (!fallback) {
+            fallback = instance;
+        }
+    }
+    if (fallback) {
+        Q_EMIT fallback->activateTaskAtIndexRequested(index);
+    }
+}
+
+void Backend::dispatchActivatePreviousTask()
+{
+    if (auto *target = findTargetBackend()) {
+        Q_EMIT target->activatePreviousTaskRequested();
+    }
+}
+
+void Backend::dispatchActivateNextTask()
+{
+    if (auto *target = findTargetBackend()) {
+        Q_EMIT target->activateNextTaskRequested();
+    }
+}
+
+void Backend::dispatchMoveActiveTaskBackward()
+{
+    if (auto *target = findTargetBackend()) {
+        Q_EMIT target->moveActiveTaskBackwardRequested();
+    }
+}
+
+void Backend::dispatchMoveActiveTaskForward()
+{
+    if (auto *target = findTargetBackend()) {
+        Q_EMIT target->moveActiveTaskForwardRequested();
+    }
 }
 
 #include "moc_backend.cpp"

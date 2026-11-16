@@ -293,7 +293,7 @@ Because it is a compiled Plasma applet, it must be built during installation. Th
 
 #### Install build dependencies
 
-The Icon Tasks dependency set differs slightly from the System Tray (it adds `plasma-activities`, `libksysguard`, and `knotifications`).
+The Icon Tasks dependency set differs slightly from the System Tray (it adds `plasma-activities`, `libksysguard`, `knotifications`, and `kglobalaccel`).
 
 **Fedora:**
 
@@ -302,7 +302,7 @@ sudo dnf install gcc-c++ cmake extra-cmake-modules \
   qt6-qtbase-devel qt6-qtdeclarative-devel \
   kf6-kpackage-devel kf6-kconfig-devel kf6-ki18n-devel kf6-kcoreaddons-devel \
   kf6-kwindowsystem-devel kf6-kio-devel kf6-kservice-devel kf6-kxmlgui-devel \
-  kf6-knotifications-devel \
+  kf6-knotifications-devel kf6-kglobalaccel-devel \
   plasma-activities-devel plasma-activities-stats-devel \
   libplasma-devel plasma-workspace-devel \
   libksysguard-devel
@@ -312,7 +312,7 @@ sudo dnf install gcc-c++ cmake extra-cmake-modules \
 
 ```bash
 sudo pacman -S cmake extra-cmake-modules qt6-base qt6-declarative \
-  kpackage kconfig ki18n kwindowsystem kio kservice kxmlgui knotifications \
+  kpackage kconfig ki18n kwindowsystem kio kservice kxmlgui knotifications kglobalaccel \
   plasma-activities plasma-activities-stats \
   plasma-framework plasma-workspace \
   libksysguard
@@ -325,7 +325,7 @@ sudo apt install cmake extra-cmake-modules \
   qt6-base-dev qt6-declarative-dev \
   libkf6package-dev libkf6config-dev libkf6i18n-dev \
   libkf6windowsystem-dev libkf6kio-dev libkf6service-dev libkf6xmlgui-dev \
-  libkf6notifications-dev \
+  libkf6notifications-dev libkf6globalaccel-dev \
   libplasma-dev plasma-workspace-dev \
   libplasmaactivities-dev libplasmaactivitiesstats-dev \
   libksysguard-dev

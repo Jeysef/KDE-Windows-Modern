@@ -18,6 +18,7 @@
 #include "kactivitymanagerd_plugins_settings.h"
 
 class QAction;
+class KActionCollection;
 class QActionGroup;
 class QQuickItem;
 class QQuickWindow;
@@ -48,6 +49,21 @@ public:
     explicit Backend(QObject *parent = nullptr);
     ~Backend() override;
 
+    // Meta+1..9 and the other task shortcuts (ported from Plasma 6.8,
+    // where plasmashell no longer handles them itself).
+    Q_PROPERTY(int screen READ screen WRITE setScreen NOTIFY screenChanged)
+    Q_PROPERTY(bool hasActiveTask READ hasActiveTask WRITE setHasActiveTask NOTIFY hasActiveTaskChanged)
+    Q_PROPERTY(bool showsOnlyCurrentScreen READ showsOnlyCurrentScreen WRITE setShowsOnlyCurrentScreen NOTIFY showsOnlyCurrentScreenChanged)
+
+    int screen() const;
+    void setScreen(int screen);
+
+    bool hasActiveTask() const;
+    void setHasActiveTask(bool active);
+
+    bool showsOnlyCurrentScreen() const;
+    void setShowsOnlyCurrentScreen(bool shows);
+
     Q_INVOKABLE QVariantList jumpListActions(const QUrl &launcherUrl, QObject *parent);
     Q_INVOKABLE QVariantList placesActions(const QUrl &launcherUrl, bool showAllPlaces, QObject *parent);
     Q_INVOKABLE QVariantList recentDocumentActions(const QUrl &launcherUrl, QObject *parent);
@@ -63,6 +79,16 @@ public:
     Q_INVOKABLE static QStringList applicationCategories(const QUrl &launcherUrl);
 
 Q_SIGNALS:
+    void screenChanged();
+    void hasActiveTaskChanged();
+    void showsOnlyCurrentScreenChanged();
+
+    void activateTaskAtIndexRequested(int index);
+    void activatePreviousTaskRequested();
+    void activateNextTaskRequested();
+    void moveActiveTaskBackwardRequested();
+    void moveActiveTaskForwardRequested();
+
     void addLauncher(const QUrl &url) const;
 
     void showAllPlaces();
@@ -71,6 +97,20 @@ private Q_SLOTS:
     void handleRecentDocumentAction() const;
 
 private:
+    static void setupShortcuts();
+    static Backend *findTargetBackend();
+    static void dispatchActivateTaskAtIndex(int index);
+    static void dispatchActivatePreviousTask();
+    static void dispatchActivateNextTask();
+    static void dispatchMoveActiveTaskBackward();
+    static void dispatchMoveActiveTaskForward();
+
+    static QVector<Backend *> s_instances;
+
+    int m_screen = -1;
+    bool m_hasActiveTask = false;
+    bool m_showsOnlyCurrentScreen = false;
+
     QVariantList systemSettingsActions(QObject *parent) const;
 
     QActionGroup *m_actionGroup = nullptr;
