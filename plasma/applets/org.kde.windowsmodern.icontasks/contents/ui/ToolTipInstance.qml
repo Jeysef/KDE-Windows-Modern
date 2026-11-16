@@ -20,6 +20,7 @@ import org.kde.plasma.components as PlasmaComponents3
 import org.kde.plasma.extras as PlasmaExtras
 import org.kde.kirigami as Kirigami
 import org.kde.kwindowsystem
+import org.kde.plasma.private.mpris as Mpris
 
 Item {
     id: root
@@ -70,7 +71,16 @@ Item {
         return text;
     }
 
-    readonly property bool titleIncludesTrack: toolTipDelegate.playerData !== null && title.includes(toolTipDelegate.playerData.track)
+    // Chromium keeps a "Stopped" MPRIS player after any tab played audio, with
+    // no track title and its own logo as album art. "".includes() is true for
+    // every title, so that logo covered every Chromium thumbnail. Require a
+    // real track on a player that is not stopped (fix from the lofcz fork).
+    readonly property bool titleIncludesTrack: {
+        const player = toolTipDelegate.playerData;
+        const track = player?.track ?? "";
+        return player !== null && player.playbackStatus !== Mpris.PlaybackStatus.Stopped
+            && track.length > 0 && title.includes(track);
+    }
 
     // Tile-wide hover tracker — passive (no button grabbing), so the existing
     // ToolTipWindowMouseArea clicks/hover pass through untouched. Drives the

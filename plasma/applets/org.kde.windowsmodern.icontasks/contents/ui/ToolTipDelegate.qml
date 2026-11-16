@@ -132,9 +132,14 @@ Loader {
 
                 // Required to know whether to display the media player buttons on the first window or not
                 property bool hasTrackInATitle: {
+                    // An empty track (Chromium's idle player) matches every title.
+                    const track = toolTipDelegate.playerData?.track ?? ""
+                    if (track.length === 0) {
+                        return false
+                    }
                     var found = false
                     for (var i=0; i<model.items.count && !found; i++) {
-                        found = model.items.get(i).model.display.includes(toolTipDelegate.playerData?.track)
+                        found = model.items.get(i).model.display.includes(track)
                     }
                     return found
                 }
