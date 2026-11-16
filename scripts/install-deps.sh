@@ -28,8 +28,8 @@ elif command -v apt-get &>/dev/null; then
           libkf6package-dev libkf6config-dev libkf6i18n-dev libkf6windowsystem-dev libkf6kio-dev
           libkf6iconthemes-dev libkf6itemmodels-dev libkf6service-dev libkf6xmlgui-dev
           libkf6jobwidgets-dev libkf6kcmutils-dev libkf6notifications-dev
-          libplasma-dev plasma-workspace-dev plasma-activities-dev plasma-activities-stats-dev
-          libksysguard-dev libdbusmenu-qt6-dev)
+          libplasma-dev plasma-workspace-dev libplasmaactivities-dev libplasmaactivitiesstats-dev
+          libksysguard-dev)
 else
     warn "Unknown package manager: install Kvantum, Flatpak and the build dependencies"
     warn "listed in the README (System Tray, Icon Tasks) yourself."

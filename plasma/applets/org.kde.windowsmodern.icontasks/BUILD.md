@@ -36,7 +36,7 @@ sudo apt install cmake extra-cmake-modules \
   libkf6windowsystem-dev libkf6kio-dev libkf6service-dev libkf6xmlgui-dev \
   libkf6notifications-dev \
   libplasma-dev plasma-workspace-dev \
-  plasma-activities-dev plasma-activities-stats-dev \
+  libplasmaactivities-dev libplasmaactivitiesstats-dev \
   libksysguard-dev
 ```
 

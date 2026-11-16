@@ -8,6 +8,11 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Debian/Ubuntu build dependencies named packages that do not exist
+  (`plasma-activities-dev`, `libdbusmenu-qt6-dev`); they are
+  `libplasmaactivities-dev` and `libplasmaactivitiesstats-dev` (from the
+  michael-ruta fork). The unused `systemtray/install.sh` is gone.
+
 - Taskbar on a top or side panel: hovered, focused and attention task
   buttons had no background fill. `tasks.svg` named the xlink namespace
   `ns3`, which Qt's SVG renderer ignores (found through PR #23).
