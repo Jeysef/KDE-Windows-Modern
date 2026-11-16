@@ -64,8 +64,11 @@ detect_paths
 
 [ -f "$PLUGIN_SRC" ] || { err "Build output not found: $PLUGIN_SRC"; exit 1; }
 
-pkexec bash -s <<INSTALLEOF
+# Paths go in as arguments to a quoted heredoc, so quotes, $ or backticks
+# in them (e.g. in the checkout path) cannot change what root runs.
+pkexec bash -s -- "$PLUGIN_DST" "$PLUGIN_SRC" "$KPACKAGE_DIR" "$KPACKAGE_BACKUP" <<'INSTALLEOF'
 set -e
+PLUGIN_DST="$1" PLUGIN_SRC="$2" KPACKAGE_DIR="$3" KPACKAGE_BACKUP="$4"
 mkdir -p "$PLUGIN_DST"
 # install = new inode: a running plasmashell keeps its mapping of the
 # old file instead of crashing on an in-place overwrite.

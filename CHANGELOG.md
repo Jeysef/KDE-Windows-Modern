@@ -8,6 +8,10 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- The applets' root install step gets its paths as arguments, so a
+  quote, `$` or backtick in the checkout path cannot change what runs as
+  root (from PR #1).
+
 - `./install.sh` said "Done." when the System Tray or Icon Tasks build
   failed; it now lists the failed components and exits non-zero.
 
