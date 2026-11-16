@@ -8,6 +8,9 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- `./install.sh` said "Done." when the System Tray or Icon Tasks build
+  failed; it now lists the failed components and exits non-zero.
+
 - Debian/Ubuntu build dependencies named packages that do not exist
   (`plasma-activities-dev`, `libdbusmenu-qt6-dev`); they are
   `libplasmaactivities-dev` and `libplasmaactivitiesstats-dev` (from the

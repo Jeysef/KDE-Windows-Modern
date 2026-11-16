@@ -22,9 +22,9 @@ if [ -x "$dir/dev.sh" ]; then
         err "System Tray build failed — missing build dependencies or compiler."
         warn "The panel will use the stock Plasma system tray instead."
         warn "To install build deps and retry, see the README (System Tray section)."
-        exit 0
+        exit 1
     fi
 else
     err "dev.sh not found in $dir"
-    exit 0
+    exit 1
 fi
