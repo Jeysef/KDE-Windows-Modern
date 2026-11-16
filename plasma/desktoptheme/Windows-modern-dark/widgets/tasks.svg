@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:ns3="http://www.w3.org/1999/xlink" width="120" height="280" version="1.0" viewBox="0 0 120 280" id="svg1172" ns1:docname="tasks.svgz" ns2:version="1.2.1 (9c6d41e410, 2022-07-14)">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:xlink="http://www.w3.org/1999/xlink" width="120" height="280" version="1.0" viewBox="0 0 120 280" id="svg1172" ns1:docname="tasks.svgz" ns2:version="1.2.1 (9c6d41e410, 2022-07-14)">
   <ns1:namedview pagecolor="#3D3D3D" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" ns2:pageopacity="0" ns2:pageshadow="2" ns2:window-width="1920" ns2:window-height="1005" id="namedview700" showgrid="true" ns2:zoom="8" ns2:cx="-72.375" ns2:cy="119.4375" ns2:window-x="0" ns2:window-y="0" ns2:window-maximized="1" ns2:current-layer="svg1172" ns2:document-rotation="0" ns2:pagecheckerboard="0" ns2:snap-bbox="true" ns2:bbox-nodes="true" ns2:snap-bbox-edge-midpoints="true" showguides="true" ns2:guide-bbox="true" ns2:snap-nodes="true" ns2:showpageshadow="0" ns2:deskcolor="#3D3D3D">
     <ns2:grid type="xygrid" id="grid4001" />
   </ns1:namedview>
@@ -288,18 +288,18 @@
     <rect id="rect1201" width="26" height="26" x="100" y="99" rx="3" ry="3" style="fill:none" />
     <rect id="rect1203" width="24" height="4" x="101" y="110" rx="2" ry="2" class="ColorScheme-PositiveText" fill="#2C2C2C" />
   </g>
-  <use x="0" y="0" ns3:href="#progress-center" id="north-progress-center" transform="translate(-87)" width="100%" height="100%" />
-  <use x="0" y="0" ns3:href="#progress-center" id="west-progress-center" transform="rotate(90,-132.5,103.5)" width="100%" height="100%" />
-  <use x="0" y="0" ns3:href="#progress-center" id="east-progress-center" transform="matrix(0,1,1,0,-509,236)" width="100%" height="100%" />
-  <use x="0" y="0" ns3:href="#attention-center" id="north-attention-center" transform="translate(-87)" width="100%" height="100%" />
-  <use x="0" y="0" ns3:href="#attention-center" id="west-attention-center" transform="rotate(90,-133,166)" width="100%" height="100%" />
-  <use x="0" y="0" ns3:href="#attention-center" id="east-attention-center" transform="matrix(0,1,1,0,-571,299)" width="100%" height="100%" />
-  <use x="0" y="0" ns3:href="#focus-center" id="use3099" transform="translate(-87)" width="100%" height="100%" />
-  <use x="0" y="0" ns3:href="#focus-center" id="west-focus-center" transform="rotate(90,-132,52)" width="100%" height="100%" />
-  <use x="0" y="0" ns3:href="#focus-center" id="east-focus-center" transform="matrix(0,1,1,0,-456,184)" width="100%" height="100%" />
-  <use x="0" y="0" ns3:href="#hover-center" id="north-hover-center" transform="translate(-87)" width="100%" height="100%" />
-  <use x="0" y="0" ns3:href="#hover-center" id="west-hover-center" transform="rotate(90,-132,8)" width="100%" height="100%" />
-  <use x="0" y="0" ns3:href="#hover-center" id="east-hover-center" transform="matrix(0,1,1,0,-412,140)" width="100%" height="100%" />
+  <use x="0" y="0" xlink:href="#progress-center" id="north-progress-center" transform="translate(-87)" width="100%" height="100%" />
+  <use x="0" y="0" xlink:href="#progress-center" id="west-progress-center" transform="rotate(90,-132.5,103.5)" width="100%" height="100%" />
+  <use x="0" y="0" xlink:href="#progress-center" id="east-progress-center" transform="matrix(0,1,1,0,-509,236)" width="100%" height="100%" />
+  <use x="0" y="0" xlink:href="#attention-center" id="north-attention-center" transform="translate(-87)" width="100%" height="100%" />
+  <use x="0" y="0" xlink:href="#attention-center" id="west-attention-center" transform="rotate(90,-133,166)" width="100%" height="100%" />
+  <use x="0" y="0" xlink:href="#attention-center" id="east-attention-center" transform="matrix(0,1,1,0,-571,299)" width="100%" height="100%" />
+  <use x="0" y="0" xlink:href="#focus-center" id="use3099" transform="translate(-87)" width="100%" height="100%" />
+  <use x="0" y="0" xlink:href="#focus-center" id="west-focus-center" transform="rotate(90,-132,52)" width="100%" height="100%" />
+  <use x="0" y="0" xlink:href="#focus-center" id="east-focus-center" transform="matrix(0,1,1,0,-456,184)" width="100%" height="100%" />
+  <use x="0" y="0" xlink:href="#hover-center" id="north-hover-center" transform="translate(-87)" width="100%" height="100%" />
+  <use x="0" y="0" xlink:href="#hover-center" id="west-hover-center" transform="rotate(90,-132,8)" width="100%" height="100%" />
+  <use x="0" y="0" xlink:href="#hover-center" id="east-hover-center" transform="matrix(0,1,1,0,-412,140)" width="100%" height="100%" />
   <rect id="thick-hint-top-margin" x="-46" y="83" width="4" height="4" fill="#ff00ff" />
   <rect id="thick-hint-bottom-margin" x="-57" y="94" width="4" height="4" fill="#ff00ff" />
   <rect id="thick-hint-right-margin" x="-35" y="94" width="4" height="4" fill="#ff00ff" />

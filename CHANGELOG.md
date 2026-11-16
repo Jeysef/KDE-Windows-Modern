@@ -8,6 +8,10 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Taskbar on a top or side panel: hovered, focused and attention task
+  buttons had no background fill. `tasks.svg` named the xlink namespace
+  `ns3`, which Qt's SVG renderer ignores (found through PR #23).
+
 - Boot greeter: `./install.sh greeter` failed with a CMake error after a
   clone without `--recursive` or GitHub's "Download ZIP" (#15): the login
   manager submodule was empty. A git checkout now fetches it, anything else
