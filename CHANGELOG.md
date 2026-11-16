@@ -8,29 +8,36 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Taskbar: hovering an icon took keyboard focus from the window you were
+  typing in (#14). Hover only moves focus while you navigate the taskbar
+  with the keyboard. Tested live (`tests/icontasks/e2e.py focus`).
+- Win+1…9 (open the Nth taskbar app), Ctrl+Win+PgUp/PgDn and
+  Ctrl+Shift+Win+PgUp/PgDn did nothing on Plasma 6.8, which moved them
+  from plasmashell into the task manager; the fork now registers them as
+  stock 6.8 does. Needs `kglobalaccel` development files to build.
+- Taskbar tooltips: Chrome/Chromium's logo covered every window preview
+  once a tab had played audio (an idle media player with an empty title
+  matched every window). From the lofcz fork.
+- Start button: the logo follows the taskbar icons' size, so it no longer
+  looks too small on panels between 36 and 47 px (PR #20 raised it).
 - The applets' root install step gets its paths as arguments, so a
   quote, `$` or backtick in the checkout path cannot change what runs as
   root (from PR #1).
-
 - `./install.sh` said "Done." when the System Tray or Icon Tasks build
   failed; it now lists the failed components and exits non-zero.
-
 - Debian/Ubuntu build dependencies named packages that do not exist
   (`plasma-activities-dev`, `libdbusmenu-qt6-dev`); they are
   `libplasmaactivities-dev` and `libplasmaactivitiesstats-dev` (from the
   michael-ruta fork). The unused `systemtray/install.sh` is gone.
-
 - Taskbar on a top or side panel: hovered, focused and attention task
   buttons had no background fill. `tasks.svg` named the xlink namespace
   `ns3`, which Qt's SVG renderer ignores (found through PR #23).
-
 - Boot greeter: `./install.sh greeter` failed with a CMake error after a
   clone without `--recursive` or GitHub's "Download ZIP" (#15): the login
   manager submodule was empty. A git checkout now fetches it, anything else
   explains what to download; a stale submodule is reported. The release
   bundle now includes the login manager source, so it can build the
   greeter.
-
 - After a restart, Alt+Tab could fall back to Breeze: an interrupted
   `tests/windowswitcher/e2e.py` left a test copy of the switcher selected,
   and its cleanup removed the copy. The test now restores the real

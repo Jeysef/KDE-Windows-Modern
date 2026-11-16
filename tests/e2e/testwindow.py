@@ -19,7 +19,13 @@ Window {
     width: 640; height: 400; visible: true
     color: "#2d5f8a"
     Text { anchors.centerIn: parent; text: "Windows Modern shortcut test"; color: "white"; font.pixelSize: 24 }
-    function report() { console.warn("WM-STATE " + JSON.stringify({ w: width, h: height, active: active })) }
+    // Text typed while the window has keyboard focus (focus-stealing tests).
+    property string typed: ""
+    Item {
+        focus: true
+        Keys.onPressed: event => { w.typed += event.text; w.report() }
+    }
+    function report() { console.warn("WM-STATE " + JSON.stringify({ w: width, h: height, active: active, typed: typed })) }
     onWidthChanged: report()
     onHeightChanged: report()
     onActiveChanged: report()

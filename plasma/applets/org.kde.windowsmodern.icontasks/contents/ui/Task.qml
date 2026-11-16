@@ -197,7 +197,13 @@ FloatingToolTipArea {
 
     onContainsMouseChanged: {
         if (containsMouse) {
-            task.forceActiveFocus(Qt.MouseFocusReason);
+            // Upstream moves keyboard focus to the hovered task; while the
+            // user types in another window that pulls the keyboard into the
+            // panel (#14). Only follow the pointer when the panel already
+            // has the keyboard, i.e. during keyboard navigation of tasks.
+            if (task.Window.active) {
+                task.forceActiveFocus(Qt.MouseFocusReason);
+            }
             task.updateMainItemBindings();
         } else {
             tasksRoot.toolTipOpenedByClick = null;
