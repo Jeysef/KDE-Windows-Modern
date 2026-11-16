@@ -38,6 +38,13 @@ PlasmoidItem {
         });
     }
 
+    // Two overlapping rounded squares, the front one solid, the one behind
+    // at 40 %: the shape of Windows' Task View button. 24 x 24, in
+    // currentColor (Glyph.qml).
+    readonly property string taskViewGlyph:
+        "<rect x='9.5' y='2' width='12.5' height='12.5' rx='2.5' fill='currentColor' fill-opacity='0.4'/>"
+        + "<rect x='2' y='8.5' width='13.5' height='13.5' rx='2.5' fill='currentColor'/>"
+
     preferredRepresentation: fullRepresentation
     Plasmoid.icon: "window-duplicate"
     Plasmoid.backgroundHints: PlasmaCore.Types.NoBackground
@@ -58,8 +65,7 @@ PlasmoidItem {
     // qmllint disable unqualified
     TaskbarButton {
         anchors.fill: parent
-        iconName: "window-duplicate"
-        fallbackIconName: "window-duplicate-symbolic"
+        glyph: root.taskViewGlyph
         text: i18nc("@action:button taskbar button", "Task View")
         description: i18nc("@info:tooltip", "Show all windows and desktops")
         onTriggered: root.openTaskView()

@@ -3,7 +3,8 @@
     SPDX-License-Identifier: GPL-3.0-or-later
 
     A Windows 11 taskbar button: a square cell with a centred monochrome
-    glyph and the Icon Tasks buttons' hover tile. Pressed shows the same
+    glyph (Glyph.qml) as large as the app icons, and the Icon Tasks
+    buttons' hover tile. Pressed shows the same
     tile with WinUI's pressed fill and shrinks the glyph, as the Windows
     taskbar does.
 
@@ -24,9 +25,8 @@ import org.kde.kirigami as Kirigami
 MouseArea {
     id: button
 
-    // Theme icon name, and the one to use if the icon theme lacks it.
-    property string iconName
-    property string fallbackIconName
+    // The glyph: markup of a 24 x 24 SVG drawing in currentColor.
+    property string glyph
     // Accessible name ("Search"); also what screen readers announce.
     property string text
     property string description
@@ -44,14 +44,12 @@ MouseArea {
     readonly property bool darkTheme: Kirigami.ColorUtils.brightnessForColor(Kirigami.Theme.textColor)
                                       === Kirigami.ColorUtils.Light
 
-    // Glyph size: two thirds of the cell, at most 30 px (the app icons'
-    // size on a 48 px taskbar), so the magnifier is about 22 px across
-    // beside the 30 px Start logo, as Windows draws 20 px glyphs beside
-    // 24 px icons. The cap also keeps the icon theme on its small action
-    // glyphs: the Windows Modern pack has full-colour icons with some of
-    // the same names (window-duplicate) in apps/, which starts at 32 px.
-    readonly property int glyphSize: Math.max(Kirigami.Units.iconSizes.small,
-                                              Math.min(30, Math.round(Math.min(width, height) * 2 / 3)))
+    // Glyph size: Icon Tasks' rule for app icons, the cell minus the hover
+    // frame's borders rounded down to a standard icon size: 32 px on a
+    // 48 px taskbar. The glyphs fill ~20 of their 24 units, so they look
+    // as large as the app icons' art (~28 px), as on Windows.
+    readonly property int glyphSize: Kirigami.Units.iconSizes.roundedIconSize(
+        Math.max(Kirigami.Units.iconSizes.small, Math.min(width, height) - 2 * tileInset))
 
     hoverEnabled: true
     activeFocusOnTab: true
@@ -112,14 +110,11 @@ MouseArea {
         }
     }
 
-    Kirigami.Icon {
-        id: glyph
-
+    Glyph {
         anchors.centerIn: parent
         width: button.glyphSize
         height: button.glyphSize
-        source: button.iconName
-        fallback: button.fallbackIconName
+        svg: button.glyph
         scale: button.showPressed ? 0.9 : 1
 
         Behavior on scale {

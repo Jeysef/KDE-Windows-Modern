@@ -179,13 +179,26 @@ line). Installed to `~/.local/share/plasma/plasmoids/` (or
 
 #### Search and Task View buttons (`org.kde.windowsmodern.search`, `org.kde.windowsmodern.taskview`)
 
-Optional pure-QML applets for Windows 11's Search and Task View taskbar
-buttons. They are **not** in the panel layout; users add them from Add
-Widgets. Each applet is a thin `main.qml` around `TaskbarButton.qml`, which
-both packages carry as identical copies (`verify-all.sh` checks).
+Optional pure-QML applets for Windows 11's taskbar search box and Task
+View button. They are **not** in the panel layout; users add them from
+Add Widgets. The icon buttons are `TaskbarButton.qml` and their glyphs
+`Glyph.qml`, which both packages carry as identical copies
+(`verify-all.sh` checks); the search box is `SearchBox.qml`.
 
-- **Cell** — square: as wide as a horizontal panel is thick, as tall as
-  a vertical panel is wide.
+- **Search box** (Search's default; `searchMode` 0) — a 220 × 32 pill in
+  a 48 px taskbar, scaled with the panel's thickness, 4 px from its
+  neighbours. Width: the stock box's (Windhawk taskbar themes select it
+  as `SearchButtonRootGrid[Width=220]`); height: the 32 px those themes
+  give the matching search background (2026 Insider builds add 4 px).
+  Fully rounded ends. Glyph 16 px, 12 px in; placeholder "Search" 8 px
+  after it in WinUI TextFillColorSecondary. Fill ControlFillColorDefault
+  (dark `#0FFFFFFF`, light `#B3FFFFFF`), hover ControlFillColorSecondary
+  (`#15FFFFFF` / `#80F9F9F9`), pressed ControlFillColorTertiary
+  (`#08FFFFFF` / `#4DF9F9F9`), 1 px ControlStrokeColorDefault border
+  (`#12FFFFFF` / `#0F000000`).
+- **Search icon only** (`searchMode` 1, and always on vertical panels)
+  and **Task View** — square cells: as wide as a horizontal panel is
+  thick, as tall as a vertical panel is wide.
 - **Hover** — the Icon Tasks hover tile, pixel for pixel: tasks.svg's
   `hover` frame has 2 px transparent borders around `hover-center`, a
   26 × 26 tile (rx 4, 1 px stroke) that KSvg stretches, stroke included
@@ -198,10 +211,15 @@ both packages carry as identical copies (`verify-all.sh` checks).
 - **Pressed** — the same tile with WinUI's pressed fill
   (SubtleFillColorTertiary, `#0AFFFFFF` / `#06000000`) and the glyph
   scaled to 90 %.
-- **Glyph** — `edit-find` (magnifier) and `window-duplicate` (overlapping
-  windows), monochrome `ColorScheme-Text` icons from the pack's
-  `actions/`, at two thirds of the cell, capped at 30 px. The cap matters:
-  `apps/` (32 px and up) has a full-colour `window-duplicate`.
+- **Glyphs** — the applets' own 24 × 24 drawings (a magnifier with its
+  handle down-left, as Windows draws it; two overlapping rounded squares,
+  the back one at 40 %), in the colour scheme's text colour, sized by
+  Icon Tasks' rule: the cell minus 4 px rounded down to a standard icon
+  size, 32 px in a 48 px taskbar. They fill ~20 of 24 units, so they
+  look as large as the app icons' art (~28 px). Theme icons can't do
+  this: the Windows Modern pack has full-colour icons under the
+  monochrome glyphs' names (and their `-symbolic` fallbacks) from 32 px
+  up.
 - **Search** calls `org.kde.PlasmaShell.activateLauncherMenu` (what the
   Meta key does): the Start menu opens with its search field focused.
 - **Task View** invokes the `kwin` global shortcut action `Overview`

@@ -9,7 +9,7 @@
         ],
         "BugReportUrl": "https://github.com/Jeysef/KDE-Windows-Modern/issues",
         "Category": "Application Launchers",
-        "Description": "Windows 11 taskbar Search button. Opens the Start menu ready to search.",
+        "Description": "Windows 11 taskbar search box (or search icon). Opens the Start menu ready to search.",
         "EnabledByDefault": true,
         "FormFactors": [
             "desktop"
@@ -17,7 +17,7 @@
         "Icon": "edit-find",
         "Id": "org.kde.windowsmodern.search",
         "License": "GPL-3.0-or-later",
-        "Name": "Search Button (Windows Modern)",
+        "Name": "Search (Windows Modern)",
         "Version": "1.1.2",
         "Website": "https://github.com/Jeysef/KDE-Windows-Modern"
     },

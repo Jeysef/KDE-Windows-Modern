@@ -231,13 +231,16 @@ them. They are **not on the Windows Modern panel**: `./install.sh all`
 from the panel's **Add Widgets** (search for "Windows Modern") and drag
 them next to Start.
 
-- **Search** opens the Start menu with its search field focused, the same
-  as pressing the Windows key, so you can type straight away. It works
-  with Kickoff too.
+- **Search** is the Windows 11 search box: a rounded box with a
+  magnifier and "Search". Clicking it opens the Start menu with its
+  search field focused, the same as pressing the Windows key, so you can
+  type straight away (it works with Kickoff too). Like Windows, it can
+  be just the search icon instead: right-click it → Configure → "Search
+  icon only". On a vertical panel it always shows the icon.
 - **Task View** opens KWin's Overview, the same as Win+Tab.
 
-Both are square cells with the task buttons' hover background, and
-follow the dark or light colour scheme. Remove them with
+The icons are as large as the app icons and get the task buttons' hover
+background; everything follows the dark or light colour scheme. Remove them with
 `./uninstall.sh taskbarbuttons`.
 
 ### System Tray
