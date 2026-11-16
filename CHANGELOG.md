@@ -6,6 +6,13 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+### Added
+
+- Clock flyout: clicking the calendar's "Month Year" title zooms out to
+  the months of the year, and again to a decade of years, as on
+  Windows 11; picking one zooms back in. The arrows and the mouse wheel
+  page by month, year or decade.
+
 ### Fixed
 
 - Boot greeter: `./install.sh greeter` failed with a CMake error after a

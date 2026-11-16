@@ -70,18 +70,4 @@ Item {
         duration: Kirigami.Units.shortDuration
         easing.type: Easing.InOutQuad
     }
-
-    // Scroll wheel over the grid navigates months.
-    MouseArea {
-        anchors.fill: parent
-        acceptedButtons: Qt.NoButton
-        onWheel: wheel => {
-            if (wheel.angleDelta.y > 0) {
-                calendarView.previousMonth();
-            } else {
-                calendarView.nextMonth();
-            }
-            wheel.accepted = true;
-        }
-    }
 }

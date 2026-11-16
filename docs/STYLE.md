@@ -249,6 +249,12 @@ Win11 refinements over upstream:
   keys move the selection, Page Up/Down flips months, Home jumps to
   today, and clicking a day from the previous/next month jumps to that
   month. Month changes cross-fade.
+- **Zoom levels** — clicking the "Month Year" title zooms out to the year
+  (4x4 months, next year's first four dimmed), clicking it again to the
+  decade (`2020 – 2029`, 4x4 years, the next decade's dimmed); picking a
+  tile zooms back in. The chevrons, Page Up/Down and the wheel page by
+  month, year or decade. The current month/year is an accent circle like
+  today. Levels change with a quick scale and fade.
 - **Time zone list** — shown in the popup when multiple time zones are
   configured.
 
