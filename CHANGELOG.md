@@ -8,6 +8,11 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- A panel created without the custom applets (e.g. a KDE Store install,
+  which cannot ship the C++ tray) got no system tray at all: the layout's
+  "fall back to the stock widget" checks never fired, because
+  `addWidget()` returns an error placeholder instead of nothing. The
+  fallback is now chosen up front from the installed widgets (PR #22).
 - Taskbar: hovering an icon took keyboard focus from the window you were
   typing in (#14). Hover only moves focus while you navigate the taskbar
   with the keyboard. Tested live (`tests/icontasks/e2e.py focus`).
