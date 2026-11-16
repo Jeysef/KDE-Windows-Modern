@@ -34,10 +34,25 @@ Item {
     Accessible.description: i18nc("@info:tooltip", "Open the Start menu")
     Accessible.onPressAction: dashWindow.visible = !dashWindow.visible
 
+    // The Start logo follows the task icons' size instead of snapping on its
+    // own: Icon Tasks draws icons at the standard size that fits the cell
+    // minus tasks.svg's 2+2 px margins (22 px up to a 35 px panel, 32 px
+    // from 36 px), while a cell-filling Start icon stayed at 32 px up to a
+    // 47 px panel and looked too small in between. ×1.48 keeps the logo
+    // (63 % of its canvas) about 10 % larger than app art (≈85 %), which is
+    // exactly today's look at 34 and 48 px (docs/STYLE.md).
+    readonly property int cellThickness: vertical ? width : height
+    readonly property int taskIconSize: Kirigami.Units.iconSizes.roundedIconSize(Math.max(0, cellThickness - 4))
+    readonly property int startIconSize: inPanel ? Math.min(cellThickness, Math.round(taskIconSize * 1.48))
+                                                 : Math.min(width, height)
+
     Kirigami.Icon {
         id: buttonIcon
 
-        anchors.fill: parent
+        anchors.centerIn: parent
+        width: root.startIconSize
+        height: root.startIconSize
+        roundToIconSize: false
         source: useCustomButtonImage ? Plasmoid.configuration.customButtonImage : Plasmoid.configuration.icon
         active: mouseArea.containsMouse
         smooth: true
