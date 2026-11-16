@@ -18,7 +18,8 @@ import org.kde.kirigami as Kirigami
 Item {
     id: zoomGrid
 
-    // One entry per tile: { text, isCurrent, isDimmed }.
+    // One entry per tile: { text, caption, isCurrent, isDimmed }; the
+    // optional caption (the year above January) is drawn small above text.
     property var tiles: []
 
     signal picked(int index)
@@ -56,7 +57,7 @@ Item {
                 cursorShape: Qt.PointingHandCursor
 
                 Accessible.role: Accessible.Button
-                Accessible.name: modelData.text
+                Accessible.name: modelData.caption ? modelData.text + " " + modelData.caption : modelData.text
                 Accessible.onPressAction: zoomGrid.picked(index)
 
                 onClicked: zoomGrid.picked(index)
@@ -94,19 +95,33 @@ Item {
                     }
                 }
 
+                readonly property color textColor: {
+                    if (modelData.isCurrent) {
+                        return palette.accentText;
+                    } else if (modelData.isDimmed) {
+                        return palette.textDisabled;
+                    }
+                    return palette.text;
+                }
+
                 PlasmaComponents.Label {
+                    id: tileText
                     anchors.centerIn: parent
                     textFormat: Text.PlainText
                     text: tile.modelData.text
-                    color: {
-                        if (tile.modelData.isCurrent) {
-                            return palette.accentText;
-                        } else if (tile.modelData.isDimmed) {
-                            return palette.textDisabled;
-                        }
-                        return palette.text;
-                    }
+                    color: tile.textColor
                     font.pixelSize: Kirigami.Theme.defaultFont.pixelSize
+                }
+
+                PlasmaComponents.Label {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.bottom: tileText.top
+                    visible: text.length > 0
+                    textFormat: Text.PlainText
+                    text: tile.modelData.caption || ""
+                    color: tile.textColor
+                    // Relative to the tile text: smallFont is not always smaller.
+                    font.pixelSize: Math.round(tileText.font.pixelSize * 0.8)
                 }
             }
         }

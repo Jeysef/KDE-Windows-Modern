@@ -14,6 +14,7 @@ Item {
 
     // CalendarView reads these from the applet's root, as in main.qml.
     property date currentTime: new Date(2026, 10, 16, 12, 0)   // Monday 16 November 2026
+    property bool expanded: true
     function i18n(text) { return text; }
     function i18nc(context, text) { return text; }
 
@@ -101,8 +102,14 @@ Item {
             compare(tiles().length, 0);
         }
 
+        // Visible text items showing exactly this text.
+        function labels(text) {
+            return findAll(view, it => it.text === text && it.font !== undefined && shown(it));
+        }
+
         function test_headerZoomsOut() {
             const monthHeight = view.height;
+            const titleColor = String(headerTitle().color);   // a copy, not a live reference
             clickHeader();
             compare(view.zoom, CalendarView.Zoom.Year);
             compare(headerTitle().text, "2026");
@@ -112,19 +119,24 @@ Item {
             compare(months.filter(t => t.modelData.isCurrent).map(t => t.modelData.text),
                     [Qt.locale().standaloneMonthName(10, Locale.ShortFormat)]);
             compare(months.filter(t => t.modelData.isDimmed).length, 4);
+            // Each January is captioned with its year, like Windows.
+            compare(months.map(t => t.modelData.caption).filter(c => c), ["2026", "2027"]);
+            compare(labels("2027").length, 1);
+            compare(String(headerTitle().color), titleColor);
             compare(view.height, monthHeight, "zooming out must not resize the calendar");
 
             clickHeader();
             compare(view.zoom, CalendarView.Zoom.Decade);
             compare(headerTitle().text, "2020 – 2029");
             const years = tiles();
-            compare(years.map(t => t.modelData.text)[0], "2020");
-            compare(years.map(t => t.modelData.text)[15], "2035");
+            compare(years.map(t => t.modelData.text)[0], "2017");
+            compare(years.map(t => t.modelData.text)[15], "2032");
             compare(years.filter(t => t.modelData.isCurrent).map(t => t.modelData.text), ["2026"]);
             compare(years.filter(t => t.modelData.isDimmed).map(t => t.modelData.text),
-                    ["2030", "2031", "2032", "2033", "2034", "2035"]);
+                    ["2017", "2018", "2019", "2030", "2031", "2032"]);
 
-            // The decade view is the last level: the header does nothing there.
+            // The decade view is the last level: the header is greyed and does nothing.
+            verify(String(headerTitle().color) !== titleColor, "title should be greyed");
             clickHeader();
             compare(view.zoom, CalendarView.Zoom.Decade);
             compare(view.height, monthHeight);
@@ -196,6 +208,31 @@ Item {
             clickHeader();
             mouseClick(navButton(true));
             compare(headerTitle().text, "2010 – 2019");
+        }
+
+        function test_dimmedYearOpensIt() {
+            clickHeader();
+            clickHeader();
+            mouseClick(tile("2018"));
+            settle();
+            compare(view.zoom, CalendarView.Zoom.Year);
+            compare(headerTitle().text, "2018");
+        }
+
+        // Like Windows, reopening the flyout shows today's month.
+        function test_reopenShowsToday() {
+            clickHeader();
+            clickHeader();
+            wheel(1);
+            compare(headerTitle().text, "2030 – 2039");
+            root.expanded = false;
+            compare(view.zoom, CalendarView.Zoom.Decade);
+            root.expanded = true;
+            settle();
+            compare(view.zoom, CalendarView.Zoom.Month);
+            compare(view.displayedYear, 2026);
+            compare(view.displayedMonth, 10);
+            compare(days().length, 42);
         }
 
         function test_keyboard() {

@@ -68,6 +68,7 @@ function generateMonthGrid(year, month, today, selectedDate, firstDayOfWeek) {
 function generateYearGrid(year, today, monthNames) {
     // The year view's 16 tiles: the 12 months of the year, then the first
     // four months of the next year (dimmed). monthNames holds 12 names.
+    // Each January is captioned with its year.
     const result = [];
     for (let i = 0; i < 16; i++) {
         const tileYear = year + Math.floor(i / 12);
@@ -76,6 +77,7 @@ function generateYearGrid(year, today, monthNames) {
             year: tileYear,
             month: month,
             text: monthNames[month],
+            caption: month === 0 ? String(tileYear) : "",
             isCurrent: tileYear === today.getFullYear() && month === today.getMonth(),
             isDimmed: tileYear !== year,
         });
@@ -84,17 +86,17 @@ function generateYearGrid(year, today, monthNames) {
 }
 
 function generateDecadeGrid(year, today) {
-    // The decade view's 16 tiles: the decade containing year, then the
-    // first six years of the next decade (dimmed).
+    // The decade view's 16 tiles: the decade containing year, with the
+    // three years before and after it (dimmed).
     const decadeStart = Math.floor(year / 10) * 10;
     const result = [];
     for (let i = 0; i < 16; i++) {
-        const tileYear = decadeStart + i;
+        const tileYear = decadeStart - 3 + i;
         result.push({
             year: tileYear,
             text: String(tileYear),
             isCurrent: tileYear === today.getFullYear(),
-            isDimmed: i >= 10,
+            isDimmed: tileYear < decadeStart || tileYear > decadeStart + 9,
         });
     }
     return result;

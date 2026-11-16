@@ -24,7 +24,9 @@ ColumnLayout {
     // Zoom levels: clicking the header zooms out, picking a tile zooms in.
     enum Zoom { Month, Year, Decade }
 
-    readonly property date today: root.currentTime
+    // The applet root (main.qml): the clock and the popup's expanded state.
+    readonly property var applet: root
+    readonly property date today: applet.currentTime
 
     // Year/month currently displayed by the calendar (0-based month).
     property int displayedYear: today.getFullYear()
@@ -131,6 +133,16 @@ ColumnLayout {
         }
     }
 
+    // Like Windows, the flyout always opens on today's month.
+    Connections {
+        target: calendarView.applet
+        function onExpandedChanged() {
+            if (calendarView.applet.expanded) {
+                calendarView.resetToToday();
+            }
+        }
+    }
+
     onDisplayedMonthChanged: calendarGrid.crossfade()
     onDisplayedYearChanged: calendarGrid.crossfade()
 
@@ -219,7 +231,8 @@ ColumnLayout {
                 return Qt.locale().standaloneMonthName(calendarView.displayedMonth, Locale.LongFormat)
                        + " " + calendarView.displayedYear;
             }
-            color: palette.text
+            // The decade is the last level: greyed like the dimmed years.
+            color: headerButton.enabled ? palette.text : palette.textDisabled
             font {
                 weight: Font.Bold
                 pixelSize: Kirigami.Units.gridUnit

@@ -250,11 +250,14 @@ Win11 refinements over upstream:
   today, and clicking a day from the previous/next month jumps to that
   month. Month changes cross-fade.
 - **Zoom levels** — clicking the "Month Year" title zooms out to the year
-  (4x4 months, next year's first four dimmed), clicking it again to the
-  decade (`2020 – 2029`, 4x4 years, the next decade's dimmed); picking a
-  tile zooms back in. The chevrons, Page Up/Down and the wheel page by
-  month, year or decade. The current month/year is an accent circle like
-  today. Levels change with a quick scale and fade.
+  (4x4 months, next year's first four dimmed, each January captioned
+  with its year at 0.8x the tile text), clicking it again to the decade
+  (`2020 – 2029`, 4x4 years from 2017 to 2032, the three years on either
+  side dimmed); picking a tile zooms back in. At the decade the title is
+  greyed (`textDisabled`), as it cannot zoom further. The chevrons, Page
+  Up/Down and the wheel page by month, year or decade. The current
+  month/year is an accent circle like today. Levels change with a quick
+  scale and fade, and the flyout always opens on today's month.
 - **Time zone list** — shown in the popup when multiple time zones are
   configured.
 
