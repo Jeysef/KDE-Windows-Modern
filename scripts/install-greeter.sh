@@ -22,11 +22,27 @@ PATCHES=(
 info "Installing Windows Modern PLM boot greeter..."
 
 # ── Verify PLM source exists ──
-if [ ! -d "${PLM_DIR}" ]; then
-    err "PLM source not found at ${PLM_DIR}"
-    err "Make sure the submodule is initialized:"
-    err "  git submodule update --init --recursive"
-    exit 1
+# A clone without --recursive (or GitHub's "Download ZIP", which never has
+# submodules) leaves the directory there but empty (#15).
+PLM_REL="third_party/plasma-login-manager"
+if [ ! -f "${PLM_DIR}/CMakeLists.txt" ]; then
+    if git -C "$SRC_DIR" rev-parse --git-dir &>/dev/null; then
+        step "Fetching the Plasma Login Manager source (git submodule)..."
+        git -C "$SRC_DIR" submodule update --init "$PLM_REL"
+    fi
+    if [ ! -f "${PLM_DIR}/CMakeLists.txt" ]; then
+        err "The Plasma Login Manager source is missing (${PLM_DIR} is empty)."
+        err "This copy has no git submodules: GitHub's \"Download ZIP\" leaves them out."
+        err "Use the release bundle (KDE-Windows-Modern-<version>.zip on the Releases page),"
+        err "or clone with:  git clone --recursive https://github.com/Jeysef/KDE-Windows-Modern.git"
+        exit 1
+    fi
+fi
+# A `git pull` without `git submodule update` leaves the source at an older
+# commit than this checkout records: say so rather than build a stale greeter.
+if [[ "$(git -C "$SRC_DIR" submodule status "$PLM_REL" 2>/dev/null)" == +* ]]; then
+    warn "The login manager source is not at the commit this checkout pins."
+    warn "To build the pinned one:  git -C \"$SRC_DIR\" submodule update $PLM_REL"
 fi
 
 # ── Never build as root ──

@@ -153,6 +153,26 @@ fi
 rm -f "$FULL_OUT"
 git -C "$SRC_DIR" archive --format=zip --prefix="KDE-Windows-Modern-${FULL_VER}/" \
     -o "$FULL_OUT" HEAD
+# `git archive` leaves submodules out, so the greeter could not be built
+# from the bundle (#15). Add the login manager source at the commit HEAD pins.
+PLM_REL="third_party/plasma-login-manager"
+PLM_PIN="$(git -C "$SRC_DIR" ls-tree HEAD "$PLM_REL" | awk '{print $3}')"
+if [[ -n "$PLM_PIN" ]] && git -C "$SRC_DIR/$PLM_REL" cat-file -e "${PLM_PIN}^{commit}" 2>/dev/null; then
+    PLM_ZIP="$(mktemp --suffix=.zip)"
+    git -C "$SRC_DIR/$PLM_REL" archive --format=zip \
+        --prefix="KDE-Windows-Modern-${FULL_VER}/${PLM_REL}/" -o "$PLM_ZIP" "$PLM_PIN"
+    python3 -I - "$FULL_OUT" "$PLM_ZIP" <<'PYEOF'
+import sys, zipfile
+with zipfile.ZipFile(sys.argv[1], "a", zipfile.ZIP_DEFLATED) as out, zipfile.ZipFile(sys.argv[2]) as plm:
+    have = set(out.namelist())
+    for info in plm.infolist():
+        if info.filename not in have:
+            out.writestr(info, plm.read(info))
+PYEOF
+    rm -f "$PLM_ZIP"
+else
+    warn "Login manager source not available at the pinned commit — the bundle cannot build the greeter."
+fi
 echo "$FULL_OUT" >> "$MANIFEST"
 step "built KDE-Windows-Modern-${FULL_VER}.zip  (full bundle from $(git -C "$SRC_DIR" rev-parse --short HEAD))"
 

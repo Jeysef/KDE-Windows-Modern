@@ -8,6 +8,13 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Boot greeter: `./install.sh greeter` failed with a CMake error after a
+  clone without `--recursive` or GitHub's "Download ZIP" (#15): the login
+  manager submodule was empty. A git checkout now fetches it, anything else
+  explains what to download; a stale submodule is reported. The release
+  bundle now includes the login manager source, so it can build the
+  greeter.
+
 - After a restart, Alt+Tab could fall back to Breeze: an interrupted
   `tests/windowswitcher/e2e.py` left a test copy of the switcher selected,
   and its cleanup removed the copy. The test now restores the real
