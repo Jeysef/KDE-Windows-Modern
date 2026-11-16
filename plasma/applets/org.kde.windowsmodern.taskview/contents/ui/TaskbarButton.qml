@@ -3,12 +3,14 @@
     SPDX-License-Identifier: GPL-3.0-or-later
 
     A Windows 11 taskbar button: a square cell with a centred monochrome
-    glyph that gets the task buttons' hover tile (widgets/tasks.svg: 6 %
-    white / 3.5 % black, 3 % border, 4 px corners). Pressed uses WinUI's
-    tertiary subtle fill and shrinks the glyph, as the Windows taskbar does.
+    glyph and the Icon Tasks buttons' hover tile. Pressed shows the same
+    tile with WinUI's pressed fill and shrinks the glyph, as the Windows
+    taskbar does.
 
-    tasks.svg itself can't be reused: its hover and focus tiles carry the
-    running-app indicator bar, and these buttons are not apps.
+    The tile can't be drawn with the theme's own widgets/tasks frame: its
+    hover-center carries the running-app indicator bar, and these buttons
+    are not apps. So it is painted from tasks.svg's geometry instead (see
+    the tile below).
 
     Shared by the Search and Task View applets. Each package carries an
     identical copy (verify-all.sh checks that they don't drift); the file
@@ -73,25 +75,37 @@ MouseArea {
     Accessible.description: description
     Accessible.onPressAction: button.triggered()
 
-    Rectangle {
+    // The hover tile, drawn the way Plasma draws tasks.svg's "hover" frame
+    // for the task buttons: 2 px transparent borders (hover-top/-left/...
+    // are 2 px, fill:none) around hover-center, whose 26 x 26 tile (rx 4,
+    // 1 px stroke) KSvg renders with QSvgRenderer into the rest of the
+    // cell, stroke included (its 27 x 27 bounds). In a 48 px cell: a
+    // 44 x 44 tile inset 2 px with ~6.5 px corners. This renders the same
+    // rect the same way, minus hover-center's running-app bar.
+    readonly property real tileInset: 2
+    readonly property real tileSize: Math.max(0, Math.min(width, height) - 2 * tileInset)
+
+    Image {
         id: tile
 
-        anchors.fill: parent
-        radius: 4
-        color: {
-            const c = Kirigami.Theme.textColor;
-            if (button.showPressed) {
-                // WinUI SubtleFillColorTertiary.
-                return Qt.rgba(c.r, c.g, c.b, button.darkTheme ? 0.042 : 0.024);
-            }
-            return Qt.rgba(c.r, c.g, c.b, button.darkTheme ? 0.06 : 0.035);
-        }
-        border.width: 1
-        border.color: {
-            const c = Kirigami.Theme.textColor;
-            return Qt.rgba(c.r, c.g, c.b, 0.03);
-        }
+        // tasks.svg's colours: white on dark, black on light. Hover fill is
+        // tasks.svg's 0.06 / 0.035 (WinUI SubtleFillColorSecondary,
+        // #0FFFFFFF / #09000000); pressed is SubtleFillColorTertiary,
+        // #0AFFFFFF / #06000000. The stroke is 0.03 in both.
+        readonly property string ink: button.darkTheme ? "#ffffff" : "#000000"
+        readonly property real fillOpacity: button.showPressed ? (button.darkTheme ? 10 / 255 : 6 / 255)
+                                                               : (button.darkTheme ? 0.06 : 0.035)
+
+        anchors.centerIn: parent
+        width: button.tileSize
+        height: button.tileSize
+        // Rasterise at device pixels, as KSvg does, not scaled up.
+        sourceSize: Qt.size(Math.ceil(width * Screen.devicePixelRatio), Math.ceil(height * Screen.devicePixelRatio))
         opacity: button.showHovered || button.showPressed ? 1 : 0
+        source: "data:image/svg+xml," + encodeURIComponent(
+            "<svg xmlns='http://www.w3.org/2000/svg' viewBox='-0.5 -0.5 27 27' preserveAspectRatio='none'>"
+            + "<rect width='26' height='26' rx='4' ry='4' fill='" + ink + "' fill-opacity='" + fillOpacity
+            + "' stroke='" + ink + "' stroke-opacity='0.03' stroke-width='1'/></svg>")
 
         Behavior on opacity {
             NumberAnimation { duration: Kirigami.Units.shortDuration; easing.type: Easing.OutCubic }

@@ -93,6 +93,21 @@ Item {
             verify(button.glyphSize < 32);
         }
 
+        // The hover tile is tasks.svg's hover frame: inset by its 2 px
+        // borders at every cell size, square, centred.
+        function test_tile_data() {
+            return [
+                { tag: "36px", cell: 36, size: 32 },
+                { tag: "48px", cell: 48, size: 44 },
+                { tag: "64px", cell: 64, size: 60 },
+            ];
+        }
+        function test_tile(data) {
+            const button = makeButton({ width: data.cell, height: data.cell });
+            compare(button.tileInset, 2);
+            compare(button.tileSize, data.size);
+        }
+
         // A vertical panel gives a wide, short cell until the layout squares it;
         // the glyph follows the shorter side.
         function test_glyphFollowsShorterSide() {

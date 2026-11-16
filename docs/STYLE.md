@@ -186,12 +186,18 @@ both packages carry as identical copies (`verify-all.sh` checks).
 
 - **Cell** — square: as wide as a horizontal panel is thick, as tall as
   a vertical panel is wide.
-- **Hover** — 4 px rounded tile, text colour at 6 % (dark) / 3.5 %
-  (light) with a 3 % border: the `widgets/tasks.svg` hover values. The
-  SVG itself is not used because its hover tile carries the running-app
-  indicator bar.
-- **Pressed** — WinUI's tertiary subtle fill (4.2 % / 2.4 %) and the
-  glyph scaled to 90 %.
+- **Hover** — the Icon Tasks hover tile, pixel for pixel: tasks.svg's
+  `hover` frame has 2 px transparent borders around `hover-center`, a
+  26 × 26 tile (rx 4, 1 px stroke) that KSvg stretches, stroke included
+  (27 × 27 bounds), over the rest of the cell. In a 48 px cell that is a
+  44 × 44 tile inset 2 px with ~6.5 px corners; fill 6 % white (dark) /
+  3.5 % black (light), stroke 3 %. The button renders that same rect with
+  Qt's SVG renderer, at device pixels, so it matches the theme's frame
+  exactly. The frame itself can't be used: `hover-center` also holds
+  the running-app indicator bar.
+- **Pressed** — the same tile with WinUI's pressed fill
+  (SubtleFillColorTertiary, `#0AFFFFFF` / `#06000000`) and the glyph
+  scaled to 90 %.
 - **Glyph** — `edit-find` (magnifier) and `window-duplicate` (overlapping
   windows), monochrome `ColorScheme-Text` icons from the pack's
   `actions/`, at two thirds of the cell, capped at 30 px. The cap matters:
