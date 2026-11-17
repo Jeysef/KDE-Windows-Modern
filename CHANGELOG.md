@@ -37,9 +37,12 @@ the `Version` field shared by every component's metadata.
   "fall back to the stock widget" checks never fired, because
   `addWidget()` returns an error placeholder instead of nothing. The
   fallback is now chosen up front from the installed widgets (PR #22).
-- Taskbar: hovering an icon took keyboard focus from the window you were
-  typing in (#14). Hover only moves focus while you navigate the taskbar
-  with the keyboard. Tested live (`tests/icontasks/e2e.py focus`).
+- Taskbar: hovering an app took keyboard focus from the window you were
+  typing in (#14). Its window preview was a plain Wayland window, so KWin
+  activated it; it now tells KWin it is a tooltip that takes no focus, as
+  Plasma's own tooltips do. Hovering also no longer moves QML focus unless
+  you navigate the taskbar with the keyboard. Tested live
+  (`tests/icontasks/e2e.py focus`: KWin's active window and typed text).
 - Win+1…9 (open the Nth taskbar app), Ctrl+Win+PgUp/PgDn and
   Ctrl+Shift+Win+PgUp/PgDn did nothing on Plasma 6.8, which moved them
   from plasmashell into the task manager; the fork now registers them as

@@ -28,29 +28,20 @@ from evdev import ecodes as e  # noqa: E402
 
 from e2e import a11y  # noqa: E402
 from e2e.session import Checks  # noqa: E402
+from e2e.taskbar import active_window, task_buttons  # noqa: E402
 from e2e.testwindow import TestWindow, place  # noqa: E402
 from e2e.vinput import VirtualInput  # noqa: E402
 
 WIN_X, WIN_Y = 300, 200          # where the test window is put (frame top-left)
 
 
-def task_button_centre():
-    """A taskbar button: a named button in the panel row of Show desktop."""
-    desktop = a11y.find("plasmashell", "Show desktop", visible=False)
-    if not desktop:
-        raise RuntimeError("Show desktop not found")
-    row_y, panel_win = desktop.rect[1], desktop.window
-    for node in a11y.nodes("plasmashell"):
-        if (node.showing and node.role == "button" and node.window == panel_win
-                and node.rect[1] == row_y and node.rect[2] > 0 and node.name
-                and node.name not in ("Show desktop", "Start")):
-            return node.centre
-    raise RuntimeError("no taskbar button found")
-
-
 def focus(vi, out, c):
-    """#14: hovering a taskbar icon must leave typing in the focused window."""
-    x, y = task_button_centre()
+    """#14: hovering a taskbar icon must leave typing in the focused window.
+
+    Hovers an app's button long enough for its window preview to open: the
+    preview is what took the keyboard (a Wayland toplevel without a tooltip
+    role), not only QML focus.
+    """
     win = TestWindow()
     try:
         c.check(win.wait(lambda s: s["active"], 6), "test window opens focused")
@@ -62,10 +53,20 @@ def focus(vi, out, c):
         c.check(win.wait(lambda s: s.get("typed") == "before"),
                 f"typing reaches the window (got {win.state.get('typed')!r})")
 
+        owner = active_window()
+        c.check(owner != "", f"KWin reports an active window ({owner!r})")
+        others = [b for b in task_buttons() if "WM-SHORTCUTS-E2E" not in b.name] or task_buttons()
+        c.check(bool(others), f"an app button to hover ({[b.name[:20] for b in others]})")
+        if not others:
+            return
+        x, y = others[0].centre
         vi.move_to(x, y)
         time.sleep(0.6)
         vi.move_to(x + 3, y + 2, steps=3)   # a real hover, not one motion event
-        time.sleep(1.0)                     # long enough for the tooltip to open
+        time.sleep(1.2)                     # the window preview is open now
+        during = active_window()
+        c.check(during == owner, f"the preview does not become the active window "
+                                 f"(active while hovering: {during!r}, before: {owner!r})")
         vi.type_text("after")
         c.check(win.wait(lambda s: s.get("typed") == "beforeafter"),
                 f"after hovering a task, typing still reaches the window "
@@ -73,19 +74,6 @@ def focus(vi, out, c):
     finally:
         vi.move_to(WIN_X + 320, WIN_Y + 220)   # off the taskbar: close its tooltip
         win.close()
-
-
-def task_buttons():
-    """Taskbar buttons left to right (launchers and windows), as AT-SPI nodes."""
-    desktop = a11y.find("plasmashell", "Show desktop", visible=False)
-    if not desktop:
-        raise RuntimeError("Show desktop not found")
-    row_y, panel_win = desktop.rect[1], desktop.window
-    nodes = [n for n in a11y.nodes("plasmashell")
-             if n.showing and n.role == "button" and n.window == panel_win and n.rect[1] == row_y
-             and n.rect[2] > 0 and n.name and n.name not in ("Show desktop", "Start")
-             and n.rect[0] < desktop.rect[0] - 200]          # left of the tray area
-    return sorted(nodes, key=lambda n: n.rect[0])
 
 
 def shortcut(vi, out, c):

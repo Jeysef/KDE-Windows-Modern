@@ -13,6 +13,7 @@
 #include <QQuickItem>
 
 #include <KWindowSystem>
+#include <PlasmaQuick/PlasmaShellWaylandIntegration>
 
 FloatingToolTipDialog::FloatingToolTipDialog()
     : PopupPlasmaWindow(QStringLiteral("widgets/tooltip"))
@@ -25,6 +26,12 @@ FloatingToolTipDialog::FloatingToolTipDialog()
         flags |= Qt::ToolTip | Qt::BypassWindowManagerHint;
     } else {
         flags |= Qt::FramelessWindowHint;
+        // On Wayland the Qt flags above mean nothing to KWin: without a
+        // plasma-shell role the tooltip is a normal toplevel, gets activated
+        // when shown, and takes the keyboard from the window the user is
+        // typing in (#14). Same as libplasma's ToolTipDialog.
+        PlasmaShellWaylandIntegration::get(this)->setRole(QtWayland::org_kde_plasma_surface::role_tooltip);
+        PlasmaShellWaylandIntegration::get(this)->setTakesFocus(false);
     }
     setFlags(flags);
 
