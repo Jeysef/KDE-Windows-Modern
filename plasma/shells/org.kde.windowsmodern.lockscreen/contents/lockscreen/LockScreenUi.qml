@@ -9,7 +9,6 @@ import org.kde.plasma.workspace.components as PW
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.private.sessions
 import org.kde.plasma.private.keyboardindicator as KeyboardIndicator
-import org.kde.kscreenlocker as ScreenLocker
 import org.kde.breeze.components
 
 import "dateformat.js" as DateFormat
@@ -168,12 +167,18 @@ Item {
             onTriggered: authenticator.startAuthenticating()
         }
         // Hide the prompt on a screen the pointer has left for another one
-        // (stock; replaces onExited, which also fired on one screen).
-        ScreenLocker.ActiveScreenMonitor {
-            lockscreenState: ScreenLocker.LockscreenState
-            window: lockScreenRoot.Window.window
-            onActiveChanged: {
-                if (!active && !powerMenu.opened) { lockScreenRoot.uiVisible = false }
+        // (stock 6.8; replaces onExited, which also fired on one screen).
+        // ScreenMonitor.qml needs kscreenlocker 6.8; on older versions the
+        // Loader fails quietly and the prompt stays shown on every screen.
+        Loader {
+            id: screenMonitor
+            source: "ScreenMonitor.qml"
+        }
+        Connections {
+            target: screenMonitor.item
+            ignoreUnknownSignals: true
+            function onLeftScreen() {
+                if (!powerMenu.opened) { lockScreenRoot.uiVisible = false }
             }
         }
         Keys.onEscapePressed: {
