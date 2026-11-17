@@ -38,6 +38,9 @@ the `Version` field shared by every component's metadata.
 
 ### Changed
 
+- New installs pin the file manager, the browser and Discover to the
+  taskbar, like Windows 11's File Explorer, Edge and Store; the taskbar
+  used to start with no pinned apps at all.
 - Clock flyout: today's circle uses your accent colour (System Settings →
   Colors) with black or white text, whichever reads better (black on
   Windows' light blue in dark mode, as on Windows).

@@ -59,7 +59,9 @@ start.writeConfig("icon", "start-here");
 //    the stock icons-only task manager otherwise — no separate fallback.
 var tasks = panel.addWidget("org.kde.plasma.icontasks");
 tasks.currentConfigGroup = new Array("General");
-tasks.writeConfig("launchers", "");
+// Pinned like Windows 11's default taskbar: File Explorer, the browser,
+//    the Store (Plasma's preferred file manager and browser, and Discover).
+tasks.writeConfig("launchers", "preferred://filemanager,preferred://browser,applications:org.kde.discover.desktop");
 tasks.writeConfig("showOnlyCurrentScreen", "false");
 tasks.writeConfig("showOnlyCurrentDesktop", "false");
 tasks.writeConfig("showOnlyCurrentActivity", "false");
