@@ -11,7 +11,6 @@ import QtQuick.Layouts
 
 import org.kde.plasma.components as PlasmaComponents
 import org.kde.kirigami as Kirigami
-import org.kde.plasma.private.digitalclock as DigitalClockPrivate
 
 import "code/dateformat.js" as DateFormat
 
@@ -33,30 +32,15 @@ ColumnLayout {
     Accessible.role: Accessible.List
     Accessible.name: dateLabel.text
 
-    RowLayout {
+    PlasmaComponents.Label {
+        id: dateLabel
         Layout.fillWidth: true
-        spacing: Kirigami.Units.smallSpacing
-
-        PlasmaComponents.Label {
-            id: dateLabel
-            Layout.fillWidth: true
-            textFormat: Text.PlainText
-            elide: Text.ElideRight
-            text: Qt.locale().toString(agenda.date,
-                                       DateFormat.longDateWithoutYear(Qt.locale().dateFormat(Locale.LongFormat)))
-            color: palette.text
-            font.weight: Font.DemiBold
-        }
-
-        // Stock Plasma's "Add…": opens your calendar app (the text/calendar
-        // handler, e.g. KOrganizer or Merkuro); shown only when one is installed.
-        PlasmaComponents.ToolButton {
-            visible: DigitalClockPrivate.ApplicationIntegration.calendarInstalled
-            text: i18nc("@action:button Add event", "Add…")
-            icon.name: "list-add"
-            Accessible.description: i18nc("@info:tooltip", "Add a new event")
-            onClicked: DigitalClockPrivate.ApplicationIntegration.launchCalendar()
-        }
+        textFormat: Text.PlainText
+        elide: Text.ElideRight
+        text: Qt.locale().toString(agenda.date,
+                                   DateFormat.longDateWithoutYear(Qt.locale().dateFormat(Locale.LongFormat)))
+        color: palette.text
+        font.weight: Font.DemiBold
     }
 
     // "No events" takes as much height as one event (title + time line):
