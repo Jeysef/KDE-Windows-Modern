@@ -20,6 +20,11 @@ the `Version` field shared by every component's metadata.
   Windows); Task View opens KWin's Overview, like Win+Tab. They are installed with
   the other applets (`./install.sh taskbarbuttons`) but not put on the panel:
   add them from Add Widgets.
+- `./install.sh transparency off|on`, Windows' "Transparency effects"
+  switch: off makes Dolphin and other Kvantum apps solid and turns off
+  KWin's blur, so Plasma's popups use the theme's solid variant (#10).
+  The choice survives reinstalling the theme; "on" restores your previous
+  blur setting.
 
 ### Changed
 

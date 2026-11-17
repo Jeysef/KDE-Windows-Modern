@@ -86,6 +86,16 @@ uninstall_component() {
     info "Uninstalling: $name"
     case "$name" in
         themes)
+            # Transparency effects off: put back the blur setting from before.
+            if [ -f "$HOME/.local/share/windows-modern/transparency-off" ]; then
+                previous="$(sed -n 's/^blurEnabled=//p' "$HOME/.local/share/windows-modern/transparency-off")"
+                if [ -n "$previous" ]; then
+                    kwriteconfig6 --file kwinrc --group Plugins --key blurEnabled "$previous"
+                else
+                    kwriteconfig6 --file kwinrc --group Plugins --key blurEnabled --delete
+                fi
+                rm -f "$HOME/.local/share/windows-modern/transparency-off"
+            fi
             if [ -f "$HOME/.local/share/windows-modern/backup/cursor-theme.ours" ]; then
                 rm_path "$HOME/.local/share/icons/Win10OS-cursors"
                 rm -f "$HOME/.local/share/windows-modern/backup/cursor-theme.ours"

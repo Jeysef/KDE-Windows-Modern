@@ -228,6 +228,7 @@ case "${1:-menu}" in
         echo "    apps           Haruna, KWrite, Mission Center; video default; Snipping Tool behaviour"
         echo "    deps           Kvantum, Flatpak and the C++ applets' build dependencies"
         echo "    fonts          Segoe UI (or open Selawik if missing) and Cascadia Mono"
+        echo "    transparency   on|off — Windows' Transparency effects switch (off: solid windows and popups)"
         echo "    greeter        Boot greeter / login screen (PLM build, user test)"
         echo ""
         echo "  Note: 'all' includes the session lock screen, Alt+Tab switcher, shortcuts and apps. The boot greeter is"
@@ -246,6 +247,9 @@ case "${1:-menu}" in
         ;;
     greeter)
         install_component greeter
+        ;;
+    transparency)
+        bash "$SCRIPT_DIR/scripts/install-transparency.sh" "${2:-}" || FAILED_COMPONENTS+=("transparency")
         ;;
     *)
         install_component "$1"

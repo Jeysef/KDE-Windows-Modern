@@ -190,6 +190,17 @@ puts them back. Win+Up/Down come from a small KWin script
 `./uninstall.sh apps` restores your previous defaults; the apps stay
 installed.
 
+## Transparency effects
+
+Like Windows' Settings → Personalization → Colors → Transparency effects:
+
+```bash
+./install.sh transparency off   # solid app windows (Dolphin), no blur behind popups
+./install.sh transparency on    # back to translucent (the default)
+```
+
+Apps that are already open change after you restart them.
+
 ## Fonts
 
 `./install.sh fonts` uses Windows 11's fonts where it can:

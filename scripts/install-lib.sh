@@ -332,6 +332,21 @@ apply_kvantum_engine() {
 
 # Ask the running KWin to reload kwinrc. dbus-send defaults to sending a
 # *signal*, which KWin ignores, so --type=method_call is required.
+# Transparency effects (install-transparency.sh): this file exists while
+# they are off, holding the blur setting to restore.
+TRANSPARENCY_OFF_FILE="$HOME/.local/share/windows-modern/transparency-off"
+
+# Kvantum's see-through windows and blur, in every installed Windows Modern
+# Kvantum theme (dark and light): kvantum_transparency true|false.
+# transparent_dolphin_view/pcmanfm_* make the file managers see-through.
+kvantum_transparency() {
+    local value="$1" f
+    for f in "$KVANTUM_DIR"/Windows-modern/*.kvconfig; do
+        [ -f "$f" ] || continue
+        sed -i -E "s/^(translucent_windows|blurring|popup_blurring|blur_translucent|transparent_dolphin_view|transparent_pcmanfm_sidepane|transparent_pcmanfm_view)=.*/\1=${value}/" "$f"
+    done
+}
+
 kwin_reconfigure() {
     command -v dbus-send &>/dev/null || return 0
     dbus-send --session --type=method_call --dest=org.kde.KWin /KWin org.kde.KWin.reconfigure \

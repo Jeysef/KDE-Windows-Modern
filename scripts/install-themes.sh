@@ -21,6 +21,11 @@ step "Kvantum themes"
 ensure_dir "$KVANTUM_DIR"
 rm -rf "$KVANTUM_DIR/Windows-modern"*
 cp -r "$SRC_DIR/Kvantum/"* "$KVANTUM_DIR/"
+# Keep "Transparency effects: off" (./install.sh transparency) across reinstalls.
+if [ -f "$TRANSPARENCY_OFF_FILE" ]; then
+    kvantum_transparency false
+    step "Transparency effects stay off"
+fi
 
 step "Kvantum theme selection"
 if [ "$UID" -ne 0 ]; then
