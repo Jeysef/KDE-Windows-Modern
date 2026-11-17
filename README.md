@@ -197,6 +197,10 @@ installed.
   Microsoft's open **Selawik** (same metrics) is downloaded and used
   wherever "Segoe UI" is asked for.
 - **Monospace:** **Cascadia Mono**, from your distro.
+- **Smoothing:** greyscale, as Windows 11's own UI draws text, instead of
+  the coloured sub-pixel fringes Fedora's KDE edition turns on (most
+  visible on dim text like a "Search..." placeholder). Skipped if you picked
+  a sub-pixel layout in System Settings; takes effect after logging out.
 
 Your fonts change only if they are still distro defaults;
 `./uninstall.sh fonts` puts the previous ones back.

@@ -10,6 +10,8 @@
 #                   is still a distro default.
 #    Monospace      Cascadia Mono (OFL, from your distro), unless you
 #                   picked your own fixed-width font.
+#    Smoothing      Greyscale text, as Windows 11's UI (no sub-pixel colour
+#                   fringes), unless you chose a sub-pixel layout.
 #
 #  Previous settings are backed up; ./uninstall.sh fonts restores them.
 # ───────────────────────────────────────────────────────────────────
@@ -103,6 +105,45 @@ fc-cache &>/dev/null || true # a font installed a moment ago may not be listed y
 if has_font "Cascadia Mono"; then
     set_font_if_default fixed "Cascadia Mono,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1" \
         "Noto Sans Mono" "Hack" "DejaVu Sans Mono" "Monospace" "Liberation Mono"
+fi
+
+# ── Text smoothing: greyscale, as Windows 11's own UI draws text ──
+# Two things give KDE text coloured (sub-pixel) fringes, most visible on dim
+# text such as a field's "Search..." placeholder:
+#  - Fedora's KDE edition sets rgba=rgb for everything
+#    (/etc/fonts/conf.d/10-sub-pixel-rgb-for-kde.conf), and KDE's
+#    "Sub-pixel rendering: None" writes nothing to override it;
+#  - Qt Quick's distance-field text (Plasma, KWin) does its own RGB
+#    smoothing and ignores fontconfig (QSG_DISTANCEFIELD_ANTIALIASING).
+# Skipped when you chose a sub-pixel layout in System Settings; KDE's own
+# fonts.conf is read after this file, so that choice wins anyway.
+SMOOTHING_FC="$HOME/.config/fontconfig/conf.d/20-windows-modern-greyscale.conf"
+SMOOTHING_ENV="$HOME/.config/plasma-workspace/env/windows-modern-greyscale-text.sh"
+subpixel="$(kreadconfig6 --group General --key XftSubPixel 2>/dev/null || true)"
+if [ -z "$subpixel" ] || [ "$subpixel" = "none" ]; then
+    ensure_dir "$(dirname "$SMOOTHING_FC")"
+    cat > "$SMOOTHING_FC" <<'EOF'
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+<!-- Windows Modern: greyscale font smoothing, like Windows 11's own UI.
+     ./uninstall.sh fonts removes this file. -->
+<fontconfig>
+  <match target="font">
+    <edit name="rgba" mode="assign"><const>none</const></edit>
+    <edit name="lcdfilter" mode="assign"><const>lcdnone</const></edit>
+  </match>
+</fontconfig>
+EOF
+    ensure_dir "$(dirname "$SMOOTHING_ENV")"
+    cat > "$SMOOTHING_ENV" <<'EOF'
+# Windows Modern: greyscale text smoothing in Qt Quick (Plasma, KWin), like
+# Windows 11's own UI. ./uninstall.sh fonts removes this file.
+export QSG_DISTANCEFIELD_ANTIALIASING=gray
+EOF
+    fc-cache &>/dev/null || true
+    step "Text smoothing: greyscale (applies to Plasma after you log out and in)"
+else
+    step "Text smoothing: keeping your sub-pixel setting ($subpixel)"
 fi
 
 info "Fonts set up."

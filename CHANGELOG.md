@@ -8,6 +8,13 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Text in Plasma had blue and orange fringes, most visible on dim text
+  such as a search field's "Search..." placeholder. Fedora's KDE edition
+  turns on RGB sub-pixel smoothing, and Qt Quick's text renderer does its
+  own regardless of fontconfig. `./install.sh fonts` now sets greyscale
+  smoothing, as Windows 11's UI uses (fontconfig, and
+  `QSG_DISTANCEFIELD_ANTIALIASING=gray` for the Plasma session), unless you
+  chose a sub-pixel layout; `./uninstall.sh fonts` removes both.
 - Plasma style, dark: list hover and selection, text fields, scrollbar
   handles, frames, separators and keyboard-focus highlights were invisible
   (#24). 191 shapes in 10 files painted the dark background's own colour

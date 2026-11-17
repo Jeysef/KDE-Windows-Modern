@@ -244,6 +244,8 @@ uninstall_component() {
                 rm -f "$backup_dir/kdeglobals.$key"
             done
             rm_path "$HOME/.config/fontconfig/conf.d/60-windows-modern-segoe.conf"
+            rm_path "$HOME/.config/fontconfig/conf.d/20-windows-modern-greyscale.conf"
+            rm_path "$HOME/.config/plasma-workspace/env/windows-modern-greyscale-text.sh"
             rm_path "$HOME/.local/share/fonts/selawik"
             fc-cache &>/dev/null || true
             info "Fonts restored. Cascadia Mono stays installed (remove it with your package manager)."
