@@ -242,7 +242,7 @@
   <g
      id="shadow-topleft" style="opacity:0;fill:none;stroke:none"
      transform="matrix(1.1666637,0,0,1.1666637,64.666611,-1086.7531)"
-     style="opacity:1">
+    >
     <path
        d="M 32 -6 L 32 22 L 44 22 C 44 13.13604 51.136035 6 60 6 L 60 -6 L 32 -6 z "
        style="opacity:0.5;fill:url(#radialGradient994);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.33332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -331,7 +331,7 @@
   <g
      id="shadow-top" style="opacity:0"
      transform="matrix(0.37500332,0,0,1.3333409,52.874889,-1203.8232)"
-     style="opacity:1">
+    >
     <rect
        transform="matrix(0,-1,-1,0,0,0)"
        style="opacity:1;fill:none;fill-opacity:1;stroke:none"

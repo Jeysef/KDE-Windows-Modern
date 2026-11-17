@@ -242,7 +242,7 @@
   <g
      id="shadow-topleft" style="opacity:0;fill:none;stroke:none"
      transform="matrix(1.1666637,0,0,1.1666637,64.666611,-1086.7531)"
-     style="opacity:1">
+    >
     <path
        d="M 32 -6 L 32 22 L 44 22 C 44 13.13604 51.136035 6 60 6 L 60 -6 L 32 -6 z "
        style="opacity:0.5;fill:url(#radialGradient994);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.33332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -265,7 +265,7 @@
        height="32"
        width="8.0000181"
        id="rect4152"
-       style="color:#eff0f1;opacity:0.6;fill:#1e1e1e;fill-opacity:1;stroke:none;stroke-width:1.1547"
+       style="color:#eff0f1;opacity:0.6;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.1547"
        transform="matrix(0,-1,-1,0,0,0)"
        class="ColorScheme-Background" />
     <rect
@@ -282,8 +282,9 @@
      id="topleft"
      transform="translate(31,-904.36218)">
     <path
+       class="ColorScheme-Background"
        sodipodi:nodetypes="cccc"
-       style="opacity:0.6;fill:#1e1e1e;fill-opacity:1;stroke:none;stroke-width:2.66667"
+       style="opacity:0.6;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:2.66667"
        d="m 29,910.36218 c -8.863965,0 -16,7.13604 -16,16 h 16 z"
        id="rect4159"
        inkscape:connector-curvature="0" />
@@ -300,7 +301,7 @@
      height="12.000099"
      width="12.000099"
      id="center"
-     style="color:#eff0f1;opacity:0.6;fill:#1e1e1e;fill-opacity:1;stroke:none;stroke-width:0.3750031" />
+     style="color:#eff0f1;opacity:0.6;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.3750031" />
   <rect
      style="fill:#ff00ff;fill-opacity:1;stroke:none;stroke-width:0.7070992"
      id="hint-top-margin"
@@ -334,7 +335,7 @@
   <g
      id="shadow-top" style="opacity:0"
      transform="matrix(0.37500332,0,0,1.3333409,52.874889,-1203.8232)"
-     style="opacity:1">
+    >
     <rect
        transform="matrix(0,-1,-1,0,0,0)"
        style="opacity:1;fill:none;fill-opacity:1;stroke:none"

@@ -47,6 +47,12 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Plasma style: with an adaptive or translucent panel (Plasma's default),
+  the taskbar had no background of its own, only the wallpaper with a
+  slight tint: both panel-background files had been invalid XML since
+  June (a duplicated attribute on the shadow pieces). They load again; in
+  light mode the translucent panel was hard-coded dark grey and now uses
+  the light colour scheme. Opaque panels were not affected.
 - Clock flyout: the large clock's seconds did not tick (it showed :00 and
   changed once a minute); a picked date was invisible in dark mode; event
   dots appeared only if events were already loaded, and their tooltip was
