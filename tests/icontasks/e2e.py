@@ -8,6 +8,8 @@ a disposable test window received.
          from the window the user is typing in.
   shortcut  Win+1..9 activates the Nth taskbar entry (Plasma 6.8 moved these
          shortcuts into the task manager; the fork registers them itself).
+  preview  Two grouped windows: clicking a window preview activates that
+         window; the close button on a preview closes only its window.
 
 Before each scenario the pointer wiggles in circles: hands off the mouse.
 A scenario that fails is announced and retried once.
@@ -25,9 +27,10 @@ import time
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 from evdev import ecodes as e  # noqa: E402
+from PIL import Image  # noqa: E402
 
 from e2e import a11y  # noqa: E402
-from e2e.session import Checks  # noqa: E402
+from e2e.session import Checks, screenshot  # noqa: E402
 from e2e.taskbar import active_window, task_buttons  # noqa: E402
 from e2e.testwindow import TestWindow, place  # noqa: E402
 from e2e.vinput import VirtualInput  # noqa: E402
@@ -99,7 +102,90 @@ def shortcut(vi, out, c):
         win.close()
 
 
-SCENARIOS = {"focus": focus, "shortcut": shortcut}
+CARD_MARGIN = 8     # popup edge to card, card edge to its thumbnail/title (cardPadding)
+CLOSE_SIZE = 22     # the close button (iconSizes.smallMedium)
+
+
+def preview_popup(vi, button, out):
+    """Hover a task button until its preview popup shows; return the popup's (left, top, right, bottom).
+
+    The popup is found in a screenshot: its bottom margin, just above the
+    panel, is one flat colour; walk along it to the sides and up its edge.
+    """
+    x, y = button.centre
+    vi.move_to(x, y)
+    vi.move_to(x + 2, y + 1, steps=3)
+    time.sleep(1.6)
+    shot = out / "preview.png"
+    screenshot(shot)
+    im = Image.open(shot).convert("RGB")
+    shot.unlink()
+    row = button.rect[1] - 10                  # inside the popup's bottom margin
+    bg = im.getpixel((x, row))
+    same = lambda p: all(abs(a - b) <= 3 for a, b in zip(p, bg))  # noqa: E731
+    left, right = x, x
+    while left > 0 and same(im.getpixel((left - 1, row))):
+        left -= 1
+    while right < im.width - 1 and same(im.getpixel((right + 1, row))):
+        right += 1
+    top = row
+    while top > 0 and same(im.getpixel((left + 4, top - 1))):
+        top -= 1
+    bottom = row
+    while same(im.getpixel((x, bottom + 1))):
+        bottom += 1
+    return left, top, right, bottom
+
+
+def preview(vi, out, c):
+    """Two test windows share one task button; click a preview, then close the other with its X."""
+    first, second = TestWindow(), None
+    try:
+        c.check(first.wait(lambda s: s["active"], 6), "first test window opens focused")
+        place(first.proc.pid, 120, 120, out, size=(1000, 600))
+        second = TestWindow()
+        c.check(second.wait(lambda s: s["active"], 6), "second test window opens focused")
+        place(second.proc.pid, 700, 160, out, size=(500, 600))
+        c.check(first.wait(lambda s: not s["active"], 3), "the first window is not active now")
+        time.sleep(1.0)
+        button = next((b for b in task_buttons()
+                       if "WM-SHORTCUTS-E2E" in b.name or b.name.lower().startswith("qml")), None)
+        c.check(button is not None, f"the test windows have a taskbar button ({[b.name[:20] for b in task_buttons()]})")
+        if button is None:
+            return
+        left, top, right, bottom = preview_popup(vi, button, out)
+        c.check(right - left > 300 and bottom - top > 120,
+                f"the preview popup shows two cards ({left}, {top}, {right}, {bottom})")
+        # Into the first card's thumbnail (the cards follow model order: first window first).
+        vi.move_to(left + 3 * CARD_MARGIN, bottom - 6 * CARD_MARGIN, steps=8)
+        time.sleep(0.5)
+        vi.click()
+        c.check(first.wait(lambda s: s["active"], 3),
+                f"clicking the first preview activates its window (active={first.state.get('active')})")
+        vi.move_to(960, 300, steps=8)
+        time.sleep(0.8)
+
+        left, top, right, bottom = preview_popup(vi, button, out)
+        vi.move_to(right - 5 * CARD_MARGIN, bottom - 6 * CARD_MARGIN, steps=8)   # the second card
+        time.sleep(0.6)
+        vi.move_to(right - 2 * CARD_MARGIN - CLOSE_SIZE // 2, top + 2 * CARD_MARGIN + CLOSE_SIZE // 2, steps=6)
+        time.sleep(0.5)
+        vi.click()
+        try:
+            second.proc.wait(timeout=4)
+            closed = True
+        except Exception:  # noqa: BLE001 — still running
+            closed = False
+        c.check(closed, "the second preview's close button closes its window")
+        c.check(first.proc.poll() is None, "the first window stays open")
+    finally:
+        vi.move_to(960, 300)
+        for win in (first, second):
+            if win and win.proc.poll() is None:
+                win.close()
+
+
+SCENARIOS = {"focus": focus, "shortcut": shortcut, "preview": preview}
 
 
 def main():

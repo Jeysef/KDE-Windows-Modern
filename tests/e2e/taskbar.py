@@ -22,9 +22,11 @@ def task_buttons(include_buttons=False):
     start = a11y.find("plasmashell", "Start", role="button", visible=False)
     if not start:
         raise RuntimeError("Start button not found")
-    row_y, panel_win = start.rect[1], start.window
+    # Same row = same vertical centre: Start (42 px) and tasks (48 px) differ in height.
+    row_mid, panel_win = start.rect[1] + start.rect[3] // 2, start.window
     nodes = sorted((n for n in a11y.nodes("plasmashell")
-                    if n.showing and n.role == "button" and n.window == panel_win and n.rect[1] == row_y
+                    if n.showing and n.role == "button" and n.window == panel_win
+                    and abs(n.rect[1] + n.rect[3] // 2 - row_mid) <= 2
                     and n.rect[2] > 0 and n.name and n.rect[0] >= start.rect[0] + start.rect[2]),
                    key=lambda n: n.rect[0])
     out, edge = [], start.rect[0] + start.rect[2]

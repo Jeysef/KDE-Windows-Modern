@@ -52,11 +52,20 @@ Loader {
     property rect windowGeometry: Qt.rect(0, 0, 0, 0)
 
     readonly property bool isVerticalPanel: Plasmoid.formFactor === PlasmaCore.Types.Vertical
-    // Win11: tooltip width; title spans the full width, so give it room
-    readonly property int tooltipInstanceMaximumWidth: Kirigami.Units.gridUnit * 13
-    // Win11: inter-tile spacing matches the tooltip SVG margin (~8px) so the
-    // gap between thumbnails equals the outside padding.
-    readonly property int tileSpacing: Kirigami.Units.gridUnit / 2
+    // Thumbnail cards (Windows 11): one height, the window's width up to 16:9,
+    // and the same padding on every side of the hover highlight.
+    readonly property int thumbnailHeight: Kirigami.Units.gridUnit * 7
+    readonly property int thumbnailMaximumWidth: Math.round(thumbnailHeight * 16 / 9)
+    readonly property int thumbnailMinimumWidth: Kirigami.Units.gridUnit * 6   // room for a short title
+    readonly property int cardPadding: Kirigami.Units.smallSpacing * 2
+    // Widest card; also the width of text-only tooltips (no thumbnails)
+    readonly property int tooltipInstanceMaximumWidth: Plasmoid.configuration.showToolTips
+        ? thumbnailMaximumWidth + 2 * cardPadding
+        : Kirigami.Units.gridUnit * 13
+    // No gap between thumbnail cards: each card has cardPadding inside, so
+    // two thumbnails are 2 × cardPadding apart, the same as a thumbnail and
+    // the popup's edge (the popup's own margin is about cardPadding too).
+    readonly property int tileSpacing: 0
 
     // These properties are required to make tooltip interactive when there is a player but no window is present.
     readonly property Mpris.PlayerContainer playerData: mpris2Source.playerForLauncherUrl(launcherUrl, pidParent)
@@ -101,7 +110,13 @@ Loader {
                    ? toolTipDelegate.tooltipInstanceMaximumWidth + (toolTipDelegate.isWin && Plasmoid.configuration.showToolTips ? 0 : Kirigami.Units.gridUnit)
                    : groupToolTipListView.contentWidth
 
-                return leftPadding + rightPadding + Math.min(maximumWidth, Math.max(delegateModel.estimatedWidth, listContentWidth))
+                // Thumbnail cards follow their window's shape, so the estimate
+                // (every card at its widest) is only a stand-in until the
+                // cards exist; a floor would leave empty space at the end.
+                const width = (groupToolTipListView.orientation == ListView.Horizontal && listContentWidth > 0)
+                    ? listContentWidth
+                    : Math.max(delegateModel.estimatedWidth, listContentWidth)
+                return leftPadding + rightPadding + Math.min(maximumWidth, width)
             }
 
             implicitHeight: {

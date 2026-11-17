@@ -373,6 +373,8 @@ FloatingToolTipArea {
         mainItem.virtualDesktops = Qt.binding(() => model.VirtualDesktops);
         mainItem.isOnAllVirtualDesktops = Qt.binding(() => model.IsOnAllVirtualDesktops);
         mainItem.activities = Qt.binding(() => model.Activities);
+        // The thumbnail takes the window's shape (ToolTipInstance.thumbnailAspect).
+        mainItem.windowGeometry = Qt.binding(() => model.Geometry ?? Qt.rect(0, 0, 0, 0));
 
         mainItem.smartLauncherCountVisible = Qt.binding(() => smartLauncherItem?.countVisible ?? false);
         mainItem.smartLauncherCount = Qt.binding(() => mainItem.smartLauncherCountVisible ? (smartLauncherItem?.count ?? 0) : 0);

@@ -65,12 +65,13 @@ class TestWindow:
 
 
 
-def place(pid, x, y, out_dir):
-    """Move (and focus) the window of process pid to x, y with a one-off KWin script."""
+def place(pid, x, y, out_dir, size=None):
+    """Move (and focus) the window of process pid to x, y, optionally resizing its frame to size (w, h)."""
+    width, height = size if size else ("w.frameGeometry.width", "w.frameGeometry.height")
     js = pathlib.Path(out_dir) / "wm-place.js"
     js.write_text(f"for (const w of workspace.windowList()) if (w.pid === {pid} && w.normalWindow) "
-                  f"{{ w.frameGeometry = {{x: {x}, y: {y}, width: w.frameGeometry.width, "
-                  f"height: w.frameGeometry.height}}; workspace.activeWindow = w; }}\n")
+                  f"{{ w.frameGeometry = {{x: {x}, y: {y}, width: {width}, "
+                  f"height: {height}}}; workspace.activeWindow = w; }}\n")
     call = ["dbus-send", "--session", "--print-reply", "--type=method_call", "--dest=org.kde.KWin", "/Scripting"]
     sid = subprocess.run([*call, "org.kde.kwin.Scripting.loadScript", f"string:{js}", "string:wm-place"],
                          capture_output=True, text=True).stdout.split()[-1]

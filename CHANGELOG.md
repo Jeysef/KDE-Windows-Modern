@@ -40,7 +40,10 @@ the `Version` field shared by every component's metadata.
   alone shows it, as on Windows 11.
 - Taskbar window preview: the preview under the pointer lights up as a
   whole card, title included, as on Windows 11, instead of a box around
-  the thumbnail only.
+  the thumbnail only. Each card takes its window's shape (one height, up
+  to 16:9 wide), so a narrow window's preview is no longer letterboxed in
+  a wide card, and the highlight has the same padding on all four sides
+  (the title and thumbnail used to touch its edges).
 - Start button: hovering it (and while the Start menu is open) shows the
   taskbar's hover tile, and the logo is no longer lightened, as on
   Windows 11.

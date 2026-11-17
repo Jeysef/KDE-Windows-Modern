@@ -41,10 +41,27 @@ Item {
 
     readonly property bool thumbnailMode: toolTipDelegate.isWin && Plasmoid.configuration.showToolTips
 
+    // Thumbnail mode, as on Windows 11: every preview has the same height and
+    // the window's own shape, so a card is as wide as its thumbnail (up to
+    // 16:9), and the hover highlight has the same padding on all four sides.
+    readonly property int cardPadding: root.thumbnailMode ? toolTipDelegate.cardPadding : 0
+    readonly property real thumbnailAspect: {
+        const stream = (pipeWireLoader.item as Item)?.streamSize;   // the real picture, once it plays
+        if (stream && stream.width > 0 && stream.height > 0) {
+            return stream.width / stream.height;
+        }
+        if (windowGeometry.width > 0 && windowGeometry.height > 0) {
+            return windowGeometry.width / windowGeometry.height;
+        }
+        return 16 / 9;
+    }
+    readonly property int thumbnailWidth: Math.round(Math.max(toolTipDelegate.thumbnailMinimumWidth,
+        Math.min(toolTipDelegate.thumbnailMaximumWidth, toolTipDelegate.thumbnailHeight * thumbnailAspect)))
+
     implicitWidth: root.thumbnailMode
-        ? toolTipDelegate.tooltipInstanceMaximumWidth
+        ? thumbnailWidth + 2 * cardPadding
         : contentColumn.implicitWidth
-    implicitHeight: contentColumn.implicitHeight
+    implicitHeight: contentColumn.implicitHeight + 2 * cardPadding
 
     ListView.onPooled: width = height = 0
     ListView.onReused: width = height = undefined
@@ -129,7 +146,8 @@ Item {
     ColumnLayout {
         id: contentColumn
         anchors.fill: parent
-        spacing: root.thumbnailMode ? 0 : Kirigami.Units.smallSpacing
+        anchors.margins: root.cardPadding
+        spacing: Kirigami.Units.smallSpacing
 
         // ── Header: title spans full width, icon/close buttons positioned inside it ──
         RowLayout {
@@ -322,8 +340,10 @@ Item {
                 return toolTipDelegate.tooltipInstanceMaximumWidth
             }
 
-            Layout.preferredWidth: toolTipDelegate.tooltipInstanceMaximumWidth
-            Layout.preferredHeight: Kirigami.Units.gridUnit * 8
+            // Window-shaped. All previews share one height (a group's row
+            // stays even); a window wider than 16:9 is letterboxed.
+            Layout.preferredWidth: root.thumbnailWidth
+            Layout.preferredHeight: toolTipDelegate.thumbnailHeight
             Layout.alignment: Qt.AlignHCenter
             Layout.topMargin: 0
 
