@@ -25,6 +25,9 @@ the `Version` field shared by every component's metadata.
 
 - Taskbar: a hovered app's icon is no longer lightened; the hover tile
   alone shows it, as on Windows 11.
+- Start button: hovering it (and while the Start menu is open) shows the
+  taskbar's hover tile, and the logo is no longer lightened, as on
+  Windows 11.
 
 ### Fixed
 

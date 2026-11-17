@@ -50,6 +50,10 @@ Item {
         readonly property var actionList: (model.actionList !== undefined) ? model.actionList : null
     }
 
+    // This Item's `visible` is only a toggle (flipping it opens or closes the
+    // popup); menuShown is whether the popup is actually open.
+    readonly property bool menuShown: root.visible
+
     onVisibleChanged: {
         root.visible = !root.visible
     }

@@ -11,6 +11,7 @@ import QtQuick
 import org.kde.plasma.plasmoid
 import org.kde.plasma.core as PlasmaCore
 import org.kde.kirigami as Kirigami
+import org.kde.ksvg as KSvg
 
 Item {
     id: root
@@ -23,7 +24,7 @@ Item {
     readonly property bool vertical: (Plasmoid.formFactor == PlasmaCore.Types.Vertical)
     readonly property bool useCustomButtonImage: (Plasmoid.configuration.useCustomButtonImage
                                                   && Plasmoid.configuration.customButtonImage.length != 0)
-    property QtObject dashWindow: null
+    property MenuRepresentation dashWindow: null
 
     Plasmoid.status: dashWindow && dashWindow.visible ? PlasmaCore.Types.RequiresAttentionStatus : PlasmaCore.Types.PassiveStatus
 
@@ -46,6 +47,25 @@ Item {
     readonly property int startIconSize: inPanel ? Math.min(cellThickness, Math.round(taskIconSize * 1.48))
                                                  : Math.min(width, height)
 
+    // Hover (and open menu) tile: the taskbar's own tile without a bar
+    // (tasks.svg "launcher-hover", as for a pinned app), for the panel edge.
+    readonly property string edgePrefix: {
+        switch (Plasmoid.location) {
+        case PlasmaCore.Types.TopEdge: return "north-";
+        case PlasmaCore.Types.LeftEdge: return "west-";
+        case PlasmaCore.Types.RightEdge: return "east-";
+        default: return "";
+        }
+    }
+
+    KSvg.FrameSvgItem {
+        id: hoverTile
+        anchors.fill: parent
+        imagePath: "widgets/tasks"
+        prefix: [root.edgePrefix + "launcher-hover", "launcher-hover", root.edgePrefix + "hover", "hover"]
+        visible: root.inPanel && (mouseArea.containsMouse || (root.dashWindow?.menuShown ?? false))
+    }
+
     Kirigami.Icon {
         id: buttonIcon
 
@@ -54,7 +74,11 @@ Item {
         height: root.startIconSize
         roundToIconSize: false
         source: useCustomButtonImage ? Plasmoid.configuration.customButtonImage : Plasmoid.configuration.icon
-        active: mouseArea.containsMouse
+        // Windows 11 does not lighten the logo on hover (the tile shows it);
+        // pressing shrinks it slightly, like the other taskbar buttons.
+        active: false
+        scale: mouseArea.pressed ? 0.9 : 1
+        Behavior on scale { NumberAnimation { duration: Kirigami.Units.shortDuration } }
         smooth: true
     }
 
