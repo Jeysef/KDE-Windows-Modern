@@ -87,6 +87,16 @@ Item {
     // close button visibility so the X only shows when hovering this tile.
     HoverHandler { id: tileHover }
 
+    // The preview under the pointer is lit as a whole card, title included,
+    // as on Windows 11 (it used to be a box around the thumbnail only, cut
+    // off below the title). Declared before contentColumn: stays behind it.
+    PlasmaExtras.Highlight {
+        anchors.fill: parent
+        visible: root.thumbnailMode && tileHover.hovered
+        pressed: (hoverHandler.item as MouseArea)?.containsPress ?? false
+        hovered: true
+    }
+
     // Make the header clickable if image tooltips are disabled. These overlay
     // the header but live outside contentColumn: anchoring items that a
     // layout manages is undefined behaviour (Qt warns on every tooltip).
@@ -329,13 +339,6 @@ Item {
                 radius: Kirigami.Units.smallSpacing * 2
                 color: "transparent"
                 visible: false
-            }
-
-            PlasmaExtras.Highlight {
-                anchors.fill: hoverHandler
-                visible: (hoverHandler.item as MouseArea)?.containsMouse ?? false
-                pressed: (hoverHandler.item as MouseArea)?.containsPress ?? false
-                hovered: true
             }
 
             Loader {

@@ -92,6 +92,13 @@ loads. Verify in the live session:
 - **Headless renders use the software scene graph**: shader effects
   (`MultiEffect`) draw nothing there. Render inside the Wayland session to
   see the GPU path, and give shader-only visuals a software fallback.
+- **Don't start the user's apps for a test, and never kill by name.**
+  Dolphin (and most KDE apps) hand a new launch to the running instance,
+  even under `dbus-run-session`: the test opened a tab in the user's
+  Dolphin and `pkill -n dolphin` then closed the user's window. Apps
+  started from an agent shell are also killed when the command ends; to
+  give one back, use `systemd-run --user --collect <app>`. Test with
+  `tests/e2e/testwindow.py` windows, and kill only PIDs you started.
 - **Never test the lock screen by locking the session.** Run
   `tests/lockscreen/e2e.py` against a copy of the overlay with its own
   shell Id (`kscreenlocker_greet --testing --shell <id>` shows it in a
