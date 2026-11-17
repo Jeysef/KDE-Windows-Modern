@@ -1,0 +1,4 @@
+module org.kde.plasma.workspace.calendar
+Calendar 1.0 Calendar.qml
+DaysModel 1.0 DaysModel.qml
+EventPluginsManager 1.0 EventPluginsManager.qml
