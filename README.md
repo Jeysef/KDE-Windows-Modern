@@ -50,7 +50,19 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 
 ## Requirements
 
-- **KDE Plasma 6**
+- **KDE Plasma 6**. Developed and tested on Plasma 6.8 (Fedora 44 and 45).
+  Older Plasma 6 versions work for most parts; the oldest each part
+  should run on (not tested there):
+
+  | Part | Plasma |
+  |---|---|
+  | Colours, Plasma style, window borders, Kvantum, icons, cursors, fonts | any 6 |
+  | System tray, taskbar (Icon Tasks) | 6.7 (taskbar: also KDE Frameworks 6.26) |
+  | Digital clock, login screen | 6.6 |
+  | Lock screen | follows 6.8; on older versions the prompt stays on every screen |
+  | Prebuilt tray and taskbar plugins from a release | exactly 6.8 (else they are built from source) |
+
+  Where the forked parts come from: [`docs/UPSTREAM.md`](docs/UPSTREAM.md).
 - **Kvantum** engine installed (`kvantum` package on most distros)
 - For the **System Tray and Icon Tasks applets**: nothing extra when you
   install from a release on a supported Fedora (prebuilt plugins are

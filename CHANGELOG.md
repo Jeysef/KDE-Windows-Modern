@@ -8,6 +8,9 @@ the `Version` field shared by every component's metadata.
 
 ### Added
 
+- README: which Plasma version each part needs (developed on 6.8; most
+  parts run on 6.6 or 6.7), and `docs/UPSTREAM.md`: where each forked
+  component comes from, what we changed, how to sync with upstream (#9).
 - Clock flyout: clicking the calendar's "Month Year" title zooms out to
   the months of the year, and again to a decade of years, as on
   Windows 11; picking one zooms back in. The arrows and the mouse wheel
