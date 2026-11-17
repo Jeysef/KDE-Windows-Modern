@@ -5,6 +5,9 @@
   taskview  clicking Task View opens KWin's Overview
   calendar  the clock flyout's title zooms out to the year; reopening shows
             today's month again
+  dayshape  picking a day leaves the calendar where it was (the agenda used
+            to grow the popup upwards), and the picked day stays a circle while
+            hovered (it turned into a rounded square)
 
 Each scenario closes what it opened (Esc). Screenshots go to OUT_DIR.
 Usage: tests/panel/new_features.py OUT_DIR [SCENARIO ...]
@@ -18,6 +21,7 @@ import time
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 from evdev import ecodes as e  # noqa: E402
+from PIL import Image  # noqa: E402
 
 from e2e import a11y  # noqa: E402
 from e2e.session import Checks, screenshot  # noqa: E402
@@ -100,7 +104,43 @@ def calendar(vi, out, c):
     vi.tap(e.KEY_ESC, after=0.5)
 
 
-SCENARIOS = {"search": search, "taskview": taskview, "calendar": calendar}
+def dayshape(vi, out, c):
+    click_node(vi, "Clock")
+    time.sleep(1.2)
+    days = [n for n in a11y.nodes("plasmashell") if n.showing and n.role == "button"
+            and re.fullmatch(r"\d{1,2}(, .*)?", n.name) and n.rect[2] > 0]
+    today = next((n for n in days if ", today" in n.name), None)
+    number = lambda n: int(n.name.split(",")[0])  # noqa: E731
+    # A neighbour of today in this month (spill-over days of other months are far off in number).
+    pick = next((n for n in days if today and n is not today and 0 < abs(number(n) - number(today)) <= 6), None)
+    c.check(pick is not None, f"a day other than today to pick ({pick and (pick.name, pick.rect)!r}, today {today and today.rect!r})")
+    if not pick:
+        vi.tap(e.KEY_ESC, after=0.5)
+        return
+    x, y = pick.centre
+    vi.move_to(x, y, steps=8)
+    time.sleep(0.3)
+    vi.click()
+    time.sleep(0.8)                                   # picked, pointer still on it: ring + hover fill
+    moved = next((n for n in a11y.nodes("plasmashell") if n.showing and n.role == "button"
+                  and n.name.split(",")[0] == pick.name.split(",")[0] and n.rect[0] == pick.rect[0]), None)
+    c.check(moved is not None and moved.rect == pick.rect,
+            f"the calendar does not move when a day is picked ({pick.rect} -> {moved and moved.rect})")
+    shot = out / "dayshape.png"
+    screenshot(shot)
+    im = Image.open(shot).convert("RGB")
+    left, top, w, h = pick.rect
+    corner = im.getpixel((left + 3, top + 3))
+    background = im.getpixel((left + 1, top + 1))      # the very edge of the cell
+    fill = im.getpixel((x - w // 4, y))
+    painted = lambda p, q: max(abs(a - b) for a, b in zip(p, q)) > 8  # noqa: E731
+    c.check(painted(fill, corner), f"the hovered picked day is filled ({fill} vs corner {corner})")
+    c.check(not painted(corner, background),
+            f"its corners stay unpainted: a circle, not a rounded square ({corner} vs {background})")
+    vi.tap(e.KEY_ESC, after=0.5)
+
+
+SCENARIOS = {"search": search, "taskview": taskview, "calendar": calendar, "dayshape": dayshape}
 
 
 def main():

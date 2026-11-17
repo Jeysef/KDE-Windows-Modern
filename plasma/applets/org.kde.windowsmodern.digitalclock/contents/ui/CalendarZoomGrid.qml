@@ -66,7 +66,7 @@ Item {
                     anchors.centerIn: parent
                     width: Math.min(parent.width, parent.height) - 2 * Kirigami.Units.smallSpacing
                     height: width
-                    radius: tile.modelData.isCurrent ? width / 2 : 4
+                    radius: width / 2       // a circle in every state, like the day cells
                     color: {
                         if (tile.modelData.isCurrent) {
                             return palette.accent;

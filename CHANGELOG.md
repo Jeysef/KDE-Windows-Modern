@@ -17,7 +17,9 @@ the `Version` field shared by every component's metadata.
   and lists that day's events under the calendar: public holidays out of
   the box (your locale's region; the Holidays plugin is now on by
   default) and your KDE calendars if you enable them in the clock's
-  settings, like Windows 10's agenda.
+  settings, like Windows 10's agenda. Day cells are circles in every
+  state (hover, press, picked, today), as are the month and year tiles,
+  and picking a day with up to one event does not move the calendar.
 - Optional Windows 11 taskbar Search box and Task View button
   (`org.kde.windowsmodern.search`, `org.kde.windowsmodern.taskview`).
   The search box opens the Start menu ready to type, like the Windows

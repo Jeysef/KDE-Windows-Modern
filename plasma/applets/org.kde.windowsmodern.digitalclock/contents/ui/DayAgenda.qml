@@ -43,13 +43,20 @@ ColumnLayout {
         font.weight: Font.DemiBold
     }
 
+    // "No events" takes as much height as one event (title + time line):
+    // the popup grows upwards with the agenda, so a height change moved the
+    // calendar under the pointer when a day with one event was picked.
     PlasmaComponents.Label {
         Layout.fillWidth: true
+        Layout.preferredHeight: titleProbe.implicitHeight + timeProbe.implicitHeight
         visible: agenda.events.length === 0
+        verticalAlignment: Text.AlignTop
         textFormat: Text.PlainText
         text: i18nc("@info:status the picked day has no events", "No events")
         color: palette.textSecondary
     }
+    PlasmaComponents.Label { id: titleProbe; visible: false; text: "X" }
+    PlasmaComponents.Label { id: timeProbe; visible: false; text: "X"; font: Kirigami.Theme.smallFont }
 
     Repeater {
         model: agenda.events.slice(0, agenda.maximumEvents)

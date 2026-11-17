@@ -42,10 +42,15 @@ MouseArea {
         calendarView.selectDate(dayData.date);
     }
 
+    // One circle in every state (hover, press, picked ring, today), as on
+    // Windows 11: the picked day used to turn into a rounded square while
+    // hovered, and plain days had a square hover.
     Rectangle {
         id: dayBackground
-        anchors.fill: parent
-        radius: dayData.isToday || (dayData.isSelected && !dayDelegate.containsMouse) ? width / 2 : 4
+        anchors.centerIn: parent
+        width: Math.min(parent.width, parent.height)
+        height: width
+        radius: width / 2
         color: {
             if (dayData.isToday) {
                 return palette.accent;
