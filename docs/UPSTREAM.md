@@ -42,9 +42,12 @@ record the tag or commit in this table whenever a component is synced.
   the stock task manager), a Chromium logo guard. `backend.cpp` and the
   smart launcher files are upstream's.
 - **Digital clock**: Windows 11 flyout (big time, calendar with month,
-  year and decade zoom, picked day's agenda). Time zones, the calendar
-  plugins and the "Add…" button use stock Plasma's plugins
+  year and decade zoom, picked day's agenda). Time zones and the calendar
+  plugins use stock Plasma's plugins
   (`org.kde.plasma.private.digitalclock`, `org.kde.plasma.workspace.calendar`).
+  Stock's "Add…" button is left out on purpose: it opens the preferred
+  `text/calendar` app, which on Fedora with KOrganizer is KOrganizer's file
+  viewer (`korganizer --view %u`), so it does nothing without a file.
 - **Show desktop**: a thin sliver at the end of the taskbar.
 - **Lock screen**: Windows 11 layout; the password logic follows stock
   6.8.2. `ActiveScreenMonitor` (kscreenlocker 6.8+) is loaded through
