@@ -47,6 +47,10 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Firefox window buttons (`app-decorations/firefox`): invisible with a
+  light Firefox theme (white glyphs on a light title bar). Light themes get
+  black glyphs; the close button keeps a white cross on red, and the
+  restore icon no longer has a filled square (PR #3).
 - Plasma style: with an adaptive or translucent panel (Plasma's default),
   the taskbar had no background of its own, only the wallpaper with a
   slight tint: both panel-background files had been invalid XML since

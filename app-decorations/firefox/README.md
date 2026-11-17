@@ -16,7 +16,7 @@ Replaces Firefox's native CSD window buttons with Windows10Modern-styled SVGs us
 
 ## How it works
 
-Hides Firefox's `.toolbarbutton-icon` and `.toolbarbutton-badge-stack` entirely with `display: none !important`, then paints flat white MDL2 SVGs as `background-image` on the `.titlebar-button` container itself. This bypasses GTK icon theming that resists overwriting `list-style-image`.
+Hides Firefox's `.toolbarbutton-icon` and `.toolbarbutton-badge-stack` entirely with `display: none !important`, then paints flat MDL2 SVGs as `background-image` on the `.titlebar-button` container itself: white glyphs, and black ones when Firefox uses a light theme (`prefers-color-scheme: light`, which follows built-in and add-on themes). The close button keeps a white cross on its red hover in both. This bypasses GTK icon theming that resists overwriting `list-style-image`.
 
 ## Files
 
