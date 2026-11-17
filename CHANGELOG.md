@@ -8,6 +8,15 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Lock screen: Enter sometimes did nothing, leaving the typed password in
+  the field. The field was shown whenever something was typed, but Enter
+  was only accepted after the mouse had woken the screen and while the
+  pointer stayed on it, and for 3 s after a wrong password. Enter now works
+  whenever the field is shown; typing wakes the screen like the mouse; a
+  wrong password is cleared and PAM asked again at once; and the password
+  check is retried every second, since kscreenlocker drops the first
+  requests while its PAM worker starts ("Worker not ready yet"), as stock
+  Plasma does. "Unlocking failed" is announced to screen readers.
 - A panel created without the custom applets (e.g. a KDE Store install,
   which cannot ship the C++ tray) got no system tray at all: the layout's
   "fall back to the stock widget" checks never fired, because

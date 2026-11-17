@@ -9,6 +9,7 @@ import org.kde.plasma.workspace.components as PW
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.private.sessions
 import org.kde.plasma.private.keyboardindicator as KeyboardIndicator
+import org.kde.kscreenlocker as ScreenLocker
 import org.kde.breeze.components
 
 import "dateformat.js" as DateFormat
@@ -19,6 +20,9 @@ Item {
     readonly property bool softwareRendering: GraphicsInfo.api === GraphicsInfo.Software
 
     function handleMessage(msg) {
+        if (!msg) {
+            return;
+        }
         if (!root.notification) {
             root.notification += msg;
         } else if (root.notification.includes(msg)) {
@@ -26,6 +30,7 @@ Item {
         } else {
             root.notification += "\n" + msg
         }
+        lockScreenRoot.uiVisible = true;
     }
 
     Kirigami.Theme.inherit: false
@@ -38,11 +43,13 @@ Item {
             if (kind != 0) return;
             const msg = i18ndc("plasma_shell_org.kde.plasma.desktop", "@info:status", "Unlocking failed");
             lockScreenUi.handleMessage(msg);
-            graceLockTimer.restart();
+            root.clearPassword();
+            authenticator.startAuthenticating();
             notificationRemoveTimer.restart();
             rejectPasswordAnimation.start();
         }
         function onSucceeded() {
+            authenticator.stopAuthenticating();
             if (authenticator.hadPrompt) {
                 Qt.quit();
             } else {
@@ -105,7 +112,17 @@ Item {
 
         property bool uiVisible: false
         property bool blockUI: containsMouse && (mainStack.depth > 1 || mainBlock.mainPasswordBox.text.length > 0)
-        property bool loginUiActive: uiVisible || mainBlock.mainPasswordBox.text.length > 0 || graceLockTimer.running
+        // The login UI is shown when woken or while a password is typed.
+        // Enter is accepted exactly then (MainBlock.lockScreenUiVisible):
+        // accepting it only while uiVisible dropped it silently when the
+        // user typed without moving the mouse, or the pointer left.
+        property bool loginUiActive: uiVisible || mainBlock.mainPasswordBox.text.length > 0
+        // Typing straight away (keys go to the password field, not to
+        // Keys.onPressed below) wakes the UI like the mouse does, which also
+        // starts authenticating.
+        onLoginUiActiveChanged: {
+            if (loginUiActive) { uiVisible = true }
+        }
 
         // The locale's long date without the year ("Wednesday, November 11",
         // "středa 11. listopadu"), as the Windows lock screen and the panel
@@ -140,12 +157,27 @@ Item {
             if (blockUI) { fadeoutTimer.running = false; uiVisible = true }
             else { fadeoutTimer.restart() }
         }
-        onExited: {
-            if (powerMenu.opened) return;
-            uiVisible = false;
+        // Heartbeat, as in stock Plasma: kscreenlocker drops a start request
+        // while its PAM worker is still starting ("Worker not ready yet"),
+        // and nothing else retries; PAM would then never ask for the
+        // password and Enter would do nothing.
+        Timer {
+            interval: 1000
+            running: !authenticator.unlocked && lockScreenRoot.loginUiActive
+            repeat: true
+            onTriggered: authenticator.startAuthenticating()
+        }
+        // Hide the prompt on a screen the pointer has left for another one
+        // (stock; replaces onExited, which also fired on one screen).
+        ScreenLocker.ActiveScreenMonitor {
+            lockscreenState: ScreenLocker.LockscreenState
+            window: lockScreenRoot.Window.window
+            onActiveChanged: {
+                if (!active && !powerMenu.opened) { lockScreenRoot.uiVisible = false }
+            }
         }
         Keys.onEscapePressed: {
-            if (uiVisible) { uiVisible = false; root.clearPassword() }
+            if (loginUiActive) { uiVisible = false; root.clearPassword() }
         }
         Keys.onPressed: event => { uiVisible = true; event.accepted = false }
 
@@ -160,7 +192,6 @@ Item {
             }
         }
         Timer { id: notificationRemoveTimer; interval: 3000; onTriggered: root.notification = "" }
-        Timer { id: graceLockTimer; interval: 3000; onTriggered: { authenticator.startAuthenticating() } }
 
         // ── Wallpaper layer ──
         WallpaperFader {
@@ -297,9 +328,8 @@ Item {
 
             initialItem: MainBlock {
                 id: mainBlock
-                lockScreenUiVisible: lockScreenRoot.uiVisible
+                lockScreenUiVisible: lockScreenRoot.loginUiActive
                 showUserList: true
-                lockedOut: graceLockTimer.running
                 StackView.onStatusChanged: {
                     if (StackView.status === StackView.Activating) {
                         mainPasswordBox.clear(); mainPasswordBox.focus = true; root.notification = "";

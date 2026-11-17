@@ -92,6 +92,12 @@ loads. Verify in the live session:
 - **Headless renders use the software scene graph**: shader effects
   (`MultiEffect`) draw nothing there. Render inside the Wayland session to
   see the GPU path, and give shader-only visuals a software fallback.
+- **Never test the lock screen by locking the session.** Run
+  `tests/lockscreen/e2e.py` against a copy of the overlay with its own
+  shell Id (`kscreenlocker_greet --testing --shell <id>` shows it in a
+  window). It types wrong passwords only. Enter must be accepted whenever
+  the password field is shown: the field's visibility and the accept
+  guard once used different flags, and Enter was dropped silently.
 - **The lock screen's shell overlay must not symlink `logout/`**: the logout
   screen resolves symlinks and refuses files outside the package ("Path
   traversal attempt detected"), so Log out silently does nothing.
