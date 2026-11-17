@@ -57,6 +57,7 @@ Item {
 
                 dayData: modelData
                 daysModel: calendarView.calendarBackend.daysModel
+                eventsRevision: calendarView.eventsRevision
             }
         }
 

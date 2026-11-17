@@ -58,6 +58,22 @@ ColumnLayout {
         }
     }
 
+    // Plugins (holidays, your calendars) deliver events asynchronously; the
+    // day model announces each batch. Bindings that read events depend on
+    // this counter so they refresh when events arrive.
+    property int eventsRevision: 0
+    Connections {
+        target: calendarView.calendarBackend.daysModel
+        function onAgendaUpdated() { calendarView.eventsRevision++; }
+    }
+
+    // Events of the picked day, for the agenda under the calendar.
+    readonly property var selectedDayEvents: {
+        calendarView.eventsRevision;
+        const model = calendarView.calendarBackend.daysModel;
+        return model ? model.eventsForDate(calendarView.selectedDate) : [];
+    }
+
     // First date shown in the 6-week grid.
     readonly property date gridStartDate: {
         const firstDayOfMonth = new Date(calendarView.displayedYear, calendarView.displayedMonth, 1);

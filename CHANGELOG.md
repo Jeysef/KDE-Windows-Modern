@@ -13,6 +13,11 @@ the `Version` field shared by every component's metadata.
   Windows 11; picking one zooms back in. The arrows and the mouse wheel
   page by month, year or decade. Like Windows, the flyout always opens
   on today's month.
+- Clock flyout: clicking a date picks it (an accent ring, as on Windows 11)
+  and lists that day's events under the calendar: public holidays out of
+  the box (your locale's region; the Holidays plugin is now on by
+  default) and your KDE calendars if you enable them in the clock's
+  settings, like Windows 10's agenda.
 - Optional Windows 11 taskbar Search box and Task View button
   (`org.kde.windowsmodern.search`, `org.kde.windowsmodern.taskview`).
   The search box opens the Start menu ready to type, like the Windows
@@ -28,6 +33,9 @@ the `Version` field shared by every component's metadata.
 
 ### Changed
 
+- Clock flyout: today's circle uses your accent colour (System Settings →
+  Colors) with black or white text, whichever reads better (black on
+  Windows' light blue in dark mode, as on Windows).
 - Taskbar: a hovered app's icon is no longer lightened; the hover tile
   alone shows it, as on Windows 11.
 - Taskbar window preview: the preview under the pointer lights up as a
@@ -39,6 +47,10 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Clock flyout: the large clock's seconds did not tick (it showed :00 and
+  changed once a minute); a picked date was invisible in dark mode; event
+  dots appeared only if events were already loaded, and their tooltip was
+  empty.
 - Taskbar: hovering an open but inactive app showed the blue "active"
   bar, so it looked active; hovering a pinned app showed no tile. Each
   state now has its own hover (tile plus its own bar), as on Windows 11,

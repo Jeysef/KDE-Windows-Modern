@@ -20,12 +20,17 @@ Item {
 
     Win11Palette { id: palette }
 
-    // Size the popup based on configuration: width is capped at expandedWidth
-    // and the height keeps a fixed 340:450 (width:height) aspect ratio.
+    // Size the popup based on configuration: width is capped at expandedWidth;
+    // the clock and calendar keep a fixed 340:450 (width:height) area and the
+    // picked day's agenda adds its own height below it.
     implicitWidth: Plasmoid.configuration.expandedWidth
     Layout.preferredWidth: Plasmoid.configuration.expandedWidth
     Layout.maximumWidth: Plasmoid.configuration.expandedWidth
     implicitHeight: Math.round(Plasmoid.configuration.expandedWidth * 450 / 340)
+                    + agendaSection.implicitHeight + Kirigami.Units.largeSpacing
+    // Minimum too: Plasma restores a remembered popup size (popupHeight),
+    // which would otherwise cut off the agenda when it grows.
+    Layout.minimumHeight: implicitHeight
     Layout.preferredHeight: implicitHeight
     Layout.maximumHeight: implicitHeight
     clip: true
@@ -123,6 +128,32 @@ Item {
             Layout.fillWidth: true
             Layout.preferredHeight: visible ? Kirigami.Units.gridUnit * 8 : 0
             visible: Plasmoid.configuration.selectedTimeZones.length > 1 || Plasmoid.configuration.showLocalTimezone
+        }
+    }
+
+    // ── The picked day's events, pinned to the bottom of the popup ──
+    ColumnLayout {
+        id: agendaSection
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+            margins: Kirigami.Units.largeSpacing
+        }
+        spacing: Kirigami.Units.largeSpacing
+
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.leftMargin: -Kirigami.Units.largeSpacing
+            Layout.rightMargin: -Kirigami.Units.largeSpacing
+            implicitHeight: 1
+            color: palette.surfaceBorder
+        }
+
+        DayAgenda {
+            Layout.fillWidth: true
+            date: calendarView.selectedDate
+            events: calendarView.selectedDayEvents
         }
     }
 }

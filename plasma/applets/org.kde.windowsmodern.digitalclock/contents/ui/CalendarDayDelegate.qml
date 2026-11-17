@@ -19,6 +19,7 @@ MouseArea {
 
     required property var dayData
     required property PlasmaCalendar.DaysModel daysModel
+    required property int eventsRevision
 
     Win11Palette { id: palette }
 
@@ -26,7 +27,10 @@ MouseArea {
     cursorShape: Qt.PointingHandCursor
 
     // Events for this day, queried from the shared DaysModel.
-    readonly property var dayEvents: daysModel ? daysModel.eventsForDate(dayData.date) : []
+    readonly property var dayEvents: {
+        dayDelegate.eventsRevision;                 // refresh when events arrive
+        return daysModel ? daysModel.eventsForDate(dayData.date) : [];
+    }
     readonly property bool hasEvents: dayEvents && dayEvents.length > 0
 
     Accessible.role: Accessible.Button
@@ -41,7 +45,7 @@ MouseArea {
     Rectangle {
         id: dayBackground
         anchors.fill: parent
-        radius: dayData.isToday ? width / 2 : 4
+        radius: dayData.isToday || (dayData.isSelected && !dayDelegate.containsMouse) ? width / 2 : 4
         color: {
             if (dayData.isToday) {
                 return palette.accent;
@@ -49,13 +53,13 @@ MouseArea {
                 return palette.pressed;
             } else if (dayDelegate.containsMouse) {
                 return palette.hover;
-            } else if (dayData.isSelected) {
-                return palette.selected;
             }
             return "transparent";
         }
-        border.color: dayData.isSelected && !dayData.isToday ? palette.surfaceBorder : "transparent"
-        border.width: 1
+        // The picked day: an accent ring, as Windows 11 draws it (it was a
+        // surface-coloured fill, invisible in dark mode).
+        border.color: dayData.isSelected && !dayData.isToday ? palette.accent : "transparent"
+        border.width: 2
 
         Behavior on color {
             ColorAnimation {
@@ -118,7 +122,7 @@ MouseArea {
 
     QQC2.ToolTip {
         visible: dayDelegate.hasEvents && dayDelegate.containsMouse
-        text: dayDelegate.dayEvents.map(ev => ev.summary || "").join("\n")
+        text: dayDelegate.dayEvents.map(ev => ev.title || "").join("\n")
         delay: 800
     }
 }
