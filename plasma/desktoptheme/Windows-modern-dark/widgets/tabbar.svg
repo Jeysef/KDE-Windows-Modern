@@ -291,7 +291,7 @@
          height="3"
          width="80"
          id="rect3003-5-6"
-         style="fill:#2C2C2C;fill-opacity:1;stroke:none" />
+         style="fill:currentColor;fill-opacity:1;stroke:none" />
     </g>
     <rect
        style="fill:#4e9a06;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -383,7 +383,7 @@
          height="3"
          width="80"
          id="rect3003-5"
-         style="fill:#2C2C2C;fill-opacity:1;stroke:none" />
+         style="fill:currentColor;fill-opacity:1;stroke:none" />
     </g>
     <g
        id="west-active-tab-topright"
@@ -396,7 +396,7 @@
          x="30"
          y="359.36218" />
       <rect
-         style="fill:#2C2C2C;fill-opacity:1;stroke:none"
+         style="fill:currentColor;fill-opacity:1;stroke:none"
          id="rect3542-0"
          width="7"
          height="2.9999752"
@@ -415,7 +415,7 @@
          x="120"
          y="359.36218" />
       <rect
-         style="fill:#2C2C2C;fill-opacity:1;stroke:none"
+         style="fill:currentColor;fill-opacity:1;stroke:none"
          id="rect3542-9-4"
          width="7"
          height="2.9999752"
@@ -588,7 +588,7 @@
          x="30"
          y="359.36218" />
       <rect
-         style="fill:#2C2C2C;fill-opacity:1;stroke:none"
+         style="fill:currentColor;fill-opacity:1;stroke:none"
          id="rect3542-0-7"
          width="7"
          height="2.9999752"
@@ -607,7 +607,7 @@
          x="120"
          y="359.36218" />
       <rect
-         style="fill:#2C2C2C;fill-opacity:1;stroke:none"
+         style="fill:currentColor;fill-opacity:1;stroke:none"
          id="rect3542-9-4-6"
          width="7"
          height="2.9999752"

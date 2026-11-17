@@ -95,14 +95,14 @@
        class="ColorScheme-Text"
        d="m 24,38 c -3.324,0 -6,2.676 -6,6 h 1 c 0,-2.770001 2.230003,-5 5,-5 z"
        transform="matrix(0.26458333,0,0,0.26458333,12.435417,9.7895832)"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.01" />
     <path
        id="rect1103-4-3"
        d="m 18.785416,20.108334 c -0.732895,0 -1.322916,0.59002 -1.322916,1.322916 h 1.322916 z"
-       class="ColorScheme-ViewBackground"
-       fill="#2C2C2C"
-       style="opacity:0.5" />
+       class="ColorScheme-Text"
+       fill="currentColor"
+       style="opacity:0.04" />
   </g>
   <g
      id="hover-left"
@@ -112,7 +112,7 @@
        class="ColorScheme-Text"
        d="m 18,45 v 6 h 1 v -6 z"
        transform="matrix(0.26458333,0,0,0.26458333,12.435417,9.7895832)"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.01" />
     <rect
        id="rect1309-0-6"
@@ -120,9 +120,9 @@
        height="1.5875"
        x="17.4625"
        y="21.695833"
-       fill="#2C2C2C"
-       class="ColorScheme-ViewBackground"
-       style="stroke-width:1.11803;opacity:0.5" />
+       fill="currentColor"
+       class="ColorScheme-Text"
+       style="stroke-width:1.11803;opacity:0.04" />
   </g>
   <g
      id="hover-right"
@@ -152,7 +152,7 @@
        class="ColorScheme-Text"
        d="m 25,38 v 1 h 20 v -1 z"
        transform="matrix(0.26458333,0,0,0.26458333,12.435417,9.7895832)"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.01" />
     <use
        x="0"
@@ -178,7 +178,7 @@
        id="use1364-3-0"
        class="ColorScheme-ButtonHover"
        d="M 24.341667,25.135417 H 19.049999 V 24.60625 h 5.291668 z"
-       style="fill:#4cc8ff;fill-opacity:1;opacity:0.5" />
+       style="fill:#4cc8ff;fill-opacity:0;opacity:0.5" />
   </g>
   <g
      id="hover-bottomright"
@@ -187,7 +187,7 @@
        id="use1459-9"
        d="m 24.60625,25.135416 c 0.879474,0 1.5875,-0.708024 1.5875,-1.5875 h -1.5875 z"
        class="ColorScheme-text"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.01" />
     <use
        x="0"
@@ -201,7 +201,7 @@
        id="use1372-2-6"
        class="ColorScheme-ButtonHover"
        d="m 46,56 v 2 c 1.784021,0 3.379397,-0.771856 4.476562,-2 z"
-       style="fill:#4cc8ff;fill-opacity:1;opacity:0.5"
+       style="fill:#4cc8ff;fill-opacity:0;opacity:0.5"
        transform="matrix(0.26458333,0,0,0.26458333,12.435417,9.7895832)" />
   </g>
   <g
@@ -243,7 +243,7 @@
        id="path1499-6"
        d="m 24.60625,25.135416 c 0.879474,0 1.5875,-0.708024 1.5875,-1.5875 h -1.5875 z"
        class="ColorScheme-text"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.01" />
     <use
        x="0"
@@ -257,7 +257,7 @@
        id="path1503-8"
        class="ColorScheme-ButtonHover"
        d="m 46,56 v 2 c 1.784021,0 3.379397,-0.771856 4.476562,-2 z"
-       style="fill:#4cc8ff;fill-opacity:1;opacity:0.5"
+       style="fill:#4cc8ff;fill-opacity:0;opacity:0.5"
        transform="matrix(0.26458333,0,0,0.26458333,12.435417,9.7895832)" />
   </g>
   <g
@@ -274,13 +274,13 @@
        id="rect1103"
        d="m 18.785416,20.108333 c -0.732895,0 -1.322916,0.590021 -1.322916,1.322917 h 1.322916 z"
        class="ColorScheme-ViewBackground"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.5" />
     <path
        id="path1311"
        d="m 71,75 c -3.324,0 -6,2.676 -6,6 h 1 c 0,-2.770001 2.230003,-5 5,-5 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.15"
        transform="scale(0.26458333)" />
   </g>
@@ -293,7 +293,7 @@
        height="1.5875"
        x="17.4625"
        y="21.695833"
-       fill="#2C2C2C"
+       fill="currentColor"
        class="ColorScheme-ViewBackground"
        style="opacity:0.5" />
     <rect
@@ -303,7 +303,7 @@
        x="17.197916"
        y="21.695833"
        class="ColorScheme-Text"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.15" />
   </g>
   <g
@@ -372,7 +372,7 @@
        x="-25.135416"
        y="-24.341669"
        class="ColorScheme-Text"
-       fill="#2C2C2C"
+       fill="currentColor"
        transform="matrix(0,-1,-1,0,0,0)"
        style="opacity:0.35" />
   </g>
@@ -383,14 +383,14 @@
        id="use1368"
        d="m 17.197917,23.547917 c 0,0.879475 0.708025,1.5875 1.5875,1.5875 v -0.264584 c -0.732896,0 -1.322917,-0.590021 -1.322917,-1.322916 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.15;stroke-width:0.264583" />
     <path
        id="use1026"
        class="ColorScheme-Text"
        d="M 20.673828 28 C 21.624664 28.632221 22.767723 29 24 29 L 24 28 L 20.673828 28 z "
        transform="matrix(0.26458333,0,0,0.26458333,12.435417,17.462501)"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.35" />
     <use
        x="0"
@@ -408,14 +408,14 @@
        id="use1372"
        d="m 24.60625,25.135416 c 0.879475,0 1.5875,-0.708025 1.5875,-1.5875 h -0.264584 c 0,0.732896 -0.590021,1.322917 -1.322916,1.322917 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.15" />
     <path
        id="path1033"
        class="ColorScheme-Text"
        d="M 46 28 L 46 29 C 47.232277 29 48.375336 28.632221 49.326172 28 L 46 28 z "
        transform="matrix(0.26458333,0,0,0.26458333,12.435417,17.462501)"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.35" />
     <use
        x="0"
@@ -537,13 +537,13 @@
        class="ColorScheme-Text"
        d="M 24 38 C 20.676 38 18 40.676 18 44 L 19 44 C 19 41.229999 21.230003 39 24 39 L 24 38 z "
        transform="matrix(0.26458333,0,0,0.26458333,12.435417,9.7895832)"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.01" />
     <path
        id="rect1103-4"
        d="m 18.785416,20.108334 c -0.732895,0 -1.322916,0.59002 -1.322916,1.322916 h 1.322916 z"
        class="ColorScheme-ViewBackground"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.5" />
   </g>
   <g
@@ -554,7 +554,7 @@
        class="ColorScheme-Text"
        d="M 18 45 L 18 51 L 19 51 L 19 45 L 18 45 z "
        transform="matrix(0.26458333,0,0,0.26458333,12.435417,9.7895832)"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.01" />
     <rect
        id="rect1309-0"
@@ -562,7 +562,7 @@
        height="1.5875"
        x="17.4625"
        y="21.695833"
-       fill="#2C2C2C"
+       fill="currentColor"
        class="ColorScheme-ViewBackground"
        style="stroke-width:1.11803;opacity:0.5" />
   </g>
@@ -594,7 +594,7 @@
        class="ColorScheme-Text"
        d="M 25 38 L 25 39 L 45 39 L 45 38 L 25 38 z "
        transform="matrix(0.26458333,0,0,0.26458333,12.435417,9.7895832)"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.01" />
     <use
        x="0"
@@ -629,7 +629,7 @@
        id="use1459"
        d="m 24.60625,25.135416 c 0.879474,0 1.5875,-0.708024 1.5875,-1.5875 h -1.5875 z"
        class="ColorScheme-text"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.01" />
     <use
        x="0"
@@ -741,7 +741,7 @@
        id="path1499"
        d="m 24.60625,25.135416 c 0.879474,0 1.5875,-0.708024 1.5875,-1.5875 h -1.5875 z"
        class="ColorScheme-text"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.01" />
     <use
        x="0"

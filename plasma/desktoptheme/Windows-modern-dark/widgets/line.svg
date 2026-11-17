@@ -87,7 +87,7 @@
        class="ColorScheme-Text"
        d="m 32.969,13.594 v 40 h 3 v -40 z"
        color="#31363b"
-       fill="#2C2C2C"
+       fill="currentColor"
        fill-opacity="0.3"
        opacity="0.01"
        id="path5" />
@@ -112,7 +112,7 @@
        class="ColorScheme-Text"
        d="m 75.691,55.529 h -40 v 3 h 40 z"
        color="#31363b"
-       fill="#2C2C2C"
+       fill="currentColor"
        fill-opacity="0.3"
        opacity="0.01"
        id="path12" />

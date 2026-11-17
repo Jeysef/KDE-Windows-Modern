@@ -100,9 +100,9 @@
     <path
        id="rect1103-4-3"
        d="m 18.785416,20.108334 c -0.732895,0 -1.322916,0.59002 -1.322916,1.322916 h 1.322916 z"
-       class="ColorScheme-ViewBackground"
+       class="ColorScheme-Text"
        fill="currentColor"
-       style="opacity:0.5" />
+       style="opacity:0.03" />
   </g>
   <g
      id="hover-left"
@@ -121,8 +121,8 @@
        x="17.4625"
        y="21.695833"
        fill="currentColor"
-       class="ColorScheme-ViewBackground"
-       style="stroke-width:1.11803;opacity:0.5" />
+       class="ColorScheme-Text"
+       style="stroke-width:1.11803;opacity:0.03" />
   </g>
   <g
      id="hover-right"
@@ -178,7 +178,7 @@
        id="use1364-3-0"
        class="ColorScheme-ButtonHover"
        d="M 24.341667,25.135417 H 19.049999 V 24.60625 h 5.291668 z"
-       style="fill:#4cc8ff;fill-opacity:1;opacity:0.5" />
+       style="fill:#4cc8ff;fill-opacity:0;opacity:0.5" />
   </g>
   <g
      id="hover-bottomright"
@@ -201,7 +201,7 @@
        id="use1372-2-6"
        class="ColorScheme-ButtonHover"
        d="m 46,56 v 2 c 1.784021,0 3.379397,-0.771856 4.476562,-2 z"
-       style="fill:#4cc8ff;fill-opacity:1;opacity:0.5"
+       style="fill:#4cc8ff;fill-opacity:0;opacity:0.5"
        transform="matrix(0.26458333,0,0,0.26458333,12.435417,9.7895832)" />
   </g>
   <g
@@ -257,7 +257,7 @@
        id="path1503-8"
        class="ColorScheme-ButtonHover"
        d="m 46,56 v 2 c 1.784021,0 3.379397,-0.771856 4.476562,-2 z"
-       style="fill:#4cc8ff;fill-opacity:1;opacity:0.5"
+       style="fill:#4cc8ff;fill-opacity:0;opacity:0.5"
        transform="matrix(0.26458333,0,0,0.26458333,12.435417,9.7895832)" />
   </g>
   <g

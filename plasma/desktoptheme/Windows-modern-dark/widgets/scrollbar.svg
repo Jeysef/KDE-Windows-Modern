@@ -148,7 +148,7 @@
        rx="0"
        ry="2" />
     <rect
-       style="opacity:0.3;fill:#2C2C2C;fill-opacity:1"
+       style="opacity:0.3;fill:currentColor;fill-opacity:1"
        id="slider-center"
        width="1"
        height="10"
@@ -161,7 +161,7 @@
       <path
          id="rect3838"
          d="m 9,7 v 10 h 4 V 7 Z"
-         style="opacity:0.3;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.3;fill:currentColor;fill-opacity:1"
          class="ColorScheme-Text" />
       <rect
          style="opacity:0;fill:#e4e6e8;fill-opacity:1;stroke:none"
@@ -186,7 +186,7 @@
       <path
          id="rect3840"
          d="m 9,3 v 4 h 4 C 13,4.784 11.216,3 9,3 Z"
-         style="opacity:0.3;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.3;fill:currentColor;fill-opacity:1"
          class="ColorScheme-Text" />
     </g>
     <g
@@ -201,7 +201,7 @@
          y="31"
          transform="matrix(1.3333333,0,0,1.3333333,-25.666667,-24.333333)" />
       <path
-         style="opacity:0.3;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.3;fill:currentColor;fill-opacity:1"
          d="m 9,21 v -4 h 4 c 0,2.216 -1.784,4 -4,4 z"
          id="path3871"
          class="ColorScheme-Text" />
@@ -210,7 +210,7 @@
        id="slider-left"
        transform="matrix(-0.75,0,0,1,25.75,13)">
       <path
-         style="opacity:0.3;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.3;fill:currentColor;fill-opacity:1"
          d="m 9,7 v 10 h 4 V 7 Z"
          id="path3891"
          class="ColorScheme-Text" />
@@ -235,7 +235,7 @@
          y="12"
          transform="matrix(-1.3333333,0,0,1.3333333,39.666667,-18.333333)" />
       <path
-         style="opacity:0.3;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.3;fill:currentColor;fill-opacity:1"
          d="m 9,3 v 4 h 4 C 13,4.784 11.216,3 9,3 Z"
          id="path3895"
          class="ColorScheme-Text" />
@@ -254,7 +254,7 @@
       <path
          id="path3901"
          d="m 9,21 v -4 h 4 c 0,2.216 -1.784,4 -4,4 z"
-         style="opacity:0.3;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.3;fill:currentColor;fill-opacity:1"
          class="ColorScheme-Text" />
     </g>
     <g
@@ -271,7 +271,7 @@
       <path
          id="path3909"
          d="m 9,7 v 10 h 4 V 7 Z"
-         style="opacity:0.3;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.3;fill:currentColor;fill-opacity:1"
          class="ColorScheme-Text" />
     </g>
     <g
@@ -286,7 +286,7 @@
          y="31"
          transform="matrix(0,-10,1.3333333,0,-32.333333,257)" />
       <path
-         style="opacity:0.3;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.3;fill:currentColor;fill-opacity:1"
          d="m 9,7 v 10 h 4 V 7 Z"
          id="path3915"
          class="ColorScheme-Text" />
@@ -297,7 +297,7 @@
       <path
          id="rect3838-1"
          d="m 9,7 v 10 h 4 V 7 Z"
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.1;fill:currentColor;fill-opacity:1"
          class="ColorScheme-Text" />
       <rect
          style="opacity:0;fill:#e4e6e8;fill-opacity:1;stroke:none"
@@ -309,7 +309,7 @@
          transform="matrix(1.3333333,0,0,1,-44.333333,-13)" />
       <path
          class="ColorScheme-ViewBackground"
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0;fill:currentColor;fill-opacity:1"
          d="m 9,7 v 10 h 4 V 7 Z"
          id="path4264" />
     </g>
@@ -327,13 +327,13 @@
       <path
          id="rect3840-1"
          d="m 9,3 v 4 h 4 C 13,4.784 11.216,3 9,3 Z"
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.1;fill:currentColor;fill-opacity:1"
          inkscape:connector-curvature="0"
          class="ColorScheme-Text" />
       <path
          class="ColorScheme-ViewBackground"
          inkscape:connector-curvature="0"
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0;fill:currentColor;fill-opacity:1"
          d="m 9,3 v 4 h 4 C 13,4.784 11.216,3 9,3 Z"
          id="path4278" />
     </g>
@@ -349,7 +349,7 @@
          y="31"
          transform="matrix(1.3333333,0,0,1.3333333,-44.333333,-24.333333)" />
       <path
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.1;fill:currentColor;fill-opacity:1"
          d="m 9,21 v -4 h 4 c 0,2.216 -1.784,4 -4,4 z"
          id="path3871-2"
          class="ColorScheme-Text" />
@@ -357,14 +357,14 @@
          class="ColorScheme-ViewBackground"
          id="path4284"
          d="m 9,21 v -4 h 4 c 0,2.216 -1.784,4 -4,4 z"
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0;fill:currentColor;fill-opacity:1"
          inkscape:connector-curvature="0" />
     </g>
     <g
        id="background-vertical-left"
        transform="matrix(-0.75,0,0,1,46.75,13)">
       <path
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.1;fill:currentColor;fill-opacity:1"
          d="m 9,7 v 10 h 4 V 7 Z"
          id="path3891-2"
          class="ColorScheme-Text" />
@@ -380,7 +380,7 @@
          class="ColorScheme-ViewBackground"
          id="path4262"
          d="m 9,7 v 10 h 4 V 7 Z"
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1" />
+         style="opacity:0;fill:currentColor;fill-opacity:1" />
     </g>
     <g
        id="background-vertical-topleft"
@@ -394,7 +394,7 @@
          y="12"
          transform="matrix(-1.3333333,0,0,1.3333333,58.333333,-18.333333)" />
       <path
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.1;fill:currentColor;fill-opacity:1"
          d="m 9,3 v 4 h 4 C 13,4.784 11.216,3 9,3 Z"
          id="path3895-9"
          class="ColorScheme-Text" />
@@ -403,7 +403,7 @@
          inkscape:connector-curvature="0"
          id="path4274"
          d="m 9,3 v 4 h 4 C 13,4.784 11.216,3 9,3 Z"
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1" />
+         style="opacity:0;fill:currentColor;fill-opacity:1" />
     </g>
     <g
        id="background-vertical-bottomleft"
@@ -419,11 +419,11 @@
       <path
          id="path3901-7"
          d="m 9,21 v -4 h 4 c 0,2.216 -1.784,4 -4,4 z"
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.1;fill:currentColor;fill-opacity:1"
          class="ColorScheme-Text" />
       <path
          class="ColorScheme-ViewBackground"
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0;fill:currentColor;fill-opacity:1"
          d="m 9,21 v -4 h 4 c 0,2.216 -1.784,4 -4,4 z"
          id="path4280" />
     </g>
@@ -441,11 +441,11 @@
       <path
          id="path3909-8"
          d="m 9,7 v 10 h 4 V 7 Z"
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.1;fill:currentColor;fill-opacity:1"
          class="ColorScheme-Text" />
       <path
          class="ColorScheme-ViewBackground"
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0;fill:currentColor;fill-opacity:1"
          d="m 9,7 v 10 h 4 V 7 Z"
          id="path4276"
          inkscape:connector-curvature="0" />
@@ -462,7 +462,7 @@
          y="31"
          transform="matrix(0,-10,1.3333333,0,-32.333333,397)" />
       <path
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.1;fill:currentColor;fill-opacity:1"
          d="m 9,7 v 10 h 4 V 7 Z"
          id="path3915-5"
          class="ColorScheme-Text" />
@@ -471,10 +471,10 @@
          inkscape:connector-curvature="0"
          id="path4282"
          d="m 9,7 v 10 h 4 V 7 Z"
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1" />
+         style="opacity:0;fill:currentColor;fill-opacity:1" />
     </g>
     <rect
-       style="fill:#2C2C2C;fill-opacity:1;opacity:0.75"
+       style="fill:currentColor;fill-opacity:1;opacity:0.75"
        id="sunken-slider-center"
        width="1"
        height="10"
@@ -487,7 +487,7 @@
       <path
          id="rect3838-4-8"
          d="m 9,7 v 10 h 4 V 7 Z"
-         style="fill:#2C2C2C;fill-opacity:1;opacity:0.75"
+         style="fill:currentColor;fill-opacity:1;opacity:0.75"
          inkscape:connector-curvature="0"
          class="ColorScheme-Text" />
       <rect
@@ -513,7 +513,7 @@
       <path
          id="rect3840-2-9"
          d="m 9,3 v 4 h 4 C 13,4.784 11.216,3 9,3 Z"
-         style="fill:#2C2C2C;fill-opacity:1;opacity:0.75"
+         style="fill:currentColor;fill-opacity:1;opacity:0.75"
          inkscape:connector-curvature="0"
          class="ColorScheme-Text" />
     </g>
@@ -530,7 +530,7 @@
          transform="matrix(1.3333333,0,0,1.3333333,-25.666667,-83)" />
       <path
          inkscape:connector-curvature="0"
-         style="fill:#2C2C2C;fill-opacity:1;opacity:0.75"
+         style="fill:currentColor;fill-opacity:1;opacity:0.75"
          d="m 9,21 v -4 h 4 c 0,2.216 -1.784,4 -4,4 z"
          id="path3871-1-7"
          class="ColorScheme-Text" />
@@ -539,7 +539,7 @@
        id="sunken-slider-left"
        transform="matrix(-0.75,0,0,1,25.75,75)">
       <path
-         style="fill:#2C2C2C;fill-opacity:1;opacity:0.75"
+         style="fill:currentColor;fill-opacity:1;opacity:0.75"
          d="m 9,7 v 10 h 4 V 7 Z"
          id="path3891-9-4"
          inkscape:connector-curvature="0"
@@ -565,7 +565,7 @@
          y="56"
          transform="matrix(-1.3333333,0,0,1.3333333,39.666667,-77)" />
       <path
-         style="fill:#2C2C2C;fill-opacity:1;opacity:0.75"
+         style="fill:currentColor;fill-opacity:1;opacity:0.75"
          d="m 9,3 v 4 h 4 C 13,4.784 11.216,3 9,3 Z"
          id="path3895-2-1"
          inkscape:connector-curvature="0"
@@ -585,7 +585,7 @@
       <path
          id="path3901-9-9"
          d="m 9,21 v -4 h 4 c 0,2.216 -1.784,4 -4,4 z"
-         style="fill:#2C2C2C;fill-opacity:1;opacity:0.75"
+         style="fill:currentColor;fill-opacity:1;opacity:0.75"
          inkscape:connector-curvature="0"
          class="ColorScheme-Text" />
     </g>
@@ -604,7 +604,7 @@
          inkscape:connector-curvature="0"
          id="path3909-6-1"
          d="m 9,7 v 10 h 4 V 7 Z"
-         style="fill:#2C2C2C;fill-opacity:1;opacity:0.75"
+         style="fill:currentColor;fill-opacity:1;opacity:0.75"
          class="ColorScheme-Text" />
     </g>
     <g
@@ -619,7 +619,7 @@
          y="75"
          transform="matrix(0,-10,1.3333333,0,-91,257)" />
       <path
-         style="fill:#2C2C2C;fill-opacity:1;opacity:0.75"
+         style="fill:currentColor;fill-opacity:1;opacity:0.75"
          d="m 9,7 v 10 h 4 V 7 Z"
          id="path3915-6-3"
          inkscape:connector-curvature="0"
@@ -632,13 +632,13 @@
        height="10"
        width="1"
        id="mouseover-slider-center"
-       style="opacity:0.5;fill:#2C2C2C;fill-opacity:1" />
+       style="opacity:0.5;fill:currentColor;fill-opacity:1" />
     <g
        transform="matrix(0.75,0,0,1,15.250001,46)"
        id="mouseover-slider-right">
       <path
          class="ColorScheme-Text"
-         style="opacity:0.5;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.5;fill:currentColor;fill-opacity:1"
          d="m 9,7 v 10 h 4 V 7 Z"
          id="path3963" />
       <rect
@@ -664,7 +664,7 @@
       <path
          class="ColorScheme-Text"
          inkscape:connector-curvature="0"
-         style="opacity:0.5;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.5;fill:currentColor;fill-opacity:1"
          d="m 9,3 v 4 h 4 C 13,4.784 11.216,3 9,3 Z"
          id="path3971" />
     </g>
@@ -683,7 +683,7 @@
          class="ColorScheme-Text"
          id="path3977"
          d="m 9,21 v -4 h 4 c 0,2.216 -1.784,4 -4,4 z"
-         style="opacity:0.5;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.5;fill:currentColor;fill-opacity:1"
          inkscape:connector-curvature="0" />
     </g>
     <g
@@ -694,7 +694,7 @@
          inkscape:connector-curvature="0"
          id="path3981"
          d="m 9,7 v 10 h 4 V 7 Z"
-         style="opacity:0.5;fill:#2C2C2C;fill-opacity:1" />
+         style="opacity:0.5;fill:currentColor;fill-opacity:1" />
       <rect
          transform="matrix(-1.3333333,0,0,1,39.666667,-57)"
          y="64"
@@ -720,7 +720,7 @@
          inkscape:connector-curvature="0"
          id="path3989"
          d="m 9,3 v 4 h 4 C 13,4.784 11.216,3 9,3 Z"
-         style="opacity:0.5;fill:#2C2C2C;fill-opacity:1" />
+         style="opacity:0.5;fill:currentColor;fill-opacity:1" />
     </g>
     <g
        transform="matrix(-0.75,0,0,0.75,25.750001,51.25)"
@@ -736,7 +736,7 @@
       <path
          class="ColorScheme-Text"
          inkscape:connector-curvature="0"
-         style="opacity:0.5;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.5;fill:currentColor;fill-opacity:1"
          d="m 9,21 v -4 h 4 c 0,2.216 -1.784,4 -4,4 z"
          id="path3995" />
     </g>
@@ -753,7 +753,7 @@
          style="opacity:0;fill:#e4e6e8;fill-opacity:1;stroke:none" />
       <path
          class="ColorScheme-Text"
-         style="opacity:0.5;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.5;fill:currentColor;fill-opacity:1"
          d="m 9,7 v 10 h 4 V 7 Z"
          id="path4001"
          inkscape:connector-curvature="0" />
@@ -774,7 +774,7 @@
          inkscape:connector-curvature="0"
          id="path4007"
          d="m 9,7 v 10 h 4 V 7 Z"
-         style="opacity:0.5;fill:#2C2C2C;fill-opacity:1" />
+         style="opacity:0.5;fill:currentColor;fill-opacity:1" />
     </g>
     <g
        id="background-vertical-center"
@@ -787,9 +787,9 @@
          height="10"
          width="1"
          id="rect4272"
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1" />
+         style="opacity:0.1;fill:currentColor;fill-opacity:1" />
       <rect
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0;fill:currentColor;fill-opacity:1"
          id="rect4266"
          width="1"
          height="10"
@@ -803,7 +803,7 @@
        id="background-horizontal-right">
       <path
          class="ColorScheme-Text"
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.1;fill:currentColor;fill-opacity:1"
          d="m 9,7 v 10 h 4 V 7 Z"
          id="path4288" />
       <rect
@@ -817,7 +817,7 @@
       <path
          id="path4292"
          d="m 9,7 v 10 h 4 V 7 Z"
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0;fill:currentColor;fill-opacity:1"
          inkscape:connector-curvature="0"
          class="ColorScheme-ViewBackground" />
     </g>
@@ -834,13 +834,13 @@
          style="opacity:0;fill:#e4e6e8;fill-opacity:1;stroke:none" />
       <path
          class="ColorScheme-Text"
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.1;fill:currentColor;fill-opacity:1"
          d="m 9,3 v 4 h 4 C 13,4.784 11.216,3 9,3 Z"
          id="path4298" />
       <path
          id="path4300"
          d="m 9,3 v 4 h 4 C 13,4.784 11.216,3 9,3 Z"
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0;fill:currentColor;fill-opacity:1"
          inkscape:connector-curvature="0"
          class="ColorScheme-ViewBackground" />
     </g>
@@ -859,10 +859,10 @@
          class="ColorScheme-Text"
          id="path4306"
          d="m 9,21 v -4 h 4 c 0,2.216 -1.784,4 -4,4 z"
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1" />
+         style="opacity:0.1;fill:currentColor;fill-opacity:1" />
       <path
          inkscape:connector-curvature="0"
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0;fill:currentColor;fill-opacity:1"
          d="m 9,21 v -4 h 4 c 0,2.216 -1.784,4 -4,4 z"
          id="path4308"
          class="ColorScheme-ViewBackground" />
@@ -874,7 +874,7 @@
          class="ColorScheme-Text"
          id="path4312"
          d="m 9,7 v 10 h 4 V 7 Z"
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1" />
+         style="opacity:0.1;fill:currentColor;fill-opacity:1" />
       <rect
          transform="matrix(-1.3333333,0,0,1,58.333333,-13)"
          y="20"
@@ -884,7 +884,7 @@
          id="rect4314"
          style="opacity:0;fill:#e4e6e8;fill-opacity:1;stroke:none" />
       <path
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0;fill:currentColor;fill-opacity:1"
          d="m 9,7 v 10 h 4 V 7 Z"
          id="path4316"
          class="ColorScheme-ViewBackground" />
@@ -904,9 +904,9 @@
          class="ColorScheme-Text"
          id="path4322"
          d="m 9,3 v 4 h 4 C 13,4.784 11.216,3 9,3 Z"
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1" />
+         style="opacity:0.1;fill:currentColor;fill-opacity:1" />
       <path
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0;fill:currentColor;fill-opacity:1"
          d="m 9,3 v 4 h 4 C 13,4.784 11.216,3 9,3 Z"
          id="path4324"
          inkscape:connector-curvature="0"
@@ -925,13 +925,13 @@
          style="opacity:0;fill:#e4e6e8;fill-opacity:1;stroke:none" />
       <path
          class="ColorScheme-Text"
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.1;fill:currentColor;fill-opacity:1"
          d="m 9,21 v -4 h 4 c 0,2.216 -1.784,4 -4,4 z"
          id="path4330" />
       <path
          id="path4332"
          d="m 9,21 v -4 h 4 c 0,2.216 -1.784,4 -4,4 z"
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0;fill:currentColor;fill-opacity:1"
          inkscape:connector-curvature="0"
          class="ColorScheme-ViewBackground" />
     </g>
@@ -948,14 +948,14 @@
          style="opacity:0;fill:#e4e6e8;fill-opacity:1;stroke:none" />
       <path
          class="ColorScheme-Text"
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.1;fill:currentColor;fill-opacity:1"
          d="m 9,7 v 10 h 4 V 7 Z"
          id="path4338" />
       <path
          inkscape:connector-curvature="0"
          id="path4340"
          d="m 9,7 v 10 h 4 V 7 Z"
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0;fill:currentColor;fill-opacity:1"
          class="ColorScheme-ViewBackground" />
     </g>
     <g
@@ -973,9 +973,9 @@
          class="ColorScheme-Text"
          id="path4346"
          d="m 9,7 v 10 h 4 V 7 Z"
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1" />
+         style="opacity:0.1;fill:currentColor;fill-opacity:1" />
       <path
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0;fill:currentColor;fill-opacity:1"
          d="m 9,7 v 10 h 4 V 7 Z"
          id="path4348"
          inkscape:connector-curvature="0"
@@ -985,7 +985,7 @@
        id="background-horizontal-center"
        transform="translate(3,33)">
       <rect
-         style="opacity:0.1;fill:#2C2C2C;fill-opacity:1"
+         style="opacity:0.1;fill:currentColor;fill-opacity:1"
          id="rect4352"
          width="1"
          height="10"
@@ -1000,7 +1000,7 @@
          height="10"
          width="1"
          id="rect4354"
-         style="opacity:0;fill:#2C2C2C;fill-opacity:1" />
+         style="opacity:0;fill:currentColor;fill-opacity:1" />
     </g>
   </g>
 </svg>

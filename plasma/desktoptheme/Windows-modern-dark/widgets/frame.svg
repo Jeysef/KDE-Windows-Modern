@@ -327,7 +327,7 @@
        inkscape:collect="always" />
   </defs>
   <rect
-     style="fill:#2C2C2C;fill-opacity:0.4;stroke:none"
+     style="fill:currentColor;fill-opacity:0.4;stroke:none"
      id="sunken-center"
      width="80"
      height="40"
@@ -345,10 +345,10 @@
        height="2"
        width="80"
        id="rect3984"
-       style="fill:#2C2C2C;fill-opacity:0.4;stroke:none"
+       style="fill:currentColor;fill-opacity:0.4;stroke:none"
        class="ColorScheme-ViewBackground" />
     <rect
-       style="opacity:0.25;fill:#2C2C2C;fill-opacity:1;stroke:none"
+       style="opacity:0.25;fill:currentColor;fill-opacity:1;stroke:none"
        id="rect3986"
        width="80"
        height="1"
@@ -369,7 +369,7 @@
      height="40"
      width="1"
      id="sunken-left"
-     style="opacity:0.25;fill:#2C2C2C;fill-opacity:1;stroke:none"
+     style="opacity:0.25;fill:currentColor;fill-opacity:1;stroke:none"
      inkscape:label="#rect4010"
      class="ColorScheme-Text" />
   <g
@@ -382,7 +382,7 @@
        height="2"
        width="1"
        id="rect4014"
-       style="opacity:0.25;fill:#2C2C2C;fill-opacity:1;stroke:none"
+       style="opacity:0.25;fill:currentColor;fill-opacity:1;stroke:none"
        class="ColorScheme-Text" />
     <path
        sodipodi:end="4.712389"
@@ -393,7 +393,7 @@
        sodipodi:cy="-35"
        sodipodi:cx="150"
        id="path4016"
-       style="opacity:0.25;fill:#2C2C2C;fill-opacity:1;stroke:none"
+       style="opacity:0.25;fill:currentColor;fill-opacity:1;stroke:none"
        sodipodi:type="arc"
        class="ColorScheme-Text" />
   </g>
@@ -406,13 +406,13 @@
      sodipodi:cy="-35"
      sodipodi:cx="150"
      id="sunken-bottomleft"
-     style="opacity:0.25;fill:#2C2C2C;fill-opacity:1;stroke:none"
+     style="opacity:0.25;fill:currentColor;fill-opacity:1;stroke:none"
      sodipodi:type="arc"
      transform="matrix(1,0,0,-1,-93,-19)"
      inkscape:label="#path4018"
      class="ColorScheme-Text" />
   <rect
-     style="opacity:0.25;fill:#2C2C2C;fill-opacity:1;stroke:none"
+     style="opacity:0.25;fill:currentColor;fill-opacity:1;stroke:none"
      id="sunken-bottom"
      width="80"
      height="1"
@@ -421,7 +421,7 @@
      inkscape:label="#rect4020"
      class="ColorScheme-Text" />
   <rect
-     style="opacity:0.25;fill:#2C2C2C;fill-opacity:1;stroke:none"
+     style="opacity:0.25;fill:currentColor;fill-opacity:1;stroke:none"
      id="sunken-right"
      width="1"
      height="40"
@@ -436,7 +436,7 @@
      inkscape:label="#g4035">
     <rect
        transform="scale(-1,1)"
-       style="opacity:0.25;fill:#2C2C2C;fill-opacity:1;stroke:none"
+       style="opacity:0.25;fill:currentColor;fill-opacity:1;stroke:none"
        id="rect4024"
        width="1"
        height="2"
@@ -446,7 +446,7 @@
     <path
        transform="matrix(-1,0,0,1,380,0)"
        sodipodi:type="arc"
-       style="opacity:0.25;fill:#2C2C2C;fill-opacity:1;stroke:none"
+       style="opacity:0.25;fill:currentColor;fill-opacity:1;stroke:none"
        id="path4026"
        sodipodi:cx="150"
        sodipodi:cy="-35"
@@ -460,7 +460,7 @@
   <path
      transform="matrix(-1,0,0,-1,287,-19)"
      sodipodi:type="arc"
-     style="opacity:0.25;fill:#2C2C2C;fill-opacity:1;stroke:none"
+     style="opacity:0.25;fill:currentColor;fill-opacity:1;stroke:none"
      id="sunken-bottomright"
      sodipodi:cx="150"
      sodipodi:cy="-35"
@@ -479,14 +479,14 @@
      height="40"
      width="80"
      id="plain-center"
-     style="fill:#2C2C2C;fill-opacity:0.4;stroke:none" />
+     style="fill:currentColor;fill-opacity:0.4;stroke:none" />
   <g
      inkscape:label="#g4030"
      transform="translate(-93,-51)"
      id="plain-top">
     <rect
        class="ColorScheme-ViewBackground"
-       style="fill:#2C2C2C;fill-opacity:0.4;stroke:none"
+       style="fill:currentColor;fill-opacity:0.4;stroke:none"
        id="rect3167"
        width="80"
        height="2"
@@ -499,12 +499,12 @@
        height="1"
        width="80"
        id="rect3169"
-       style="opacity:0.1;fill:#2C2C2C;fill-opacity:1;stroke:none" />
+       style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none" />
   </g>
   <rect
      class="ColorScheme-Text"
      inkscape:label="#rect4010"
-     style="opacity:0.1;fill:#2C2C2C;fill-opacity:1;stroke:none"
+     style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none"
      id="plain-left"
      width="1"
      height="40"
@@ -516,7 +516,7 @@
      id="plain-topleft">
     <rect
        class="ColorScheme-Text"
-       style="opacity:0.1;fill:#2C2C2C;fill-opacity:1;stroke:none"
+       style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none"
        id="rect3177"
        width="1"
        height="2"
@@ -525,7 +525,7 @@
     <path
        class="ColorScheme-Text"
        sodipodi:type="arc"
-       style="opacity:0.1;fill:#2C2C2C;fill-opacity:1;stroke:none"
+       style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none"
        id="path3179"
        sodipodi:cx="150"
        sodipodi:cy="-35"
@@ -540,7 +540,7 @@
      inkscape:label="#path4018"
      transform="matrix(1,0,0,-1,-93,-79)"
      sodipodi:type="arc"
-     style="opacity:0.1;fill:#2C2C2C;fill-opacity:1;stroke:none"
+     style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none"
      id="plain-bottomleft"
      sodipodi:cx="150"
      sodipodi:cy="-35"
@@ -557,7 +557,7 @@
      height="1"
      width="80"
      id="plain-bottom"
-     style="opacity:0.1;fill:#2C2C2C;fill-opacity:1;stroke:none" />
+     style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none" />
   <rect
      class="ColorScheme-Text"
      inkscape:label="#rect4022"
@@ -567,7 +567,7 @@
      height="40"
      width="1"
      id="plain-right"
-     style="opacity:0.1;fill:#2C2C2C;fill-opacity:1;stroke:none" />
+     style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none" />
   <g
      inkscape:label="#g4035"
      transform="translate(-93,-51)"
@@ -579,7 +579,7 @@
        height="2"
        width="1"
        id="rect3189"
-       style="opacity:0.1;fill:#2C2C2C;fill-opacity:1;stroke:none"
+       style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none"
        transform="scale(-1,1)" />
     <path
        class="ColorScheme-Text"
@@ -591,7 +591,7 @@
        sodipodi:cy="-35"
        sodipodi:cx="150"
        id="path3191"
-       style="opacity:0.1;fill:#2C2C2C;fill-opacity:1;stroke:none"
+       style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none"
        sodipodi:type="arc"
        transform="matrix(-1,0,0,1,380,0)" />
   </g>
@@ -606,7 +606,7 @@
      sodipodi:cy="-35"
      sodipodi:cx="150"
      id="plain-bottomright"
-     style="opacity:0.1;fill:#2C2C2C;fill-opacity:1;stroke:none"
+     style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none"
      sodipodi:type="arc"
      transform="matrix(-1,0,0,-1,287,-79)" />
   <rect
@@ -617,14 +617,14 @@
      height="40"
      width="80"
      id="raised-center"
-     style="fill:#2C2C2C;fill-opacity:0.4;stroke:none" />
+     style="fill:currentColor;fill-opacity:0.4;stroke:none" />
   <g
      inkscape:label="#g4030"
      transform="translate(-93,69)"
      id="raised-top">
     <rect
        class="ColorScheme-ViewBackground"
-       style="fill:#2C2C2C;fill-opacity:0.4;stroke:none"
+       style="fill:currentColor;fill-opacity:0.4;stroke:none"
        id="rect3247"
        width="80"
        height="2"
@@ -637,12 +637,12 @@
        height="1"
        width="80"
        id="rect3249"
-       style="opacity:0.2;fill:#2C2C2C;fill-opacity:1;stroke:none" />
+       style="opacity:0.2;fill:currentColor;fill-opacity:1;stroke:none" />
   </g>
   <rect
      class="ColorScheme-Text"
      inkscape:label="#rect4010"
-     style="opacity:0.2;fill:#2C2C2C;fill-opacity:1;stroke:none"
+     style="opacity:0.2;fill:currentColor;fill-opacity:1;stroke:none"
      id="raised-left"
      width="1"
      height="40"
@@ -654,7 +654,7 @@
      id="raised-topleft">
     <rect
        class="ColorScheme-Text"
-       style="opacity:0.2;fill:#2C2C2C;fill-opacity:1;stroke:none"
+       style="opacity:0.2;fill:currentColor;fill-opacity:1;stroke:none"
        id="rect3257"
        width="1"
        height="2"
@@ -663,7 +663,7 @@
     <path
        class="ColorScheme-Text"
        sodipodi:type="arc"
-       style="opacity:0.2;fill:#2C2C2C;fill-opacity:1;stroke:none"
+       style="opacity:0.2;fill:currentColor;fill-opacity:1;stroke:none"
        id="path3259"
        sodipodi:cx="150"
        sodipodi:cy="-35"
@@ -682,7 +682,7 @@
      height="40"
      width="1"
      id="raised-right"
-     style="opacity:0.2;fill:#2C2C2C;fill-opacity:1;stroke:none" />
+     style="opacity:0.2;fill:currentColor;fill-opacity:1;stroke:none" />
   <g
      inkscape:label="#g4035"
      transform="translate(-93,69)"
@@ -694,7 +694,7 @@
        height="2"
        width="1"
        id="rect3269"
-       style="opacity:0.2;fill:#2C2C2C;fill-opacity:1;stroke:none"
+       style="opacity:0.2;fill:currentColor;fill-opacity:1;stroke:none"
        transform="scale(-1,1)" />
     <path
        class="ColorScheme-Text"
@@ -706,7 +706,7 @@
        sodipodi:cy="-35"
        sodipodi:cx="150"
        id="path3271"
-       style="opacity:0.2;fill:#2C2C2C;fill-opacity:1;stroke:none"
+       style="opacity:0.2;fill:currentColor;fill-opacity:1;stroke:none"
        sodipodi:type="arc"
        transform="matrix(-1,0,0,1,380,0)" />
   </g>
@@ -714,7 +714,7 @@
      id="raised-bottom"
      inkscape:label="#g4101">
     <rect
-       style="opacity:0.2;fill:#2C2C2C;fill-opacity:1;stroke:none"
+       style="opacity:0.2;fill:currentColor;fill-opacity:1;stroke:none"
        id="rect3263"
        width="80"
        height="1"

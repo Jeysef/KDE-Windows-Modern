@@ -86,7 +86,7 @@
        id="rect1039"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="normal-top"
@@ -101,7 +101,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="normal-center"
@@ -116,7 +116,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="normal-bottom"
@@ -131,7 +131,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="normal-topright"
@@ -141,7 +141,7 @@
        id="path1622"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="normal-bottomleft"
@@ -151,7 +151,7 @@
        id="path1626"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="normal-bottomright"
@@ -161,7 +161,7 @@
        id="path1630"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="normal-left"
@@ -176,7 +176,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="normal-right"
@@ -191,7 +191,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected-topleft"
@@ -201,7 +201,7 @@
        id="rect1039-3"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.1" />
   </g>
   <g
@@ -217,7 +217,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected-center"
@@ -232,7 +232,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected-bottom"
@@ -247,7 +247,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected-topright"
@@ -257,7 +257,7 @@
        id="path1622-3"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected-bottomleft"
@@ -267,7 +267,7 @@
        id="path1626-5"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.1" />
   </g>
   <g
@@ -278,7 +278,7 @@
        id="path1630-6"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected-left">
@@ -291,7 +291,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.1;stroke-width:0.935411"
        transform="rotate(90)" />
   </g>
@@ -308,7 +308,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="hover-topleft"
@@ -318,7 +318,7 @@
        id="rect1039-1"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="hover-top"
@@ -333,7 +333,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="hover-center"
@@ -348,7 +348,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="hover-bottom"
@@ -363,7 +363,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="hover-topright"
@@ -373,7 +373,7 @@
        id="path1622-36"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="hover-bottomleft"
@@ -383,7 +383,7 @@
        id="path1626-0"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="hover-bottomright"
@@ -393,7 +393,7 @@
        id="path1630-62"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="hover-left"
@@ -408,7 +408,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="hover-right"
@@ -423,7 +423,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected+hover-topleft"
@@ -433,7 +433,7 @@
        id="rect1039-8"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected+hover-top"
@@ -448,7 +448,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected+hover-center"
@@ -463,7 +463,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected+hover-bottom"
@@ -478,7 +478,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected+hover-topright"
@@ -488,7 +488,7 @@
        id="path1622-0"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected+hover-bottomleft"
@@ -498,7 +498,7 @@
        id="path1626-2"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected+hover-bottomright"
@@ -508,7 +508,7 @@
        id="path1630-3"
        d="m 140,-11 c -3.324,0 -6,2.676 -6,6 h 6 z"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected+hover-right"
@@ -523,7 +523,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C" />
+       fill="currentColor" />
   </g>
   <g
      id="selected+hover-left">
@@ -536,7 +536,7 @@
        rx="0"
        ry="0"
        class="ColorScheme-Text"
-       fill="#2C2C2C"
+       fill="currentColor"
        transform="rotate(90)"
        style="opacity:0.15;stroke-width:0.935414" />
   </g>

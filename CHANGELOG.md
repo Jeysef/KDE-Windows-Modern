@@ -8,6 +8,14 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Plasma style, dark: list hover and selection, text fields, scrollbar
+  handles, frames, separators and keyboard-focus highlights were invisible
+  (#24). 191 shapes in 10 files painted the dark background's own colour
+  (#2C2C2C) where the light variant follows the colour scheme; they follow
+  it in dark too now.
+- Plasma style: hovering a text field drew a light-blue line along its
+  bottom and darkened it. Like Windows 11, hover now only tints the field
+  slightly; the accent line belongs to the focused field.
 - Lock screen: Enter sometimes did nothing, leaving the typed password in
   the field. The field was shown whenever something was typed, but Enter
   was only accepted after the mouse had woken the screen and while the

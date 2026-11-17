@@ -264,14 +264,14 @@
        inkscape:connector-curvature="0"
        id="fill"
        d="m -261.97071,442.9874 v 4 h 4 v -4 z"
-       style="color:#1e92ff;opacity:0.3;fill:#2C2C2C;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="color:#1e92ff;opacity:0.3;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none"
        class="ColorScheme-ButtonFocus"
        sodipodi:nodetypes="ccccc" />
     <g
        transform="translate(-457.14285,-382.85718)"
        id="bottomright">
       <path
-         style="color:#1e92ff;opacity:0.3;fill:#2C2C2C;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         style="color:#1e92ff;opacity:0.3;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none"
          d="m 186.14285,829.8571 h 4 v -4 z"
          id="path4131"
          inkscape:connector-curvature="0"
@@ -284,7 +284,7 @@
       <path
          id="path4155"
          d="m 321.14285,825.85714 v 4 h 4 z"
-         style="color:#1e92ff;opacity:0.3;fill:#2C2C2C;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         style="color:#1e92ff;opacity:0.3;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none"
          inkscape:connector-curvature="0"
          class="ColorScheme-ButtonFocus"
          sodipodi:nodetypes="cccc" />
@@ -293,7 +293,7 @@
        transform="rotate(180,-38.428575,638.42851)"
        id="topleft">
       <path
-         style="color:#1e92ff;opacity:0.3;fill:#2C2C2C;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         style="color:#1e92ff;opacity:0.3;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none"
          d="m 186.14285,829.8571 h 4 v -4 z"
          id="path4131-3"
          inkscape:connector-curvature="0"
@@ -306,7 +306,7 @@
       <path
          id="path4155-5"
          d="m 321.14285,825.85714 v 4 h 4 z"
-         style="color:#1e92ff;opacity:0.3;fill:#2C2C2C;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         style="color:#1e92ff;opacity:0.3;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none"
          inkscape:connector-curvature="0"
          class="ColorScheme-ButtonFocus"
          sodipodi:nodetypes="cccc" />

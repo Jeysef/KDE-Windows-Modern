@@ -115,7 +115,7 @@
        id="path929-7"
        d="m 8,16 c -4.4123513,0 -8,3.587649 -8,8 0,4.412351 3.5876487,8 8,8 4.412351,0 8,-3.587649 8,-8 0,-4.412351 -3.587649,-8 -8,-8 z"
        class="ColorScheme-ButtonText"
-       fill="#2C2C2C"
+       fill="currentColor"
        style="opacity:0.15" />
   </g>
   <g
@@ -124,7 +124,7 @@
     <path
        id="path927-5"
        d="m 16,24 a 8,8 0 0 1 -8,8 8,8 0 0 1 -8,-8 8,8 0 0 1 8,-8 8,8 0 0 1 8,8 z"
-       style="fill:#2C2C2C;fill-rule:evenodd"
+       style="fill:currentColor;fill-rule:evenodd"
        class="ColorScheme-ButtonBackground" />
   </g>
   <circle

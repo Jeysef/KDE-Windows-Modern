@@ -114,7 +114,7 @@
   <rect id="attention-bottomright" width="2" height="2" x="-31" y="268" rx="0" ry="0" style="fill:none" />
   <g id="attention-center" transform="translate(-158,142)">
     <rect id="rect1929-2-5" width="26" height="26" x="100" y="99" rx="3" ry="3" style="fill:none" />
-    <rect id="rect2616-3-0" width="10" height="2" x="108" y="123" rx="1" ry="1" class="ColorScheme-NeutralText" fill="#2C2C2C" />
+    <rect id="rect2616-3-0" width="10" height="2" x="108" y="123" rx="1" ry="1" class="ColorScheme-NeutralText" fill="currentColor" />
   </g>
   <rect id="north-focus-topleft" width="2" height="2" x="-147" y="124" rx="0" ry="0" style="fill:none" />
   <rect id="north-focus-top" width="26" height="2" x="-144" y="124" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
@@ -286,7 +286,7 @@
   <rect id="east-attention-bottomright" width="2" height="2" x="-303" y="267" rx="0" ry="0" style="fill:none" />
   <g id="progress-center" transform="translate(-158,80)">
     <rect id="rect1201" width="26" height="26" x="100" y="99" rx="3" ry="3" style="fill:none" />
-    <rect id="rect1203" width="24" height="4" x="101" y="110" rx="2" ry="2" class="ColorScheme-PositiveText" fill="#2C2C2C" />
+    <rect id="rect1203" width="24" height="4" x="101" y="110" rx="2" ry="2" class="ColorScheme-PositiveText" fill="currentColor" />
   </g>
   <use x="0" y="0" xlink:href="#progress-center" id="north-progress-center" transform="translate(-87)" width="100%" height="100%" />
   <use x="0" y="0" xlink:href="#progress-center" id="west-progress-center" transform="rotate(90,-132.5,103.5)" width="100%" height="100%" />
