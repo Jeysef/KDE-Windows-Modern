@@ -13,6 +13,13 @@ the `Version` field shared by every component's metadata.
   Windows 11; picking one zooms back in. The arrows and the mouse wheel
   page by month, year or decade. Like Windows, the flyout always opens
   on today's month.
+- Optional Windows 11 taskbar Search box and Task View button
+  (`org.kde.windowsmodern.search`, `org.kde.windowsmodern.taskview`).
+  The search box opens the Start menu ready to type, like the Windows
+  key (a "Search icon only" setting turns it into an icon, as on
+  Windows); Task View opens KWin's Overview, like Win+Tab. They are installed with
+  the other applets (`./install.sh taskbarbuttons`) but not put on the panel:
+  add them from Add Widgets.
 
 ### Changed
 

@@ -83,6 +83,10 @@ Not added, even on request, unless this brief changes:
   not wanted.
 - **Tray overflow chevron:** stays right of the tray icons, next to the
   clock. Windows 11 puts it on the left; the right side was preferred.
+- **Search and Task View buttons are optional:** both exist as applets
+  (`./install.sh taskbarbuttons`, installed with the other applets) for
+  users who want them, but the Windows Modern panel does not include
+  them; the Windows key and Win+Tab cover both.
 - **Window decoration:** the Aurorae decoration is a deliberate blend of
   Windows 11 and Windows 10 with **sharp corners**. Rounded corners and
   window shadows were considered and not wanted.

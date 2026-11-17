@@ -1,0 +1,25 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "jeysef@users.noreply.github.com",
+                "Name": "Jeysef"
+            }
+        ],
+        "BugReportUrl": "https://github.com/Jeysef/KDE-Windows-Modern/issues",
+        "Category": "Windows and Tasks",
+        "Description": "Windows 11 taskbar Task View button. Opens KWin's Overview (Win+Tab).",
+        "EnabledByDefault": true,
+        "FormFactors": [
+            "desktop"
+        ],
+        "Icon": "window-duplicate",
+        "Id": "org.kde.windowsmodern.taskview",
+        "License": "GPL-3.0-or-later",
+        "Name": "Task View Button (Windows Modern)",
+        "Version": "1.1.2",
+        "Website": "https://github.com/Jeysef/KDE-Windows-Modern"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

@@ -55,6 +55,8 @@ COMPONENTS=(
     "applet-showdesktop|$SRC_DIR/plasma/applets/org.kde.windowsmodern.showdesktop|metadata.json|Plasma 6 Applets"
     "applet-startmenu|$SRC_DIR/plasma/applets/org.kde.windowsmodern.startmenu|metadata.json|Plasma 6 Applets"
     "applet-digitalclock|$SRC_DIR/plasma/applets/org.kde.windowsmodern.digitalclock|metadata.json|Plasma 6 Applets"
+    "applet-search|$SRC_DIR/plasma/applets/org.kde.windowsmodern.search|metadata.json|Plasma 6 Applets"
+    "applet-taskview|$SRC_DIR/plasma/applets/org.kde.windowsmodern.taskview|metadata.json|Plasma 6 Applets"
     "windowswitcher|$SRC_DIR/plasma/windowswitcher/org.kde.windowsmodern.alttab|metadata.json|KWin Switching Layouts"
     "layout-panel|$SRC_DIR/plasma/layout-templates/org.kde.windowsmodern.panel|metadata.json|Plasma 6 Layout Templates"
     "lookfeel-dark|$SRC_DIR/plasma/look-and-feel/org.kde.windowsmodern.dark|metadata.json|Global Themes (Plasma 6)"
