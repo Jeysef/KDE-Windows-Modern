@@ -20,6 +20,8 @@ the `Version` field shared by every component's metadata.
   settings, like Windows 10's agenda. Day cells are circles in every
   state (hover, press, picked, today), as are the month and year tiles,
   and picking a day with up to one event does not move the calendar.
+  As in stock Plasma, "Add…" next to the date opens your calendar app
+  (shown only when one is installed).
 - Optional Windows 11 taskbar Search box and Task View button
   (`org.kde.windowsmodern.search`, `org.kde.windowsmodern.taskview`).
   The search box opens the Start menu ready to type, like the Windows
