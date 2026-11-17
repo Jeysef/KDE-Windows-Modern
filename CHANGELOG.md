@@ -6,6 +6,11 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+### Changed
+
+- Taskbar: a hovered app's icon is no longer lightened; the hover tile
+  alone shows it, as on Windows 11.
+
 ### Fixed
 
 - Taskbar: hovering an open but inactive app showed the blue "active"

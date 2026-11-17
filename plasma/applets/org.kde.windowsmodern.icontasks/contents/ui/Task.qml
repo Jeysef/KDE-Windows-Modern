@@ -575,7 +575,9 @@ FloatingToolTipArea {
 
             anchors.fill: parent
 
-            active: task.highlighted
+            // Windows 11 keeps a hovered app's icon as it is; the hover tile
+            // alone shows it. (Upstream lightens it: active: task.highlighted.)
+            active: false
             enabled: true
 
             source: task.model.decoration
