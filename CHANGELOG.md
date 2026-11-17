@@ -8,6 +8,14 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Taskbar: hovering an open but inactive app showed the blue "active"
+  bar, so it looked active; hovering a pinned app showed no tile. Each
+  state now has its own hover (tile plus its own bar), as on Windows 11,
+  and the bars sit inside the tile with a small gap.
+- Taskbar on a top, left or right panel: bars sat on the wrong edge or on
+  the tile's border, and the active app had no bar on a top panel. Those
+  frames are now generated from the bottom ones
+  (`scripts/theme/tasks-frames.py`); `verify-all.sh` checks they match.
 - Text in Plasma had blue and orange fringes, most visible on dim text
   such as a search field's "Search..." placeholder. Fedora's KDE edition
   turns on RGB sub-pixel smoothing, and Qt Quick's text renderer does its

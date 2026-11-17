@@ -47,6 +47,21 @@ check_dir  "Kvantum/Windows-modern"                         "Kvantum theme"
 check_dir  "wallpaper/Windows-modern"                       "Wallpaper"
 check_file "icons/windows-modern/index.theme"               "Icon pack"
 check_file "plasma/windowswitcher/org.kde.windowsmodern.alttab/contents/ui/main.qml" "Alt+Tab switcher"
+# The top/left/right and hover task frames are generated from the bottom
+# ones; a hand edit would make the panel edges drift apart again.
+tasks_tmp="$(mktemp -d)"
+drift=""
+for v in dark light; do
+    cp "plasma/desktoptheme/Windows-modern-${v}/widgets/tasks.svg" "$tasks_tmp/${v}.svg"
+    python3 -I scripts/theme/tasks-frames.py "$tasks_tmp/${v}.svg" >/dev/null
+    cmp -s "$tasks_tmp/${v}.svg" "plasma/desktoptheme/Windows-modern-${v}/widgets/tasks.svg" || drift+=" ${v}"
+done
+rm -rf "$tasks_tmp"
+if [ -z "$drift" ]; then
+    pass "Task frames match scripts/theme/tasks-frames.py"
+else
+    fail "tasks.svg differs from its generator (${drift# }) — run: scripts/theme/tasks-frames.py plasma/desktoptheme/*/widgets/tasks.svg"
+fi
 
 # ── Layout ──────────────────────────────────────────────────────────
 echo ""

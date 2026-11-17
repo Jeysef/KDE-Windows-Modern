@@ -58,7 +58,7 @@
   <rect id="focus-bottomright" width="2" height="2" x="-30" y="154" rx="0" ry="0" style="fill:none" />
   <g id="focus-center" transform="translate(-157,28)">
     <rect id="rect1929" width="26" height="26" x="100" y="99" rx="4" ry="4" fill="#000000" fill-opacity="0.09" stroke="#000000" stroke-opacity="0.03" stroke-width="1" />
-    <rect id="rect2616" width="10" height="2" x="108" y="123" rx="1" ry="1" class="ColorScheme-ViewHover" style="fill:#0067C0;fill-opacity:1" />
+    <rect id="rect2616" width="10" height="2" x="108" y="121.5" rx="1" ry="1" class="ColorScheme-ViewHover" style="fill:#0067C0;fill-opacity:1" />
   </g>
   <rect id="minimized-topleft" width="2" height="2" x="-58" y="-12.000009" rx="0" ry="0" style="fill:none" />
   <rect id="minimized-top" width="26" height="2" x="-55" y="-12.000009" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
@@ -70,7 +70,7 @@
   <rect id="minimized-bottomright" width="2" height="2" x="-28" y="17.999994" rx="0" ry="0" style="fill:none" />
   <g id="minimized-center" transform="translate(-155,-108)">
     <rect id="rect1929-3" width="26" height="26" x="100" y="99" rx="3" ry="3" style="fill:none" />
-    <rect id="rect2616-1" width="4" height="2" x="111" y="123" rx="1" ry="1" class="ColorScheme-Text" fill="#858585" style="opacity:1" />
+    <rect id="rect2616-1" width="4" height="2" x="111" y="121.5" rx="1" ry="1" class="ColorScheme-Text" fill="#858585" style="opacity:1" />
   </g>
   <rect id="hover-topleft" width="2" height="2" x="-60" y="80" rx="0" ry="0" style="fill:none" />
   <rect id="hover-top" width="26" height="2" x="-57" y="80" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
@@ -82,7 +82,7 @@
   <rect id="hover-bottomright" width="2" height="2" x="-30" y="110" rx="0" ry="0" style="fill:none" />
   <g id="hover-center" transform="translate(-157,-16)">
     <rect id="rect1929-2" width="26" height="26" x="100" y="99" rx="4" ry="4" fill="#000000" fill-opacity="0.035" stroke="#000000" stroke-opacity="0.03" stroke-width="1" />
-    <rect id="rect2616-3" width="10" height="2" x="108" y="123" rx="1" ry="1" class="ColorScheme-ViewHover" style="fill:#0067C0;fill-opacity:1" />
+    <rect id="rect2616-3" width="10" height="2" x="108" y="121.5" rx="1" ry="1" class="ColorScheme-ViewHover" style="fill:#0067C0;fill-opacity:1" />
   </g>
   <rect id="normal-topleft" width="2" height="2" x="-58.999996" y="31.999998" rx="0" ry="0" style="fill:none" />
   <rect id="normal-top" width="26" height="2" x="-55.999996" y="31.999998" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
@@ -94,7 +94,7 @@
   <rect id="normal-bottomright" width="2" height="2" x="-28.999996" y="62" rx="0" ry="0" style="fill:none" />
   <g id="normal-center" transform="translate(-156,-64)">
     <rect id="rect1929-1" width="26" height="26" x="100" y="99" rx="3" ry="3" style="fill:none" />
-    <rect id="rect2616-7" width="8" height="2" x="109" y="123" rx="1" ry="1" class="ColorScheme-Text" fill="#858585" style="opacity:1" />
+    <rect id="rect2616-7" width="8" height="2" x="109" y="121.5" rx="1" ry="1" class="ColorScheme-Text" fill="#858585" style="opacity:1" />
   </g>
   <rect id="progress-topleft" width="2" height="2" x="-61.000011" y="176" rx="0" ry="0" style="fill:none" />
   <rect id="progress-top" width="26" height="2" x="-58.000011" y="176" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
@@ -114,194 +114,358 @@
   <rect id="attention-bottomright" width="2" height="2" x="-31" y="268" rx="0" ry="0" style="fill:none" />
   <g id="attention-center" transform="translate(-158,142)">
     <rect id="rect1929-2-5" width="26" height="26" x="100" y="99" rx="3" ry="3" style="fill:none" />
-    <rect id="rect2616-3-0" width="10" height="2" x="108" y="123" rx="1" ry="1" class="ColorScheme-NeutralText" fill="currentColor" />
+    <rect id="rect2616-3-0" width="10" height="2" x="108" y="121.5" rx="1" ry="1" class="ColorScheme-NeutralText" fill="currentColor" />
   </g>
-  <rect id="north-focus-topleft" width="2" height="2" x="-147" y="124" rx="0" ry="0" style="fill:none" />
-  <rect id="north-focus-top" width="26" height="2" x="-144" y="124" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-focus-left" width="2" height="26" x="-147" y="127" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-focus-right" width="2" height="26" x="-117" y="127" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-focus-topright" width="2" height="2" x="-117" y="124" rx="0" ry="0" style="fill:none" />
-  <rect id="north-focus-bottomleft" width="2" height="2" x="-147" y="154" rx="0" ry="0" style="fill:none" />
-  <rect id="north-focus-bottom" width="26" height="2" x="-144" y="154" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-focus-bottomright" width="2" height="2" x="-117" y="154" rx="0" ry="0" style="fill:none" />
-  <rect id="north-minimized-topleft" width="2" height="2" x="-145" y="-12.000031" rx="0" ry="0" style="fill:none" />
-  <rect id="north-minimized-top" width="26" height="2" x="-142" y="-12.000031" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-minimized-left" width="2" height="26" x="-145" y="-9" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-minimized-right" width="2" height="26" x="-115" y="-9" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-minimized-topright" width="2" height="2" x="-115" y="-12.000031" rx="0" ry="0" style="fill:none" />
-  <rect id="north-minimized-bottomleft" width="2" height="2" x="-145" y="18" rx="0" ry="0" style="fill:none" />
-  <rect id="north-minimized-bottom" width="26" height="2" x="-142" y="18" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-minimized-bottomright" width="2" height="2" x="-115" y="18" rx="0" ry="0" style="fill:none" />
-  <g id="north-minimized-center" transform="translate(-241.99999,-108.00001)">
-    <rect id="rect1929-3-6" width="26" height="26" x="100" y="99" rx="3" ry="3" style="fill:none" />
-    <rect id="rect2616-1-3" width="4" height="2" x="111" y="123" rx="1" ry="1" class="ColorScheme-Text" fill="#858585" style="opacity:1" />
-  </g>
-  <rect id="north-hover-topleft" width="2" height="2" x="-147" y="80" rx="0" ry="0" style="fill:none" />
-  <rect id="north-hover-top" width="26" height="2" x="-144" y="80" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-hover-left" width="2" height="26" x="-147" y="83" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-hover-right" width="2" height="26" x="-117" y="83" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-hover-topright" width="2" height="2" x="-117" y="80" rx="0" ry="0" style="fill:none" />
-  <rect id="north-hover-bottomleft" width="2" height="2" x="-147" y="110" rx="0" ry="0" style="fill:none" />
-  <rect id="north-hover-bottom" width="26" height="2" x="-144" y="110" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-hover-bottomright" width="2" height="2" x="-117" y="110" rx="0" ry="0" style="fill:none" />
-  <rect id="north-normal-topleft" width="2" height="2" x="-146" y="32" rx="0" ry="0" style="fill:none" />
-  <rect id="north-normal-top" width="26" height="2" x="-143" y="32" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-normal-left" width="2" height="26" x="-146" y="35" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-normal-right" width="2" height="26" x="-116" y="35" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-normal-topright" width="2" height="2" x="-116" y="32" rx="0" ry="0" style="fill:none" />
-  <rect id="north-normal-bottomleft" width="2" height="2" x="-146" y="62" rx="0" ry="0" style="fill:none" />
-  <rect id="north-normal-bottom" width="26" height="2" x="-143" y="62" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-normal-bottomright" width="2" height="2" x="-116" y="62" rx="0" ry="0" style="fill:none" />
-  <g id="north-normal-center" transform="translate(-242.99999,-64.000007)">
-    <rect id="rect1929-1-1" width="26" height="26" x="100" y="99" rx="3" ry="3" style="fill:none" />
-    <rect id="rect2616-7-5" width="8" height="2" x="109" y="123" rx="1" ry="1" class="ColorScheme-Text" fill="#858585" style="opacity:1" />
-  </g>
-  <rect id="north-progress-topleft" width="2" height="2" x="-148" y="176" rx="0" ry="0" style="fill:none" />
-  <rect id="north-progress-top" width="26" height="2" x="-145" y="176" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-progress-left" width="2" height="26" x="-148" y="179" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-progress-right" width="2" height="26" x="-118" y="179" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-progress-topright" width="2" height="2" x="-118" y="176" rx="0" ry="0" style="fill:none" />
-  <rect id="north-progress-bottomleft" width="2" height="2" x="-148" y="206" rx="0" ry="0" style="fill:none" />
-  <rect id="north-progress-bottom" width="26" height="2" x="-145" y="206" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-progress-bottomright" width="2" height="2" x="-118" y="206" rx="0" ry="0" style="fill:none" />
-  <rect id="north-attention-topleft" width="2" height="2" x="-148" y="238" rx="0" ry="0" style="fill:none" />
-  <rect id="north-attention-top" width="26" height="2" x="-145" y="238" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-attention-left" width="2" height="26" x="-148" y="241" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-attention-right" width="2" height="26" x="-118" y="241" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-attention-topright" width="2" height="2" x="-118" y="238" rx="0" ry="0" style="fill:none" />
-  <rect id="north-attention-bottomleft" width="2" height="2" x="-148" y="268" rx="0" ry="0" style="fill:none" />
-  <rect id="north-attention-bottom" width="26" height="2" x="-145" y="268" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="north-attention-bottomright" width="2" height="2" x="-118" y="268" rx="0" ry="0" style="fill:none" />
-  <rect id="west-focus-topleft" width="2" height="2" x="-236" y="124.00001" rx="0" ry="0" style="fill:none" />
-  <rect id="west-focus-top" width="26" height="2" x="-233" y="124.00001" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-focus-left" width="2" height="26" x="-236" y="127.00001" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-focus-right" width="2" height="26" x="-206" y="127.00001" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-focus-topright" width="2" height="2" x="-206" y="124.00001" rx="0" ry="0" style="fill:none" />
-  <rect id="west-focus-bottomleft" width="2" height="2" x="-236" y="154" rx="0" ry="0" style="fill:none" />
-  <rect id="west-focus-bottom" width="26" height="2" x="-233" y="154" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-focus-bottomright" width="2" height="2" x="-206" y="154" rx="0" ry="0" style="fill:none" />
-  <rect id="west-minimized-topleft" width="2" height="2" x="-234" y="-12.000023" rx="0" ry="0" style="fill:none" />
-  <rect id="west-minimized-top" width="26" height="2" x="-231" y="-12.000023" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-minimized-left" width="2" height="26" x="-234" y="-8.9999924" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-minimized-right" width="2" height="26" x="-204" y="-8.9999924" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-minimized-topright" width="2" height="2" x="-204" y="-12.000023" rx="0" ry="0" style="fill:none" />
-  <rect id="west-minimized-bottomleft" width="2" height="2" x="-234" y="18.000006" rx="0" ry="0" style="fill:none" />
-  <rect id="west-minimized-bottom" width="26" height="2" x="-231" y="18.000006" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-minimized-bottomright" width="2" height="2" x="-204" y="18.000006" rx="0" ry="0" style="fill:none" />
-  <g id="west-minimized-center" transform="translate(-331,-108)">
-    <rect id="rect1929-3-3" width="26" height="26" x="100" y="99" rx="3" ry="3" style="fill:none" />
-    <rect id="rect2616-1-7" width="4" height="2" x="110" y="-102" rx="1" ry="1" class="ColorScheme-Text" fill="#858585" style="opacity:1" transform="rotate(90)" />
-  </g>
-  <rect id="west-hover-topleft" width="2" height="2" x="-236" y="80.000008" rx="0" ry="0" style="fill:none" />
-  <rect id="west-hover-top" width="26" height="2" x="-233" y="80.000008" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-hover-left" width="2" height="26" x="-236" y="83.000008" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-hover-right" width="2" height="26" x="-206" y="83.000008" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-hover-topright" width="2" height="2" x="-206" y="80.000008" rx="0" ry="0" style="fill:none" />
-  <rect id="west-hover-bottomleft" width="2" height="2" x="-236" y="110.00001" rx="0" ry="0" style="fill:none" />
-  <rect id="west-hover-bottom" width="26" height="2" x="-233" y="110.00001" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-hover-bottomright" width="2" height="2" x="-206" y="110.00001" rx="0" ry="0" style="fill:none" />
-  <rect id="west-normal-topleft" width="2" height="2" x="-235" y="32.000008" rx="0" ry="0" style="fill:none" />
-  <rect id="west-normal-top" width="26" height="2" x="-232" y="32.000008" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-normal-left" width="2" height="26" x="-235" y="35.000008" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-normal-right" width="2" height="26" x="-205" y="35.000008" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-normal-topright" width="2" height="2" x="-205" y="32.000008" rx="0" ry="0" style="fill:none" />
-  <rect id="west-normal-bottomleft" width="2" height="2" x="-235" y="62.000008" rx="0" ry="0" style="fill:none" />
-  <rect id="west-normal-bottom" width="26" height="2" x="-232" y="62.000008" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-normal-bottomright" width="2" height="2" x="-205" y="62.000008" rx="0" ry="0" style="fill:none" />
-  <g id="west-normal-center" transform="translate(-332,-64)">
-    <rect id="rect1929-1-2" width="26" height="26" x="100" y="99" rx="3" ry="3" style="fill:none" />
-    <rect id="rect2616-7-54" width="8" height="2" x="108" y="-102" rx="1" ry="1" class="ColorScheme-Text" fill="#858585" style="opacity:1" transform="rotate(90)" />
-  </g>
-  <rect id="west-progress-topleft" width="2" height="2" x="-237" y="175" rx="0" ry="0" style="fill:none" />
-  <rect id="west-progress-top" width="26" height="2" x="-234" y="175" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-progress-left" width="2" height="26" x="-237" y="178" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-progress-right" width="2" height="26" x="-207" y="178" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-progress-topright" width="2" height="2" x="-207" y="175" rx="0" ry="0" style="fill:none" />
-  <rect id="west-progress-bottomleft" width="2" height="2" x="-237" y="205" rx="0" ry="0" style="fill:none" />
-  <rect id="west-progress-bottom" width="26" height="2" x="-234" y="205" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-progress-bottomright" width="2" height="2" x="-207" y="205" rx="0" ry="0" style="fill:none" />
-  <rect id="west-attention-topleft" width="2" height="2" x="-237" y="237" rx="0" ry="0" style="fill:none" />
-  <rect id="west-attention-top" width="26" height="2" x="-234" y="237" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-attention-left" width="2" height="26" x="-237" y="240" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-attention-right" width="2" height="26" x="-207" y="240" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-attention-topright" width="2" height="2" x="-207" y="237" rx="0" ry="0" style="fill:none" />
-  <rect id="west-attention-bottomleft" width="2" height="2" x="-237" y="267" rx="0" ry="0" style="fill:none" />
-  <rect id="west-attention-bottom" width="26" height="2" x="-234" y="267" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="west-attention-bottomright" width="2" height="2" x="-207" y="267" rx="0" ry="0" style="fill:none" />
-  <rect id="east-focus-topleft" width="2" height="2" x="-332" y="124" rx="0" ry="0" style="fill:none" />
-  <rect id="east-focus-top" width="26" height="2" x="-329" y="124" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-focus-left" width="2" height="26" x="-332" y="127" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-focus-right" width="2" height="26" x="-302" y="127" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-focus-topright" width="2" height="2" x="-302" y="124" rx="0" ry="0" style="fill:none" />
-  <rect id="east-focus-bottomleft" width="2" height="2" x="-332" y="154" rx="0" ry="0" style="fill:none" />
-  <rect id="east-focus-bottom" width="26" height="2" x="-329" y="154" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-focus-bottomright" width="2" height="2" x="-302" y="154" rx="0" ry="0" style="fill:none" />
-  <rect id="east-minimized-topleft" width="2" height="2" x="-330" y="-12.000031" rx="0" ry="0" style="fill:none" />
-  <rect id="east-minimized-top" width="26" height="2" x="-327" y="-12.000031" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-minimized-left" width="2" height="26" x="-330" y="-9" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-minimized-right" width="2" height="26" x="-300" y="-9" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-minimized-topright" width="2" height="2" x="-300" y="-12.000031" rx="0" ry="0" style="fill:none" />
-  <rect id="east-minimized-bottomleft" width="2" height="2" x="-330" y="18" rx="0" ry="0" style="fill:none" />
-  <rect id="east-minimized-bottom" width="26" height="2" x="-327" y="18" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-minimized-bottomright" width="2" height="2" x="-300" y="18" rx="0" ry="0" style="fill:none" />
-  <g id="east-minimized-center" transform="rotate(-90,-154.5,271.49999)">
-    <rect id="rect1929-3-8" width="26" height="26" x="100" y="99" rx="3" ry="3" style="fill:none" />
-    <rect id="rect2616-1-8" width="4" height="2" x="111" y="123" rx="1" ry="1" class="ColorScheme-Text" fill="#858585" style="opacity:1" />
-  </g>
-  <rect id="east-hover-topleft" width="2" height="2" x="-332" y="80" rx="0" ry="0" style="fill:none" />
-  <rect id="east-hover-top" width="26" height="2" x="-329" y="80" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-hover-left" width="2" height="26" x="-332" y="83" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-hover-right" width="2" height="26" x="-302" y="83" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-hover-topright" width="2" height="2" x="-302" y="80" rx="0" ry="0" style="fill:none" />
-  <rect id="east-hover-bottomleft" width="2" height="2" x="-332" y="110" rx="0" ry="0" style="fill:none" />
-  <rect id="east-hover-bottom" width="26" height="2" x="-329" y="110" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-hover-bottomright" width="2" height="2" x="-302" y="110" rx="0" ry="0" style="fill:none" />
-  <rect id="east-normal-topleft" width="2" height="2" x="-331" y="32" rx="0" ry="0" style="fill:none" />
-  <rect id="east-normal-top" width="26" height="2" x="-328" y="32" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-normal-left" width="2" height="26" x="-331" y="35" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-normal-right" width="2" height="26" x="-301" y="35" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-normal-topright" width="2" height="2" x="-301" y="32" rx="0" ry="0" style="fill:none" />
-  <rect id="east-normal-bottomleft" width="2" height="2" x="-331" y="62" rx="0" ry="0" style="fill:none" />
-  <rect id="east-normal-bottom" width="26" height="2" x="-328" y="62" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-normal-bottomright" width="2" height="2" x="-301" y="62" rx="0" ry="0" style="fill:none" />
-  <g id="east-normal-center" transform="rotate(-90,-133,293.99999)">
-    <rect id="rect1929-1-4" width="26" height="26" x="100" y="99" rx="3" ry="3" style="fill:none" />
-    <rect id="rect2616-7-9" width="8" height="2" x="109" y="123" rx="1" ry="1" class="ColorScheme-Text" fill="#858585" style="opacity:1" />
-  </g>
-  <rect id="east-progress-topleft" width="2" height="2" x="-333" y="175" rx="0" ry="0" style="fill:none" />
-  <rect id="east-progress-top" width="26" height="2" x="-330" y="175" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-progress-left" width="2" height="26" x="-333" y="178" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-progress-right" width="2" height="26" x="-303" y="178" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-progress-topright" width="2" height="2" x="-303" y="175" rx="0" ry="0" style="fill:none" />
-  <rect id="east-progress-bottomleft" width="2" height="2" x="-333" y="205" rx="0" ry="0" style="fill:none" />
-  <rect id="east-progress-bottom" width="26" height="2" x="-330" y="205" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-progress-bottomright" width="2" height="2" x="-303" y="205" rx="0" ry="0" style="fill:none" />
-  <rect id="east-attention-topleft" width="2" height="2" x="-333" y="237" rx="0" ry="0" style="fill:none" />
-  <rect id="east-attention-top" width="26" height="2" x="-330" y="237" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-attention-left" width="2" height="26" x="-333" y="240" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-attention-right" width="2" height="26" x="-303" y="240" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-attention-topright" width="2" height="2" x="-303" y="237" rx="0" ry="0" style="fill:none" />
-  <rect id="east-attention-bottomleft" width="2" height="2" x="-333" y="267" rx="0" ry="0" style="fill:none" />
-  <rect id="east-attention-bottom" width="26" height="2" x="-330" y="267" rx="0" ry="0" style="fill:none;stroke-width:3.60555" />
-  <rect id="east-attention-bottomright" width="2" height="2" x="-303" y="267" rx="0" ry="0" style="fill:none" />
   <g id="progress-center" transform="translate(-158,80)">
     <rect id="rect1201" width="26" height="26" x="100" y="99" rx="3" ry="3" style="fill:none" />
     <rect id="rect1203" width="24" height="4" x="101" y="110" rx="2" ry="2" class="ColorScheme-PositiveText" fill="currentColor" />
   </g>
-  <use x="0" y="0" xlink:href="#progress-center" id="north-progress-center" transform="translate(-87)" width="100%" height="100%" />
-  <use x="0" y="0" xlink:href="#progress-center" id="west-progress-center" transform="rotate(90,-132.5,103.5)" width="100%" height="100%" />
-  <use x="0" y="0" xlink:href="#progress-center" id="east-progress-center" transform="matrix(0,1,1,0,-509,236)" width="100%" height="100%" />
-  <use x="0" y="0" xlink:href="#attention-center" id="north-attention-center" transform="translate(-87)" width="100%" height="100%" />
-  <use x="0" y="0" xlink:href="#attention-center" id="west-attention-center" transform="rotate(90,-133,166)" width="100%" height="100%" />
-  <use x="0" y="0" xlink:href="#attention-center" id="east-attention-center" transform="matrix(0,1,1,0,-571,299)" width="100%" height="100%" />
-  <use x="0" y="0" xlink:href="#focus-center" id="use3099" transform="translate(-87)" width="100%" height="100%" />
-  <use x="0" y="0" xlink:href="#focus-center" id="west-focus-center" transform="rotate(90,-132,52)" width="100%" height="100%" />
-  <use x="0" y="0" xlink:href="#focus-center" id="east-focus-center" transform="matrix(0,1,1,0,-456,184)" width="100%" height="100%" />
-  <use x="0" y="0" xlink:href="#hover-center" id="north-hover-center" transform="translate(-87)" width="100%" height="100%" />
-  <use x="0" y="0" xlink:href="#hover-center" id="west-hover-center" transform="rotate(90,-132,8)" width="100%" height="100%" />
-  <use x="0" y="0" xlink:href="#hover-center" id="east-hover-center" transform="matrix(0,1,1,0,-412,140)" width="100%" height="100%" />
   <rect id="thick-hint-top-margin" x="-46" y="83" width="4" height="4" fill="#ff00ff" />
   <rect id="thick-hint-bottom-margin" x="-57" y="94" width="4" height="4" fill="#ff00ff" />
   <rect id="thick-hint-right-margin" x="-35" y="94" width="4" height="4" fill="#ff00ff" />
   <rect id="thick-hint-left-margin" x="-46" y="105" width="4" height="4" fill="#ff00ff" />
+  <!-- tasks-frames.py: generated, do not edit -->
+  <g id="normal-hover-center"><use xlink:href="#rect1929-2"/><use xlink:href="#rect2616-7"/></g>
+  <g id="normal-hover-topleft"><use xlink:href="#hover-topleft"/></g>
+  <g id="normal-hover-top"><use xlink:href="#hover-top"/></g>
+  <g id="normal-hover-topright"><use xlink:href="#hover-topright"/></g>
+  <g id="normal-hover-left"><use xlink:href="#hover-left"/></g>
+  <g id="normal-hover-right"><use xlink:href="#hover-right"/></g>
+  <g id="normal-hover-bottomleft"><use xlink:href="#hover-bottomleft"/></g>
+  <g id="normal-hover-bottom"><use xlink:href="#hover-bottom"/></g>
+  <g id="normal-hover-bottomright"><use xlink:href="#hover-bottomright"/></g>
+  <g id="minimized-hover-center"><use xlink:href="#rect1929-2"/><use xlink:href="#rect2616-1"/></g>
+  <g id="minimized-hover-topleft"><use xlink:href="#hover-topleft"/></g>
+  <g id="minimized-hover-top"><use xlink:href="#hover-top"/></g>
+  <g id="minimized-hover-topright"><use xlink:href="#hover-topright"/></g>
+  <g id="minimized-hover-left"><use xlink:href="#hover-left"/></g>
+  <g id="minimized-hover-right"><use xlink:href="#hover-right"/></g>
+  <g id="minimized-hover-bottomleft"><use xlink:href="#hover-bottomleft"/></g>
+  <g id="minimized-hover-bottom"><use xlink:href="#hover-bottom"/></g>
+  <g id="minimized-hover-bottomright"><use xlink:href="#hover-bottomright"/></g>
+  <g id="attention-hover-center"><use xlink:href="#rect1929-2"/><use xlink:href="#rect2616-3-0"/></g>
+  <g id="attention-hover-topleft"><use xlink:href="#hover-topleft"/></g>
+  <g id="attention-hover-top"><use xlink:href="#hover-top"/></g>
+  <g id="attention-hover-topright"><use xlink:href="#hover-topright"/></g>
+  <g id="attention-hover-left"><use xlink:href="#hover-left"/></g>
+  <g id="attention-hover-right"><use xlink:href="#hover-right"/></g>
+  <g id="attention-hover-bottomleft"><use xlink:href="#hover-bottomleft"/></g>
+  <g id="attention-hover-bottom"><use xlink:href="#hover-bottom"/></g>
+  <g id="attention-hover-bottomright"><use xlink:href="#hover-bottomright"/></g>
+  <g id="focus-hover-center"><use xlink:href="#rect1929"/><use xlink:href="#rect1929" opacity="0.35"/><use xlink:href="#rect2616"/></g>
+  <g id="focus-hover-topleft"><use xlink:href="#hover-topleft"/></g>
+  <g id="focus-hover-top"><use xlink:href="#hover-top"/></g>
+  <g id="focus-hover-topright"><use xlink:href="#hover-topright"/></g>
+  <g id="focus-hover-left"><use xlink:href="#hover-left"/></g>
+  <g id="focus-hover-right"><use xlink:href="#hover-right"/></g>
+  <g id="focus-hover-bottomleft"><use xlink:href="#hover-bottomleft"/></g>
+  <g id="focus-hover-bottom"><use xlink:href="#hover-bottom"/></g>
+  <g id="focus-hover-bottomright"><use xlink:href="#hover-bottomright"/></g>
+  <g id="launcher-hover-center"><use xlink:href="#rect1929-2"/></g>
+  <g id="launcher-hover-topleft"><use xlink:href="#hover-topleft"/></g>
+  <g id="launcher-hover-top"><use xlink:href="#hover-top"/></g>
+  <g id="launcher-hover-topright"><use xlink:href="#hover-topright"/></g>
+  <g id="launcher-hover-left"><use xlink:href="#hover-left"/></g>
+  <g id="launcher-hover-right"><use xlink:href="#hover-right"/></g>
+  <g id="launcher-hover-bottomleft"><use xlink:href="#hover-bottomleft"/></g>
+  <g id="launcher-hover-bottom"><use xlink:href="#hover-bottom"/></g>
+  <g id="launcher-hover-bottomright"><use xlink:href="#hover-bottomright"/></g>
+  <g id="north-normal-topleft"><use xlink:href="#normal-bottomleft" transform="scale(1,-1)"/></g>
+  <g id="north-normal-top"><use xlink:href="#normal-bottom" transform="scale(1,-1)"/></g>
+  <g id="north-normal-topright"><use xlink:href="#normal-bottomright" transform="scale(1,-1)"/></g>
+  <g id="north-normal-left"><use xlink:href="#normal-left" transform="scale(1,-1)"/></g>
+  <g id="north-normal-center"><use xlink:href="#normal-center" transform="scale(1,-1)"/></g>
+  <g id="north-normal-right"><use xlink:href="#normal-right" transform="scale(1,-1)"/></g>
+  <g id="north-normal-bottomleft"><use xlink:href="#normal-topleft" transform="scale(1,-1)"/></g>
+  <g id="north-normal-bottom"><use xlink:href="#normal-top" transform="scale(1,-1)"/></g>
+  <g id="north-normal-bottomright"><use xlink:href="#normal-topright" transform="scale(1,-1)"/></g>
+  <g id="north-hover-topleft"><use xlink:href="#hover-bottomleft" transform="scale(1,-1)"/></g>
+  <g id="north-hover-top"><use xlink:href="#hover-bottom" transform="scale(1,-1)"/></g>
+  <g id="north-hover-topright"><use xlink:href="#hover-bottomright" transform="scale(1,-1)"/></g>
+  <g id="north-hover-left"><use xlink:href="#hover-left" transform="scale(1,-1)"/></g>
+  <g id="north-hover-center"><use xlink:href="#hover-center" transform="scale(1,-1)"/></g>
+  <g id="north-hover-right"><use xlink:href="#hover-right" transform="scale(1,-1)"/></g>
+  <g id="north-hover-bottomleft"><use xlink:href="#hover-topleft" transform="scale(1,-1)"/></g>
+  <g id="north-hover-bottom"><use xlink:href="#hover-top" transform="scale(1,-1)"/></g>
+  <g id="north-hover-bottomright"><use xlink:href="#hover-topright" transform="scale(1,-1)"/></g>
+  <g id="north-focus-topleft"><use xlink:href="#focus-bottomleft" transform="scale(1,-1)"/></g>
+  <g id="north-focus-top"><use xlink:href="#focus-bottom" transform="scale(1,-1)"/></g>
+  <g id="north-focus-topright"><use xlink:href="#focus-bottomright" transform="scale(1,-1)"/></g>
+  <g id="north-focus-left"><use xlink:href="#focus-left" transform="scale(1,-1)"/></g>
+  <g id="north-focus-center"><use xlink:href="#focus-center" transform="scale(1,-1)"/></g>
+  <g id="north-focus-right"><use xlink:href="#focus-right" transform="scale(1,-1)"/></g>
+  <g id="north-focus-bottomleft"><use xlink:href="#focus-topleft" transform="scale(1,-1)"/></g>
+  <g id="north-focus-bottom"><use xlink:href="#focus-top" transform="scale(1,-1)"/></g>
+  <g id="north-focus-bottomright"><use xlink:href="#focus-topright" transform="scale(1,-1)"/></g>
+  <g id="north-attention-topleft"><use xlink:href="#attention-bottomleft" transform="scale(1,-1)"/></g>
+  <g id="north-attention-top"><use xlink:href="#attention-bottom" transform="scale(1,-1)"/></g>
+  <g id="north-attention-topright"><use xlink:href="#attention-bottomright" transform="scale(1,-1)"/></g>
+  <g id="north-attention-left"><use xlink:href="#attention-left" transform="scale(1,-1)"/></g>
+  <g id="north-attention-center"><use xlink:href="#attention-center" transform="scale(1,-1)"/></g>
+  <g id="north-attention-right"><use xlink:href="#attention-right" transform="scale(1,-1)"/></g>
+  <g id="north-attention-bottomleft"><use xlink:href="#attention-topleft" transform="scale(1,-1)"/></g>
+  <g id="north-attention-bottom"><use xlink:href="#attention-top" transform="scale(1,-1)"/></g>
+  <g id="north-attention-bottomright"><use xlink:href="#attention-topright" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-topleft"><use xlink:href="#minimized-bottomleft" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-top"><use xlink:href="#minimized-bottom" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-topright"><use xlink:href="#minimized-bottomright" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-left"><use xlink:href="#minimized-left" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-center"><use xlink:href="#minimized-center" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-right"><use xlink:href="#minimized-right" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-bottomleft"><use xlink:href="#minimized-topleft" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-bottom"><use xlink:href="#minimized-top" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-bottomright"><use xlink:href="#minimized-topright" transform="scale(1,-1)"/></g>
+  <g id="north-progress-topleft"><use xlink:href="#progress-bottomleft" transform="scale(1,-1)"/></g>
+  <g id="north-progress-top"><use xlink:href="#progress-bottom" transform="scale(1,-1)"/></g>
+  <g id="north-progress-topright"><use xlink:href="#progress-bottomright" transform="scale(1,-1)"/></g>
+  <g id="north-progress-left"><use xlink:href="#progress-left" transform="scale(1,-1)"/></g>
+  <g id="north-progress-center"><use xlink:href="#progress-center" transform="scale(1,-1)"/></g>
+  <g id="north-progress-right"><use xlink:href="#progress-right" transform="scale(1,-1)"/></g>
+  <g id="north-progress-bottomleft"><use xlink:href="#progress-topleft" transform="scale(1,-1)"/></g>
+  <g id="north-progress-bottom"><use xlink:href="#progress-top" transform="scale(1,-1)"/></g>
+  <g id="north-progress-bottomright"><use xlink:href="#progress-topright" transform="scale(1,-1)"/></g>
+  <g id="north-normal-hover-topleft"><use xlink:href="#normal-hover-bottomleft" transform="scale(1,-1)"/></g>
+  <g id="north-normal-hover-top"><use xlink:href="#normal-hover-bottom" transform="scale(1,-1)"/></g>
+  <g id="north-normal-hover-topright"><use xlink:href="#normal-hover-bottomright" transform="scale(1,-1)"/></g>
+  <g id="north-normal-hover-left"><use xlink:href="#normal-hover-left" transform="scale(1,-1)"/></g>
+  <g id="north-normal-hover-center"><use xlink:href="#normal-hover-center" transform="scale(1,-1)"/></g>
+  <g id="north-normal-hover-right"><use xlink:href="#normal-hover-right" transform="scale(1,-1)"/></g>
+  <g id="north-normal-hover-bottomleft"><use xlink:href="#normal-hover-topleft" transform="scale(1,-1)"/></g>
+  <g id="north-normal-hover-bottom"><use xlink:href="#normal-hover-top" transform="scale(1,-1)"/></g>
+  <g id="north-normal-hover-bottomright"><use xlink:href="#normal-hover-topright" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-hover-topleft"><use xlink:href="#minimized-hover-bottomleft" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-hover-top"><use xlink:href="#minimized-hover-bottom" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-hover-topright"><use xlink:href="#minimized-hover-bottomright" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-hover-left"><use xlink:href="#minimized-hover-left" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-hover-center"><use xlink:href="#minimized-hover-center" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-hover-right"><use xlink:href="#minimized-hover-right" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-hover-bottomleft"><use xlink:href="#minimized-hover-topleft" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-hover-bottom"><use xlink:href="#minimized-hover-top" transform="scale(1,-1)"/></g>
+  <g id="north-minimized-hover-bottomright"><use xlink:href="#minimized-hover-topright" transform="scale(1,-1)"/></g>
+  <g id="north-attention-hover-topleft"><use xlink:href="#attention-hover-bottomleft" transform="scale(1,-1)"/></g>
+  <g id="north-attention-hover-top"><use xlink:href="#attention-hover-bottom" transform="scale(1,-1)"/></g>
+  <g id="north-attention-hover-topright"><use xlink:href="#attention-hover-bottomright" transform="scale(1,-1)"/></g>
+  <g id="north-attention-hover-left"><use xlink:href="#attention-hover-left" transform="scale(1,-1)"/></g>
+  <g id="north-attention-hover-center"><use xlink:href="#attention-hover-center" transform="scale(1,-1)"/></g>
+  <g id="north-attention-hover-right"><use xlink:href="#attention-hover-right" transform="scale(1,-1)"/></g>
+  <g id="north-attention-hover-bottomleft"><use xlink:href="#attention-hover-topleft" transform="scale(1,-1)"/></g>
+  <g id="north-attention-hover-bottom"><use xlink:href="#attention-hover-top" transform="scale(1,-1)"/></g>
+  <g id="north-attention-hover-bottomright"><use xlink:href="#attention-hover-topright" transform="scale(1,-1)"/></g>
+  <g id="north-focus-hover-topleft"><use xlink:href="#focus-hover-bottomleft" transform="scale(1,-1)"/></g>
+  <g id="north-focus-hover-top"><use xlink:href="#focus-hover-bottom" transform="scale(1,-1)"/></g>
+  <g id="north-focus-hover-topright"><use xlink:href="#focus-hover-bottomright" transform="scale(1,-1)"/></g>
+  <g id="north-focus-hover-left"><use xlink:href="#focus-hover-left" transform="scale(1,-1)"/></g>
+  <g id="north-focus-hover-center"><use xlink:href="#focus-hover-center" transform="scale(1,-1)"/></g>
+  <g id="north-focus-hover-right"><use xlink:href="#focus-hover-right" transform="scale(1,-1)"/></g>
+  <g id="north-focus-hover-bottomleft"><use xlink:href="#focus-hover-topleft" transform="scale(1,-1)"/></g>
+  <g id="north-focus-hover-bottom"><use xlink:href="#focus-hover-top" transform="scale(1,-1)"/></g>
+  <g id="north-focus-hover-bottomright"><use xlink:href="#focus-hover-topright" transform="scale(1,-1)"/></g>
+  <g id="north-launcher-hover-topleft"><use xlink:href="#launcher-hover-bottomleft" transform="scale(1,-1)"/></g>
+  <g id="north-launcher-hover-top"><use xlink:href="#launcher-hover-bottom" transform="scale(1,-1)"/></g>
+  <g id="north-launcher-hover-topright"><use xlink:href="#launcher-hover-bottomright" transform="scale(1,-1)"/></g>
+  <g id="north-launcher-hover-left"><use xlink:href="#launcher-hover-left" transform="scale(1,-1)"/></g>
+  <g id="north-launcher-hover-center"><use xlink:href="#launcher-hover-center" transform="scale(1,-1)"/></g>
+  <g id="north-launcher-hover-right"><use xlink:href="#launcher-hover-right" transform="scale(1,-1)"/></g>
+  <g id="north-launcher-hover-bottomleft"><use xlink:href="#launcher-hover-topleft" transform="scale(1,-1)"/></g>
+  <g id="north-launcher-hover-bottom"><use xlink:href="#launcher-hover-top" transform="scale(1,-1)"/></g>
+  <g id="north-launcher-hover-bottomright"><use xlink:href="#launcher-hover-topright" transform="scale(1,-1)"/></g>
+  <g id="west-normal-topleft"><use xlink:href="#normal-bottomleft" transform="rotate(90)"/></g>
+  <g id="west-normal-top"><use xlink:href="#normal-left" transform="rotate(90)"/></g>
+  <g id="west-normal-topright"><use xlink:href="#normal-topleft" transform="rotate(90)"/></g>
+  <g id="west-normal-left"><use xlink:href="#normal-bottom" transform="rotate(90)"/></g>
+  <g id="west-normal-center"><use xlink:href="#normal-center" transform="rotate(90)"/></g>
+  <g id="west-normal-right"><use xlink:href="#normal-top" transform="rotate(90)"/></g>
+  <g id="west-normal-bottomleft"><use xlink:href="#normal-bottomright" transform="rotate(90)"/></g>
+  <g id="west-normal-bottom"><use xlink:href="#normal-right" transform="rotate(90)"/></g>
+  <g id="west-normal-bottomright"><use xlink:href="#normal-topright" transform="rotate(90)"/></g>
+  <g id="west-hover-topleft"><use xlink:href="#hover-bottomleft" transform="rotate(90)"/></g>
+  <g id="west-hover-top"><use xlink:href="#hover-left" transform="rotate(90)"/></g>
+  <g id="west-hover-topright"><use xlink:href="#hover-topleft" transform="rotate(90)"/></g>
+  <g id="west-hover-left"><use xlink:href="#hover-bottom" transform="rotate(90)"/></g>
+  <g id="west-hover-center"><use xlink:href="#hover-center" transform="rotate(90)"/></g>
+  <g id="west-hover-right"><use xlink:href="#hover-top" transform="rotate(90)"/></g>
+  <g id="west-hover-bottomleft"><use xlink:href="#hover-bottomright" transform="rotate(90)"/></g>
+  <g id="west-hover-bottom"><use xlink:href="#hover-right" transform="rotate(90)"/></g>
+  <g id="west-hover-bottomright"><use xlink:href="#hover-topright" transform="rotate(90)"/></g>
+  <g id="west-focus-topleft"><use xlink:href="#focus-bottomleft" transform="rotate(90)"/></g>
+  <g id="west-focus-top"><use xlink:href="#focus-left" transform="rotate(90)"/></g>
+  <g id="west-focus-topright"><use xlink:href="#focus-topleft" transform="rotate(90)"/></g>
+  <g id="west-focus-left"><use xlink:href="#focus-bottom" transform="rotate(90)"/></g>
+  <g id="west-focus-center"><use xlink:href="#focus-center" transform="rotate(90)"/></g>
+  <g id="west-focus-right"><use xlink:href="#focus-top" transform="rotate(90)"/></g>
+  <g id="west-focus-bottomleft"><use xlink:href="#focus-bottomright" transform="rotate(90)"/></g>
+  <g id="west-focus-bottom"><use xlink:href="#focus-right" transform="rotate(90)"/></g>
+  <g id="west-focus-bottomright"><use xlink:href="#focus-topright" transform="rotate(90)"/></g>
+  <g id="west-attention-topleft"><use xlink:href="#attention-bottomleft" transform="rotate(90)"/></g>
+  <g id="west-attention-top"><use xlink:href="#attention-left" transform="rotate(90)"/></g>
+  <g id="west-attention-topright"><use xlink:href="#attention-topleft" transform="rotate(90)"/></g>
+  <g id="west-attention-left"><use xlink:href="#attention-bottom" transform="rotate(90)"/></g>
+  <g id="west-attention-center"><use xlink:href="#attention-center" transform="rotate(90)"/></g>
+  <g id="west-attention-right"><use xlink:href="#attention-top" transform="rotate(90)"/></g>
+  <g id="west-attention-bottomleft"><use xlink:href="#attention-bottomright" transform="rotate(90)"/></g>
+  <g id="west-attention-bottom"><use xlink:href="#attention-right" transform="rotate(90)"/></g>
+  <g id="west-attention-bottomright"><use xlink:href="#attention-topright" transform="rotate(90)"/></g>
+  <g id="west-minimized-topleft"><use xlink:href="#minimized-bottomleft" transform="rotate(90)"/></g>
+  <g id="west-minimized-top"><use xlink:href="#minimized-left" transform="rotate(90)"/></g>
+  <g id="west-minimized-topright"><use xlink:href="#minimized-topleft" transform="rotate(90)"/></g>
+  <g id="west-minimized-left"><use xlink:href="#minimized-bottom" transform="rotate(90)"/></g>
+  <g id="west-minimized-center"><use xlink:href="#minimized-center" transform="rotate(90)"/></g>
+  <g id="west-minimized-right"><use xlink:href="#minimized-top" transform="rotate(90)"/></g>
+  <g id="west-minimized-bottomleft"><use xlink:href="#minimized-bottomright" transform="rotate(90)"/></g>
+  <g id="west-minimized-bottom"><use xlink:href="#minimized-right" transform="rotate(90)"/></g>
+  <g id="west-minimized-bottomright"><use xlink:href="#minimized-topright" transform="rotate(90)"/></g>
+  <g id="west-progress-topleft"><use xlink:href="#progress-bottomleft" transform="rotate(90)"/></g>
+  <g id="west-progress-top"><use xlink:href="#progress-left" transform="rotate(90)"/></g>
+  <g id="west-progress-topright"><use xlink:href="#progress-topleft" transform="rotate(90)"/></g>
+  <g id="west-progress-left"><use xlink:href="#progress-bottom" transform="rotate(90)"/></g>
+  <g id="west-progress-center"><use xlink:href="#progress-center" transform="rotate(90)"/></g>
+  <g id="west-progress-right"><use xlink:href="#progress-top" transform="rotate(90)"/></g>
+  <g id="west-progress-bottomleft"><use xlink:href="#progress-bottomright" transform="rotate(90)"/></g>
+  <g id="west-progress-bottom"><use xlink:href="#progress-right" transform="rotate(90)"/></g>
+  <g id="west-progress-bottomright"><use xlink:href="#progress-topright" transform="rotate(90)"/></g>
+  <g id="west-normal-hover-topleft"><use xlink:href="#normal-hover-bottomleft" transform="rotate(90)"/></g>
+  <g id="west-normal-hover-top"><use xlink:href="#normal-hover-left" transform="rotate(90)"/></g>
+  <g id="west-normal-hover-topright"><use xlink:href="#normal-hover-topleft" transform="rotate(90)"/></g>
+  <g id="west-normal-hover-left"><use xlink:href="#normal-hover-bottom" transform="rotate(90)"/></g>
+  <g id="west-normal-hover-center"><use xlink:href="#normal-hover-center" transform="rotate(90)"/></g>
+  <g id="west-normal-hover-right"><use xlink:href="#normal-hover-top" transform="rotate(90)"/></g>
+  <g id="west-normal-hover-bottomleft"><use xlink:href="#normal-hover-bottomright" transform="rotate(90)"/></g>
+  <g id="west-normal-hover-bottom"><use xlink:href="#normal-hover-right" transform="rotate(90)"/></g>
+  <g id="west-normal-hover-bottomright"><use xlink:href="#normal-hover-topright" transform="rotate(90)"/></g>
+  <g id="west-minimized-hover-topleft"><use xlink:href="#minimized-hover-bottomleft" transform="rotate(90)"/></g>
+  <g id="west-minimized-hover-top"><use xlink:href="#minimized-hover-left" transform="rotate(90)"/></g>
+  <g id="west-minimized-hover-topright"><use xlink:href="#minimized-hover-topleft" transform="rotate(90)"/></g>
+  <g id="west-minimized-hover-left"><use xlink:href="#minimized-hover-bottom" transform="rotate(90)"/></g>
+  <g id="west-minimized-hover-center"><use xlink:href="#minimized-hover-center" transform="rotate(90)"/></g>
+  <g id="west-minimized-hover-right"><use xlink:href="#minimized-hover-top" transform="rotate(90)"/></g>
+  <g id="west-minimized-hover-bottomleft"><use xlink:href="#minimized-hover-bottomright" transform="rotate(90)"/></g>
+  <g id="west-minimized-hover-bottom"><use xlink:href="#minimized-hover-right" transform="rotate(90)"/></g>
+  <g id="west-minimized-hover-bottomright"><use xlink:href="#minimized-hover-topright" transform="rotate(90)"/></g>
+  <g id="west-attention-hover-topleft"><use xlink:href="#attention-hover-bottomleft" transform="rotate(90)"/></g>
+  <g id="west-attention-hover-top"><use xlink:href="#attention-hover-left" transform="rotate(90)"/></g>
+  <g id="west-attention-hover-topright"><use xlink:href="#attention-hover-topleft" transform="rotate(90)"/></g>
+  <g id="west-attention-hover-left"><use xlink:href="#attention-hover-bottom" transform="rotate(90)"/></g>
+  <g id="west-attention-hover-center"><use xlink:href="#attention-hover-center" transform="rotate(90)"/></g>
+  <g id="west-attention-hover-right"><use xlink:href="#attention-hover-top" transform="rotate(90)"/></g>
+  <g id="west-attention-hover-bottomleft"><use xlink:href="#attention-hover-bottomright" transform="rotate(90)"/></g>
+  <g id="west-attention-hover-bottom"><use xlink:href="#attention-hover-right" transform="rotate(90)"/></g>
+  <g id="west-attention-hover-bottomright"><use xlink:href="#attention-hover-topright" transform="rotate(90)"/></g>
+  <g id="west-focus-hover-topleft"><use xlink:href="#focus-hover-bottomleft" transform="rotate(90)"/></g>
+  <g id="west-focus-hover-top"><use xlink:href="#focus-hover-left" transform="rotate(90)"/></g>
+  <g id="west-focus-hover-topright"><use xlink:href="#focus-hover-topleft" transform="rotate(90)"/></g>
+  <g id="west-focus-hover-left"><use xlink:href="#focus-hover-bottom" transform="rotate(90)"/></g>
+  <g id="west-focus-hover-center"><use xlink:href="#focus-hover-center" transform="rotate(90)"/></g>
+  <g id="west-focus-hover-right"><use xlink:href="#focus-hover-top" transform="rotate(90)"/></g>
+  <g id="west-focus-hover-bottomleft"><use xlink:href="#focus-hover-bottomright" transform="rotate(90)"/></g>
+  <g id="west-focus-hover-bottom"><use xlink:href="#focus-hover-right" transform="rotate(90)"/></g>
+  <g id="west-focus-hover-bottomright"><use xlink:href="#focus-hover-topright" transform="rotate(90)"/></g>
+  <g id="west-launcher-hover-topleft"><use xlink:href="#launcher-hover-bottomleft" transform="rotate(90)"/></g>
+  <g id="west-launcher-hover-top"><use xlink:href="#launcher-hover-left" transform="rotate(90)"/></g>
+  <g id="west-launcher-hover-topright"><use xlink:href="#launcher-hover-topleft" transform="rotate(90)"/></g>
+  <g id="west-launcher-hover-left"><use xlink:href="#launcher-hover-bottom" transform="rotate(90)"/></g>
+  <g id="west-launcher-hover-center"><use xlink:href="#launcher-hover-center" transform="rotate(90)"/></g>
+  <g id="west-launcher-hover-right"><use xlink:href="#launcher-hover-top" transform="rotate(90)"/></g>
+  <g id="west-launcher-hover-bottomleft"><use xlink:href="#launcher-hover-bottomright" transform="rotate(90)"/></g>
+  <g id="west-launcher-hover-bottom"><use xlink:href="#launcher-hover-right" transform="rotate(90)"/></g>
+  <g id="west-launcher-hover-bottomright"><use xlink:href="#launcher-hover-topright" transform="rotate(90)"/></g>
+  <g id="east-normal-topleft"><use xlink:href="#normal-topright" transform="rotate(-90)"/></g>
+  <g id="east-normal-top"><use xlink:href="#normal-right" transform="rotate(-90)"/></g>
+  <g id="east-normal-topright"><use xlink:href="#normal-bottomright" transform="rotate(-90)"/></g>
+  <g id="east-normal-left"><use xlink:href="#normal-top" transform="rotate(-90)"/></g>
+  <g id="east-normal-center"><use xlink:href="#normal-center" transform="rotate(-90)"/></g>
+  <g id="east-normal-right"><use xlink:href="#normal-bottom" transform="rotate(-90)"/></g>
+  <g id="east-normal-bottomleft"><use xlink:href="#normal-topleft" transform="rotate(-90)"/></g>
+  <g id="east-normal-bottom"><use xlink:href="#normal-left" transform="rotate(-90)"/></g>
+  <g id="east-normal-bottomright"><use xlink:href="#normal-bottomleft" transform="rotate(-90)"/></g>
+  <g id="east-hover-topleft"><use xlink:href="#hover-topright" transform="rotate(-90)"/></g>
+  <g id="east-hover-top"><use xlink:href="#hover-right" transform="rotate(-90)"/></g>
+  <g id="east-hover-topright"><use xlink:href="#hover-bottomright" transform="rotate(-90)"/></g>
+  <g id="east-hover-left"><use xlink:href="#hover-top" transform="rotate(-90)"/></g>
+  <g id="east-hover-center"><use xlink:href="#hover-center" transform="rotate(-90)"/></g>
+  <g id="east-hover-right"><use xlink:href="#hover-bottom" transform="rotate(-90)"/></g>
+  <g id="east-hover-bottomleft"><use xlink:href="#hover-topleft" transform="rotate(-90)"/></g>
+  <g id="east-hover-bottom"><use xlink:href="#hover-left" transform="rotate(-90)"/></g>
+  <g id="east-hover-bottomright"><use xlink:href="#hover-bottomleft" transform="rotate(-90)"/></g>
+  <g id="east-focus-topleft"><use xlink:href="#focus-topright" transform="rotate(-90)"/></g>
+  <g id="east-focus-top"><use xlink:href="#focus-right" transform="rotate(-90)"/></g>
+  <g id="east-focus-topright"><use xlink:href="#focus-bottomright" transform="rotate(-90)"/></g>
+  <g id="east-focus-left"><use xlink:href="#focus-top" transform="rotate(-90)"/></g>
+  <g id="east-focus-center"><use xlink:href="#focus-center" transform="rotate(-90)"/></g>
+  <g id="east-focus-right"><use xlink:href="#focus-bottom" transform="rotate(-90)"/></g>
+  <g id="east-focus-bottomleft"><use xlink:href="#focus-topleft" transform="rotate(-90)"/></g>
+  <g id="east-focus-bottom"><use xlink:href="#focus-left" transform="rotate(-90)"/></g>
+  <g id="east-focus-bottomright"><use xlink:href="#focus-bottomleft" transform="rotate(-90)"/></g>
+  <g id="east-attention-topleft"><use xlink:href="#attention-topright" transform="rotate(-90)"/></g>
+  <g id="east-attention-top"><use xlink:href="#attention-right" transform="rotate(-90)"/></g>
+  <g id="east-attention-topright"><use xlink:href="#attention-bottomright" transform="rotate(-90)"/></g>
+  <g id="east-attention-left"><use xlink:href="#attention-top" transform="rotate(-90)"/></g>
+  <g id="east-attention-center"><use xlink:href="#attention-center" transform="rotate(-90)"/></g>
+  <g id="east-attention-right"><use xlink:href="#attention-bottom" transform="rotate(-90)"/></g>
+  <g id="east-attention-bottomleft"><use xlink:href="#attention-topleft" transform="rotate(-90)"/></g>
+  <g id="east-attention-bottom"><use xlink:href="#attention-left" transform="rotate(-90)"/></g>
+  <g id="east-attention-bottomright"><use xlink:href="#attention-bottomleft" transform="rotate(-90)"/></g>
+  <g id="east-minimized-topleft"><use xlink:href="#minimized-topright" transform="rotate(-90)"/></g>
+  <g id="east-minimized-top"><use xlink:href="#minimized-right" transform="rotate(-90)"/></g>
+  <g id="east-minimized-topright"><use xlink:href="#minimized-bottomright" transform="rotate(-90)"/></g>
+  <g id="east-minimized-left"><use xlink:href="#minimized-top" transform="rotate(-90)"/></g>
+  <g id="east-minimized-center"><use xlink:href="#minimized-center" transform="rotate(-90)"/></g>
+  <g id="east-minimized-right"><use xlink:href="#minimized-bottom" transform="rotate(-90)"/></g>
+  <g id="east-minimized-bottomleft"><use xlink:href="#minimized-topleft" transform="rotate(-90)"/></g>
+  <g id="east-minimized-bottom"><use xlink:href="#minimized-left" transform="rotate(-90)"/></g>
+  <g id="east-minimized-bottomright"><use xlink:href="#minimized-bottomleft" transform="rotate(-90)"/></g>
+  <g id="east-progress-topleft"><use xlink:href="#progress-topright" transform="rotate(-90)"/></g>
+  <g id="east-progress-top"><use xlink:href="#progress-right" transform="rotate(-90)"/></g>
+  <g id="east-progress-topright"><use xlink:href="#progress-bottomright" transform="rotate(-90)"/></g>
+  <g id="east-progress-left"><use xlink:href="#progress-top" transform="rotate(-90)"/></g>
+  <g id="east-progress-center"><use xlink:href="#progress-center" transform="rotate(-90)"/></g>
+  <g id="east-progress-right"><use xlink:href="#progress-bottom" transform="rotate(-90)"/></g>
+  <g id="east-progress-bottomleft"><use xlink:href="#progress-topleft" transform="rotate(-90)"/></g>
+  <g id="east-progress-bottom"><use xlink:href="#progress-left" transform="rotate(-90)"/></g>
+  <g id="east-progress-bottomright"><use xlink:href="#progress-bottomleft" transform="rotate(-90)"/></g>
+  <g id="east-normal-hover-topleft"><use xlink:href="#normal-hover-topright" transform="rotate(-90)"/></g>
+  <g id="east-normal-hover-top"><use xlink:href="#normal-hover-right" transform="rotate(-90)"/></g>
+  <g id="east-normal-hover-topright"><use xlink:href="#normal-hover-bottomright" transform="rotate(-90)"/></g>
+  <g id="east-normal-hover-left"><use xlink:href="#normal-hover-top" transform="rotate(-90)"/></g>
+  <g id="east-normal-hover-center"><use xlink:href="#normal-hover-center" transform="rotate(-90)"/></g>
+  <g id="east-normal-hover-right"><use xlink:href="#normal-hover-bottom" transform="rotate(-90)"/></g>
+  <g id="east-normal-hover-bottomleft"><use xlink:href="#normal-hover-topleft" transform="rotate(-90)"/></g>
+  <g id="east-normal-hover-bottom"><use xlink:href="#normal-hover-left" transform="rotate(-90)"/></g>
+  <g id="east-normal-hover-bottomright"><use xlink:href="#normal-hover-bottomleft" transform="rotate(-90)"/></g>
+  <g id="east-minimized-hover-topleft"><use xlink:href="#minimized-hover-topright" transform="rotate(-90)"/></g>
+  <g id="east-minimized-hover-top"><use xlink:href="#minimized-hover-right" transform="rotate(-90)"/></g>
+  <g id="east-minimized-hover-topright"><use xlink:href="#minimized-hover-bottomright" transform="rotate(-90)"/></g>
+  <g id="east-minimized-hover-left"><use xlink:href="#minimized-hover-top" transform="rotate(-90)"/></g>
+  <g id="east-minimized-hover-center"><use xlink:href="#minimized-hover-center" transform="rotate(-90)"/></g>
+  <g id="east-minimized-hover-right"><use xlink:href="#minimized-hover-bottom" transform="rotate(-90)"/></g>
+  <g id="east-minimized-hover-bottomleft"><use xlink:href="#minimized-hover-topleft" transform="rotate(-90)"/></g>
+  <g id="east-minimized-hover-bottom"><use xlink:href="#minimized-hover-left" transform="rotate(-90)"/></g>
+  <g id="east-minimized-hover-bottomright"><use xlink:href="#minimized-hover-bottomleft" transform="rotate(-90)"/></g>
+  <g id="east-attention-hover-topleft"><use xlink:href="#attention-hover-topright" transform="rotate(-90)"/></g>
+  <g id="east-attention-hover-top"><use xlink:href="#attention-hover-right" transform="rotate(-90)"/></g>
+  <g id="east-attention-hover-topright"><use xlink:href="#attention-hover-bottomright" transform="rotate(-90)"/></g>
+  <g id="east-attention-hover-left"><use xlink:href="#attention-hover-top" transform="rotate(-90)"/></g>
+  <g id="east-attention-hover-center"><use xlink:href="#attention-hover-center" transform="rotate(-90)"/></g>
+  <g id="east-attention-hover-right"><use xlink:href="#attention-hover-bottom" transform="rotate(-90)"/></g>
+  <g id="east-attention-hover-bottomleft"><use xlink:href="#attention-hover-topleft" transform="rotate(-90)"/></g>
+  <g id="east-attention-hover-bottom"><use xlink:href="#attention-hover-left" transform="rotate(-90)"/></g>
+  <g id="east-attention-hover-bottomright"><use xlink:href="#attention-hover-bottomleft" transform="rotate(-90)"/></g>
+  <g id="east-focus-hover-topleft"><use xlink:href="#focus-hover-topright" transform="rotate(-90)"/></g>
+  <g id="east-focus-hover-top"><use xlink:href="#focus-hover-right" transform="rotate(-90)"/></g>
+  <g id="east-focus-hover-topright"><use xlink:href="#focus-hover-bottomright" transform="rotate(-90)"/></g>
+  <g id="east-focus-hover-left"><use xlink:href="#focus-hover-top" transform="rotate(-90)"/></g>
+  <g id="east-focus-hover-center"><use xlink:href="#focus-hover-center" transform="rotate(-90)"/></g>
+  <g id="east-focus-hover-right"><use xlink:href="#focus-hover-bottom" transform="rotate(-90)"/></g>
+  <g id="east-focus-hover-bottomleft"><use xlink:href="#focus-hover-topleft" transform="rotate(-90)"/></g>
+  <g id="east-focus-hover-bottom"><use xlink:href="#focus-hover-left" transform="rotate(-90)"/></g>
+  <g id="east-focus-hover-bottomright"><use xlink:href="#focus-hover-bottomleft" transform="rotate(-90)"/></g>
+  <g id="east-launcher-hover-topleft"><use xlink:href="#launcher-hover-topright" transform="rotate(-90)"/></g>
+  <g id="east-launcher-hover-top"><use xlink:href="#launcher-hover-right" transform="rotate(-90)"/></g>
+  <g id="east-launcher-hover-topright"><use xlink:href="#launcher-hover-bottomright" transform="rotate(-90)"/></g>
+  <g id="east-launcher-hover-left"><use xlink:href="#launcher-hover-top" transform="rotate(-90)"/></g>
+  <g id="east-launcher-hover-center"><use xlink:href="#launcher-hover-center" transform="rotate(-90)"/></g>
+  <g id="east-launcher-hover-right"><use xlink:href="#launcher-hover-bottom" transform="rotate(-90)"/></g>
+  <g id="east-launcher-hover-bottomleft"><use xlink:href="#launcher-hover-topleft" transform="rotate(-90)"/></g>
+  <g id="east-launcher-hover-bottom"><use xlink:href="#launcher-hover-left" transform="rotate(-90)"/></g>
+  <g id="east-launcher-hover-bottomright"><use xlink:href="#launcher-hover-bottomleft" transform="rotate(-90)"/></g>
+  <!-- tasks-frames.py: end -->
 </svg>
