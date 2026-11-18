@@ -178,6 +178,13 @@ else
     warn "qmltestrunner not installed — skipped (CI runs it)"
 fi
 
+# ── Settings backups (issue #7) ─────────────────────────────────────
+if tests/backup/test.sh >/dev/null 2>&1; then
+    pass "settings backup and restore (tests/backup/test.sh)"
+else
+    fail "settings backup test failed — run: tests/backup/test.sh"
+fi
+
 # ── Shared code copies ──────────────────────────────────────────────
 # The lock screen is its own package, so it carries a copy of the clock's
 # date formatting; the two must not drift apart. Likewise the Search and

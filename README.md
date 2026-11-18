@@ -524,6 +524,17 @@ Full instructions: [`app-decorations/firefox/README.md`](app-decorations/firefox
 ./uninstall.sh greetersystem # Restore system greeter binary (needs sudo)
 ```
 
+Every run of `./install.sh` first saves the Plasma settings it may change
+(colours, panels, window manager, shortcuts, Kvantum, GTK…) to
+`~/.local/share/windows-modern/backups/`. The very first save, from before
+Windows Modern, is kept for good; `./uninstall.sh all` offers to put it back.
+
+```bash
+./uninstall.sh --list-backups   # Saved settings, oldest first
+./uninstall.sh --restore        # Back to your settings from before Windows Modern
+./uninstall.sh --restore ID     # Back to a given save (restoring saves the current state first)
+```
+
 Run a health check:
 
 ```bash

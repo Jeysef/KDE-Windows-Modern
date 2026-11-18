@@ -16,6 +16,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=scripts/install-lib.sh
 source "$SCRIPT_DIR/scripts/install-lib.sh"
+# shellcheck source=scripts/config-backup.sh
+source "$SCRIPT_DIR/scripts/config-backup.sh"
 
 # ── Install component by name (non-fatal on failure) ────────────────
 # Components that failed, reported at the end instead of a plain "Done.".
@@ -200,6 +202,17 @@ for arg in "$@"; do
     esac
 done
 set -- "${args[@]}"
+
+# Save the settings we may change before anything happens (issue #7):
+# ./uninstall.sh --list-backups / --restore puts them back.
+case "${1:-menu}" in
+    --help|-h|deps) ;;
+    *)
+        if backup_id="$(snapshot_configs "install.sh ${*:-menu}")" && [ -n "$backup_id" ]; then
+            info "Your current Plasma settings are saved as backup $backup_id (./uninstall.sh --list-backups)."
+        fi
+        ;;
+esac
 
 case "${1:-menu}" in
     --help|-h)

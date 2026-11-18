@@ -10,6 +10,22 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=scripts/install-lib.sh
 source "$SCRIPT_DIR/scripts/install-lib.sh"
+# shellcheck source=scripts/config-backup.sh
+source "$SCRIPT_DIR/scripts/config-backup.sh"
+
+# Steps that needed root and failed (password dialog cancelled, no pkexec):
+# a component's "uninstalled" message is only printed when none did.
+UNINSTALL_FAILURES=0
+
+# Print a component's success message, or say it is incomplete.
+uninstalled_msg() {
+    local before="$1" message="$2"
+    if [ "$UNINSTALL_FAILURES" -gt "$before" ]; then
+        warn "Not fully uninstalled: the steps above that need root failed. Run it again to retry."
+    else
+        info "$message"
+    fi
+}
 
 # Remove one or more paths. User-local paths are deleted directly; system
 # paths (/usr/*) require pkexec or sudo because regular users cannot write
@@ -22,11 +38,14 @@ rm_path() {
             rm -rf "$path" 2>/dev/null || true
         else
             if command -v pkexec &>/dev/null; then
-                pkexec rm -rf "$path" 2>/dev/null || warn "Could not remove system path (pkexec failed): $path"
+                pkexec rm -rf "$path" 2>/dev/null \
+                    || { warn "Could not remove system path (pkexec failed): $path"; UNINSTALL_FAILURES=$((UNINSTALL_FAILURES + 1)); }
             elif command -v sudo &>/dev/null; then
-                sudo rm -rf "$path" 2>/dev/null || warn "Could not remove system path (sudo failed): $path"
+                sudo rm -rf "$path" 2>/dev/null \
+                    || { warn "Could not remove system path (sudo failed): $path"; UNINSTALL_FAILURES=$((UNINSTALL_FAILURES + 1)); }
             else
-                rm -rf "$path" 2>/dev/null || warn "Could not remove path: $path"
+                rm -rf "$path" 2>/dev/null \
+                    || { warn "Could not remove path: $path"; UNINSTALL_FAILURES=$((UNINSTALL_FAILURES + 1)); }
             fi
         fi
     done
@@ -51,6 +70,7 @@ restore_backup() {
         step "Restored $target"
     else
         warn "Could not restore $target from $backup."
+        UNINSTALL_FAILURES=$((UNINSTALL_FAILURES + 1))
         warn "Restore it manually, or reinstall your distro's plasma-desktop package."
     fi
 }
@@ -82,7 +102,7 @@ reset_kwin_borders() {
 }
 
 uninstall_component() {
-    local name="$1"
+    local name="$1" failures_before="$UNINSTALL_FAILURES"
     info "Uninstalling: $name"
     case "$name" in
         themes)
@@ -155,7 +175,7 @@ uninstall_component() {
             # Legacy quicksettings plasmoid that was absorbed into the system tray
             rm_path "/usr/share/plasma/plasmoids/org.kde.windowsmodern.quicksettings"
             rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.windowsmodern.quicksettings"
-            info "System Tray uninstalled. Restart plasmashell to complete."
+            uninstalled_msg "$failures_before" "System Tray uninstalled. Restart plasmashell to complete."
             ;;
         icontasks)
             # The fork reuses the stock plugin ID. Remove our compiled .so and
@@ -168,7 +188,7 @@ uninstall_component() {
             rm_path "$HOME/.local/share/plasma/plasmoids/org.kde.plasma.icontasks"
             rm_path "$HOME/.local/lib64/qt6/plugins/plasma/applets/org.kde.plasma.icontasks.so"
             rm_path "$HOME/.local/lib/qt6/plugins/plasma/applets/org.kde.plasma.icontasks.so"
-            info "Icon Tasks uninstalled; stock icons-only task manager restored. Restart plasmashell to complete."
+            uninstalled_msg "$failures_before" "Icon Tasks uninstalled; stock icons-only task manager restored. Restart plasmashell to complete."
             ;;
         digitalclock)
             rm_path "/usr/share/plasma/plasmoids/org.kde.windowsmodern.digitalclock"
@@ -308,6 +328,7 @@ uninstall_component() {
                 uninstall_component "$c"
             done
             reset_kwin_borders
+            offer_original_settings
             ;;
         *)
             err "Unknown component: $name"
@@ -317,11 +338,38 @@ uninstall_component() {
     esac
 }
 
+# After a full uninstall: put back the Plasma settings from before
+# Windows Modern, if a snapshot of them exists (asks first).
+offer_original_settings() {
+    local original
+    original="$(wm_backup_original)" || return 0
+    if is_interactive; then
+        local answer
+        read -r -p "Put back your Plasma settings from $original (before Windows Modern was installed)? [Y/n] " answer
+        case "$answer" in
+            [nN]*) info "Kept. Later: ./uninstall.sh --restore" ;;
+            *) restore_backup_snapshot "$original" ;;
+        esac
+    else
+        info "Your Plasma settings from before Windows Modern are saved: ./uninstall.sh --restore"
+    fi
+}
+
 case "${1:-}" in
+    --list-backups)
+        list_backups
+        exit 0
+        ;;
+    --restore)
+        restore_backup_snapshot "${2:-}"
+        exit $?
+        ;;
     --help|-h|"")
         echo "Usage: ./uninstall.sh [component]"
         echo "  (no args)  Show help"
-        echo "  all        Uninstall everything"
+        echo "  all        Uninstall everything (then offers your settings from before Windows Modern)"
+        echo "  --list-backups   Saved Plasma settings (one is taken whenever install.sh runs)"
+        echo "  --restore [ID]   Put saved settings back (default: from before Windows Modern)"
         echo "  themes     Themes (Aurorae, colors, Kvantum, Plasma, wallpapers)"
         echo "  icons      Icon pack"
         echo "  lookfeel   Global themes"

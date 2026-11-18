@@ -8,6 +8,11 @@ the `Version` field shared by every component's metadata.
 
 ### Added
 
+- Settings backups (#7): `./install.sh` saves the Plasma settings it may
+  change before every run; `./uninstall.sh --list-backups` and
+  `--restore [ID]` put them back, and `./uninstall.sh all` offers the
+  settings from before Windows Modern. A restore saves the current state
+  first, so it can be undone.
 - README: which Plasma version each part needs (developed on 6.8; most
   parts run on 6.6 or 6.7), and `docs/UPSTREAM.md`: where each forked
   component comes from, what we changed, how to sync with upstream (#9).
@@ -60,6 +65,8 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Uninstall no longer reports the tray or taskbar as removed when a step
+  that needs root failed (for example a cancelled password dialog).
 - Start menu: the first pinned app no longer looks selected every time
   the menu opens; nothing is highlighted until you hover or use the arrow
   keys, as on Windows.
