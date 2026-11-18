@@ -218,9 +218,18 @@ def update(args):
         if not zip_path.exists():
             raise SystemExit(f"{zip_path} missing: run scripts/package.sh")
         open_files(b, p["id"])
-        if upload_zip(b, p["id"], zip_path):
+        uploaded = upload_zip(b, p["id"], zip_path)
+        if uploaded:
             print(f"{name}: uploaded {zip_path.name}")
-        tidy_files(b, p["id"], zip_path.name, version, p["file_desc"])
+        try:
+            tidy_files(b, p["id"], zip_path.name, version, p["file_desc"])
+        except RuntimeError:
+            # Right after an upload the store does not keep the label yet
+            # (seen on every product for 1.2.0); a later pass does.
+            if not uploaded:
+                raise
+            time.sleep(30)
+            tidy_files(b, p["id"], zip_path.name, version, p["file_desc"])
         set_basics(b, p["id"], version, description(p))
         if changelog and add_changelog(b, p["id"], f"Version {version}", changelog):
             print(f"{name}: changelog added")
