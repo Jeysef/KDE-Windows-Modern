@@ -60,7 +60,7 @@ the `Version` field shared by every component's metadata.
 
 - Start menu: the first pinned app no longer looks selected every time
   the menu opens; nothing is highlighted until you hover or use the arrow
-  keys, as on Windows. Same for the first hidden icon in Quick Settings.
+  keys, as on Windows.
 - Screen readers: the Start menu's "All apps" and "Back" are buttons
   (they were plain labels and could not be pressed), and calendar days
   can be picked through accessibility, like the month and year tiles.

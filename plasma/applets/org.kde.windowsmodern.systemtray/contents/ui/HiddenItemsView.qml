@@ -53,12 +53,7 @@ PlasmaComponents3.ScrollView {
         cellHeight: Math.round(cellWidth / 1.4)
 
         currentIndex: -1
-        // The popup gives this grid focus when it opens, which makes the
-        // first icon current (upstream, for keyboard users). Windows shows no
-        // selection until you use the keyboard: draw the highlight only after
-        // a key press in the grid.
-        property bool keyboardUsed: false
-        highlight: PlasmaExtras.Highlight { visible: hiddenTasks.keyboardUsed }
+        highlight: PlasmaExtras.Highlight {}
         highlightMoveDuration: 0
 
         pixelAligned: true
@@ -85,23 +80,6 @@ PlasmaComponents3.ScrollView {
             } else if (!activeFocus && currentIndex >= 0) {
                 currentIndex = -1
             }
-            // Hidden again until the next key press (GridView has no
-            // focusReason, so a Tab into the grid is not told apart from the
-            // popup opening: the first arrow key then shows the highlight).
-            hiddenTasks.keyboardUsed = false
-        }
-
-        // The first arrow key only reveals the highlight on the current
-        // (first) icon instead of moving past it.
-        Keys.onPressed: event => {
-            const arrow = [Qt.Key_Left, Qt.Key_Right, Qt.Key_Up, Qt.Key_Down].includes(event.key)
-            if (arrow && !hiddenTasks.keyboardUsed) {
-                hiddenTasks.keyboardUsed = true
-                event.accepted = true
-                return
-            }
-            hiddenTasks.keyboardUsed = true
-            event.accepted = false
         }
     }
 }
