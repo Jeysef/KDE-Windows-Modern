@@ -58,6 +58,9 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Screen readers: the Start menu's "All apps" and "Back" are buttons
+  (they were plain labels and could not be pressed), and calendar days
+  can be picked through accessibility, like the month and year tiles.
 - Panel layout: on a new install the Show desktop sliver sat between the
   tray and the clock instead of at the screen's right edge.
 - The lock screen now uses the theme's wallpaper on a new install; it

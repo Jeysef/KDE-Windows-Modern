@@ -57,6 +57,12 @@ Rectangle {
 
     Keys.onSpacePressed: item.clicked()
 
+    // A button for screen readers too ("All apps", "Back"): it was exposed
+    // as a plain label, which cannot be pressed.
+    Accessible.role: Accessible.Button
+    Accessible.name: lb.text
+    Accessible.onPressAction: item.clicked()
+
     RowLayout {
         id: row
         anchors.fill: parent

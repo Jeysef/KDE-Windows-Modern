@@ -37,6 +37,7 @@ MouseArea {
     Accessible.name: dayData.day
         + (dayData.isToday ? i18n(", today") : "")
         + (dayData.isSelected ? i18n(", selected") : "")
+    Accessible.onPressAction: calendarView.selectDate(dayData.date)  // as the month/year tiles
 
     onClicked: {
         calendarView.selectDate(dayData.date);
