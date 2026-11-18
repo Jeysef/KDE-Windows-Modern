@@ -91,6 +91,18 @@ if grep -q "plugin=metadata" "$LAYOUT_FILE" 2>/dev/null; then
     sed -i "/\[Containments\]\[.*\]\[Applets\]/,/\[/s/^plugin=metadata$/plugin=${APP_ID}/" "$LAYOUT_FILE"
 fi
 
+# ── Existing panels with the stock tray get this one (issue #4) ──
+# A panel made while the build failed (or before Windows Modern) keeps
+# org.kde.plasma.systemtray forever. The tray is both an applet in the
+# panel and a containment of its own; both carry this plugin= line, and
+# the fork reads the same configuration, so position, child applets and
+# hidden-icon settings stay. Edited while plasmashell is stopped: it
+# keeps the file in memory and would write its own copy back.
+if grep -q "^plugin=org\.kde\.plasma\.systemtray$" "$LAYOUT_FILE" 2>/dev/null; then
+    info "Replacing the stock system tray in your panels..."
+    sed -i "s/^plugin=org\.kde\.plasma\.systemtray$/plugin=${APP_ID}/" "$LAYOUT_FILE"
+fi
+
 # Also prune local copies (stale .so in ~/.local/lib* takes precedence over /usr)
 rm -rf "$HOME/.local/share/plasma/plasmoids/${APP_ID}" 2>/dev/null || true
 rm -f "$HOME/.local/lib64/qt6/plugins/plasma/applets/${APP_ID}.so" 2>/dev/null || true

@@ -65,6 +65,10 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- `./install.sh systray` now also replaces the stock system tray in
+  panels you already have (made while the build failed, or before Windows
+  Modern); before, a later successful install changed nothing on screen.
+  The tray keeps its place and settings (#4).
 - Uninstall no longer reports the tray or taskbar as removed when a step
   that needs root failed (for example a cancelled password dialog).
 - Start menu: the first pinned app no longer looks selected every time
