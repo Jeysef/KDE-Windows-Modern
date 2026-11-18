@@ -6,6 +6,8 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-18
+
 ### Added
 
 - Settings backups (#7): `./install.sh` saves the Plasma settings it may
