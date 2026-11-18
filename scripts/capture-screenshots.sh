@@ -39,6 +39,9 @@ SHOTS=(
     "11|View-11.png|Start Menu + windows (light)|LIGHT theme. Open 2-3 windows behind the menu, then open the Windows Modern Start Menu on top. This composite shows the panel, window decorations, wallpaper, and start menu all at once — the richest showcase shot."
     "12|View-12.png|Start Menu — All Apps (dark)|DARK theme. Open the Start Menu and switch to the All Apps page. Shows the dark variant of the menu."
     "13|View-13.png|Icon taskbar thumbnail preview (dark)|DARK theme. Hover an icon on the icons-only taskbar (Windows Modern Icon Tasks applet) so the Win11-style wide thumbnail tooltip with the per-tile close button appears. (A light variant exists but is not yet captured.)"
+    "14|View-14.png|Icon taskbar thumbnail preview (light)|LIGHT theme. Open two windows of one app and hover its taskbar icon so both window previews show."
+    "15|View-15.png|Clock flyout with agenda (dark)|DARK theme. Click the clock, then click a holiday in this month (a day with a dot) so its events show under the calendar."
+    "16|View-16.png|Clock flyout with agenda (light)|LIGHT theme. Click the clock, then click a holiday in this month (a day with a dot) so its events show under the calendar."
 )
 
 list_shots() {

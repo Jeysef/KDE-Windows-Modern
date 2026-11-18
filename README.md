@@ -22,9 +22,10 @@ Windows Modern includes matching window decorations, widget styles, color scheme
 | *Quick Settings flyout* | *Quick Settings flyout* |
 | ![Window decorations](View-5.png) | ![Window decorations](View-8.png) |
 | *Window decorations* | *Window decorations* |
-
-![Icon taskbar — thumbnail preview](View-13.png)
-*Icon taskbar — hovering an icon on the icons-only taskbar reveals a Win11-style thumbnail tooltip with a per-tile close button. Dark variant shown.*
+| ![Taskbar window previews](View-13.png) | ![Taskbar window previews](View-14.png) |
+| *Taskbar — hovering an app shows its windows* | *Taskbar — hovering an app shows its windows* |
+| ![Calendar](View-15.png) | ![Calendar](View-16.png) |
+| *Clock — calendar with the picked day's events* | *Clock — calendar with the picked day's events* |
 
 ---
 
