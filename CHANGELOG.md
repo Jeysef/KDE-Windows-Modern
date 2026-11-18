@@ -58,6 +58,9 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- The lock screen now uses the theme's wallpaper on a new install; it
+  kept the distribution's default picture (only the desktop wallpaper was
+  set). Uninstalling the themes resets it.
 - Firefox window buttons (`app-decorations/firefox`): invisible with a
   light Firefox theme (white glyphs on a light title bar). Light themes get
   black glyphs; the close button keeps a white cross on red, and the

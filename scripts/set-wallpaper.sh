@@ -1,6 +1,7 @@
 #!/bin/bash
 # ───────────────────────────────────────────────────────────────────
-#  set-wallpaper.sh — set the desktop wallpaper to Windows-modern
+#  set-wallpaper.sh — set the desktop and lock screen wallpaper to
+#  Windows-modern
 #
 #  Plasma's look-and-feel apply mechanism does not set the wallpaper
 #  (the [Wallpaper] entry in defaults is informational only). This
@@ -39,4 +40,15 @@ fi
 
 "$APPLY_TOOL" "$WALLPAPER_DIR"
 
-echo "Wallpaper set to $WALLPAPER_ID (auto-switches light/dark with color scheme)."
+# The lock screen has its own wallpaper setting (System Settings → Screen
+# Locking → Appearance); without this a new install locks to the
+# distribution's default picture.
+if command -v kwriteconfig6 &>/dev/null; then
+    for key in Image PreviewImage; do
+        kwriteconfig6 --file kscreenlockerrc --group Greeter --group Wallpaper \
+            --group org.kde.image --group General --key "$key" "file://$WALLPAPER_DIR/"
+    done
+    kwriteconfig6 --file kscreenlockerrc --group Greeter --key WallpaperPlugin org.kde.image
+fi
+
+echo "Wallpaper set to $WALLPAPER_ID on the desktop and the lock screen (auto-switches light/dark with color scheme)."

@@ -112,6 +112,14 @@ uninstall_component() {
             rm_path "$PLASMA_DIR/windows-modern"*
             rm_path "$WALLPAPER_DIR/Windows-modern"*
             rm_path "$WALLPAPER_DIR/windows-modern"*
+            # The lock screen pointed at that wallpaper (set-wallpaper.sh):
+            # back to Plasma's default instead of a missing picture.
+            if grep -qi "wallpapers/Windows-modern" "$HOME/.config/kscreenlockerrc" 2>/dev/null; then
+                for key in Image PreviewImage; do
+                    kwriteconfig6 --file kscreenlockerrc --group Greeter --group Wallpaper \
+                        --group org.kde.image --group General --key "$key" --delete 2>/dev/null || true
+                done
+            fi
             reset_kwin_borders
             info "Themes uninstalled."
             ;;
