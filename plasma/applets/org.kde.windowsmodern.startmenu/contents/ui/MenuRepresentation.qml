@@ -116,6 +116,11 @@ Item {
         function reset() {
             bottomBarContent.searchText = "";
             leftColumnState = 0;
+            // Nothing highlighted until hovered or picked with the arrow keys,
+            // as on Windows (a ListView makes its first item current as soon
+            // as it has items, so the first pinned app always looked selected).
+            pinnedPage.favoritesList.currentIndex = -1;
+            allAppsPage.allAppsList.currentIndex = -1;
             // Reset the search filter pills to "All".
             searchPage.resultsView.singleRunner = "";
             // Defer focus until the dialog has finished laying out.
@@ -264,6 +269,7 @@ Item {
                         Layout.fillHeight: true
                         visible: root.leftColumnState === 0
                         onShowAllAppsRequested: {
+                            allAppsPage.allAppsList.currentIndex = -1;
                             root.leftColumnState = 1;
                         }
                         onKeyNavUpFromList: bottomBarContent.focusSearch()
