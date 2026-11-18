@@ -12,18 +12,18 @@ The system tray with Quick Settings and the taskbar are compiled plugins, and Sn
     cd KDE-Windows-Modern
     ./install.sh        # press Enter to install everything
 
-Or download the bundle from the [latest release](https://github.com/Jeysef/KDE-Windows-Modern/releases/latest). `./uninstall.sh` puts your previous setup back.
+Or download the bundle from the [latest release](https://github.com/Jeysef/KDE-Windows-Modern/releases/latest). The installer saves your Plasma settings first, and `./uninstall.sh` puts your previous setup back.
 
 ### What the full install gives you
 
 - **Start menu:** pinned apps, All apps, and search (Enter runs the best match)
 - **Taskbar** with Windows-style tooltips and window previews
 - **System tray:** separate network, volume and battery icons, each with its own flyout; Quick Settings behind the chevron
-- **Calendar flyout** and a Show desktop corner
+- **Calendar flyout** (click a day to see its holidays and events) and a Show desktop corner
 - **Snap Layouts**, Windows keyboard shortcuts and an Alt+Tab switcher
 - **Lock and login screens**
 - Window decorations, Kvantum widget style, color schemes, icon pack, Win10OS cursors and wallpaper
-- Optional: Segoe UI (or Microsoft's open Selawik) and Cascadia Mono fonts
+- Optional: a taskbar **Search box** and **Task View** button (add them from *Add Widgets*), and Segoe UI (or Microsoft's open Selawik) and Cascadia Mono fonts
 
 ### Requirements
 
