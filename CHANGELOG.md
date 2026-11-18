@@ -58,6 +58,8 @@ the `Version` field shared by every component's metadata.
 
 ### Fixed
 
+- Panel layout: on a new install the Show desktop sliver sat between the
+  tray and the clock instead of at the screen's right edge.
 - The lock screen now uses the theme's wallpaper on a new install; it
   kept the distribution's default picture (only the desktop wallpaper was
   set). Uninstalling the themes resets it.

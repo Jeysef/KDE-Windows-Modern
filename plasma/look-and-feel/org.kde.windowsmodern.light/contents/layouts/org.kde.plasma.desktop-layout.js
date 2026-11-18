@@ -115,12 +115,6 @@ tasks.writeConfig("launchers", "preferred://filemanager,preferred://browser,appl
     peek.currentConfigGroup = new Array("General");
     peek.writeConfig("size", "6");
 
-    // Ensure correct ordering by index.
-    spacerLeft.index = 0;
-    start.index = 1;
-    tasks.index = 2;
-    spacerRight.index = 3;
-    tray.index = 4;
-    clock.index = 5;
-    peek.index = 6;
+    // No .index assignments: addWidget order is the panel order, and setting
+    // index afterwards swapped the clock and Show desktop (Plasma 6.8).
 }
