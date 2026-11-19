@@ -102,6 +102,22 @@ your normal account (it asks for the password itself when needed) and
 inside a Plasma session, since shortcuts are applied to the running
 session.
 
+### What it changes, and how to undo it
+
+| What | Where | Undo |
+|---|---|---|
+| Plasma settings: colours, panels, window manager, shortcuts, Kvantum, GTK | `~/.config`, saved first to `~/.local/share/windows-modern/backups/` | `./uninstall.sh --restore` |
+| Themes, icons, cursors, wallpaper, Start menu, clock, lock screen, Alt+Tab, Selawik font | `~/.local/share` | `./uninstall.sh all` |
+| System tray and taskbar plugins (password) | `/usr/lib*/qt6/plugins`; the stock taskbar's files are moved aside to `/var/lib/windows-modern/backup/` | `./uninstall.sh systray`, `./uninstall.sh icontasks` (also part of `all`) |
+| Build tools, Kvantum, Cascadia Mono, Haruna, KWrite, Mission Center (password) | system packages and Flatpak | they stay; remove them with your package manager |
+| Boot greeter: only with `./install.sh greeter` | replaces the system login screen | `sudo bash scripts/uninstall-greeter-system.sh` |
+
+**If the taskbar disappears** (a failed install or a crash), press
+Alt+F2, or open a terminal (Ctrl+Alt+T where your terminal has that
+shortcut), and run `systemctl --user start plasma-plasmashell.service`;
+or log out and back in. To go back to your previous desktop: `./uninstall.sh all`, then
+answer *yes* to restoring your settings.
+
 ### Install everything non-interactively
 
 ```bash

@@ -219,6 +219,6 @@ All 82 KCM `.desktop` files and 25 systemsettings category `.desktop` files refe
 | Icons copied: → status/ (bluetooth) | 5 |
 | Icons copied: apps/ → devices/ | 1 |
 | Source packs consulted | 0 (icons already existed in installed theme) |
-| Backup available | untracked/windows-modern-v2-backup-20260629-0013/ |
+| Backup available | none kept (the June 2026 backup was deleted in November; the pack is in git) |
 
 **Verdict:** Theme now has correct context placement. KDE Settings (System Settings) will resolve KCM icons from `categories/` first, finding the correct versions immediately. System tray will find bluetooth and status icons in `status/`.
