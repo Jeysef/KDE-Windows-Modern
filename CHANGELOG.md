@@ -6,6 +6,14 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+### Fixed
+
+- Debian and Ubuntu: the System Tray and taskbar plugins were installed
+  to `/usr/lib64/qt6/plugins`, a folder Plasma does not read there, so
+  they did not load (#26). The installer, uninstaller and health checks
+  now ask Qt for its plugin folder (`/usr/lib/<arch>-linux-gnu/qt6/plugins`
+  on Debian), with Plasma's own applet folder as the fallback.
+
 ## [1.2.0] - 2026-11-18
 
 ### Added

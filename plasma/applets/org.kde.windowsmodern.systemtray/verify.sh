@@ -6,15 +6,7 @@
 set -euo pipefail
 
 APP_ID="org.kde.windowsmodern.systemtray"
-PLUGIN_DIR=""
-if command -v pkg-config &>/dev/null; then
-    PLUGIN_DIR=$(pkg-config --variable=plugindir Qt6Core 2>/dev/null || true)
-fi
-if [ -z "$PLUGIN_DIR" ]; then
-    if [ -d /usr/lib64/qt6/plugins ]; then PLUGIN_DIR=/usr/lib64/qt6/plugins
-    else PLUGIN_DIR=/usr/lib/qt6/plugins
-    fi
-fi
+PLUGIN_DIR="$(bash "$(dirname "$0")/../../../scripts/qt-plugin-dir.sh" || echo /usr/lib64/qt6/plugins)"
 SO_PATH="${PLUGIN_DIR}/plasma/applets/${APP_ID}.so"
 KPACKAGE_PATH="/usr/share/plasma/plasmoids/${APP_ID}"
 LOCAL_KPACKAGE="$HOME/.local/share/plasma/plasmoids/${APP_ID}"

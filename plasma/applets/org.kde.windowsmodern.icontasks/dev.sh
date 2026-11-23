@@ -22,17 +22,10 @@ err()   { echo -e "${RED}==>${RESET} $*"; }
 
 # ── Detect install paths ───────────────────────────────────────────
 detect_paths() {
-    if command -v pkg-config &>/dev/null; then
-        QT_PLUGIN_DIR=$(pkg-config --variable=plugindir Qt6Core 2>/dev/null || true)
-    fi
-    if [ -z "${QT_PLUGIN_DIR:-}" ]; then
-        if [ -d /usr/lib64/qt6/plugins ]; then
-            QT_PLUGIN_DIR=/usr/lib64/qt6/plugins
-        elif [ -d /usr/lib/qt6/plugins ]; then
-            QT_PLUGIN_DIR=/usr/lib/qt6/plugins
-        else
-            QT_PLUGIN_DIR=/usr/lib64/qt6/plugins
-        fi
+    # Fedora lib64, Arch lib, Debian/Ubuntu lib/<multiarch> (issue #26).
+    if ! QT_PLUGIN_DIR="$(bash "$SRC_DIR/../../../scripts/qt-plugin-dir.sh")"; then
+        err "Cannot find the Qt 6 plugin directory (is Plasma 6 installed?)."
+        exit 1
     fi
     PLUGIN_DST="$QT_PLUGIN_DIR/plasma/applets"
     KPACKAGE_DIR="/usr/share/plasma/plasmoids/${APP_ID}"

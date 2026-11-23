@@ -76,19 +76,8 @@ restore_backup() {
 }
 
 detect_systray_so_dir() {
-    local plugin_dir=""
-    if command -v pkg-config &>/dev/null; then
-        plugin_dir=$(pkg-config --variable=plugindir Qt6Core 2>/dev/null || true)
-    fi
-    if [ -z "$plugin_dir" ]; then
-        if [ -d /usr/lib64/qt6/plugins ]; then
-            plugin_dir=/usr/lib64/qt6/plugins
-        elif [ -d /usr/lib/qt6/plugins ]; then
-            plugin_dir=/usr/lib/qt6/plugins
-        else
-            plugin_dir=/usr/lib64/qt6/plugins
-        fi
-    fi
+    local plugin_dir
+    plugin_dir="$(bash "$SCRIPT_DIR/scripts/qt-plugin-dir.sh" || echo /usr/lib64/qt6/plugins)"
     echo "$plugin_dir/plasma/applets"
 }
 
