@@ -6,6 +6,8 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-11-23
+
 ### Fixed
 
 - Debian and Ubuntu: the System Tray and taskbar plugins were installed
