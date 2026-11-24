@@ -6,6 +6,11 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+### Fixed
+
+- Icons: a Bluetooth tethering connection in the Wi-Fi list showed
+  Breeze's thin-arc icon; it now has our own, matching the other rows.
+
 ## [1.2.1] - 2026-11-23
 
 ### Fixed
