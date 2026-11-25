@@ -315,6 +315,13 @@ apply_lookandfeel() {
     fi
     info "Applying $id ${reset_flag:+with layout reset}..."
     plasma-apply-lookandfeel -a "$id" $reset_flag
+    # No splash screen. A global theme cannot ask for that: applying one
+    # always writes Engine=KSplashQML and clears the user's ksplashrc, and
+    # startplasma looks only at Engine (Theme=None then shows Breeze's).
+    if command -v kwriteconfig6 &>/dev/null; then
+        kwriteconfig6 --file ksplashrc --group KSplash --key Engine none
+        kwriteconfig6 --file ksplashrc --group KSplash --key Theme None
+    fi
     bash "$SRC_DIR/scripts/set-wallpaper.sh" || true
 }
 

@@ -10,6 +10,11 @@ the `Version` field shared by every component's metadata.
 
 - Icons: a Bluetooth tethering connection in the Wi-Fi list showed
   Breeze's thin-arc icon; it now has our own, matching the other rows.
+- The splash screen showed at login despite the theme turning it off.
+  Applying a global theme always re-enables it, so the installer now
+  switches the splash engine off afterwards.
+- Login screen: the patched greeter is built from Plasma Login Manager
+  6.8.3 (was 6.8.2).
 
 ## [1.2.1] - 2026-11-23
 

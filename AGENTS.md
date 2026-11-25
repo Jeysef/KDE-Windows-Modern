@@ -86,6 +86,15 @@ loads. Verify in the live session:
   returns until `scripts/fix-dolphin-statusbar.sh` is re-run (or Dolphin
   26.12 arrives, which has the fix). The rpms are kept in
   `~/.local/share/windows-modern/backup/dolphin-rpm/`.
+- **A Plasma update restores the stock login screen**: the
+  plasma-login-manager rpm overwrites our patched
+  `/usr/libexec/plasma-login-greeter` (Breeze greeter at next boot). Run
+  `scripts/update-plm.sh vX.Y.Z` for the new version, commit the submodule,
+  then `scripts/install-greeter-live.sh` as root.
+- **A global theme cannot turn the splash off**: `plasma-apply-lookandfeel`
+  always writes `Engine=KSplashQML` and clears the user's `ksplashrc`;
+  startplasma checks only `Engine`, and `Theme=None` falls back to Breeze's
+  splash. `apply_lookandfeel` writes `Engine=none` afterwards.
 - **`dnf autoremove` removes the user's own leftovers** (wine, mercurial,
   f44-backgrounds…): never run it after installing build deps; the dolphin
   build's `-devel` packages are meant to stay.
