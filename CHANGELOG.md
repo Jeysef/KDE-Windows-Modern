@@ -6,6 +6,8 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+## [1.2.2] - 2026-11-25
+
 ### Fixed
 
 - Icons: a Bluetooth tethering connection in the Wi-Fi list showed

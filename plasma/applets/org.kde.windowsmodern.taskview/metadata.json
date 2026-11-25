@@ -18,7 +18,7 @@
         "Id": "org.kde.windowsmodern.taskview",
         "License": "GPL-3.0-or-later",
         "Name": "Task View Button (Windows Modern)",
-        "Version": "1.2.1",
+        "Version": "1.2.2",
         "Website": "https://github.com/Jeysef/KDE-Windows-Modern"
     },
     "X-Plasma-API-Minimum-Version": "6.0"
