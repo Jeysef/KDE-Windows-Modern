@@ -178,10 +178,15 @@ def set_basics(b, pid, version, desc):
     }})()""")
     b.js("document.querySelector('a[href=\"#finish\"]').click()")
     b.wait_for("!location.pathname.includes('/edit')", timeout=30)
-    edit_page(b, pid)
-    got = basics(b)
-    if got["version"] != version or got["description"].strip() != desc.strip():
-        raise RuntimeError(f"{pid}: version/description did not save")
+    # The store can take a while to apply the save: an edit page opened
+    # right away may still show the old values.
+    for _ in range(4):
+        edit_page(b, pid)
+        got = basics(b)
+        if got["version"] == version and got["description"].strip() == desc.strip():
+            return
+        time.sleep(10)
+    raise RuntimeError(f"{pid}: version/description did not save")
 
 
 def add_changelog(b, pid, title, text):
