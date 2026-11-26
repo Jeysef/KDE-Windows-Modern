@@ -6,6 +6,8 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+## [1.2.4] - 2026-11-26
+
 ### Fixed
 
 - Icons: the panel's Wi-Fi icon now uses the same drawing as the Wi-Fi
