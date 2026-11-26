@@ -121,4 +121,8 @@ loads. Verify in the live session:
   copy that a Plasma update left stale.
 - **Forks that reuse a stock plugin ID** (Icon Tasks) replace files owned by
   distro packages: move them to `/var/lib/windows-modern/backup/` and
-  restore them on uninstall.
+  restore them on uninstall. A plasma-desktop update puts the stock
+  `org.kde.plasma.icontasks` stub back, and it wins over our plugin
+  (stock taskbar, hovered icons lightened): re-run
+  `scripts/install-icontasks.sh`. Check `/proc/$(pgrep -x plasmashell)/maps`
+  for which `.so` is loaded.
