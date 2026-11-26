@@ -6,6 +6,12 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+### Fixed
+
+- Icons: the panel's Wi-Fi icon now uses the same drawing as the Wi-Fi
+  list, one per signal level. While not connected it is the list's unlit
+  icon; 1.2.3's version (faint arcs, bright dot) is gone.
+
 ## [1.2.3] - 2026-11-26
 
 ### Fixed
