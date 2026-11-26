@@ -6,6 +6,12 @@ the `Version` field shared by every component's metadata.
 
 ## [Unreleased]
 
+### Fixed
+
+- Icons: the panel's Wi-Fi icon while not connected was a dark,
+  differently drawn icon from another set. It is now our Wi-Fi drawing
+  with the arcs unlit.
+
 ## [1.2.2] - 2026-11-25
 
 ### Fixed
